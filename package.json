@@ -9,11 +9,16 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@apollo/client": "^3.8.8",
     "@rainbow-me/rainbowkit": "^1.1.1",
+    "@reduxjs/toolkit": "^2.0.1",
     "lodash": "^4.17.21",
     "next": "13.5.4",
     "react": "^18",
     "react-dom": "^18",
+    "react-infinite-scroll-component": "^6.1.0",
+    "react-redux": "^9.0.2",
+    "redux": "^5.0.0",
     "viem": "^1.16.5",
     "wagmi": "^1.4.3"
   },
