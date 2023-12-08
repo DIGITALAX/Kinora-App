@@ -8,6 +8,7 @@ const usePageProfile = (handle: string, lensConnected: Profile | undefined) => {
   const [pageProfile, setPageProfile] = useState<Profile>();
   const [completedQuests, setCompletedQuests] = useState<Post[]>([]);
   const [liveQuests, setLiveQuests] = useState<Post[]>([]);
+  const [envokedQuests, setEnvokedQuests] = useState<Post[]>([]);
 
   const getPageProfile = async () => {
     setProfileLoading(true);
@@ -31,6 +32,7 @@ const usePageProfile = (handle: string, lensConnected: Profile | undefined) => {
     try {
       // get completed
       // get live
+      // get envoked
     } catch (err: any) {
       console.error(err.message);
     }
@@ -51,6 +53,8 @@ const usePageProfile = (handle: string, lensConnected: Profile | undefined) => {
     setLiveQuests,
     completedQuests,
     liveQuests,
+    envokedQuests,
+    setEnvokedQuests,
   };
 };
 

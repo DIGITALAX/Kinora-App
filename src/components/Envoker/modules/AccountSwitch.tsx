@@ -10,6 +10,8 @@ const AccountSwitch: FunctionComponent<AccountSwitchProps> = ({
   getMoreSaves,
   savesInfo,
   savesLoading,
+  envokedQuests,
+  setEnvokedQuests,
   lensConnected,
   dispatch,
   questsLoading,
@@ -33,6 +35,8 @@ const AccountSwitch: FunctionComponent<AccountSwitchProps> = ({
             completedQuests={completedQuests}
             setCompletedQuests={setCompletedQuests}
             questsLoading={questsLoading}
+            envokedQuests={envokedQuests}
+            setEnvokedQuests={setEnvokedQuests}
           />
         );
 
@@ -60,6 +64,8 @@ const AccountSwitch: FunctionComponent<AccountSwitchProps> = ({
             completedQuests={completedQuests}
             setCompletedQuests={setCompletedQuests}
             questsLoading={questsLoading}
+            envokedQuests={envokedQuests}
+            setEnvokedQuests={setEnvokedQuests}
           />
         );
 
@@ -77,6 +83,8 @@ const AccountSwitch: FunctionComponent<AccountSwitchProps> = ({
         completedQuests={completedQuests}
         setCompletedQuests={setCompletedQuests}
         questsLoading={questsLoading}
+        envokedQuests={envokedQuests}
+        setEnvokedQuests={setEnvokedQuests}
       />
     );
   }

@@ -14,8 +14,10 @@ const SaveQuest: FunctionComponent<SaveQuestProps> = ({
 }): JSX.Element => {
   return (
     <div
-      className={`absolute right-4 bottom-4 cursor-pointer active:scale-95 hover:opacity-80 w-7 p-1 h-7 bg-black border border-white rounded-full flex items-center justify-center ${
+      className={`absolute right-4 bottom-4 hover:opacity-80 w-7 p-1 h-7 bg-black border border-white rounded-full flex items-center justify-center ${
         questSaved && "mix-blend-hard-light hue-rotate-60"
+      } ${
+        !lensConnected?.id ? "opacity-80" : "cursor-pointer active:scale-95"
       }`}
       title="Save Quest"
       onClick={() =>

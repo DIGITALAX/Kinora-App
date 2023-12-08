@@ -12,6 +12,8 @@ const Home: FunctionComponent<HomeProps> = ({
   liveQuests,
   completedQuests,
   questsLoading,
+  envokedQuests,
+  setEnvokedQuests,
 }): JSX.Element => {
   return (
     <>
@@ -34,34 +36,64 @@ const Home: FunctionComponent<HomeProps> = ({
       ) : (
         <div className="relative w-full h-fit flex flex-col gap-10 items-start justify-start">
           {!onlyHistory && (
-            <div className="relative w-full h-fit flex flex-col items-start justify-center">
-              <div className="relative w-fit h-fit flex w-fit h-fit text-left text-base font-bit text-white">
-                Live Quests
-              </div>
-              <div className="relative w-full h-fit flex overflow-x-scroll">
-                <div className="relative w-fit h-fit flex flex-row items-start justify-start gap-4">
-                  {
-                    //  liveQuests
-                    Array.from({ length: 10 })?.map(
-                      (quest: Post, index: number) => {
-                        return (
-                          <QuestPreview
-                            quest={quest}
-                            key={index}
-                            width="18rem"
-                            height="11rem"
-                            lensConnected={lensConnected}
-                            dispatch={dispatch}
-                            questFeed={liveQuests}
-                            setItemFeed={setLiveQuests}
-                          />
-                        );
-                      }
-                    )
-                  }
+            <>
+              <div className="relative w-full h-fit flex flex-col items-start justify-center">
+                <div className="relative w-fit h-fit flex w-fit h-fit text-left text-base font-bit text-white">
+                  Live Quests
+                </div>
+                <div className="relative w-full h-fit flex overflow-x-scroll">
+                  <div className="relative w-fit h-fit flex flex-row items-start justify-start gap-4">
+                    {
+                      //  liveQuests
+                      Array.from({ length: 10 })?.map(
+                        (quest: Post, index: number) => {
+                          return (
+                            <QuestPreview
+                              quest={quest}
+                              key={index}
+                              width="18rem"
+                              height="11rem"
+                              lensConnected={lensConnected}
+                              dispatch={dispatch}
+                              questFeed={liveQuests}
+                              setItemFeed={setLiveQuests}
+                            />
+                          );
+                        }
+                      )
+                    }
+                  </div>
                 </div>
               </div>
-            </div>
+              <div className="relative w-full h-fit flex flex-col items-start justify-center">
+                <div className="relative w-fit h-fit flex w-fit h-fit text-left text-base font-bit text-white">
+                  Envoked Quests
+                </div>
+                <div className="relative w-full h-fit flex overflow-x-scroll">
+                  <div className="relative w-fit h-fit flex flex-row items-start justify-start gap-4">
+                    {
+                      //  envokedQuests
+                      Array.from({ length: 10 })?.map(
+                        (quest: Post, index: number) => {
+                          return (
+                            <QuestPreview
+                              quest={quest}
+                              key={index}
+                              width="18rem"
+                              height="11rem"
+                              lensConnected={lensConnected}
+                              dispatch={dispatch}
+                              questFeed={envokedQuests}
+                              setItemFeed={setEnvokedQuests}
+                            />
+                          );
+                        }
+                      )
+                    }
+                  </div>
+                </div>
+              </div>
+            </>
           )}
           <div className="relative w-full h-fit flex flex-col items-start justify-center">
             <div className="relative w-fit h-fit flex w-fit h-fit text-left text-base font-bit text-white">

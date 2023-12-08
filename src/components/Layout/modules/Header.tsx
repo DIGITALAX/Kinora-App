@@ -8,6 +8,10 @@ import { useAccountModal, useConnectModal } from "@rainbow-me/rainbowkit";
 import useSignIn from "../hooks/useSignIn";
 import { useAccount } from "wagmi";
 import { NextRouter } from "next/router";
+import useSearch from "../hooks/useSearch";
+import { AiOutlineLoading } from "react-icons/ai";
+import { Post, Profile, VideoMetadataV3 } from "../../../../graphql/generated";
+import createMedia from "../../../../lib/helpers/createMedia";
 
 const Header: FunctionComponent<{ router: NextRouter }> = ({ router }) => {
   const { openConnectModal } = useConnectModal();
@@ -37,6 +41,17 @@ const Header: FunctionComponent<{ router: NextRouter }> = ({ router }) => {
     isConnected,
     address
   );
+  const {
+    searchLoading,
+    handleMoreSearchQuests,
+    searchInfo,
+    searchTarget,
+    setSearchTarget,
+    searchResults,
+    handleSearchQuests,
+    setSearchOpen,
+    searchOpen,
+  } = useSearch(lensConnected);
   return (
     <div className="relative h-fit flex items-center justify-end flex-row w-full z-10">
       <div
@@ -46,10 +61,121 @@ const Header: FunctionComponent<{ router: NextRouter }> = ({ router }) => {
         }}
         id={!openSidebar ? "closeSide" : ""}
       >
-        <input
-          className="relative w-3/4 h-8 rounded-full px-2 py-1 text-white font-bit text-xs bg-nave border border-white/80"
-          placeholder="SEARCH"
-        />
+        <div className="relative w-3/4 h-fit flex items-center justify-center">
+          <input
+            className={`relative w-full h-8 rounded-full px-2 py-1 text-white font-bit text-xs bg-nave border border-white/80 ${
+              searchLoading && "opacity-50"
+            }`}
+            placeholder="SEARCH"
+            onChange={(e) => {
+              setSearchTarget(e.target.value);
+            }}
+            value={searchTarget}
+            onKeyDown={(e) => {
+              e.key === "Enter" &&
+                searchTarget?.trim() !== "" &&
+                handleSearchQuests();
+              setSearchOpen(false);
+            }}
+          />
+          {searchLoading && (
+            <div className="absolute ml-auto right-2 flex items-center justify-center animate-spin">
+              <AiOutlineLoading color={"white"} size={15} />
+            </div>
+          )}
+          {searchResults?.length > 0 && searchOpen && (
+            <div className="absolute z-10 w-full h-fit max-h-[10rem] overflow-y-scroll flex rounded-md border border-white top-10 bg-nave">
+              <div className="relative w-full h-fit flex flex-col items-center justify-start">
+                {searchResults?.map((item: Post | Profile, index: number) => {
+                  const image =
+                    item?.__typename === "Post"
+                      ? createMedia(item?.metadata)
+                      : createProfilePicture(
+                          (item as Profile)?.metadata?.picture
+                        );
+                  return (
+                    <div
+                      key={index}
+                      className="relative w-full h-20 border-b border-white cursor-pointer hover:opacity-80 flex flex-row justify-between items-center p-2 gap-6"
+                      onClick={() => {
+                        router.push(
+                          `/${
+                            item?.__typename === "Post"
+                              ? `quest/${item?.id}`
+                              : `envoker/${
+                                  (
+                                    item as Profile
+                                  )?.handle?.suggestedFormatted?.localName?.split(
+                                    "@"
+                                  )?.[1]
+                                }`
+                          }`
+                        );
+                        setSearchOpen(false);
+                      }}
+                    >
+                      <div
+                        className="relative w-14 h-14 border border-white rounded-md flex items-center justify-center p-px"
+                        id="rainbow"
+                      >
+                        {item?.__typename === "Post"
+                          ? (image as { cover: string; video: string })
+                              ?.cover && (
+                              <Image
+                                draggable={false}
+                                layout="fill"
+                                src={
+                                  (image as { cover: string; video: string })
+                                    ?.cover
+                                }
+                                className="rounded-md"
+                                objectFit="cover"
+                              />
+                            )
+                          : (image as string) && (
+                              <Image
+                                draggable={false}
+                                layout="fill"
+                                src={image as string}
+                                className="rounded-md"
+                                objectFit="cover"
+                              />
+                            )}
+                      </div>
+                      <div className="relative w-full h-fit flex flex-col gap-1 items-start justify-center">
+                        <div className="relative text-base font-bit text-white uppercase text-left flex items-center justify-start">
+                          {item?.__typename === "Post"
+                            ? (item?.metadata as VideoMetadataV3)?.title
+                                ?.length > 40
+                              ? (
+                                  item?.metadata as VideoMetadataV3
+                                )?.title?.slice(0, 40) + "..."
+                              : (item?.metadata as VideoMetadataV3)?.title
+                            : (item as Profile)?.handle?.suggestedFormatted
+                                ?.localName}
+                        </div>
+                        <div className="relative text-xs font-bit text-white/80 text-left flex items-center justify-start">
+                          {item?.__typename === "Post"
+                            ? (item?.metadata as VideoMetadataV3)?.content
+                                ?.length > 40
+                              ? (
+                                  item?.metadata as VideoMetadataV3
+                                )?.content?.slice(0, 40) + "..."
+                              : (item?.metadata as VideoMetadataV3)?.content
+                            : (item as Profile)?.metadata?.bio?.length > 40
+                            ? (item as Profile)?.metadata?.bio?.slice(0, 40) +
+                              "..."
+                            : (item as Profile)?.metadata?.bio}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+        </div>
+
         <div className="relative flex items-center justify-center gap-5">
           <div className="relative w-4 h-6 flex items-center justify-center">
             <Image

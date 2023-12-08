@@ -29,6 +29,8 @@ export default function Handle({ router }: { router: NextRouter }) {
     setLiveQuests,
     completedQuests,
     liveQuests,
+    envokedQuests,
+    setEnvokedQuests,
   } = usePageProfile(handle as string, lensConnected);
   const { savesInfo, savesLoading, getMoreSaves, allSaves, setAllSaves } =
     useSaves(lensConnected, handle as string, accountType);
@@ -86,6 +88,8 @@ export default function Handle({ router }: { router: NextRouter }) {
             lensConnected={lensConnected}
             pageProfile={pageProfile}
             savesInfo={savesInfo}
+            envokedQuests={envokedQuests}
+            setEnvokedQuests={setEnvokedQuests}
             savesLoading={savesLoading}
             getMoreSaves={getMoreSaves}
             accountType={accountType}

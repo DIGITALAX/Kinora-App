@@ -6,6 +6,8 @@ export type AccountSwitchProps = {
   pageProfile: Profile | undefined;
   lensConnected: Profile | undefined;
   allSaves: Post[];
+  envokedQuests: Post[];
+  setEnvokedQuests: (e: SetStateAction<Post[]>) => void;
   questsLoading: boolean;
   setLiveQuests: (e: SetStateAction<Post[]>) => void;
   setCompletedQuests: (e: SetStateAction<Post[]>) => void;
@@ -35,6 +37,8 @@ export type HomeProps = {
   setLiveQuests: (e: SetStateAction<Post[]>) => void;
   liveQuests: Post[];
   completedQuests: Post[];
+  envokedQuests: Post[];
+  setEnvokedQuests: (e: SetStateAction<Post[]>) => void;
   dispatch: Dispatch;
   lensConnected: Profile | undefined;
   onlyHistory: boolean;
