@@ -57,6 +57,7 @@ const useSaves = (
             publishedOn: ["kinora"],
           },
         },
+        cursor: savesInfo?.cursor,
         limit: LimitType.Ten,
       });
 
