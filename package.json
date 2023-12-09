@@ -21,7 +21,8 @@
     "react-redux": "^9.0.2",
     "redux": "^5.0.0",
     "viem": "^1.16.5",
-    "wagmi": "^1.4.3"
+    "wagmi": "^1.4.3",
+    "wavesurfer.js": "^7.5.1"
   },
   "devDependencies": {
     "@types/lodash.merge": "^4.6.9",

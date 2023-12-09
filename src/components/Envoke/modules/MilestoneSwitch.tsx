@@ -52,7 +52,14 @@ const MilestoneSwitch: FunctionComponent<MilestoneSwitchProps> = ({
       );
 
     case 2:
-      return <Reward />;
+      return (
+        <Reward
+          questInfo={questInfo}
+          dispatch={dispatch}
+          milestonesOpen={milestonesOpen}
+          
+        />
+      );
 
     case 3:
       return <Criteria />;
