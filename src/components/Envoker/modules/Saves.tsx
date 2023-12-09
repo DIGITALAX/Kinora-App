@@ -44,27 +44,22 @@ const Saves: FunctionComponent<SavesProps> = ({
             dataLength={allSaves?.length}
             className="relative w-full h-fit flex overflow-y-scroll"
           >
-            <div className="relative w-full gap-3 h-fit flex grid grid-cols-3">
-              {
-                // allSaves
-                Array.from({ length: 10 })?.map(
-                  (quest: Post, index: number) => {
-                    return (
-                      <QuestPreview
-                        quest={quest}
-                        key={index}
-                        width="100%"
-                        height="11rem"
-                        lensConnected={lensConnected}
-                        dispatch={dispatch}
-                        questFeed={allSaves}
-                        setItemFeed={setAllSaves}
-                        router={router}
-                      />
-                    );
-                  }
-                )
-              }
+            <div className="relative w-full gap-3 h-fit grid grid-cols-3">
+              {allSaves?.map((quest: Post, index: number) => {
+                return (
+                  <QuestPreview
+                    quest={quest}
+                    key={index}
+                    width="100%"
+                    height="11rem"
+                    lensConnected={lensConnected}
+                    dispatch={dispatch}
+                    questFeed={allSaves}
+                    setItemFeed={setAllSaves}
+                    router={router}
+                  />
+                );
+              })}
             </div>
           </InfiniteScroll>
         </div>

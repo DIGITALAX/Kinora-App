@@ -1,7 +1,7 @@
 import { FunctionComponent } from "react";
 import { QuestStage, QuestSwitchProps } from "../types/envoke.types";
 import Details from "./Details";
-import Milestones from "./MilestoneDetails";
+import Milestones from "./milestones/MilestoneDetails";
 import MilestoneSwitch from "./MilestoneSwitch";
 
 const QuestSwitch: FunctionComponent<QuestSwitchProps> = ({
@@ -14,6 +14,14 @@ const QuestSwitch: FunctionComponent<QuestSwitchProps> = ({
   milestoneCoversLoading,
   milestonesOpen,
   milestoneStage,
+  collections,
+  collectionsSearch,
+  setCollectionsSearch,
+  getMoreCollectionsSearch,
+  getCollectionsSearch,
+  collectionsInfo,
+  getMoreCollectionsSample,
+  setCollectionsInfo,
 }): JSX.Element => {
   switch (questStage) {
     case QuestStage.Details:
@@ -42,6 +50,14 @@ const QuestSwitch: FunctionComponent<QuestSwitchProps> = ({
             questInfo={questInfo}
             dispatch={dispatch}
             milestonesOpen={milestonesOpen}
+            collections={collections}
+            collectionsSearch={collectionsSearch}
+            setCollectionsSearch={setCollectionsSearch}
+            getMoreCollectionsSearch={getMoreCollectionsSearch}
+            getCollectionsSearch={getCollectionsSearch}
+            collectionsInfo={collectionsInfo}
+            getMoreCollectionsSample={getMoreCollectionsSample}
+            setCollectionsInfo={setCollectionsInfo}
           />
         </div>
       );

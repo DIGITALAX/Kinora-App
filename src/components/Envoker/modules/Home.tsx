@@ -14,7 +14,7 @@ const Home: FunctionComponent<HomeProps> = ({
   questsLoading,
   envokedQuests,
   setEnvokedQuests,
-  router
+  router,
 }): JSX.Element => {
   return (
     <>
@@ -44,26 +44,21 @@ const Home: FunctionComponent<HomeProps> = ({
                 </div>
                 <div className="relative w-full h-fit flex overflow-x-scroll">
                   <div className="relative w-fit h-fit flex flex-row items-start justify-start gap-4">
-                    {
-                      //  liveQuests
-                      Array.from({ length: 10 })?.map(
-                        (quest: Post, index: number) => {
-                          return (
-                            <QuestPreview
-                              quest={quest}
-                              key={index}
-                              width="18rem"
-                              height="11rem"
-                              lensConnected={lensConnected}
-                              dispatch={dispatch}
-                              questFeed={liveQuests}
-                              setItemFeed={setLiveQuests}
-                              router={router}
-                            />
-                          );
-                        }
-                      )
-                    }
+                    {liveQuests?.map((quest: Post, index: number) => {
+                      return (
+                        <QuestPreview
+                          quest={quest}
+                          key={index}
+                          width="18rem"
+                          height="11rem"
+                          lensConnected={lensConnected}
+                          dispatch={dispatch}
+                          questFeed={liveQuests}
+                          setItemFeed={setLiveQuests}
+                          router={router}
+                        />
+                      );
+                    })}
                   </div>
                 </div>
               </div>
@@ -73,26 +68,21 @@ const Home: FunctionComponent<HomeProps> = ({
                 </div>
                 <div className="relative w-full h-fit flex overflow-x-scroll">
                   <div className="relative w-fit h-fit flex flex-row items-start justify-start gap-4">
-                    {
-                      //  envokedQuests
-                      Array.from({ length: 10 })?.map(
-                        (quest: Post, index: number) => {
-                          return (
-                            <QuestPreview
-                              quest={quest}
-                              key={index}
-                              width="18rem"
-                              height="11rem"
-                              lensConnected={lensConnected}
-                              dispatch={dispatch}
-                              questFeed={envokedQuests}
-                              setItemFeed={setEnvokedQuests}
-                              router={router}
-                            />
-                          );
-                        }
-                      )
-                    }
+                    {envokedQuests?.map((quest: Post, index: number) => {
+                      return (
+                        <QuestPreview
+                          quest={quest}
+                          key={index}
+                          width="18rem"
+                          height="11rem"
+                          lensConnected={lensConnected}
+                          dispatch={dispatch}
+                          questFeed={envokedQuests}
+                          setItemFeed={setEnvokedQuests}
+                          router={router}
+                        />
+                      );
+                    })}
                   </div>
                 </div>
               </div>
@@ -103,27 +93,22 @@ const Home: FunctionComponent<HomeProps> = ({
               Completed Quests
             </div>
             <div className="relative w-full h-fit flex overflow-y-scroll">
-              <div className="relative w-full gap-4 h-fit flex grid grid-cols-4">
-                {
-                  // completedQuests
-                  Array.from({ length: 10 })?.map(
-                    (quest: Post, index: number) => {
-                      return (
-                        <QuestPreview
-                          quest={quest}
-                          key={index}
-                          width="100%"
-                          height="11rem"
-                          lensConnected={lensConnected}
-                          dispatch={dispatch}
-                          questFeed={completedQuests}
-                          setItemFeed={setCompletedQuests}
-                          router={router}
-                        />
-                      );
-                    }
-                  )
-                }
+              <div className="relative w-full gap-4 h-fit grid grid-cols-4">
+                {completedQuests?.map((quest: Post, index: number) => {
+                  return (
+                    <QuestPreview
+                      quest={quest}
+                      key={index}
+                      width="100%"
+                      height="11rem"
+                      lensConnected={lensConnected}
+                      dispatch={dispatch}
+                      questFeed={completedQuests}
+                      setItemFeed={setCompletedQuests}
+                      router={router}
+                    />
+                  );
+                })}
               </div>
             </div>
           </div>
