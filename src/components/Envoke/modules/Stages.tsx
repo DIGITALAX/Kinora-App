@@ -122,36 +122,40 @@ const Stages: FunctionComponent<StagesProps> = ({
                     </div>
                     {milestonesOpen?.[index] && (
                       <div className="pl-3 relative w-fit h-fit flex items-start justify-start flex-col gap-1.5">
-                        {["Details", "Gates", "Reward", "Eligibility"].map(
-                          (item: string, index: number) => {
-                            return (
+                        {[
+                          "Details",
+                          "Gates",
+                          "Reward",
+                          "Eligibility",
+                          "Overview",
+                        ].map((item: string, index: number) => {
+                          return (
+                            <div
+                              key={index}
+                              className={`relative w-fit h-fit flex items-center justify-center gap-1 cursor-pointer hover:opacity-70 ${
+                                milestoneStage == index
+                                  ? "text-ligera"
+                                  : "text-white"
+                              }`}
+                              onClick={() => setMilestoneStage(index)}
+                            >
                               <div
-                                key={index}
-                                className={`relative w-fit h-fit flex items-center justify-center gap-1 cursor-pointer hover:opacity-70 ${
-                                  milestoneStage == index
-                                    ? "text-ligera"
-                                    : "text-white"
-                                }`}
-                                onClick={() => setMilestoneStage(index)}
+                                className={`relative flex items-center justify-center w-1.5 h-1 rotate-90 flip`}
                               >
-                                <div
-                                  className={`relative flex items-center justify-center w-1.5 h-1 rotate-90 flip`}
-                                >
-                                  <Image
-                                    layout="fill"
-                                    src={`${INFURA_GATEWAY}/ipfs/QmW8oeGu3doJxd6e9fpoGzuZb6fSjKyu8BfXgtusNEWmjM`}
-                                    draggable={false}
-                                  />
-                                </div>
-                                <div
-                                  className={`relative w-fit h-fit flex items-center justify-center font-bit text-xxs sm:text-sm`}
-                                >
-                                  {item}
-                                </div>
+                                <Image
+                                  layout="fill"
+                                  src={`${INFURA_GATEWAY}/ipfs/QmW8oeGu3doJxd6e9fpoGzuZb6fSjKyu8BfXgtusNEWmjM`}
+                                  draggable={false}
+                                />
                               </div>
-                            );
-                          }
-                        )}
+                              <div
+                                className={`relative w-fit h-fit flex items-center justify-center font-bit text-xxs sm:text-sm`}
+                              >
+                                {item}
+                              </div>
+                            </div>
+                          );
+                        })}
                       </div>
                     )}
                   </div>
@@ -241,7 +245,7 @@ const Stages: FunctionComponent<StagesProps> = ({
                           ] = true;
                           return arr;
                         });
-                        setMilestoneStage(3);
+                        setMilestoneStage(4);
                       } else {
                         setMilestoneStage(milestoneStage - 1);
                       }
@@ -276,9 +280,9 @@ const Stages: FunctionComponent<StagesProps> = ({
               milestonesOpen?.length - 1 ||
               (milestonesOpen?.findIndex((item) => item == true) ==
                 milestonesOpen?.length - 1 &&
-                milestoneStage !== 3))
+                milestoneStage !== 4))
               ? () => {
-                  if (milestoneStage + 1 > 3) {
+                  if (milestoneStage + 1 > 4) {
                     setMilestonesOpen((prev) => {
                       const arr = new Array(prev.length).fill(false);
                       arr[

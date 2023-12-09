@@ -7,9 +7,17 @@ import ConnectFirst from "@/components/Common/modules/ConnectFirst";
 import { useAccountModal, useConnectModal } from "@rainbow-me/rainbowkit";
 import useSignIn from "@/components/Layout/hooks/useSignIn";
 import { useAccount } from "wagmi";
+import { createPublicClient, http } from "viem";
+import { polygon } from "viem/chains";
 
 export default function Envoke() {
   const dispatch = useDispatch();
+  const publicClient = createPublicClient({
+    chain: polygon,
+    transport: http(
+      `https://polygon-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`
+    ),
+  });
   const { openConnectModal } = useConnectModal();
   const { openAccountModal } = useAccountModal();
   const { isConnected, address } = useAccount();
@@ -45,7 +53,7 @@ export default function Envoke() {
     collectionsInfo,
     getMoreCollectionsSample,
     setCollectionsInfo,
-  } = useEnvoke();
+  } = useEnvoke(publicClient, dispatch, questInfo, address);
   const { handleLogIn, signLoading } = useSignIn(
     lensConnected,
     openAccountModal,
