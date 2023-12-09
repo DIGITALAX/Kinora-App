@@ -1,13 +1,25 @@
 import { useEffect, useState } from "react";
-import { Collection } from "../types/envoke.types";
+import { Collection, ERC20Reward, Milestone } from "../types/envoke.types";
 import {
   getAllCollections,
   getCollectionSample,
 } from "../../../../graphql/subgraph/getAllCollections";
 import getProfile from "../../../../graphql/lens/queries/profile";
 import toHexWithLeadingZero from "../../../../lib/helpers/toHexWithLeadingZero";
+import { PublicClient } from "viem";
+import { Dispatch } from "redux";
+import {
+  QuestInfoState,
+  setQuestInfo,
+} from "../../../../redux/reducers/questInfoSlice";
+import findBalance from "../../../../lib/helpers/findBalance";
 
-const useEnvoke = () => {
+const useEnvoke = (
+  publicClient: PublicClient,
+  dispatch: Dispatch,
+  questInfo: QuestInfoState,
+  address: `0x${string}` | undefined
+) => {
   const [coverLoading, setCoverLoading] = useState<boolean>(false);
   const [milestoneCoversLoading, setMilestoneCoversLoading] = useState<
     boolean[]
@@ -167,6 +179,44 @@ const useEnvoke = () => {
       getCollectionsSample();
     }
   }, []);
+
+  const handleBalance = async () => {
+    try {
+      const promises = questInfo?.milestones?.map((item: Milestone) => {
+        item?.rewards?.rewards20?.map(async (item: ERC20Reward) => {
+          return {
+            ...item,
+            balance:
+              Number(
+                await findBalance(
+                  publicClient,
+                  item.address,
+                  address as `0x${string}`
+                )
+              ) < Number(item.amount)
+                ? false
+                : true,
+          };
+        });
+      });
+
+      dispatch(
+        setQuestInfo({
+          actionDetails: questInfo?.details,
+          actionDeveloperKey: questInfo?.developerKey,
+          actionMilestones: await Promise.all(promises),
+        })
+      );
+    } catch (err: any) {
+      console.error(err.message);
+    }
+  };
+
+  useEffect(() => {
+    if (questInfo?.milestones?.length > 0) {
+      handleBalance();
+    }
+  }, [questInfo?.milestones]);
 
   return {
     coverLoading,
