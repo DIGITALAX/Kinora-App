@@ -80,4 +80,25 @@ export const HASHTAG_CONSTANTS: string[] = [
 export const PRINT_NFT: `0x${string}` =
   "0x3D92B16Bb20A740C5dDcaEda305A7c16B2DdC580";
 
-  
+export const ACCEPTED_TOKENS: string[][] = [
+  [
+    "QmYYUQ8nGDnyuk8jQSung1WmTksvLEQBXjnCctdRrKtsNk",
+    "WMATIC",
+    "0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270",
+  ],
+  [
+    "QmZRhUgjK6bJM8fC7uV145yf66q2e7vGeT7CLosw1SdMdN",
+    "WETH",
+    "0x7ceb23fd6bc0add59e62ac25578270cff1b9f619",
+  ],
+  [
+    "QmSbpsDRwxSCPBWPkwWvcb49jViSxzmNHjYy3AcGF3qM2x",
+    "USDT",
+    "0xc2132d05d31c914a87c6611c10748aeb04b58e8f",
+  ],
+  [
+    "QmS6f8vrNZok9j4pJttUuWpNrjsf4vP9RD5mRL36z6UdaL",
+    "MONA",
+    "0x6968105460f67c3bf751be7c15f92f5286fd0ce5",
+  ],
+];

@@ -34,3 +34,10 @@ export type SaveQuestProps = {
   questFeed: Post[];
   setItemFeed?: (e: SetStateAction<Post[]>) => void;
 };
+
+export type ConnectFirstProps = {
+  openConnectModal: (() => void) | undefined;
+  handleLogIn: () => Promise<void>;
+  signLoading: boolean;
+  walletConnected: boolean;
+};

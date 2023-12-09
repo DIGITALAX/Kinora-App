@@ -6,5 +6,8 @@ export type SidebarProps = {
   openSidebar: boolean;
   router: NextRouter;
   lensConnected: Profile | undefined;
-  dispatch: Dispatch
+  dispatch: Dispatch;
+  walletConnected: boolean;
+  openConnectModal: (() => void) | undefined;
+  handleLogIn: () => Promise<void>;
 };

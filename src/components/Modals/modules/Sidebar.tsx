@@ -11,6 +11,9 @@ const Sidebar: FunctionComponent<SidebarProps> = ({
   router,
   lensConnected,
   dispatch,
+  openConnectModal,
+  handleLogIn,
+  walletConnected,
 }) => {
   return (
     <div
@@ -123,7 +126,13 @@ const Sidebar: FunctionComponent<SidebarProps> = ({
                   <div
                     key={index}
                     className="relative w-fit h-fit flex items-center justify-center flex flex-row gap-2 hover:opacity-80 cursor-pointer active:scale-95"
-                    onClick={() => item.link()}
+                    onClick={
+                      !walletConnected && !lensConnected
+                        ? openConnectModal
+                        : walletConnected && !lensConnected
+                        ? () => handleLogIn()
+                        : () => item.link()
+                    }
                   >
                     <div
                       className="relative w-5 h-5 flex items-center justify-center"
