@@ -1,15 +1,16 @@
 import Waveform from "@/components/Common/modules/Waveform";
 import Image from "next/legacy/image";
 import { FunctionComponent } from "react";
-import {
-  ACCESS,
-  HASHTAG_CONSTANTS,
-  INFURA_GATEWAY,
-} from "../../../../../lib/constants";
+import { INFURA_GATEWAY } from "../../../../../lib/constants";
 import { MintProps } from "../../types/envoke.types";
 import handleMediaUpload from "../../../../../lib/helpers/handleMediaUpload";
 import { setQuestInfo } from "../../../../../redux/reducers/questInfoSlice";
 import MediaSwitch from "@/components/Common/modules/MediaSwitch";
+import {
+  IoMusicalNotesOutline,
+  IoVideocamOutline,
+  IoImageOutline,
+} from "react-icons/io5";
 
 const Mint: FunctionComponent<MintProps> = ({
   item,
@@ -219,7 +220,121 @@ const Mint: FunctionComponent<MintProps> = ({
               />
             </div>
           </label>
-          {(item?.audio ||
+          <div className="absolute left-2 top-2 flex flex-row gap-2">
+            {[
+              {
+                type: "static",
+                component: <IoImageOutline color="white" size={12} />,
+              },
+              {
+                type: "audio",
+                component: <IoMusicalNotesOutline color="white" size={12} />,
+              },
+              {
+                type: "video",
+                component: <IoVideocamOutline color="white" size={12} />,
+              },
+            ]?.map(
+              (
+                value: {
+                  type: string;
+                  component: JSX.Element;
+                },
+                indexTwo: number
+              ) => {
+                return (
+                  <div
+                    key={indexTwo}
+                    className={`relative bg-black rounded-full w-5 p-1 flex items-center justify-center h-5 border border-white cursor-pointer active:scale-95 ${
+                      item?.media != value?.type && "opacity-50"
+                    }`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      const milestones = [...questInfo?.milestones];
+                      const rewards = [
+                        ...milestones[
+                          milestonesOpen.findIndex(
+                            (item: boolean) => item == true
+                          ) !== -1
+                            ? milestonesOpen.findIndex(
+                                (item: boolean) => item == true
+                              )
+                            : 0
+                        ]?.rewards?.rewards721,
+                      ];
+                      rewards[index] = {
+                        ...milestones[
+                          milestonesOpen.findIndex(
+                            (item: boolean) => item == true
+                          ) !== -1
+                            ? milestonesOpen.findIndex(
+                                (item: boolean) => item == true
+                              )
+                            : 0
+                        ]?.rewards?.rewards721?.[index],
+                        details: {
+                          ...milestones[
+                            milestonesOpen.findIndex(
+                              (item: boolean) => item == true
+                            ) !== -1
+                              ? milestonesOpen.findIndex(
+                                  (item: boolean) => item == true
+                                )
+                              : 0
+                          ]?.rewards?.rewards721?.[index]?.details,
+                          media: value.type,
+                        },
+                      };
+                      milestones[
+                        milestonesOpen.findIndex(
+                          (item: boolean) => item == true
+                        ) !== -1
+                          ? milestonesOpen.findIndex(
+                              (item: boolean) => item == true
+                            )
+                          : 0
+                      ] = {
+                        ...milestones[
+                          milestonesOpen.findIndex(
+                            (item: boolean) => item == true
+                          ) !== -1
+                            ? milestonesOpen.findIndex(
+                                (item: boolean) => item == true
+                              )
+                            : 0
+                        ],
+                        rewards: {
+                          ...milestones[
+                            milestonesOpen.findIndex(
+                              (item: boolean) => item == true
+                            ) !== -1
+                              ? milestonesOpen.findIndex(
+                                  (item: boolean) => item == true
+                                )
+                              : 0
+                          ]?.rewards,
+                          rewards721: rewards,
+                        },
+                      };
+
+                      dispatch(
+                        setQuestInfo({
+                          actionDetails: questInfo?.details,
+                          actionMilestones: milestones,
+                          actionDeveloperKey: questInfo?.developerKey,
+                        })
+                      );
+                    }}
+                  >
+                    <div className="relative w-fit h-fit flex items-center justify-center">
+                      {value.component}
+                    </div>
+                  </div>
+                );
+              }
+            )}
+          </div>
+          {(item?.audio?.trim() !== "" ||
             item?.media === "video" ||
             item?.media === "audio") &&
             item?.media !== "static" && (
@@ -537,7 +652,7 @@ const Mint: FunctionComponent<MintProps> = ({
           classNameImage="rounded-sm"
           classNameVideo="object-cover w-full h-full flex rounded-sm"
           classNameAudio="rounded-sm"
-          objectFit="cover"
+          hidden
           type={item?.media}
           srcUrl={
             item?.media == "video"

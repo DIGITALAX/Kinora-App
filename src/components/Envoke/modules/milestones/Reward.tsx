@@ -69,7 +69,7 @@ const Reward: FunctionComponent<RewardProps> = ({
                                 video: "",
                                 audio: "",
                                 images: [],
-                                media: "",
+                                media: "static",
                                 open: true,
                               },
                             },
@@ -102,7 +102,7 @@ const Reward: FunctionComponent<RewardProps> = ({
                                 video: "",
                                 audio: "",
                                 images: [],
-                                media: "",
+                                media: "static",
                                 open: true,
                               },
                             },
@@ -247,6 +247,7 @@ const Reward: FunctionComponent<RewardProps> = ({
                                 {
                                   address: item?.[2] as `0x${string}`,
                                   amount: "0",
+                                  balance: true,
                                 },
                               ],
                         },
@@ -273,7 +274,29 @@ const Reward: FunctionComponent<RewardProps> = ({
                   <div className="relative w-20 h-fit flex items-center justify-center">
                     {item[1]}
                   </div>
-                  <div className="relative w-full h-fit flex items-center justify-center">
+                  <div className="relative w-full h-fit flex items-center justify-center flex-col gap-1">
+                    {questInfo?.milestones?.[
+                      milestonesOpen.findIndex(
+                        (item: boolean) => item == true
+                      ) !== -1
+                        ? milestonesOpen.findIndex(
+                            (item: boolean) => item == true
+                          )
+                        : 0
+                    ]?.rewards?.rewards20?.[index] &&
+                      !questInfo?.milestones?.[
+                        milestonesOpen.findIndex(
+                          (item: boolean) => item == true
+                        ) !== -1
+                          ? milestonesOpen.findIndex(
+                              (item: boolean) => item == true
+                            )
+                          : 0
+                      ]?.rewards?.rewards20?.[index]?.balance && (
+                        <div className="relative w-fit h-fit flex font-bit text-xxs text-rojo">
+                          Insufficient Balance
+                        </div>
+                      )}
                     <input
                       value={
                         questInfo?.milestones?.[
@@ -286,7 +309,7 @@ const Reward: FunctionComponent<RewardProps> = ({
                             : 0
                         ]?.rewards?.rewards20?.[index]?.amount
                       }
-                      onChange={(e) => {
+                      onChange={async (e) => {
                         const milestones = [...questInfo?.milestones];
                         const tokens = [
                           ...(milestones[
@@ -303,6 +326,7 @@ const Reward: FunctionComponent<RewardProps> = ({
                         tokens[index] = {
                           ...tokens[index],
                           amount: e.target.value,
+                          balance: true,
                         };
                         milestones[
                           milestonesOpen.findIndex(
@@ -346,7 +370,7 @@ const Reward: FunctionComponent<RewardProps> = ({
                       }}
                       type="number"
                       className="h-10 w-full bg-black border border-white rounded-md p-1 text-xs"
-                      placeholder="Enter min amount of token to hold."
+                      placeholder="Enter token reward amount."
                     />
                   </div>
                 </div>

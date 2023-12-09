@@ -20,6 +20,7 @@ const config: Config = {
         nave: "#0b0e16",
         offBlack: "#0F121A",
         verde: "#7CDD00",
+        rojo: "#FE0000",
       },
       fontSize: {
         xxs: "0.6rem",

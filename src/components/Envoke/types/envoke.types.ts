@@ -1,6 +1,6 @@
 import { Action, Dispatch } from "redux";
 import { QuestInfoState } from "../../../../redux/reducers/questInfoSlice";
-import { ChangeEvent, SetStateAction } from "react";
+import {  SetStateAction } from "react";
 import { Profile } from "../../../../graphql/generated";
 
 export enum QuestStage {
@@ -38,7 +38,7 @@ export interface ItemDetails {
   video: string;
   audio: string;
   images: string[];
-  open: boolean
+  open: boolean;
 }
 
 export interface ERC721Reward {
@@ -48,6 +48,7 @@ export interface ERC721Reward {
 export interface ERC20Reward {
   amount: string;
   address: `0x${string}`;
+  balance: boolean;
 }
 
 export interface Milestone {
@@ -234,5 +235,5 @@ export type MintProps = {
   dispatch: Dispatch<Action>;
   questInfo: QuestInfoState;
   milestonesOpen: boolean[];
-  index: number
+  index: number;
 };

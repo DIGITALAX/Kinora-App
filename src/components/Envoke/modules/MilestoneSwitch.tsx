@@ -4,6 +4,7 @@ import { MilestoneSwitchProps } from "../types/envoke.types";
 import GatedLogic from "./milestones/GatedLogic";
 import Reward from "./milestones/Reward";
 import Criteria from "./milestones/Criteria";
+import Overview from "./milestones/Overview";
 
 const MilestoneSwitch: FunctionComponent<MilestoneSwitchProps> = ({
   milestoneStage,
@@ -57,12 +58,14 @@ const MilestoneSwitch: FunctionComponent<MilestoneSwitchProps> = ({
           questInfo={questInfo}
           dispatch={dispatch}
           milestonesOpen={milestonesOpen}
-          
         />
       );
 
     case 3:
       return <Criteria />;
+
+    case 4:
+      return <Overview />;
   }
 };
 

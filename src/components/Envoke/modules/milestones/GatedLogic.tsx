@@ -242,7 +242,7 @@ const GatedLogic: FunctionComponent<GatedLogicProps> = ({
           <input
             className="h-10 w-full bg-black border border-white rounded-md p-1 text-xs"
             placeholder="Search tokens to use as gates."
-            value={collectionsSearch}
+            value={collectionsSearch || ""}
             onChange={(e) => {
               setCollectionsSearch(e.target.value);
             }}
@@ -546,7 +546,7 @@ const GatedLogic: FunctionComponent<GatedLogicProps> = ({
                                 (item: boolean) => item == true
                               )
                             : 0
-                        ]?.gated?.erc20Thresholds?.[index]
+                        ]?.gated?.erc20Thresholds?.[index] || ""
                       }
                       onChange={(e) => {
                         const milestones = [...questInfo?.milestones];
