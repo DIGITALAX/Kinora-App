@@ -14,6 +14,7 @@ const Home: FunctionComponent<HomeProps> = ({
   questsLoading,
   envokedQuests,
   setEnvokedQuests,
+  router
 }): JSX.Element => {
   return (
     <>
@@ -57,6 +58,7 @@ const Home: FunctionComponent<HomeProps> = ({
                               dispatch={dispatch}
                               questFeed={liveQuests}
                               setItemFeed={setLiveQuests}
+                              router={router}
                             />
                           );
                         }
@@ -85,6 +87,7 @@ const Home: FunctionComponent<HomeProps> = ({
                               dispatch={dispatch}
                               questFeed={envokedQuests}
                               setItemFeed={setEnvokedQuests}
+                              router={router}
                             />
                           );
                         }
@@ -115,6 +118,7 @@ const Home: FunctionComponent<HomeProps> = ({
                           dispatch={dispatch}
                           questFeed={completedQuests}
                           setItemFeed={setCompletedQuests}
+                          router={router}
                         />
                       );
                     }

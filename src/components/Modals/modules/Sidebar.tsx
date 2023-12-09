@@ -63,9 +63,14 @@ const Sidebar: FunctionComponent<SidebarProps> = ({
                 },
               },
               {
-                title: "Create",
+                title: "Envoke",
                 image: "QmSdwhzPmXp3GJCNKoNEwXPaVZVpyHSSCuDxNPDuxGP2yk",
-                link: () => router.push(`/create`),
+                link: () => router.push(`/envoke`),
+              },
+              {
+                title: "Video",
+                image: "QmbzfW75UVB7VQ9K7gFQecs8dzhbcXb6TdgfzsCtikkdUQ",
+                link: () => router.push(`/video`),
               },
               {
                 title: "Saves",
@@ -120,7 +125,10 @@ const Sidebar: FunctionComponent<SidebarProps> = ({
                     className="relative w-fit h-fit flex items-center justify-center flex flex-row gap-2 hover:opacity-80 cursor-pointer active:scale-95"
                     onClick={() => item.link()}
                   >
-                    <div className="relative w-5 h-5 flex items-center justify-center">
+                    <div
+                      className="relative w-5 h-5 flex items-center justify-center"
+                      title={item?.title}
+                    >
                       <Image
                         layout="fill"
                         src={`${INFURA_GATEWAY}/ipfs/${item.image}`}

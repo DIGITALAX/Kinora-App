@@ -21,6 +21,7 @@ const AccountSwitch: FunctionComponent<AccountSwitchProps> = ({
   setAllSaves,
   setCompletedQuests,
   setLiveQuests,
+  router,
 }): JSX.Element => {
   if (pageProfile?.handle?.fullHandle === lensConnected?.handle?.fullHandle) {
     switch (accountType) {
@@ -37,6 +38,7 @@ const AccountSwitch: FunctionComponent<AccountSwitchProps> = ({
             questsLoading={questsLoading}
             envokedQuests={envokedQuests}
             setEnvokedQuests={setEnvokedQuests}
+            router={router}
           />
         );
 
@@ -50,6 +52,7 @@ const AccountSwitch: FunctionComponent<AccountSwitchProps> = ({
             setAllSaves={setAllSaves}
             dispatch={dispatch}
             lensConnected={lensConnected}
+            router={router}
           />
         );
 
@@ -66,6 +69,7 @@ const AccountSwitch: FunctionComponent<AccountSwitchProps> = ({
             questsLoading={questsLoading}
             envokedQuests={envokedQuests}
             setEnvokedQuests={setEnvokedQuests}
+            router={router}
           />
         );
 
@@ -85,6 +89,7 @@ const AccountSwitch: FunctionComponent<AccountSwitchProps> = ({
         questsLoading={questsLoading}
         envokedQuests={envokedQuests}
         setEnvokedQuests={setEnvokedQuests}
+        router={router}
       />
     );
   }

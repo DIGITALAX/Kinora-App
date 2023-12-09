@@ -105,12 +105,6 @@ const useSignIn = (
     dispatch(setWalletConnected(isConnected));
   }, [isConnected, address]);
 
-  useEffect(() => {
-    if (!isConnected) {
-      dispatch(setLensConnected(undefined));
-    }
-  }, [isConnected]);
-
   return {
     signLoading,
     accountOpen,

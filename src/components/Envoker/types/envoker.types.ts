@@ -1,12 +1,14 @@
 import { Dispatch } from "redux";
 import { Post, Profile } from "../../../../graphql/generated";
 import { SetStateAction } from "react";
+import { NextRouter } from "next/router";
 
 export type AccountSwitchProps = {
   pageProfile: Profile | undefined;
   lensConnected: Profile | undefined;
   allSaves: Post[];
   envokedQuests: Post[];
+  router: NextRouter;
   setEnvokedQuests: (e: SetStateAction<Post[]>) => void;
   questsLoading: boolean;
   setLiveQuests: (e: SetStateAction<Post[]>) => void;
@@ -42,6 +44,7 @@ export type HomeProps = {
   dispatch: Dispatch;
   lensConnected: Profile | undefined;
   onlyHistory: boolean;
+  router: NextRouter;
 };
 
 export type SavesProps = {
@@ -49,6 +52,7 @@ export type SavesProps = {
     hasMore: boolean;
     cursor: string | undefined;
   };
+  router: NextRouter;
   getMoreSaves: () => Promise<void>;
   savesLoading: boolean;
   allSaves: Post[];

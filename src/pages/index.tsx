@@ -2,8 +2,9 @@ import useFeed from "@/components/Common/hooks/useFeed";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import QuestFeed from "@/components/Common/modules/QuestFeed";
+import { NextRouter } from "next/router";
 
-export default function Home() {
+export default function Home({ router }: { router: NextRouter }) {
   const dispatch = useDispatch();
   const questFeed = useSelector(
     (state: RootState) => state.app.questFeedReducer.feed
@@ -66,6 +67,7 @@ export default function Home() {
             questInfo={questInfo}
             lensConnected={lensConnected}
             dispatch={dispatch}
+            router={router}
           />
         )}
       </div>

@@ -10,13 +10,12 @@ const QuestFeed: FunctionComponent<QuestFeedProps> = ({
   getMoreQuestFeed,
   dispatch,
   lensConnected,
+  router,
 }): JSX.Element => {
   return (
     <div className="relative w-full h-fit flex flex-col gap-3">
       <div className="relative w-full h-fit flex flex-row gap-3">
-        {
-        // questFeed?.slice(0, 4)
-        Array.from({length: 4})?.map((item: Post, index: number) => {
+        {questFeed?.slice(0, 4)?.map((item: Post, index: number) => {
           return (
             <QuestPreview
               key={index}
@@ -26,6 +25,7 @@ const QuestFeed: FunctionComponent<QuestFeedProps> = ({
               dispatch={dispatch}
               quest={item}
               questFeed={questFeed}
+              router={router}
             />
           );
         })}
@@ -38,9 +38,7 @@ const QuestFeed: FunctionComponent<QuestFeedProps> = ({
         className="relative w-full h-fit flex-col items-center justify-start"
       >
         <div className="w-full h-fit grid grid-cols-2 justify-center items-start gap-3">
-          {
-          // questFeed?.slice(4)
-           Array.from({length: 10})?.map((item: Post, index: number) => {
+          {questFeed?.slice(4)?.map((item: Post, index: number) => {
             return (
               <QuestPreview
                 key={index}
@@ -50,6 +48,7 @@ const QuestFeed: FunctionComponent<QuestFeedProps> = ({
                 lensConnected={lensConnected}
                 quest={item}
                 questFeed={questFeed}
+                router={router}
               />
             );
           })}
