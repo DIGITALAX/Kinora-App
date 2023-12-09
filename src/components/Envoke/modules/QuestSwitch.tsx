@@ -22,6 +22,8 @@ const QuestSwitch: FunctionComponent<QuestSwitchProps> = ({
   collectionsInfo,
   getMoreCollectionsSample,
   setCollectionsInfo,
+  balanceLoading,
+  handleBalance,
 }): JSX.Element => {
   switch (questStage) {
     case QuestStage.Details:
@@ -44,6 +46,8 @@ const QuestSwitch: FunctionComponent<QuestSwitchProps> = ({
               : 1}
           </div>
           <MilestoneSwitch
+            balanceLoading={balanceLoading}
+            handleBalance={handleBalance}
             milestoneStage={milestoneStage}
             setMilestoneCoversLoading={setMilestoneCoversLoading}
             milestoneCoversLoading={milestoneCoversLoading}
