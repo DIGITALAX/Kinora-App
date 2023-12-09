@@ -13,7 +13,15 @@ const config: Config = {
       },
       backgroundColor: {
         nave: "#0b0e16",
-        offBlack: "#0F121A"
+        offBlack: "#0F121A",
+      },
+      colors: {
+        ligera: "#fed501",
+        nave: "#0b0e16",
+        offBlack: "#0F121A",
+      },
+      fontSize: {
+        xxs: "0.6rem",
       },
     },
   },

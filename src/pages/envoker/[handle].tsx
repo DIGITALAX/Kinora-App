@@ -88,6 +88,7 @@ export default function Handle({ router }: { router: NextRouter }) {
             lensConnected={lensConnected}
             pageProfile={pageProfile}
             savesInfo={savesInfo}
+            router={router}
             envokedQuests={envokedQuests}
             setEnvokedQuests={setEnvokedQuests}
             savesLoading={savesLoading}

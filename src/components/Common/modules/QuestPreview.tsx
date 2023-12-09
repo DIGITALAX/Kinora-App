@@ -3,6 +3,7 @@ import { QuestPreviewProps } from "../types/common.types";
 import createMedia from "../../../../lib/helpers/createMedia";
 import SaveQuest from "./SaveQuest";
 import { VideoMetadataV3 } from "../../../../graphql/generated";
+import Image from "next/legacy/image";
 
 const QuestPreview: FunctionComponent<QuestPreviewProps> = ({
   quest,
@@ -12,8 +13,9 @@ const QuestPreview: FunctionComponent<QuestPreviewProps> = ({
   lensConnected,
   questFeed,
   setItemFeed,
+  router,
 }): JSX.Element => {
-  const item = createMedia(quest?.metadata);
+  const image = createMedia(quest?.metadata);
   return (
     <div className="relative w-full h-fit flex flex-col gap-2 flex items-start justify-start">
       <div
@@ -23,14 +25,15 @@ const QuestPreview: FunctionComponent<QuestPreviewProps> = ({
           width,
           height,
         }}
+        onClick={() => router.push(`/quest/${quest?.id}`)}
       >
-        {item?.cover && item?.video && (
-          <video
-            className="object-cover flex w-full h-full rounded-sm"
-            poster={item?.cover}
-          >
-            <source src={item.video} />
-          </video>
+        {image && (
+          <Image
+            src={image}
+            objectFit="cover"
+            draggable={false}
+            className="rounded-sm"
+          />
         )}
         <SaveQuest
           dispatch={dispatch}

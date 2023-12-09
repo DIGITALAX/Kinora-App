@@ -12,6 +12,7 @@ const Saves: FunctionComponent<SavesProps> = ({
   dispatch,
   lensConnected,
   setAllSaves,
+  router,
 }): JSX.Element => {
   return (
     <>
@@ -58,6 +59,7 @@ const Saves: FunctionComponent<SavesProps> = ({
                         dispatch={dispatch}
                         questFeed={allSaves}
                         setItemFeed={setAllSaves}
+                        router={router}
                       />
                     );
                   }

@@ -12,6 +12,7 @@ import useSearch from "../hooks/useSearch";
 import { AiOutlineLoading } from "react-icons/ai";
 import { Post, Profile, VideoMetadataV3 } from "../../../../graphql/generated";
 import createMedia from "../../../../lib/helpers/createMedia";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 const Header: FunctionComponent<{ router: NextRouter }> = ({ router }) => {
   const { openConnectModal } = useConnectModal();
@@ -85,7 +86,17 @@ const Header: FunctionComponent<{ router: NextRouter }> = ({ router }) => {
           )}
           {searchResults?.length > 0 && searchOpen && (
             <div className="absolute z-10 w-full h-fit max-h-[10rem] overflow-y-scroll flex rounded-md border border-white top-10 bg-nave">
-              <div className="relative w-full h-fit flex flex-col items-center justify-start">
+              <InfiniteScroll
+                hasMore={
+                  searchInfo?.hasMoreProfiles || searchInfo?.hasMorePubs
+                    ? true
+                    : false
+                }
+                dataLength={searchResults?.length}
+                loader={<></>}
+                next={handleMoreSearchQuests}
+                className="relative w-full h-fit flex flex-col items-center justify-start"
+              >
                 {searchResults?.map((item: Post | Profile, index: number) => {
                   const image =
                     item?.__typename === "Post"
@@ -118,29 +129,15 @@ const Header: FunctionComponent<{ router: NextRouter }> = ({ router }) => {
                         className="relative w-14 h-14 border border-white rounded-md flex items-center justify-center p-px"
                         id="rainbow"
                       >
-                        {item?.__typename === "Post"
-                          ? (image as { cover: string; video: string })
-                              ?.cover && (
-                              <Image
-                                draggable={false}
-                                layout="fill"
-                                src={
-                                  (image as { cover: string; video: string })
-                                    ?.cover
-                                }
-                                className="rounded-md"
-                                objectFit="cover"
-                              />
-                            )
-                          : (image as string) && (
-                              <Image
-                                draggable={false}
-                                layout="fill"
-                                src={image as string}
-                                className="rounded-md"
-                                objectFit="cover"
-                              />
-                            )}
+                        {(image as string) && (
+                          <Image
+                            draggable={false}
+                            layout="fill"
+                            src={image as string}
+                            className="rounded-md"
+                            objectFit="cover"
+                          />
+                        )}
                       </div>
                       <div className="relative w-full h-fit flex flex-col gap-1 items-start justify-center">
                         <div className="relative text-base font-bit text-white uppercase text-left flex items-center justify-start">
@@ -171,11 +168,10 @@ const Header: FunctionComponent<{ router: NextRouter }> = ({ router }) => {
                     </div>
                   );
                 })}
-              </div>
+              </InfiniteScroll>
             </div>
           )}
         </div>
-
         <div className="relative flex items-center justify-center gap-5">
           <div className="relative w-4 h-6 flex items-center justify-center">
             <Image
@@ -197,7 +193,7 @@ const Header: FunctionComponent<{ router: NextRouter }> = ({ router }) => {
             }`}
             id="rainbow"
             onClick={
-              !walletConnected
+              !walletConnected && !lensConnected?.id
                 ? openConnectModal
                 : walletConnected && !lensConnected?.id
                 ? () => handleLogIn()
@@ -210,7 +206,7 @@ const Header: FunctionComponent<{ router: NextRouter }> = ({ router }) => {
                   draggable={false}
                   layout="fill"
                   src={`${INFURA_GATEWAY}/ipfs/${
-                    !walletConnected
+                    !walletConnected && !lensConnected?.id
                       ? "QmZ3oW66aBj5KChnBy91trqmdXpL4D23TGa8Ft1yr599R9"
                       : walletConnected &&
                         !lensConnected?.id &&

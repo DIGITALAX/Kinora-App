@@ -7,6 +7,8 @@ import sideBarOpenReducer from "./reducers/sideBarOpenSlice";
 import accountSwitchReducer from "./reducers/accountSwitchSlice";
 import interactErrorReducer from "./reducers/interactErrorSlice";
 import indexerReducer from "./reducers/indexerSlice";
+import questStageReducer from "./reducers/questStageSlice";
+import questInfoReducer from "./reducers/questInfoSlice";
 
 const reducer = combineReducers({
   walletConnectedReducer,
@@ -16,6 +18,8 @@ const reducer = combineReducers({
   accountSwitchReducer,
   interactErrorReducer,
   indexerReducer,
+  questStageReducer,
+  questInfoReducer,
 });
 
 export const store = configureStore({

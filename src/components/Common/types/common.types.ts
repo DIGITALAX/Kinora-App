@@ -1,9 +1,11 @@
 import { Dispatch } from "redux";
 import { Post, Profile } from "../../../../graphql/generated";
 import { SetStateAction } from "react";
+import { NextRouter } from "next/router";
 
 export type QuestFeedProps = {
   questFeed: Post[];
+  router: NextRouter;
   questInfo: {
     hasMore: boolean;
     cursor: string | undefined;
@@ -15,6 +17,7 @@ export type QuestFeedProps = {
 
 export type QuestPreviewProps = {
   quest: Post;
+  router: NextRouter;
   height: string;
   width: string;
   lensConnected: Profile | undefined;
