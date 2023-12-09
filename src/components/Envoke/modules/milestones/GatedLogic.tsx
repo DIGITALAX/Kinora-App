@@ -5,6 +5,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import Image from "next/legacy/image";
 import { ACCEPTED_TOKENS, INFURA_GATEWAY } from "../../../../../lib/constants";
 import createProfilePicture from "../../../../../lib/helpers/createProfilePicture";
+import { ImCross } from "react-icons/im";
 
 const GatedLogic: FunctionComponent<GatedLogicProps> = ({
   dispatch,
@@ -132,6 +133,112 @@ const GatedLogic: FunctionComponent<GatedLogicProps> = ({
           <div className="relative w-fit h-fit flex items-center justify-center text-sm">
             NFT Conditions
           </div>
+          {(
+            questInfo?.milestones?.[
+              milestonesOpen.findIndex((item: boolean) => item == true) !== -1
+                ? milestonesOpen.findIndex((item: boolean) => item == true)
+                : 0
+            ]?.gated?.erc721TokenIds || []
+          )?.length > 0 && (
+            <div className="relative w-full h-fit flex overflow-x-scroll max-w-[20rem]">
+              <div className="relative w-fit h-fit flex flex-row gap-2 items-start justify-start">
+                {questInfo?.milestones?.[
+                  milestonesOpen.findIndex((item: boolean) => item == true) !==
+                  -1
+                    ? milestonesOpen.findIndex((item: boolean) => item == true)
+                    : 0
+                ]?.gated?.erc721TokenIds?.map(
+                  (item: Collection, index: number) => {
+                    return (
+                      <div
+                        key={index}
+                        className={`relative w-10 h-10 flex items-center cursor-pointer hover:opacity-80 justify-center p-px rounded-md`}
+                        id="rainbow"
+                      >
+                        <div className="relative w-full h-full relative rounded-md">
+                          {(item?.collectionMetadata?.mediaCover ||
+                            item?.collectionMetadata?.images?.[0]) && (
+                            <Image
+                              className={"rounded-md"}
+                              draggable={false}
+                              src={`${INFURA_GATEWAY}/ipfs/${
+                                item?.collectionMetadata?.mediaCover
+                                  ? item?.collectionMetadata?.mediaCover?.split(
+                                      "ipfs://"
+                                    )?.[1]
+                                  : item?.collectionMetadata?.images?.[0]?.split(
+                                      "ipfs://"
+                                    )?.[1]
+                              }`}
+                              objectFit="cover"
+                            />
+                          )}
+                        </div>
+                        <div
+                          className="absolute w-5 h-5 flex cursor-pointer bg-black rounded-full border border-white hover:opacity-80 p-1 items-center justify-center"
+                          onClick={() => {
+                            const milestones = [...questInfo?.milestones];
+                            milestones[
+                              milestonesOpen.findIndex(
+                                (item: boolean) => item == true
+                              ) !== -1
+                                ? milestonesOpen.findIndex(
+                                    (item: boolean) => item == true
+                                  )
+                                : 0
+                            ] = {
+                              ...milestones[
+                                milestonesOpen.findIndex(
+                                  (item: boolean) => item == true
+                                ) !== -1
+                                  ? milestonesOpen.findIndex(
+                                      (item: boolean) => item == true
+                                    )
+                                  : 0
+                              ],
+                              gated: {
+                                ...milestones[
+                                  milestonesOpen.findIndex(
+                                    (item: boolean) => item == true
+                                  ) !== -1
+                                    ? milestonesOpen.findIndex(
+                                        (item: boolean) => item == true
+                                      )
+                                    : 0
+                                ]?.gated,
+                                erc721TokenIds: milestones[
+                                  milestonesOpen.findIndex(
+                                    (item: boolean) => item == true
+                                  ) !== -1
+                                    ? milestonesOpen.findIndex(
+                                        (item: boolean) => item == true
+                                      )
+                                    : 0
+                                ]?.gated?.erc721TokenIds?.filter(
+                                  (token: Collection) =>
+                                    token?.collectionId !== item?.collectionId
+                                ),
+                              },
+                            };
+
+                            dispatch(
+                              setQuestInfo({
+                                actionDetails: questInfo?.details,
+                                actionMilestones: milestones,
+                                actionDeveloperKey: questInfo?.developerKey,
+                              })
+                            );
+                          }}
+                        >
+                          <ImCross color="white" size={15} />
+                        </div>
+                      </div>
+                    );
+                  }
+                )}
+              </div>
+            </div>
+          )}
           <input
             className="h-10 w-full bg-black border border-white rounded-md p-1 text-xs"
             placeholder="Search tokens to use as gates."
@@ -181,9 +288,10 @@ const GatedLogic: FunctionComponent<GatedLogicProps> = ({
                                     (item: boolean) => item == true
                                   )
                                 : 0
-                            ]?.gated?.erc721TokenIds?.includes(
-                              Number(item?.collectionId)
-                            ) && "border-2 border-white"
+                            ]?.gated?.erc721TokenIds?.filter(
+                              (value) =>
+                                value?.collectionId == item?.collectionId
+                            )?.[0] && "border-2 border-white"
                           }`}
                           id="rainbow"
                           onClick={() => {
@@ -226,7 +334,10 @@ const GatedLogic: FunctionComponent<GatedLogicProps> = ({
                                         )
                                       : 0
                                   ]?.gated?.erc721TokenIds || []
-                                )?.includes(Number(item?.collectionId))
+                                )?.filter(
+                                  (value) =>
+                                    value?.collectionId == item?.collectionId
+                                )?.[0]
                                   ? milestones[
                                       milestonesOpen.findIndex(
                                         (item: boolean) => item == true
@@ -236,8 +347,9 @@ const GatedLogic: FunctionComponent<GatedLogicProps> = ({
                                           )
                                         : 0
                                     ]?.gated?.erc721TokenIds?.filter(
-                                      (token: number) =>
-                                        token !== Number(item?.collectionId)
+                                      (token: Collection) =>
+                                        token?.collectionId !==
+                                        item?.collectionId
                                     )
                                   : [
                                       ...(milestones[
@@ -502,7 +614,7 @@ const GatedLogic: FunctionComponent<GatedLogicProps> = ({
                       }}
                       type="number"
                       className="h-10 w-full bg-black border border-white rounded-md p-1 text-xs"
-                      placeholder="Enter threshold value in the tokens amount."
+                      placeholder="Enter min amount of token to hold."
                     />
                   </div>
                 </div>
