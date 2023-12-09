@@ -24,7 +24,7 @@ export enum RewardType {
 
 export interface GatingLogic {
   erc721Addresses: `0x${string}`[];
-  erc721TokenIds: number[];
+  erc721TokenIds: Collection[];
   erc20Addresses: `0x${string}`[];
   erc20Thresholds: number[];
   oneOf: boolean;
