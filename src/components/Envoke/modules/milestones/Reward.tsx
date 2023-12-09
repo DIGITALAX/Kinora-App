@@ -181,9 +181,29 @@ const Reward: FunctionComponent<RewardProps> = ({
                 >
                   <div
                     className={`relative w-fit h-fit rounded-full flex items-center cursor-pointer active:scale-95`}
-                    key={index}
                     onClick={() => {
                       const milestones = [...questInfo?.milestones];
+
+                      const rewards20 = [
+                        ...questInfo?.milestones?.[
+                          milestonesOpen.findIndex(
+                            (item: boolean) => item == true
+                          ) !== -1
+                            ? milestonesOpen.findIndex(
+                                (item: boolean) => item == true
+                              )
+                            : 0
+                        ]?.rewards?.rewards20,
+                      ];
+
+                      rewards20[index] = {
+                        address: item?.[2] as `0x${string}`,
+                        amount:
+                          rewards20[index]?.amount?.trim() == ""
+                            ? rewards20[index]?.amount
+                            : "0",
+                        balance: true,
+                      };
 
                       milestones[
                         milestonesOpen.findIndex(
@@ -237,22 +257,7 @@ const Reward: FunctionComponent<RewardProps> = ({
                                   address?.address?.toLowerCase() !==
                                   item?.[2]?.toLowerCase()
                               )
-                            : [
-                                ...(milestones[
-                                  milestonesOpen.findIndex(
-                                    (item: boolean) => item == true
-                                  ) !== -1
-                                    ? milestonesOpen.findIndex(
-                                        (item: boolean) => item == true
-                                      )
-                                    : 0
-                                ]?.rewards?.rewards20 || []),
-                                {
-                                  address: item?.[2] as `0x${string}`,
-                                  amount: "0",
-                                  balance: true,
-                                },
-                              ],
+                            : rewards20,
                         },
                       };
 
