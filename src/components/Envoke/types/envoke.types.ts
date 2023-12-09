@@ -1,6 +1,6 @@
 import { Action, Dispatch } from "redux";
 import { QuestInfoState } from "../../../../redux/reducers/questInfoSlice";
-import {  SetStateAction } from "react";
+import { SetStateAction } from "react";
 import { Profile } from "../../../../graphql/generated";
 
 export enum QuestStage {
@@ -135,6 +135,8 @@ export type QuestSwitchProps = {
     hasMore: boolean;
     cursor: number;
   };
+  handleBalance: (milestoneIndex: number, rewardIndex: number) => Promise<void>;
+  balanceLoading: boolean[];
 };
 
 export type DetailsProps = {
@@ -166,6 +168,8 @@ export type MilestoneSwitchProps = {
   milestoneStage: number;
   questInfo: QuestInfoState;
   dispatch: Dispatch<Action>;
+  handleBalance: (milestoneIndex: number, rewardIndex: number) => Promise<void>;
+  balanceLoading: boolean[]
   milestoneCoversLoading: boolean[];
   milestonesOpen: boolean[];
   setMilestoneCoversLoading: (e: SetStateAction<boolean[]>) => void;
@@ -228,6 +232,8 @@ export type RewardProps = {
   milestonesOpen: boolean[];
   questInfo: QuestInfoState;
   dispatch: Dispatch<Action>;
+  handleBalance: (milestoneIndex: number, rewardIndex: number) => Promise<void>;
+  balanceLoading: boolean[]
 };
 
 export type MintProps = {

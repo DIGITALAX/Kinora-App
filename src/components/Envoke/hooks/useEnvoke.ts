@@ -21,6 +21,7 @@ const useEnvoke = (
   address: `0x${string}` | undefined
 ) => {
   const [coverLoading, setCoverLoading] = useState<boolean>(false);
+  const [balanceLoading, setBalanceLoading] = useState<boolean[]>([]);
   const [milestoneCoversLoading, setMilestoneCoversLoading] = useState<
     boolean[]
   >(Array.from({ length: 3 }, () => false));
@@ -180,43 +181,55 @@ const useEnvoke = (
     }
   }, []);
 
-  const handleBalance = async () => {
+  const handleBalance = async (
+    milestoneIndex: number,
+    rewardIndex: number
+  ): Promise<void> => {
+    setBalanceLoading((prev) => {
+      const arr = [...prev];
+      arr[rewardIndex] = true;
+      return arr;
+    });
     try {
-      const promises = questInfo?.milestones?.map((item: Milestone) => {
-        item?.rewards?.rewards20?.map(async (item: ERC20Reward) => {
-          return {
-            ...item,
-            balance:
-              Number(
-                await findBalance(
-                  publicClient,
-                  item.address,
-                  address as `0x${string}`
-                )
-              ) < Number(item.amount)
-                ? false
-                : true,
-          };
-        });
-      });
+      const allMilestones = [...questInfo?.milestones];
+      const rewards20 = [...allMilestones[milestoneIndex]?.rewards?.rewards20];
+      rewards20[rewardIndex] = {
+        ...rewards20[rewardIndex],
+        balance:
+          Number(
+            await findBalance(
+              publicClient,
+              rewards20[rewardIndex]?.address,
+              address as `0x${string}`
+            )
+          ) < Number(rewards20[rewardIndex]?.amount)
+            ? false
+            : true,
+      };
+      allMilestones[milestoneIndex] = {
+        ...allMilestones[milestoneIndex],
+        rewards: {
+          ...allMilestones[milestoneIndex]?.rewards,
+          rewards20,
+        },
+      };
 
       dispatch(
         setQuestInfo({
           actionDetails: questInfo?.details,
           actionDeveloperKey: questInfo?.developerKey,
-          actionMilestones: await Promise.all(promises),
+          actionMilestones: allMilestones,
         })
       );
     } catch (err: any) {
       console.error(err.message);
     }
+    setBalanceLoading((prev) => {
+      const arr = [...prev];
+      arr[rewardIndex] = false;
+      return arr;
+    });
   };
-
-  useEffect(() => {
-    if (questInfo?.milestones?.length > 0) {
-      handleBalance();
-    }
-  }, [questInfo?.milestones]);
 
   return {
     coverLoading,
@@ -235,6 +248,8 @@ const useEnvoke = (
     collectionsInfo,
     getMoreCollectionsSample,
     setCollectionsInfo,
+    handleBalance,
+    balanceLoading,
   };
 };
 

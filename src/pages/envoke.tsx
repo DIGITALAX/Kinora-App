@@ -53,6 +53,8 @@ export default function Envoke() {
     collectionsInfo,
     getMoreCollectionsSample,
     setCollectionsInfo,
+    handleBalance,
+    balanceLoading,
   } = useEnvoke(publicClient, dispatch, questInfo, address);
   const { handleLogIn, signLoading } = useSignIn(
     lensConnected,
@@ -101,6 +103,8 @@ export default function Envoke() {
                 collectionsInfo={collectionsInfo}
                 getMoreCollectionsSample={getMoreCollectionsSample}
                 setCollectionsInfo={setCollectionsInfo}
+                handleBalance={handleBalance}
+                balanceLoading={balanceLoading}
               />
               <Stages
                 questInfo={questInfo}
