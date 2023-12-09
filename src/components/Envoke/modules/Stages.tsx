@@ -9,6 +9,7 @@ import {
 import { setQuestStage } from "../../../../redux/reducers/questStageSlice";
 import Image from "next/legacy/image";
 import { INFURA_GATEWAY } from "../../../../lib/constants";
+import { setQuestInfo } from "../../../../redux/reducers/questInfoSlice";
 
 const Stages: FunctionComponent<StagesProps> = ({
   questStage,
@@ -28,7 +29,7 @@ const Stages: FunctionComponent<StagesProps> = ({
         className={`relative w-full flex flex-col p-4 gap-4 ${
           questStage == QuestStage.Details
             ? "justify-between items-center h-fit"
-            : "items-start justify-start h-full"
+            : "items-start justify-start h-full overflow-y-scroll"
         }`}
       >
         {getStageArray(questStage, questInfo?.milestones)?.map(
@@ -95,6 +96,29 @@ const Stages: FunctionComponent<StagesProps> = ({
                           draggable={false}
                         />
                       </div>
+                      {index > 2 && (
+                        <div
+                          className={`relative flex items-center justify-center w-3 h-3 hover:hue-rotate-60`}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            dispatch(
+                              setQuestInfo({
+                                actionDetails: questInfo?.details,
+                                actionDeveloperKey: questInfo?.developerKey,
+                                actionMilestones: questInfo?.milestones?.filter(
+                                  (_, i) => index !== i
+                                ),
+                              })
+                            );
+                          }}
+                        >
+                          <Image
+                            layout="fill"
+                            src={`${INFURA_GATEWAY}/ipfs/QmQ2tQQSqhLJruTU8MQBUS8GpckycwJiW7QmJPZ8zZzxKg`}
+                            draggable={false}
+                          />
+                        </div>
+                      )}
                     </div>
                     {milestonesOpen?.[index] && (
                       <div className="pl-3 relative w-fit h-fit flex items-start justify-start flex-col gap-1.5">
@@ -141,21 +165,97 @@ const Stages: FunctionComponent<StagesProps> = ({
             }
           }
         )}
+        {questStage == QuestStage.Milestones && (
+          <div className="relative w-full h-fit flex items-start justify-start gap-1 flex-col">
+            <div
+              className="relative w-fit h-fit flex items-center justify-start flex-row gap-2 cursor-pointer hover:opacity-70"
+              onClick={() => {
+                setMilestonesOpen((prev) => {
+                  const arr = [...prev, false];
+                  return arr;
+                });
+
+                dispatch(
+                  setQuestInfo({
+                    actionDetails: questInfo?.details,
+                    actionMilestones: [
+                      ...(questInfo?.milestones?.length < 1
+                        ? Array.from({ length: 3 }, () => ({
+                            rewards: {
+                              reward721: [],
+                              reward20: [],
+                            },
+                            gated: {},
+                            details: {},
+                            eligibility: {},
+                          }))
+                        : questInfo?.milestones),
+                      {
+                        rewards: {
+                          reward721: [],
+                          reward20: [],
+                        },
+                        gated: {},
+                        details: {},
+                        eligibility: {},
+                      },
+                    ],
+                    actionDeveloperKey: questInfo?.developerKey,
+                  })
+                );
+              }}
+            >
+              <div
+                className={`relative flex items-center justify-center w-3 h-2.5`}
+              >
+                <Image
+                  layout="fill"
+                  src={`${INFURA_GATEWAY}/ipfs/QmYPNwx7ptMnkZPWUBaxuzoWBDKPiZmc9Crbm3GRAHZD1N`}
+                  draggable={false}
+                />
+              </div>
+              <div className="relative text-white font-bit flex items-center justify-center top-px">
+                Add Milestone
+              </div>
+            </div>
+          </div>
+        )}
       </div>
       <div className="relative w-full p-2 h-fit flex items-center justify-center text-white font-bit mb-0 flex-row gap-1 border-t border-white">
         {questStage !== QuestStage.Details && (
           <>
             <div
               className="relative w-full h-fit flex flex-row items-center justify-center cursor-pointer hover:opacity-70"
-              onClick={() =>
-                dispatch(
-                  setQuestStage(
-                    Object.values(QuestStage)[
-                      (Object.values(QuestStage).indexOf(questStage) - 1) %
-                        Object.values(QuestStage).length
-                    ]
-                  )
-                )
+              onClick={
+                questStage === QuestStage.Milestones &&
+                (milestonesOpen?.findIndex((item) => item == true) !== 0 ||
+                  (milestonesOpen?.findIndex((item) => item == true) == 0 &&
+                    milestoneStage !== 0))
+                  ? () => {
+                      if (milestoneStage - 1 < 0) {
+                        setMilestonesOpen((prev) => {
+                          const arr = new Array(prev.length).fill(false);
+                          arr[
+                            milestonesOpen?.findIndex((item) => item == true) -
+                              1
+                          ] = true;
+                          return arr;
+                        });
+                        setMilestoneStage(3);
+                      } else {
+                        setMilestoneStage(milestoneStage - 1);
+                      }
+                    }
+                  : () =>
+                      dispatch(
+                        setQuestStage(
+                          Object.values(QuestStage)[
+                            (Object.values(QuestStage).indexOf(questStage) -
+                              1) %
+                              Object.values(QuestStage).length
+                          ]
+                        )
+                      )
               }
             >
               <div className="relative w-fit h-fit flex items-center justify-center">
@@ -170,15 +270,36 @@ const Stages: FunctionComponent<StagesProps> = ({
         )}
         <div
           className="relative w-full h-fit flex flex-row items-center justify-center cursor-pointer hover:opacity-70"
-          onClick={() =>
-            dispatch(
-              setQuestStage(
-                Object.values(QuestStage)[
-                  (Object.values(QuestStage).indexOf(questStage) + 1) %
-                    Object.values(QuestStage).length
-                ]
-              )
-            )
+          onClick={
+            questStage === QuestStage.Milestones &&
+            (milestonesOpen?.findIndex((item) => item == true) !==
+              milestonesOpen?.length - 1 ||
+              (milestonesOpen?.findIndex((item) => item == true) ==
+                milestonesOpen?.length - 1 &&
+                milestoneStage !== 3))
+              ? () => {
+                  if (milestoneStage + 1 > 3) {
+                    setMilestonesOpen((prev) => {
+                      const arr = new Array(prev.length).fill(false);
+                      arr[
+                        milestonesOpen?.findIndex((item) => item == true) + 1
+                      ] = true;
+                      return arr;
+                    });
+                    setMilestoneStage(0);
+                  } else {
+                    setMilestoneStage(milestoneStage + 1);
+                  }
+                }
+              : () =>
+                  dispatch(
+                    setQuestStage(
+                      Object.values(QuestStage)[
+                        (Object.values(QuestStage).indexOf(questStage) + 1) %
+                          Object.values(QuestStage).length
+                      ]
+                    )
+                  )
           }
         >
           <div className="relative w-fit h-fit flex items-center justify-center top-px">

@@ -74,7 +74,7 @@ export default function Envoke() {
             <div className="relative w-fit h-fit flex items-start justify-start font-bit text-white text-xl pb-10">
               Envoke A New Quest
             </div>
-            <div className="relative w-full h-full flex items-start justify-end flex-col md:flex-row gap-8">
+            <div className="relative w-full h-full flex items-start justify-end flex-col md:flex-row gap-8 pb-2">
               <QuestSwitch
                 questStage={questStage}
                 dispatch={dispatch}

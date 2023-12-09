@@ -102,3 +102,9 @@ export const ACCEPTED_TOKENS: string[][] = [
     "0x6968105460f67c3bf751be7c15f92f5286fd0ce5",
   ],
 ];
+
+export const ACCESS: string[][] = [
+  ["CC0 Public Domain", "QmSA2ppuT31ELKDVp2LKovcibZaNWoTaEdz7aDdjzQjBuK"],
+  ["Ethical Climate Core", "QmWAkfx7Z5vTfjDkCgNoHW6UkSMQZfY6UwzFDhGN1ecSfN"],
+  ["Microfactory Made", "QmQRHyz2bqUQBHLpTSHVwNpgZCk3jHDVRvFf8b5mCKMStd"],
+];
