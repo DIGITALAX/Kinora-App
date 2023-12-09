@@ -19,6 +19,7 @@ const config: Config = {
         ligera: "#fed501",
         nave: "#0b0e16",
         offBlack: "#0F121A",
+        verde: "#7CDD00",
       },
       fontSize: {
         xxs: "0.6rem",

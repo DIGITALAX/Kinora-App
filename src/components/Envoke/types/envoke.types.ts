@@ -1,6 +1,7 @@
 import { Action, Dispatch } from "redux";
 import { QuestInfoState } from "../../../../redux/reducers/questInfoSlice";
 import { ChangeEvent, SetStateAction } from "react";
+import { Profile } from "../../../../graphql/generated";
 
 export enum QuestStage {
   Details = "Set Details",
@@ -23,9 +24,9 @@ export enum RewardType {
 
 export interface GatingLogic {
   erc721Addresses: `0x${string}`[];
-  erc721TokenIds: number[][];
+  erc721TokenIds: number[];
   erc20Addresses: `0x${string}`[];
-  erc20Thresholds: string[];
+  erc20Thresholds: number[];
   oneOf: boolean;
 }
 
@@ -40,7 +41,11 @@ export interface Milestone {
   gated: GatingLogic;
   reward: Reward;
   milestone: number;
-  details: QuestDetails;
+  details: {
+    title: string;
+    cover: string;
+    description: string;
+  };
   eligibility: MilestoneEligibility;
 }
 
@@ -98,6 +103,22 @@ export type QuestSwitchProps = {
   setMilestoneCoversLoading: (e: SetStateAction<boolean[]>) => void;
   milestonesOpen: boolean[];
   milestoneStage: number;
+  collections: Collection[];
+  collectionsSearch: string;
+  setCollectionsSearch: (e: SetStateAction<string>) => void;
+  getMoreCollectionsSearch: () => Promise<void>;
+  getCollectionsSearch: () => Promise<void>;
+  getMoreCollectionsSample: () => Promise<void>;
+  setCollectionsInfo: (
+    e: SetStateAction<{
+      hasMore: boolean;
+      cursor: number;
+    }>
+  ) => void;
+  collectionsInfo: {
+    hasMore: boolean;
+    cursor: number;
+  };
 };
 
 export type DetailsProps = {
@@ -132,4 +153,57 @@ export type MilestoneSwitchProps = {
   milestoneCoversLoading: boolean[];
   milestonesOpen: boolean[];
   setMilestoneCoversLoading: (e: SetStateAction<boolean[]>) => void;
+  collections: Collection[];
+  collectionsSearch: string;
+  setCollectionsSearch: (e: SetStateAction<string>) => void;
+  getMoreCollectionsSearch: () => Promise<void>;
+  getCollectionsSearch: () => Promise<void>;
+  getMoreCollectionsSample: () => Promise<void>;
+  setCollectionsInfo: (
+    e: SetStateAction<{
+      hasMore: boolean;
+      cursor: number;
+    }>
+  ) => void;
+  collectionsInfo: {
+    hasMore: boolean;
+    cursor: number;
+  };
 };
+
+export type GatedLogicProps = {
+  milestonesOpen: boolean[];
+  questInfo: QuestInfoState;
+  dispatch: Dispatch<Action>;
+  collections: Collection[];
+  collectionsSearch: string;
+  setCollectionsSearch: (e: SetStateAction<string>) => void;
+  getMoreCollectionsSearch: () => Promise<void>;
+  getCollectionsSearch: () => Promise<void>;
+  getMoreCollectionsSample: () => Promise<void>;
+  setCollectionsInfo: (
+    e: SetStateAction<{
+      hasMore: boolean;
+      cursor: number;
+    }>
+  ) => void;
+  collectionsInfo: {
+    hasMore: boolean;
+    cursor: number;
+  };
+};
+
+export interface Collection {
+  collectionId: string;
+  dropMetadata: {
+    dropCover: string;
+    dropTitle: string;
+  };
+  collectionMetadata: {
+    title: string;
+    mediaCover: string;
+    images: string[];
+  };
+  profileId: string;
+  profile: Profile;
+}

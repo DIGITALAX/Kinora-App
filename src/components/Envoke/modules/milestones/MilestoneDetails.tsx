@@ -1,15 +1,15 @@
 import { FunctionComponent } from "react";
-import { MilestoneDetailsProps } from "../types/envoke.types";
+import { MilestoneDetailsProps } from "../../types/envoke.types";
 import { BsShuffle } from "react-icons/bs";
-import { setQuestInfo } from "../../../../redux/reducers/questInfoSlice";
+import { setQuestInfo } from "../../../../../redux/reducers/questInfoSlice";
 import { AiOutlineLoading } from "react-icons/ai";
 import Image from "next/legacy/image";
 import {
   COVER_CONSTANTS,
   INFURA_GATEWAY,
   IPFS_REGEX,
-} from "../../../../lib/constants";
-import handleMediaUpload from "../../../../lib/helpers/handleMediaUpload";
+} from "../../../../../lib/constants";
+import handleMediaUpload from "../../../../../lib/helpers/handleMediaUpload";
 
 const MilestoneDetails: FunctionComponent<MilestoneDetailsProps> = ({
   questInfo,
@@ -28,7 +28,6 @@ const MilestoneDetails: FunctionComponent<MilestoneDetailsProps> = ({
           className="relative w-6 h-6 flex items-center justify-center cursor-pointer rounded-full p-1 bg-black border border-white active:scale-95"
           onClick={() => {
             const milestones = [...questInfo?.milestones];
-
             milestones[
               milestonesOpen.findIndex((item: boolean) => item == true) !== -1
                 ? milestonesOpen.findIndex((item: boolean) => item == true)
@@ -68,7 +67,7 @@ const MilestoneDetails: FunctionComponent<MilestoneDetailsProps> = ({
         </div>
       </div>
       <label
-        className={`relative flex items-center w-full h-60 rounded-md justify-center cursor-pointer p-px`}
+        className={`relative flex items-center w-full h-44 rounded-md justify-center cursor-pointer p-px`}
         id="rainbow"
       >
         <div className="relative w-full h-full flex items-center justify-center rounded-md">
@@ -209,6 +208,103 @@ const MilestoneDetails: FunctionComponent<MilestoneDetailsProps> = ({
           />
         </div>
       </label>
+      <div className="relative w-full h-fit flex items-start justify-start gap-2 flex-col">
+        <div className="relative w-fit h-fit flex items-start justify-start">
+          Milestone Title
+        </div>
+        <input
+          className="h-10 w-full bg-black border border-white rounded-md p-1 text-xs"
+          placeholder="Give your Milestone a title."
+          value={
+            questInfo?.milestones[
+              milestonesOpen.findIndex((item: boolean) => item == true) !== -1
+                ? milestonesOpen.findIndex((item: boolean) => item == true)
+                : 0
+            ]?.details?.title
+          }
+          onChange={(e) => {
+            const milestones = [...questInfo?.milestones];
+            milestones[
+              milestonesOpen.findIndex((item: boolean) => item == true) !== -1
+                ? milestonesOpen.findIndex((item: boolean) => item == true)
+                : 0
+            ] = {
+              ...milestones[
+                milestonesOpen.findIndex((item: boolean) => item == true) !== -1
+                  ? milestonesOpen.findIndex((item: boolean) => item == true)
+                  : 0
+              ],
+              details: {
+                ...milestones[
+                  milestonesOpen.findIndex((item: boolean) => item == true) !==
+                  -1
+                    ? milestonesOpen.findIndex((item: boolean) => item == true)
+                    : 0
+                ]?.details,
+                title: e.target.value,
+              },
+            };
+
+            dispatch(
+              setQuestInfo({
+                actionDetails: questInfo?.details,
+                actionMilestones: milestones,
+                actionDeveloperKey: questInfo?.developerKey,
+              })
+            );
+          }}
+        />
+      </div>
+      <div className="relative w-full h-fit flex items-start justify-start gap-2 flex-col">
+        <div className="relative w-fit h-fit flex items-start justify-start">
+          Milestone Description
+        </div>
+        <textarea
+          className="h-32 w-full bg-black border border-white rounded-md p-2 text-xs"
+          style={{
+            resize: "none",
+          }}
+          placeholder="A short overview of this milestone and what it involves."
+          value={
+            questInfo?.milestones[
+              milestonesOpen.findIndex((item: boolean) => item == true) !== -1
+                ? milestonesOpen.findIndex((item: boolean) => item == true)
+                : 0
+            ]?.details?.description
+          }
+          onChange={(e) => {
+            const milestones = [...questInfo?.milestones];
+            milestones[
+              milestonesOpen.findIndex((item: boolean) => item == true) !== -1
+                ? milestonesOpen.findIndex((item: boolean) => item == true)
+                : 0
+            ] = {
+              ...milestones[
+                milestonesOpen.findIndex((item: boolean) => item == true) !== -1
+                  ? milestonesOpen.findIndex((item: boolean) => item == true)
+                  : 0
+              ],
+              details: {
+                ...milestones[
+                  milestonesOpen.findIndex((item: boolean) => item == true) !==
+                  -1
+                    ? milestonesOpen.findIndex((item: boolean) => item == true)
+                    : 0
+                ]?.details,
+                description: e.target.value,
+              },
+            };
+
+            dispatch(
+              setQuestInfo({
+                actionDetails: questInfo?.details,
+                actionMilestones: milestones,
+                actionDeveloperKey: questInfo?.developerKey,
+              })
+            );
+          }}
+        ></textarea>
+      </div>
     </div>
   );
 };

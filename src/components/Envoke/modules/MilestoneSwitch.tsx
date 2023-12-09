@@ -1,6 +1,9 @@
 import { FunctionComponent } from "react";
-import MilestoneDetails from "./MilestoneDetails";
+import MilestoneDetails from "./milestones/MilestoneDetails";
 import { MilestoneSwitchProps } from "../types/envoke.types";
+import GatedLogic from "./milestones/GatedLogic";
+import Reward from "./milestones/Reward";
+import Criteria from "./milestones/Criteria";
 
 const MilestoneSwitch: FunctionComponent<MilestoneSwitchProps> = ({
   milestoneStage,
@@ -9,9 +12,18 @@ const MilestoneSwitch: FunctionComponent<MilestoneSwitchProps> = ({
   milestoneCoversLoading,
   setMilestoneCoversLoading,
   milestonesOpen,
+  collections,
+  collectionsInfo,
+  collectionsSearch,
+  getMoreCollectionsSample,
+  getCollectionsSearch,
+  getMoreCollectionsSearch,
+  setCollectionsInfo,
+  setCollectionsSearch,
 }): JSX.Element => {
   switch (milestoneStage) {
     case 0:
+    default:
       return (
         <MilestoneDetails
           setMilestoneCoversLoading={setMilestoneCoversLoading}
@@ -23,10 +35,27 @@ const MilestoneSwitch: FunctionComponent<MilestoneSwitchProps> = ({
       );
 
     case 1:
+      return (
+        <GatedLogic
+          questInfo={questInfo}
+          dispatch={dispatch}
+          milestonesOpen={milestonesOpen}
+          collections={collections}
+          collectionsSearch={collectionsSearch}
+          setCollectionsSearch={setCollectionsSearch}
+          getMoreCollectionsSearch={getMoreCollectionsSearch}
+          getCollectionsSearch={getCollectionsSearch}
+          collectionsInfo={collectionsInfo}
+          getMoreCollectionsSample={getMoreCollectionsSample}
+          setCollectionsInfo={setCollectionsInfo}
+        />
+      );
 
     case 2:
+      return <Reward />;
 
     case 3:
+      return <Criteria />;
   }
 };
 
