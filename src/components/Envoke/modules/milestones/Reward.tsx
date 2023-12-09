@@ -4,11 +4,14 @@ import Mint from "./Mint";
 import Image from "next/legacy/image";
 import { ACCEPTED_TOKENS, INFURA_GATEWAY } from "../../../../../lib/constants";
 import { setQuestInfo } from "../../../../../redux/reducers/questInfoSlice";
+import { AiOutlineLoading } from "react-icons/ai";
 
 const Reward: FunctionComponent<RewardProps> = ({
   questInfo,
   dispatch,
   milestonesOpen,
+  balanceLoading,
+  handleBalance,
 }): JSX.Element => {
   return (
     <div className="relative w-full h-fit flex items-start justify-start flex-col font-bit text-white gap-10">
@@ -293,7 +296,7 @@ const Reward: FunctionComponent<RewardProps> = ({
                             )
                           : 0
                       ]?.rewards?.rewards20?.[index]?.balance && (
-                        <div className="relative w-fit h-fit flex font-bit text-xxs text-rojo">
+                        <div className="relative w-full h-fit flex font-bit items-start justify-start text-xxs text-rojo">
                           Insufficient Balance
                         </div>
                       )}
@@ -372,6 +375,33 @@ const Reward: FunctionComponent<RewardProps> = ({
                       className="h-10 w-full bg-black border border-white rounded-md p-1 text-xs"
                       placeholder="Enter token reward amount."
                     />
+                    <div
+                      className="absolute w-14 bg-black px-1.5 py-1 h-7 font-bit text-white hover:opacity-70 flex items-center justify-center right-2 cursor-pointer border border-white text-xxs rounded-md active:scale-95 bottom-1.5"
+                      onClick={() =>
+                        handleBalance(
+                          milestonesOpen.findIndex(
+                            (item: boolean) => item == true
+                          ) !== -1
+                            ? milestonesOpen.findIndex(
+                                (item: boolean) => item == true
+                              )
+                            : 0,
+                          index
+                        )
+                      }
+                    >
+                      <div
+                        className={`relative w-fit h-fit flex items-center justify-center ${
+                          balanceLoading?.[index] && "animate-spin"
+                        }`}
+                      >
+                        {balanceLoading?.[index] ? (
+                          <AiOutlineLoading color={"white"} size={15} />
+                        ) : (
+                          "verify"
+                        )}
+                      </div>
+                    </div>
                   </div>
                 </div>
               );

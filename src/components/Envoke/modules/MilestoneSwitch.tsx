@@ -21,6 +21,8 @@ const MilestoneSwitch: FunctionComponent<MilestoneSwitchProps> = ({
   getMoreCollectionsSearch,
   setCollectionsInfo,
   setCollectionsSearch,
+  balanceLoading,
+  handleBalance,
 }): JSX.Element => {
   switch (milestoneStage) {
     case 0:
@@ -58,6 +60,8 @@ const MilestoneSwitch: FunctionComponent<MilestoneSwitchProps> = ({
           questInfo={questInfo}
           dispatch={dispatch}
           milestonesOpen={milestonesOpen}
+          balanceLoading={balanceLoading}
+          handleBalance={handleBalance}
         />
       );
 
