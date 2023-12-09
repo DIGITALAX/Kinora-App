@@ -74,13 +74,14 @@ const Stages: FunctionComponent<StagesProps> = ({
                     <div
                       key={index}
                       className="relative w-fit h-fit flex items-center justify-start flex-row gap-2 cursor-pointer hover:opacity-70"
-                      onClick={() =>
+                      onClick={() => {
                         setMilestonesOpen((prev) => {
                           const arr = new Array(prev.length).fill(false);
                           arr[index] = !prev[index];
                           return arr;
-                        })
-                      }
+                        });
+                        setMilestoneStage(0);
+                      }}
                     >
                       <div className="relative text-white font-bit flex items-center justify-center">
                         Milestone {index + 1}
