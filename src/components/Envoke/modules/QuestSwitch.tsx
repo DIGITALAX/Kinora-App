@@ -36,7 +36,7 @@ const QuestSwitch: FunctionComponent<QuestSwitchProps> = ({
 
     case QuestStage.Milestones:
       return (
-        <div className="relative w-full h-fit flex flex-col items-start justify-start gap-12 font-bit text-white">
+        <div className="relative w-full h-fit flex flex-col items-start justify-start gap-8 font-bit text-white">
           <div className="relative w-fit h-fit flex items-start justify-start underline underline-offset-4">
             Milestone{" "}
             {milestonesOpen.findIndex((item: boolean) => item == true) !== -1

@@ -30,17 +30,32 @@ export interface GatingLogic {
   oneOf: boolean;
 }
 
-export interface Reward {
-  type: RewardType;
-  erc721URI?: string;
-  erc20tokenAddress?: `0x${string}`;
-  erc20tokenAmount?: string;
+export interface ItemDetails {
+  title: string;
+  media: string;
+  description: string;
+  mediaCover: string;
+  video: string;
+  audio: string;
+  images: string[];
+  open: boolean
+}
+
+export interface ERC721Reward {
+  details: ItemDetails;
+}
+
+export interface ERC20Reward {
+  amount: string;
+  address: `0x${string}`;
 }
 
 export interface Milestone {
   gated: GatingLogic;
-  reward: Reward;
-  milestone: number;
+  rewards: {
+    rewards721: ERC721Reward[];
+    rewards20: ERC20Reward[];
+  };
   details: {
     title: string;
     cover: string;
@@ -207,3 +222,17 @@ export interface Collection {
   profileId: string;
   profile: Profile;
 }
+
+export type RewardProps = {
+  milestonesOpen: boolean[];
+  questInfo: QuestInfoState;
+  dispatch: Dispatch<Action>;
+};
+
+export type MintProps = {
+  item: ItemDetails;
+  dispatch: Dispatch<Action>;
+  questInfo: QuestInfoState;
+  milestonesOpen: boolean[];
+  index: number
+};

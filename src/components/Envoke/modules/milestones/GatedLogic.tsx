@@ -268,19 +268,50 @@ const GatedLogic: FunctionComponent<GatedLogicProps> = ({
               loader={<></>}
               className="relative w-full h-fit flex overflow-y-scroll"
             >
-              <div className="relative w-full flex flex-wrap gap-3 items-start justify-start h-fit max-h-[20rem]">
-                {
-                  // collections
-                  Array.from({ length: 10 })?.map(
-                    (item: Collection, index: number) => {
-                      const pfp = createProfilePicture(
-                        item?.profile?.metadata?.picture
-                      );
-                      return (
-                        <div
-                          key={index}
-                          className={`relative w-40 md:w-full lg:w-40 h-40 flex items-center cursor-pointer hover:opacity-80 justify-center p-px rounded-md ${
-                            questInfo?.milestones?.[
+              <div className="relative w-full flex flex-wrap gap-3 items-start justify-start h-fit max-h-[16rem]">
+                {collections?.map((item: Collection, index: number) => {
+                  const pfp = createProfilePicture(
+                    item?.profile?.metadata?.picture
+                  );
+                  return (
+                    <div
+                      key={index}
+                      className={`relative w-40 md:w-full lg:w-40 h-40 flex items-center cursor-pointer hover:opacity-80 justify-center p-px rounded-md ${
+                        questInfo?.milestones?.[
+                          milestonesOpen.findIndex(
+                            (item: boolean) => item == true
+                          ) !== -1
+                            ? milestonesOpen.findIndex(
+                                (item: boolean) => item == true
+                              )
+                            : 0
+                        ]?.gated?.erc721TokenIds?.filter(
+                          (value) => value?.collectionId == item?.collectionId
+                        )?.[0] && "border-2 border-white"
+                      }`}
+                      id="rainbow"
+                      onClick={() => {
+                        const milestones = [...questInfo?.milestones];
+                        milestones[
+                          milestonesOpen.findIndex(
+                            (item: boolean) => item == true
+                          ) !== -1
+                            ? milestonesOpen.findIndex(
+                                (item: boolean) => item == true
+                              )
+                            : 0
+                        ] = {
+                          ...milestones[
+                            milestonesOpen.findIndex(
+                              (item: boolean) => item == true
+                            ) !== -1
+                              ? milestonesOpen.findIndex(
+                                  (item: boolean) => item == true
+                                )
+                              : 0
+                          ],
+                          gated: {
+                            ...milestones[
                               milestonesOpen.findIndex(
                                 (item: boolean) => item == true
                               ) !== -1
@@ -288,24 +319,9 @@ const GatedLogic: FunctionComponent<GatedLogicProps> = ({
                                     (item: boolean) => item == true
                                   )
                                 : 0
-                            ]?.gated?.erc721TokenIds?.filter(
-                              (value) =>
-                                value?.collectionId == item?.collectionId
-                            )?.[0] && "border-2 border-white"
-                          }`}
-                          id="rainbow"
-                          onClick={() => {
-                            const milestones = [...questInfo?.milestones];
-                            milestones[
-                              milestonesOpen.findIndex(
-                                (item: boolean) => item == true
-                              ) !== -1
-                                ? milestonesOpen.findIndex(
-                                    (item: boolean) => item == true
-                                  )
-                                : 0
-                            ] = {
-                              ...milestones[
+                            ]?.gated,
+                            erc721TokenIds: (
+                              milestones[
                                 milestonesOpen.findIndex(
                                   (item: boolean) => item == true
                                 ) !== -1
@@ -313,9 +329,12 @@ const GatedLogic: FunctionComponent<GatedLogicProps> = ({
                                       (item: boolean) => item == true
                                     )
                                   : 0
-                              ],
-                              gated: {
-                                ...milestones[
+                              ]?.gated?.erc721TokenIds || []
+                            )?.filter(
+                              (value) =>
+                                value?.collectionId == item?.collectionId
+                            )?.[0]
+                              ? milestones[
                                   milestonesOpen.findIndex(
                                     (item: boolean) => item == true
                                   ) !== -1
@@ -323,9 +342,12 @@ const GatedLogic: FunctionComponent<GatedLogicProps> = ({
                                         (item: boolean) => item == true
                                       )
                                     : 0
-                                ]?.gated,
-                                erc721TokenIds: (
-                                  milestones[
+                                ]?.gated?.erc721TokenIds?.filter(
+                                  (token: Collection) =>
+                                    token?.collectionId !== item?.collectionId
+                                )
+                              : [
+                                  ...(milestones[
                                     milestonesOpen.findIndex(
                                       (item: boolean) => item == true
                                     ) !== -1
@@ -333,95 +355,63 @@ const GatedLogic: FunctionComponent<GatedLogicProps> = ({
                                           (item: boolean) => item == true
                                         )
                                       : 0
-                                  ]?.gated?.erc721TokenIds || []
-                                )?.filter(
-                                  (value) =>
-                                    value?.collectionId == item?.collectionId
-                                )?.[0]
-                                  ? milestones[
-                                      milestonesOpen.findIndex(
-                                        (item: boolean) => item == true
-                                      ) !== -1
-                                        ? milestonesOpen.findIndex(
-                                            (item: boolean) => item == true
-                                          )
-                                        : 0
-                                    ]?.gated?.erc721TokenIds?.filter(
-                                      (token: Collection) =>
-                                        token?.collectionId !==
-                                        item?.collectionId
-                                    )
-                                  : [
-                                      ...(milestones[
-                                        milestonesOpen.findIndex(
-                                          (item: boolean) => item == true
-                                        ) !== -1
-                                          ? milestonesOpen.findIndex(
-                                              (item: boolean) => item == true
-                                            )
-                                          : 0
-                                      ]?.gated?.erc721TokenIds || []),
-                                      Number(item?.collectionId),
-                                    ],
-                              },
-                            };
+                                  ]?.gated?.erc721TokenIds || []),
+                                  item,
+                                ],
+                          },
+                        };
 
-                            dispatch(
-                              setQuestInfo({
-                                actionDetails: questInfo?.details,
-                                actionMilestones: milestones,
-                                actionDeveloperKey: questInfo?.developerKey,
-                              })
-                            );
-                          }}
+                        dispatch(
+                          setQuestInfo({
+                            actionDetails: questInfo?.details,
+                            actionMilestones: milestones,
+                            actionDeveloperKey: questInfo?.developerKey,
+                          })
+                        );
+                      }}
+                    >
+                      <div className="relative w-full h-full relative rounded-md">
+                        {(item?.collectionMetadata?.mediaCover ||
+                          item?.collectionMetadata?.images?.[0]) && (
+                          <Image
+                            className={"rounded-md"}
+                            draggable={false}
+                            src={`${INFURA_GATEWAY}/ipfs/${
+                              item?.collectionMetadata?.mediaCover
+                                ? item?.collectionMetadata?.mediaCover?.split(
+                                    "ipfs://"
+                                  )?.[1]
+                                : item?.collectionMetadata?.images?.[0]?.split(
+                                    "ipfs://"
+                                  )?.[1]
+                            }`}
+                            objectFit="cover"
+                          />
+                        )}
+                      </div>
+                      <div className="absolute flex flex-row gap-1 text-xxs items-center justify-center bottom-2 right-2">
+                        <div
+                          className="rounded-full w-6 h-6 p-px flex items-center justify-center"
+                          id="rainbow"
                         >
-                          <div className="relative w-full h-full relative rounded-md">
-                            {(item?.collectionMetadata?.mediaCover ||
-                              item?.collectionMetadata?.images?.[0]) && (
+                          <div className="relative w-full h-full flex items-center justify-center">
+                            {pfp && (
                               <Image
-                                className={"rounded-md"}
+                                src={pfp}
                                 draggable={false}
-                                src={`${INFURA_GATEWAY}/ipfs/${
-                                  item?.collectionMetadata?.mediaCover
-                                    ? item?.collectionMetadata?.mediaCover?.split(
-                                        "ipfs://"
-                                      )?.[1]
-                                    : item?.collectionMetadata?.images?.[0]?.split(
-                                        "ipfs://"
-                                      )?.[1]
-                                }`}
+                                className="rounded-full"
                                 objectFit="cover"
                               />
                             )}
                           </div>
-                          <div className="absolute flex flex-row gap-1 text-xxs items-center justify-center bottom-2 right-2">
-                            <div
-                              className="rounded-full w-6 h-6 p-px flex items-center justify-center"
-                              id="rainbow"
-                            >
-                              <div className="relative w-full h-full flex items-center justify-center">
-                                {pfp && (
-                                  <Image
-                                    src={pfp}
-                                    draggable={false}
-                                    className="rounded-full"
-                                    objectFit="cover"
-                                  />
-                                )}
-                              </div>
-                            </div>
-                            <div className="relative w-fit h-fit flex items-center justify-center">
-                              {
-                                item?.profile?.handle?.suggestedFormatted
-                                  ?.localName
-                              }
-                            </div>
-                          </div>
                         </div>
-                      );
-                    }
-                  )
-                }
+                        <div className="relative w-fit h-fit flex items-center justify-center">
+                          {item?.profile?.handle?.suggestedFormatted?.localName}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </InfiniteScroll>
           </div>
@@ -434,6 +424,7 @@ const GatedLogic: FunctionComponent<GatedLogicProps> = ({
             {ACCEPTED_TOKENS.map((item: string[], index: number) => {
               return (
                 <div
+                  key={index}
                   className={`relative w-full h-fit flex flex-row  items-center justify-center gap-3 ${
                     questInfo?.milestones?.[
                       milestonesOpen.findIndex(
