@@ -15,7 +15,6 @@ const StoryboardSwitch: FunctionComponent<StoryboardSwitchProps> = ({
     case StoryboardStage?.Milestones:
       return (
         <Milestones
-          index={milestoneStoryboardStage}
           milestone={questInfo?.milestones?.[milestoneStoryboardStage]}
         />
       );
