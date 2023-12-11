@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
-import { Post, Profile } from "../../../../graphql/generated";
+import { Profile } from "../../../../graphql/generated";
 import getProfile from "../../../../graphql/lens/queries/profile";
+import { Quest } from "@/components/Quest/types/quest.types";
 
 const usePageProfile = (handle: string, lensConnected: Profile | undefined) => {
   const [profileLoading, setProfileLoading] = useState<boolean>(false);
   const [questsLoading, setQuestsLoading] = useState<boolean>(false);
   const [pageProfile, setPageProfile] = useState<Profile>();
-  const [completedQuests, setCompletedQuests] = useState<Post[]>([]);
-  const [liveQuests, setLiveQuests] = useState<Post[]>([]);
-  const [envokedQuests, setEnvokedQuests] = useState<Post[]>([]);
+  const [completedQuests, setCompletedQuests] = useState<Quest[]>([]);
+  const [liveQuests, setLiveQuests] = useState<Quest[]>([]);
+  const [envokedQuests, setEnvokedQuests] = useState<Quest[]>([]);
 
   const getPageProfile = async () => {
     setProfileLoading(true);

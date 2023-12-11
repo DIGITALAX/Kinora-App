@@ -4,6 +4,8 @@ export const IPFS_REGEX: RegExp = /\b(Qm[1-9A-Za-z]{44}|ba[A-Za-z2-7]{57})\b/;
 
 export const KINORA_OPEN_ACTION: `0x${string}` = "0x";
 export const CHROMADIN_ID: string = "0x01c6a9";
+export const LENS_HUB_PROXY_ADDRESS_MATIC: `0x${string}` =
+  "0xDb46d1Dc155634FbC732f92E853b10B288AD5a1d";
 
 export const COVER_CONSTANTS: string[] = [
   "QmPW4zahvfhNUUbc27sM2WZE9uQcZ9KYGcXTq64zzuoazi",

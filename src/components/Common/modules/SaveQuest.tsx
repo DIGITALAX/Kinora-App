@@ -11,6 +11,7 @@ const SaveQuest: FunctionComponent<SaveQuestProps> = ({
   questId,
   questFeed,
   setItemFeed,
+  post
 }): JSX.Element => {
   return (
     <div
@@ -26,7 +27,8 @@ const SaveQuest: FunctionComponent<SaveQuestProps> = ({
           dispatch,
           lensConnected,
           questFeed,
-          setItemFeed
+          setItemFeed,
+          post
         )
       }
     >

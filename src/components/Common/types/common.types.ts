@@ -1,14 +1,15 @@
 import { Dispatch } from "redux";
 import { Post, Profile } from "../../../../graphql/generated";
-import { ChangeEvent, SetStateAction } from "react";
+import { SetStateAction } from "react";
 import { NextRouter } from "next/router";
+import { Quest } from "@/components/Quest/types/quest.types";
 
 export type QuestFeedProps = {
-  questFeed: Post[];
+  questFeed: Quest[];
   router: NextRouter;
   questInfo: {
     hasMore: boolean;
-    cursor: string | undefined;
+    cursor: number;
   };
   getMoreQuestFeed: () => Promise<void>;
   lensConnected: Profile | undefined;
@@ -16,23 +17,29 @@ export type QuestFeedProps = {
 };
 
 export type QuestPreviewProps = {
-  quest: Post;
+  quest: Quest | Post;
   router: NextRouter;
   height: string;
   width: string;
   lensConnected: Profile | undefined;
   dispatch: Dispatch;
-  questFeed: Post[];
-  setItemFeed?: (e: SetStateAction<Post[]>) => void;
+  questFeed: Quest[] | Post[];
+  setItemFeed?:
+    | ((e: SetStateAction<Quest[]>) => void)
+    | ((e: SetStateAction<Post[]>) => void);
+  post?: boolean;
 };
 
 export type SaveQuestProps = {
   lensConnected: Profile | undefined;
   dispatch: Dispatch;
   questSaved: boolean;
+  post?: boolean;
   questId: string;
-  questFeed: Post[];
-  setItemFeed?: (e: SetStateAction<Post[]>) => void;
+  questFeed: Quest[] | Post[];
+  setItemFeed?:
+    | ((e: SetStateAction<Quest[]>) => void)
+    | ((e: SetStateAction<Post[]>) => void);
 };
 
 export type ConnectFirstProps = {

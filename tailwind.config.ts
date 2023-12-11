@@ -28,6 +28,12 @@ const config: Config = {
       zIndex: {
         1: "1",
       },
+      screens: {
+        tablet: "900px",
+        galaxy: "300px",
+        pre: "400px",
+        otro: "1350px",
+      },
     },
   },
   plugins: [],
