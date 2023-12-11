@@ -4,7 +4,6 @@ import { MilestoneSwitchProps } from "../types/envoke.types";
 import GatedLogic from "./milestones/GatedLogic";
 import Reward from "./milestones/Reward";
 import Criteria from "./milestones/Criteria";
-import Overview from "./milestones/Overview";
 
 const MilestoneSwitch: FunctionComponent<MilestoneSwitchProps> = ({
   milestoneStage,
@@ -23,6 +22,16 @@ const MilestoneSwitch: FunctionComponent<MilestoneSwitchProps> = ({
   setCollectionsSearch,
   balanceLoading,
   handleBalance,
+  getMoreVideosSample,
+  getMoreVideosSearch,
+  getVideosSearch,
+  videoInfo,
+  videoSearch,
+  videoSearchLoading,
+  videos,
+  setVideoSearch,
+  chromadinVideos,
+  router,
 }): JSX.Element => {
   switch (milestoneStage) {
     case 0:
@@ -66,10 +75,23 @@ const MilestoneSwitch: FunctionComponent<MilestoneSwitchProps> = ({
       );
 
     case 3:
-      return <Criteria />;
-
-    case 4:
-      return <Overview />;
+      return (
+        <Criteria
+          milestonesOpen={milestonesOpen}
+          dispatch={dispatch}
+          questInfo={questInfo}
+          router={router}
+          getMoreVideosSample={getMoreVideosSample}
+          getMoreVideosSearch={getMoreVideosSearch}
+          getVideosSearch={getVideosSearch}
+          videoInfo={videoInfo}
+          videoSearch={videoSearch}
+          videoSearchLoading={videoSearchLoading}
+          videos={videos}
+          setVideoSearch={setVideoSearch}
+          chromadinVideos={chromadinVideos}
+        />
+      );
   }
 };
 

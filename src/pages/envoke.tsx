@@ -9,8 +9,10 @@ import useSignIn from "@/components/Layout/hooks/useSignIn";
 import { useAccount } from "wagmi";
 import { createPublicClient, http } from "viem";
 import { polygon } from "viem/chains";
+import useCriteria from "@/components/Envoke/hooks/useCriteria";
+import { NextRouter } from "next/router";
 
-export default function Envoke() {
+export default function Envoke({ router }: { router: NextRouter }) {
   const dispatch = useDispatch();
   const publicClient = createPublicClient({
     chain: polygon,
@@ -63,6 +65,21 @@ export default function Envoke() {
     isConnected,
     address
   );
+  const {
+    getMoreVideosSample,
+    getMoreVideosSearch,
+    getVideosSearch,
+    videoInfo,
+    videoSearch,
+    videoSearchLoading,
+    videos,
+    setVideoSearch,
+    chromadinVideos,
+    storyboardStage,
+    setStoryboardStage,
+    milestoneStoryboardStage,
+    setMilestoneStoryboardStage,
+  } = useCriteria(lensConnected);
   return (
     <>
       {walletConnected && lensConnected ? (
@@ -105,6 +122,18 @@ export default function Envoke() {
                 setCollectionsInfo={setCollectionsInfo}
                 handleBalance={handleBalance}
                 balanceLoading={balanceLoading}
+                getMoreVideosSample={getMoreVideosSample}
+                getMoreVideosSearch={getMoreVideosSearch}
+                getVideosSearch={getVideosSearch}
+                videoInfo={videoInfo}
+                videoSearch={videoSearch}
+                videoSearchLoading={videoSearchLoading}
+                videos={videos}
+                setVideoSearch={setVideoSearch}
+                chromadinVideos={chromadinVideos}
+                router={router}
+                storyboardStage={storyboardStage}
+                milestoneStoryboardStage={milestoneStoryboardStage}
               />
               <Stages
                 questInfo={questInfo}
@@ -114,6 +143,10 @@ export default function Envoke() {
                 setMilestonesOpen={setMilestonesOpen}
                 milestoneStage={milestoneStage}
                 setMilestoneStage={setMilestoneStage}
+                milestoneStoryboardStage={milestoneStoryboardStage}
+                setMilestoneStoryboardStage={setMilestoneStoryboardStage}
+                setStoryboardStage={setStoryboardStage}
+                storyboardStage={storyboardStage}
               />
             </div>
           </div>

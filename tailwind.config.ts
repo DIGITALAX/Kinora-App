@@ -25,6 +25,9 @@ const config: Config = {
       fontSize: {
         xxs: "0.6rem",
       },
+      zIndex: {
+        1: "1",
+      },
     },
   },
   plugins: [],

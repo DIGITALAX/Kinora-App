@@ -1,12 +1,13 @@
 import { Action, Dispatch } from "redux";
 import { QuestInfoState } from "../../../../redux/reducers/questInfoSlice";
 import { SetStateAction } from "react";
-import { Profile } from "../../../../graphql/generated";
+import { Post, Profile } from "../../../../graphql/generated";
+import { NextRouter } from "next/router";
 
 export enum QuestStage {
   Details = "Set Details",
   Milestones = "Create Milestones",
-  Encrypt = "Encrypt Key",
+  Storyboard = "Storyboard",
   Post = "Post Live",
 }
 
@@ -62,16 +63,22 @@ export interface Milestone {
     cover: string;
     description: string;
   };
-  eligibility: MilestoneEligibility;
+  eligibility: VideoEligible[];
+}
+
+export interface VideoEligible {
+  video: Post;
+  criteria: MilestoneEligibilityCriteria;
+  open: boolean;
 }
 
 export interface MilestoneEligibility {
   internalPlaybackCriteria?: {
-    playbackId: string;
+    postId: string;
     playbackCriteria: MilestoneEligibilityCriteria;
   }[];
   averageGlobalPlaybackCriteria?: {
-    playbackId: string;
+    postId: string;
     playbackCriteria: MilestoneEligibilityCriteria;
   }[];
   averageInternalVideoStats: MilestoneEligibilityCriteria;
@@ -79,23 +86,14 @@ export interface MilestoneEligibility {
 }
 
 export interface MilestoneEligibilityCriteria {
-  averageAvd?: MetricCriteria;
-  averageCtr?: MetricCriteria;
-  totalPlayCount?: MetricCriteria;
-  totalPauseCount?: MetricCriteria;
-  totalClickCount?: MetricCriteria;
-  totalSkipCount?: MetricCriteria;
-  totalDuration?: MetricCriteria;
-  totalImpressionCount?: MetricCriteria;
-  totalVolumeChangeCount?: MetricCriteria;
-  totalBufferCount?: MetricCriteria;
-  averageEngagementRate?: MetricCriteria;
-  averagePlayPauseRatio?: MetricCriteria;
-  quoteLens?: BoolLensCriteria;
-  mirrorLens?: BoolLensCriteria;
-  likeLens?: BoolLensCriteria;
-  bookmarkLens?: BoolLensCriteria;
-  notInterestedLens?: BoolLensCriteria;
+  averageAvd?: number;
+  averageCtr?: number;
+  minPlayCount?: number;
+  quoteLens?: boolean;
+  mirrorLens?: boolean;
+  likeLens?: boolean;
+  bookmarkLens?: boolean;
+  commentLens?: boolean;
 }
 
 export interface MetricCriteria {
@@ -112,8 +110,25 @@ export interface BoolLensCriteria {
 export type QuestSwitchProps = {
   questStage: QuestStage;
   questInfo: QuestInfoState;
+  storyboardStage: StoryboardStage;
+  milestoneStoryboardStage: number;
   dispatch: Dispatch<Action>;
   coverLoading: boolean;
+  setVideoSearch: (e: SetStateAction<string>) => void;
+  getVideosSearch: () => Promise<void>;
+  getMoreVideosSearch: () => Promise<void>;
+  videoInfo: {
+    hasMoreChromadin: boolean;
+    cursorChromadin: string | undefined;
+    hasMoreKinora: boolean;
+    cursorKinora: string | undefined;
+  };
+  videos: Post[];
+  videoSearchLoading: boolean;
+  videoSearch: string;
+  router: NextRouter;
+  getMoreVideosSample: () => Promise<void>;
+  chromadinVideos: Post[];
   setCoverLoading: (e: SetStateAction<boolean>) => void;
   milestoneCoversLoading: boolean[];
   setMilestoneCoversLoading: (e: SetStateAction<boolean[]>) => void;
@@ -154,6 +169,10 @@ export type StagesProps = {
   setMilestonesOpen: (e: SetStateAction<boolean[]>) => void;
   milestoneStage: number;
   setMilestoneStage: (e: SetStateAction<number>) => void;
+  storyboardStage: StoryboardStage;
+  setStoryboardStage: (e: SetStateAction<StoryboardStage>) => void;
+  milestoneStoryboardStage: number;
+  setMilestoneStoryboardStage: (e: SetStateAction<number>) => void;
 };
 
 export type MilestoneDetailsProps = {
@@ -168,8 +187,23 @@ export type MilestoneSwitchProps = {
   milestoneStage: number;
   questInfo: QuestInfoState;
   dispatch: Dispatch<Action>;
+  videoSearchLoading: boolean;
+  videoSearch: string;
+  router: NextRouter;
+  setVideoSearch: (e: SetStateAction<string>) => void;
+  getVideosSearch: () => Promise<void>;
+  getMoreVideosSearch: () => Promise<void>;
+  videoInfo: {
+    hasMoreChromadin: boolean;
+    cursorChromadin: string | undefined;
+    hasMoreKinora: boolean;
+    cursorKinora: string | undefined;
+  };
+  videos: Post[];
+  getMoreVideosSample: () => Promise<void>;
+  chromadinVideos: Post[];
   handleBalance: (milestoneIndex: number, rewardIndex: number) => Promise<void>;
-  balanceLoading: boolean[]
+  balanceLoading: boolean[];
   milestoneCoversLoading: boolean[];
   milestonesOpen: boolean[];
   setMilestoneCoversLoading: (e: SetStateAction<boolean[]>) => void;
@@ -233,7 +267,7 @@ export type RewardProps = {
   questInfo: QuestInfoState;
   dispatch: Dispatch<Action>;
   handleBalance: (milestoneIndex: number, rewardIndex: number) => Promise<void>;
-  balanceLoading: boolean[]
+  balanceLoading: boolean[];
 };
 
 export type MintProps = {
@@ -243,3 +277,47 @@ export type MintProps = {
   milestonesOpen: boolean[];
   index: number;
 };
+
+export type CriteriaProps = {
+  router: NextRouter;
+  videoSearchLoading: boolean;
+  videoSearch: string;
+  setVideoSearch: (e: SetStateAction<string>) => void;
+  getVideosSearch: () => Promise<void>;
+  getMoreVideosSearch: () => Promise<void>;
+  videoInfo: {
+    hasMoreChromadin: boolean;
+    cursorChromadin: string | undefined;
+    hasMoreKinora: boolean;
+    cursorKinora: string | undefined;
+  };
+  videos: Post[];
+  getMoreVideosSample: () => Promise<void>;
+  chromadinVideos: Post[];
+  milestonesOpen: boolean[];
+  questInfo: QuestInfoState;
+  dispatch: Dispatch<Action>;
+};
+
+export type EligibleProps = {
+  item: VideoEligible;
+  questInfo: QuestInfoState;
+  dispatch: Dispatch;
+  index: number;
+  milestonesOpen: boolean[];
+};
+
+export type StoryboardDetailsProps = {
+  details: QuestDetails;
+};
+
+export type StoryboardSwitchProps = {
+  questInfo: QuestInfoState;
+  storyboardStage: StoryboardStage;
+  milestoneStoryboardStage: number;
+};
+
+export enum StoryboardStage {
+  Details,
+  Milestones,
+}

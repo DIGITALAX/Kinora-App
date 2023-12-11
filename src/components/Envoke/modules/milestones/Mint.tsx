@@ -21,7 +21,7 @@ const Mint: FunctionComponent<MintProps> = ({
 }): JSX.Element => {
   return item?.open ? (
     <div className="relative w-full h-fit flex flex-col lg:flex-row items-start justify-start gap-6">
-      <div className="relative w-full h-fit flex items-start justify-start flex-row gap-6 font-bit text-white">
+      <div className="relative w-full h-fit flex items-start justify-start flex-col sm:flex-row md:flex-col xl:flex-row gap-6 font-bit text-white">
         <div className="relative w-fit h-fit flex items-center justify-center">
           <label
             className="relative w-52 h-52 rounded-sm cursor-pointer p-px"
@@ -583,7 +583,7 @@ const Mint: FunctionComponent<MintProps> = ({
     </div>
   ) : (
     <div
-      className="relative w-full h-fit flex flex-row items-start justify-start gap-6 cursor-pointer hover:opacity-80 font-bit text-white text-sm"
+      className="relative w-full h-fit flex flex-row items-center justify-start gap-6 cursor-pointer hover:opacity-80 font-bit text-white text-sm"
       onClick={() => {
         const milestones = [...questInfo?.milestones];
 
@@ -647,7 +647,7 @@ const Mint: FunctionComponent<MintProps> = ({
         );
       }}
     >
-      <div className="relative w-8 h-8 rounded-sm p-px" id="rainbow">
+      <div className="relative w-8 h-8 flex items-center justify-center rounded-sm p-px" id="rainbow">
         <MediaSwitch
           classNameImage="rounded-sm"
           classNameVideo="object-cover w-full h-full flex rounded-sm"

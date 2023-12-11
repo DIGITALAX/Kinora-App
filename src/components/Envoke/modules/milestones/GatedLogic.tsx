@@ -401,6 +401,7 @@ const GatedLogic: FunctionComponent<GatedLogicProps> = ({
                                 draggable={false}
                                 className="rounded-full"
                                 objectFit="cover"
+                                layout="fill"
                               />
                             )}
                           </div>

@@ -100,7 +100,7 @@ const Header: FunctionComponent<{ router: NextRouter }> = ({ router }) => {
                 {searchResults?.map((item: Post | Profile, index: number) => {
                   const image =
                     item?.__typename === "Post"
-                      ? createMedia(item?.metadata)
+                      ? createMedia(item?.metadata)?.asset
                       : createProfilePicture(
                           (item as Profile)?.metadata?.picture
                         );

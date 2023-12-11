@@ -19,6 +19,10 @@ const Stages: FunctionComponent<StagesProps> = ({
   setMilestonesOpen,
   milestoneStage,
   setMilestoneStage,
+  storyboardStage,
+  setStoryboardStage,
+  milestoneStoryboardStage,
+  setMilestoneStoryboardStage,
 }): JSX.Element => {
   return (
     <div className="relative w-full lg:max-w-[20rem] h-full lg:h-5/6 flex flex-col border border-white rounded-md justify-between lg:top-20">
@@ -123,46 +127,42 @@ const Stages: FunctionComponent<StagesProps> = ({
                     </div>
                     {milestonesOpen?.[index] && (
                       <div className="pl-3 relative w-fit h-fit flex items-start justify-start flex-col gap-1.5">
-                        {[
-                          "Details",
-                          "Gates",
-                          "Reward",
-                          "Eligibility",
-                          "Overview",
-                        ].map((item: string, index: number) => {
-                          return (
-                            <div
-                              key={index}
-                              className={`relative w-fit h-fit flex items-center justify-center gap-1 cursor-pointer hover:opacity-70 ${
-                                milestoneStage == index
-                                  ? "text-ligera"
-                                  : "text-white"
-                              }`}
-                              onClick={() => setMilestoneStage(index)}
-                            >
+                        {["Details", "Gates", "Reward", "Eligibility"].map(
+                          (item: string, index: number) => {
+                            return (
                               <div
-                                className={`relative flex items-center justify-center w-1.5 h-1 rotate-90 flip`}
+                                key={index}
+                                className={`relative w-fit h-fit flex items-center justify-center gap-1 cursor-pointer hover:opacity-70 ${
+                                  milestoneStage == index
+                                    ? "text-ligera"
+                                    : "text-white"
+                                }`}
+                                onClick={() => setMilestoneStage(index)}
                               >
-                                <Image
-                                  layout="fill"
-                                  src={`${INFURA_GATEWAY}/ipfs/QmW8oeGu3doJxd6e9fpoGzuZb6fSjKyu8BfXgtusNEWmjM`}
-                                  draggable={false}
-                                />
+                                <div
+                                  className={`relative flex items-center justify-center w-1.5 h-1 rotate-90 flip`}
+                                >
+                                  <Image
+                                    layout="fill"
+                                    src={`${INFURA_GATEWAY}/ipfs/QmW8oeGu3doJxd6e9fpoGzuZb6fSjKyu8BfXgtusNEWmjM`}
+                                    draggable={false}
+                                  />
+                                </div>
+                                <div
+                                  className={`relative w-fit h-fit flex items-center justify-center font-bit text-xxs sm:text-sm`}
+                                >
+                                  {item}
+                                </div>
                               </div>
-                              <div
-                                className={`relative w-fit h-fit flex items-center justify-center font-bit text-xxs sm:text-sm`}
-                              >
-                                {item}
-                              </div>
-                            </div>
-                          );
-                        })}
+                            );
+                          }
+                        )}
                       </div>
                     )}
                   </div>
                 );
 
-              case QuestStage.Encrypt:
+              case QuestStage.Storyboard:
                 return <div key={index}></div>;
 
               case QuestStage.Post:
@@ -192,7 +192,7 @@ const Stages: FunctionComponent<StagesProps> = ({
                             },
                             gated: {},
                             details: {},
-                            eligibility: {},
+                            eligibility: [],
                           }))
                         : questInfo?.milestones),
                       {
@@ -202,7 +202,7 @@ const Stages: FunctionComponent<StagesProps> = ({
                         },
                         gated: {},
                         details: {},
-                        eligibility: {},
+                        eligibility:[],
                       },
                     ],
                     actionDeveloperKey: questInfo?.developerKey,
@@ -246,7 +246,7 @@ const Stages: FunctionComponent<StagesProps> = ({
                           ] = true;
                           return arr;
                         });
-                        setMilestoneStage(4);
+                        setMilestoneStage(3);
                       } else {
                         setMilestoneStage(milestoneStage - 1);
                       }
@@ -281,9 +281,9 @@ const Stages: FunctionComponent<StagesProps> = ({
               milestonesOpen?.length - 1 ||
               (milestonesOpen?.findIndex((item) => item == true) ==
                 milestonesOpen?.length - 1 &&
-                milestoneStage !== 4))
+                milestoneStage !== 3))
               ? () => {
-                  if (milestoneStage + 1 > 4) {
+                  if (milestoneStage + 1 > 3) {
                     setMilestonesOpen((prev) => {
                       const arr = new Array(prev.length).fill(false);
                       arr[
