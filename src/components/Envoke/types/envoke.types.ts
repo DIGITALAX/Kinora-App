@@ -94,6 +94,7 @@ export interface MilestoneEligibilityCriteria {
   likeLens?: boolean;
   bookmarkLens?: boolean;
   commentLens?: boolean;
+  collectLens?: boolean;
 }
 
 export interface MetricCriteria {

@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Post } from "../../graphql/generated";
+import { Quest } from "@/components/Quest/types/quest.types";
 
 export interface QuestFeedState {
-  feed: Post[];
+  feed: Quest[];
 }
 
 const initialQuestFeedState: QuestFeedState = {
@@ -13,7 +13,7 @@ export const questFeedSlice = createSlice({
   name: "questFeed",
   initialState: initialQuestFeedState,
   reducers: {
-    setQuestFeed: (state: QuestFeedState, action: PayloadAction<Post[]>) => {
+    setQuestFeed: (state: QuestFeedState, action: PayloadAction<Quest[]>) => {
       state.feed = action.payload;
     },
   },

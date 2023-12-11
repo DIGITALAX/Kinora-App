@@ -1,8 +1,8 @@
 import { FunctionComponent } from "react";
 import { SavesProps } from "../types/envoker.types";
 import QuestPreview from "@/components/Common/modules/QuestPreview";
-import { Post } from "../../../../graphql/generated";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { Post } from "../../../../graphql/generated";
 
 const Saves: FunctionComponent<SavesProps> = ({
   allSaves,
@@ -57,6 +57,7 @@ const Saves: FunctionComponent<SavesProps> = ({
                     questFeed={allSaves}
                     setItemFeed={setAllSaves}
                     router={router}
+                    post
                   />
                 );
               })}

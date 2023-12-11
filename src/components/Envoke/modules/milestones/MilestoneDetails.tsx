@@ -63,7 +63,7 @@ const MilestoneDetails: FunctionComponent<MilestoneDetailsProps> = ({
           </div>
         </div>
         <div className="relative w-fit h-fit flex items-center justify-center text-xxs opacity-70">
-          Don't have a cover image? <br /> Shuffle here.
+          Don&apos;t have a cover image? <br /> Shuffle here.
         </div>
       </div>
       <label

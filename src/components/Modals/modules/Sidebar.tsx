@@ -1,7 +1,7 @@
 import Image from "next/legacy/image";
 import { FunctionComponent } from "react";
 import { INFURA_GATEWAY } from "../../../../lib/constants";
-import { SidebarProps } from "../types/sidebar.types";
+import { SidebarProps } from "../types/modals.types";
 import { setSideBarOpen } from "../../../../redux/reducers/sideBarOpenSlice";
 import { setAccountSwitch } from "../../../../redux/reducers/accountSwitchSlice";
 import { AccountType } from "@/components/Envoker/types/envoker.types";
