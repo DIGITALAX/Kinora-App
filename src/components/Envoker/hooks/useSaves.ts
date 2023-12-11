@@ -14,7 +14,7 @@ const useSaves = (
     hasMore: boolean;
     cursor: string | undefined;
   }>({
-    hasMore: false,
+    hasMore: true,
     cursor: undefined,
   });
 

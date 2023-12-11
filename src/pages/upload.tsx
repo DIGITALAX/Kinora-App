@@ -5,7 +5,7 @@ import { useAccountModal, useConnectModal } from "@rainbow-me/rainbowkit";
 import { useAccount } from "wagmi";
 import useSignIn from "@/components/Layout/hooks/useSignIn";
 
-export default function Video() {
+export default function Upload() {
   const dispatch = useDispatch();
   const { openConnectModal } = useConnectModal();
   const { openAccountModal } = useAccountModal();

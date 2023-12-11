@@ -1,8 +1,8 @@
 import { FunctionComponent } from "react";
 import { QuestStage, QuestSwitchProps } from "../types/envoke.types";
 import Details from "./Details";
-import Milestones from "./milestones/MilestoneDetails";
 import MilestoneSwitch from "./MilestoneSwitch";
+import StoryboardSwitch from "./StoryboardSwitch";
 
 const QuestSwitch: FunctionComponent<QuestSwitchProps> = ({
   questStage,
@@ -24,6 +24,18 @@ const QuestSwitch: FunctionComponent<QuestSwitchProps> = ({
   setCollectionsInfo,
   balanceLoading,
   handleBalance,
+  getMoreVideosSample,
+  getMoreVideosSearch,
+  getVideosSearch,
+  videoInfo,
+  videoSearch,
+  videoSearchLoading,
+  videos,
+  setVideoSearch,
+  chromadinVideos,
+  router,
+  storyboardStage,
+  milestoneStoryboardStage
 }): JSX.Element => {
   switch (questStage) {
     case QuestStage.Details:
@@ -46,6 +58,7 @@ const QuestSwitch: FunctionComponent<QuestSwitchProps> = ({
               : 1}
           </div>
           <MilestoneSwitch
+            router={router}
             balanceLoading={balanceLoading}
             handleBalance={handleBalance}
             milestoneStage={milestoneStage}
@@ -62,12 +75,27 @@ const QuestSwitch: FunctionComponent<QuestSwitchProps> = ({
             collectionsInfo={collectionsInfo}
             getMoreCollectionsSample={getMoreCollectionsSample}
             setCollectionsInfo={setCollectionsInfo}
+            getMoreVideosSample={getMoreVideosSample}
+            getMoreVideosSearch={getMoreVideosSearch}
+            getVideosSearch={getVideosSearch}
+            videoInfo={videoInfo}
+            videoSearch={videoSearch}
+            videoSearchLoading={videoSearchLoading}
+            videos={videos}
+            setVideoSearch={setVideoSearch}
+            chromadinVideos={chromadinVideos}
           />
         </div>
       );
 
-    case QuestStage.Encrypt:
-      return <></>;
+    case QuestStage.Storyboard:
+      return (
+        <StoryboardSwitch
+          storyboardStage={storyboardStage}
+          questInfo={questInfo}
+          milestoneStoryboardStage={milestoneStoryboardStage}
+        />
+      );
 
     case QuestStage.Post:
       return <></>;

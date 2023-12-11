@@ -3,6 +3,7 @@ export const BASE_URL: string = "https://api-v2.lens.dev/";
 export const IPFS_REGEX: RegExp = /\b(Qm[1-9A-Za-z]{44}|ba[A-Za-z2-7]{57})\b/;
 
 export const KINORA_OPEN_ACTION: `0x${string}` = "0x";
+export const CHROMADIN_ID: string = "0x01c6a9";
 
 export const COVER_CONSTANTS: string[] = [
   "QmPW4zahvfhNUUbc27sM2WZE9uQcZ9KYGcXTq64zzuoazi",

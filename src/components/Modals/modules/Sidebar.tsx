@@ -71,9 +71,9 @@ const Sidebar: FunctionComponent<SidebarProps> = ({
                 link: () => router.push(`/envoke`),
               },
               {
-                title: "Video",
+                title: "Upload",
                 image: "QmbzfW75UVB7VQ9K7gFQecs8dzhbcXb6TdgfzsCtikkdUQ",
-                link: () => router.push(`/video`),
+                link: () => router.push(`/upload`),
               },
               {
                 title: "Saves",
