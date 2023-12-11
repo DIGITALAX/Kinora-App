@@ -318,6 +318,11 @@ export type StoryboardSwitchProps = {
 };
 
 export enum StoryboardStage {
-  Details,
-  Milestones,
+  Details = "Details",
+  Milestones = "Milestones",
 }
+
+export type StoryboardMilestonesProps = {
+  milestone: Milestone;
+  index: number;
+};

@@ -1,5 +1,10 @@
 import { FunctionComponent } from "react";
-import { QuestDetails, QuestStage, StagesProps } from "../types/envoke.types";
+import {
+  QuestDetails,
+  QuestStage,
+  StagesProps,
+  StoryboardStage,
+} from "../types/envoke.types";
 import { IoIosArrowRoundForward, IoIosArrowRoundBack } from "react-icons/io";
 import getStageArray from "../../../../lib/helpers/getStageArray";
 import {
@@ -36,7 +41,7 @@ const Stages: FunctionComponent<StagesProps> = ({
             : "items-start justify-start h-full overflow-y-scroll"
         }`}
       >
-        {getStageArray(questStage, questInfo?.milestones)?.map(
+        {getStageArray(questStage, questInfo?.milestones, questInfo)?.map(
           (item: any, index: number) => {
             switch (questStage) {
               case QuestStage.Details:
@@ -163,7 +168,53 @@ const Stages: FunctionComponent<StagesProps> = ({
                 );
 
               case QuestStage.Storyboard:
-                return <div key={index}></div>;
+                return (
+                  <div
+                    key={index}
+                    className={`relative w-fit h-fit flex flex-row items-center justify-center gap-1 hover:opacity-70 cursor-pointer`}
+                    onClick={
+                      item?.includes("Milestone")
+                        ? () => {
+                            setStoryboardStage(StoryboardStage.Milestones);
+                            setMilestoneStoryboardStage(index - 1);
+                          }
+                        : () => {
+                            setMilestoneStoryboardStage(0);
+                            setStoryboardStage(
+                              Object.values(StoryboardStage)[
+                                (Object.values(StoryboardStage).indexOf(
+                                  storyboardStage
+                                ) +
+                                  1) %
+                                  Object.values(StoryboardStage).length
+                              ]
+                            );
+                          }
+                    }
+                  >
+                    <div
+                      className={`relative font-bit flex items-center justify-center top-px ${
+                        (storyboardStage === StoryboardStage.Details &&
+                          item?.includes("Details")) ||
+                        (storyboardStage == StoryboardStage.Milestones &&
+                          milestoneStoryboardStage == index - 1)
+                          ? "text-ligera"
+                          : "text-white"
+                      }`}
+                    >
+                      {item}
+                    </div>
+                    <div
+                      className={`relative flex items-center justify-center w-3 h-3`}
+                    >
+                      <Image
+                        layout="fill"
+                        src={`${INFURA_GATEWAY}/ipfs/QmYPNwx7ptMnkZPWUBaxuzoWBDKPiZmc9Crbm3GRAHZD1N`}
+                        draggable={false}
+                      />
+                    </div>
+                  </div>
+                );
 
               case QuestStage.Post:
                 return <div key={index}></div>;
@@ -202,7 +253,7 @@ const Stages: FunctionComponent<StagesProps> = ({
                         },
                         gated: {},
                         details: {},
-                        eligibility:[],
+                        eligibility: [],
                       },
                     ],
                     actionDeveloperKey: questInfo?.developerKey,
@@ -251,6 +302,23 @@ const Stages: FunctionComponent<StagesProps> = ({
                         setMilestoneStage(milestoneStage - 1);
                       }
                     }
+                  : questStage === QuestStage.Storyboard &&
+                    storyboardStage !== StoryboardStage.Details
+                  ? milestoneStoryboardStage > 0
+                    ? () =>
+                        setMilestoneStoryboardStage(
+                          milestoneStoryboardStage - 1
+                        )
+                    : () =>
+                        setStoryboardStage(
+                          Object.values(StoryboardStage)[
+                            (Object.values(StoryboardStage).indexOf(
+                              storyboardStage
+                            ) -
+                              1) %
+                              Object.values(StoryboardStage).length
+                          ]
+                        )
                   : () =>
                       dispatch(
                         setQuestStage(
@@ -296,6 +364,21 @@ const Stages: FunctionComponent<StagesProps> = ({
                     setMilestoneStage(milestoneStage + 1);
                   }
                 }
+              : questStage === QuestStage.Storyboard &&
+                milestoneStoryboardStage < questInfo?.milestones?.length - 1
+              ? storyboardStage == StoryboardStage.Details
+                ? () =>
+                    setStoryboardStage(
+                      Object.values(StoryboardStage)[
+                        (Object.values(StoryboardStage).indexOf(
+                          storyboardStage
+                        ) +
+                          1) %
+                          Object.values(StoryboardStage).length
+                      ]
+                    )
+                : () =>
+                    setMilestoneStoryboardStage(milestoneStoryboardStage + 1)
               : () =>
                   dispatch(
                     setQuestStage(
