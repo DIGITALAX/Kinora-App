@@ -1,0 +1,25 @@
+import { Action, Dispatch } from "redux";
+import getProfile from "../../graphql/lens/queries/profile";
+import { Profile } from "../../graphql/generated";
+import { setLensConnected } from "../../redux/reducers/lensConnectedSlice";
+
+const refetchProfile = async (
+  dispatch: Dispatch<Action>,
+  id: string,
+  connected: boolean
+) => {
+  try {
+    const { data } = await getProfile(
+      {
+        forProfileId: id,
+      },
+      connected
+    );
+
+    dispatch(setLensConnected(data?.profile as Profile));
+  } catch (err: any) {
+    console.error(err.message);
+  }
+};
+
+export default refetchProfile;

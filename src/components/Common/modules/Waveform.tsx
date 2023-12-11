@@ -82,10 +82,11 @@ const Waveform: FunctionComponent<WaveFormProps> = ({
   }, [audio, wavesurfer, video, type, waveformRef]);
 
   return (
-    <div className="absolute right-0 bottom-0 w-full h-10 flex flex-row gap-1.5 items-center justify-between bg-offBlack px-1 border border-white">
+    <div className="absolute right-0 bottom-0 w-full h-10 flex flex-row gap-1.5 items-center justify-between bg-offBlack px-1 border border-white z-20">
       <div
         className="relative flex w-fit h-fit items-center justify-center flex cursor-pointer active:scale-95"
         onClick={(e) => {
+          e.preventDefault();
           e.stopPropagation();
           handlePlayPause(keyValue, wavesurfer, type);
         }}

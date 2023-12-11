@@ -6,6 +6,8 @@ import { RootState } from "../../../../redux/store";
 import useSignIn from "@/components/Layout/hooks/useSignIn";
 import { useAccountModal, useConnectModal } from "@rainbow-me/rainbowkit";
 import { useAccount } from "wagmi";
+import Index from "./Indexer";
+import InteractError from "./InteractError";
 
 const Modals: FunctionComponent<{ router: NextRouter }> = ({
   router,
@@ -23,9 +25,11 @@ const Modals: FunctionComponent<{ router: NextRouter }> = ({
   const openSidebar = useSelector(
     (state: RootState) => state.app.sideBarOpenReducer.value
   );
-  const {
-    handleLogIn,
-  } = useSignIn(
+  const indexer = useSelector((state: RootState) => state.app.indexerReducer);
+  const interactError = useSelector(
+    (state: RootState) => state.app.interactErrorReducer
+  );
+  const { handleLogIn } = useSignIn(
     lensConnected,
     openAccountModal,
     dispatch,
@@ -43,6 +47,8 @@ const Modals: FunctionComponent<{ router: NextRouter }> = ({
         handleLogIn={handleLogIn}
         openConnectModal={openConnectModal}
       />
+      {indexer?.open && <Index message={indexer?.message!} />}
+      {interactError?.value && <InteractError dispatch={dispatch} />}
     </>
   );
 };

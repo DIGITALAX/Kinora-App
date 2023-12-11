@@ -1,7 +1,7 @@
 import { FunctionComponent } from "react";
 import { HomeProps } from "../types/envoker.types";
 import QuestPreview from "@/components/Common/modules/QuestPreview";
-import { Post } from "../../../../graphql/generated";
+import { Quest } from "@/components/Quest/types/quest.types";
 
 const Home: FunctionComponent<HomeProps> = ({
   lensConnected,
@@ -44,7 +44,7 @@ const Home: FunctionComponent<HomeProps> = ({
                 </div>
                 <div className="relative w-full h-fit flex overflow-x-scroll">
                   <div className="relative w-fit h-fit flex flex-row items-start justify-start gap-4">
-                    {liveQuests?.map((quest: Post, index: number) => {
+                    {liveQuests?.map((quest: Quest, index: number) => {
                       return (
                         <QuestPreview
                           quest={quest}
@@ -68,7 +68,7 @@ const Home: FunctionComponent<HomeProps> = ({
                 </div>
                 <div className="relative w-full h-fit flex overflow-x-scroll">
                   <div className="relative w-fit h-fit flex flex-row items-start justify-start gap-4">
-                    {envokedQuests?.map((quest: Post, index: number) => {
+                    {envokedQuests?.map((quest: Quest, index: number) => {
                       return (
                         <QuestPreview
                           quest={quest}
@@ -94,7 +94,7 @@ const Home: FunctionComponent<HomeProps> = ({
             </div>
             <div className="relative w-full h-fit flex overflow-y-scroll">
               <div className="relative w-full gap-4 h-fit grid grid-cols-4">
-                {completedQuests?.map((quest: Post, index: number) => {
+                {completedQuests?.map((quest: Quest, index: number) => {
                   return (
                     <QuestPreview
                       quest={quest}

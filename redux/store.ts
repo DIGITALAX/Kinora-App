@@ -9,6 +9,8 @@ import interactErrorReducer from "./reducers/interactErrorSlice";
 import indexerReducer from "./reducers/indexerSlice";
 import questStageReducer from "./reducers/questStageSlice";
 import questInfoReducer from "./reducers/questInfoSlice";
+import availableCurrenciesReducer from "./reducers/availableCurrenciesSlice";
+import postCollectGifReducer from "./reducers/postCollectGifSlice";
 
 const reducer = combineReducers({
   walletConnectedReducer,
@@ -20,6 +22,8 @@ const reducer = combineReducers({
   indexerReducer,
   questStageReducer,
   questInfoReducer,
+  availableCurrenciesReducer,
+  postCollectGifReducer,
 });
 
 export const store = configureStore({

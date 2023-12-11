@@ -38,7 +38,7 @@ const Criteria: FunctionComponent<CriteriaProps> = ({
                 className="relative w-fit h-fit flex items-center justify-center text-xs cursor-pointer hover:opacity-70"
                 onClick={() => router.push("/upload")}
               >
-                Can't find a vid that you're looking for? Upload & post your
+                Cant find a vid that you&apos;re looking for? Upload & post your
                 own.
               </div>
             </div>

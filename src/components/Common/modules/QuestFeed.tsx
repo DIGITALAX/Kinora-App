@@ -3,6 +3,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { Post } from "../../../../graphql/generated";
 import { QuestFeedProps } from "../types/common.types";
 import QuestPreview from "./QuestPreview";
+import { Quest } from "@/components/Quest/types/quest.types";
 
 const QuestFeed: FunctionComponent<QuestFeedProps> = ({
   questFeed,
@@ -15,7 +16,7 @@ const QuestFeed: FunctionComponent<QuestFeedProps> = ({
   return (
     <div className="relative w-full h-fit flex flex-col gap-3">
       <div className="relative w-full h-fit flex flex-row gap-3">
-        {questFeed?.slice(0, 4)?.map((item: Post, index: number) => {
+        {questFeed?.slice(0, 4)?.map((item: Quest, index: number) => {
           return (
             <QuestPreview
               key={index}
@@ -38,7 +39,7 @@ const QuestFeed: FunctionComponent<QuestFeedProps> = ({
         className="relative w-full h-fit flex-col items-center justify-start"
       >
         <div className="w-full h-fit grid grid-cols-2 justify-center items-start gap-3">
-          {questFeed?.slice(4)?.map((item: Post, index: number) => {
+          {questFeed?.slice(4)?.map((item: Quest, index: number) => {
             return (
               <QuestPreview
                 key={index}
