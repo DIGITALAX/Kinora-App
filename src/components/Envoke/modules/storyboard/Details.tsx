@@ -37,6 +37,34 @@ const Details: FunctionComponent<StoryboardDetailsProps> = ({
         <div className="relative w-full h-fit flex items-start justify-start max-h-[10rem] overflow-y-scroll  whitespace-preline text-sm">
           {details?.description}
         </div>
+        <div className="relative w-full h-fit flex items-start justify-start flex-wrap text-xs gap-3">
+          {details?.tags
+            ?.split(",")
+            ?.map((item) => item?.trim())
+            ?.filter((item) => item)
+            ?.map((item: string, index: number) => {
+              return (
+                <div
+                  className="relative w-fit h-fit rounded-md border border-white px-2 py-1.5 flex items-center justify-center text-black"
+                  key={index}
+                  style={{
+                    backgroundColor: [
+                      "#FE0000",
+                      "#FE8000",
+                      "#FED501",
+                      "#FFFFFF",
+                      "#0099FF",
+                      "#7CDD00",
+                    ]?.sort(() => 0.5 - Math.random())?.[0],
+                  }}
+                >
+                  <div className="relative w-fit h-fit flex items-center justify-center">
+                    {item}
+                  </div>
+                </div>
+              );
+            })}
+        </div>
       </div>
     </div>
   );

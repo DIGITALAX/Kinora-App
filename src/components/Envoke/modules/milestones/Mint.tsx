@@ -20,238 +20,110 @@ const Mint: FunctionComponent<MintProps> = ({
   index,
 }): JSX.Element => {
   return item?.open ? (
-    <div className="relative w-full h-fit flex flex-col lg:flex-row items-start justify-start gap-6">
-      <div className="relative w-full h-fit flex items-start justify-start flex-col sm:flex-row md:flex-col xl:flex-row gap-6 font-bit text-white">
-        <div className="relative w-fit h-fit flex items-center justify-center">
-          <label
-            className="relative w-52 h-52 rounded-sm cursor-pointer p-px"
-            id="rainbow"
-          >
-            <div className="relative w-full h-full flex items-center justify-center rounded-sm">
-              {item?.images?.[0] && item?.media === "static" ? (
-                <Image
-                  layout="fill"
-                  src={
-                    item?.images?.[0]?.includes("ipfs://")
-                      ? `${INFURA_GATEWAY}/ipfs/${
-                          item?.images?.[0]?.split("ipfs://")?.[1]
-                        }`
-                      : item?.images?.[0]
-                  }
-                  objectFit="cover"
-                  draggable={false}
-                  className="relative rounded-sm w-full h-full flex"
-                />
-              ) : (
-                <>
-                  {item?.media === "audio" ? (
-                    item?.mediaCover && (
-                      <Image
-                        layout="fill"
-                        src={
-                          item?.mediaCover?.includes("ipfs://")
-                            ? `${INFURA_GATEWAY}/ipfs/${
-                                item?.mediaCover?.split("ipfs://")?.[1]
-                              }`
-                            : item?.mediaCover
-                        }
-                        objectFit="cover"
-                        draggable={false}
-                        className="relative rounded-sm w-full h-full flex"
-                      />
-                    )
-                  ) : (
-                    <video
-                      className="relative rounded-sm w-full h-full flex object-cover"
-                      id={item?.video}
+    <div className="relative w-full h-fit flex items-start justify-start flex-col sm:flex-row md:flex-col xl:flex-row gap-6 font-bit text-white">
+      <div className="relative w-fit h-fit flex items-center justify-center">
+        <label
+          className="relative w-52 h-52 rounded-sm cursor-pointer p-px"
+          id="rainbow"
+        >
+          <div className="relative w-full h-full flex items-center justify-center rounded-sm">
+            {item?.images?.[0] && item?.media === "static" ? (
+              <Image
+                layout="fill"
+                src={
+                  item?.images?.[0]?.includes("ipfs://")
+                    ? `${INFURA_GATEWAY}/ipfs/${
+                        item?.images?.[0]?.split("ipfs://")?.[1]
+                      }`
+                    : item?.images?.[0]
+                }
+                objectFit="cover"
+                draggable={false}
+                className="relative rounded-sm w-full h-full flex"
+              />
+            ) : (
+              <>
+                {item?.media === "audio" ? (
+                  item?.mediaCover && (
+                    <Image
+                      layout="fill"
+                      src={
+                        item?.mediaCover?.includes("ipfs://")
+                          ? `${INFURA_GATEWAY}/ipfs/${
+                              item?.mediaCover?.split("ipfs://")?.[1]
+                            }`
+                          : item?.mediaCover
+                      }
+                      objectFit="cover"
                       draggable={false}
-                      controls={false}
-                      playsInline
-                      loop
-                      key={item?.video}
-                    >
-                      <source
-                        src={
-                          item?.video?.includes("ipfs://")
-                            ? `${INFURA_GATEWAY}/ipfs/${
-                                item?.video?.split("ipfs://")?.[1]
-                              }`
-                            : item?.video?.includes("ar://")
-                            ? `https://arweave.net/${item?.video
-                                ?.split("ar://")?.[1]
-                                ?.replace(/"/g, "")
-                                ?.trim()}`
-                            : item?.video
-                        }
-                      />
-                    </video>
-                  )}
-                </>
-              )}
-              <input
-                hidden
-                type="file"
-                accept={
-                  item?.media === "video" ? "video/mp4" : "image/png, image/gif"
-                }
-                multiple={false}
-                onChange={(e) =>
-                  e?.target?.files?.[0] &&
-                  handleMediaUpload(
-                    e,
-                    () => {},
-                    () => {},
-                    (e) => {
-                      const milestones = [...questInfo?.milestones];
-                      const rewards = [
-                        ...milestones[
-                          milestonesOpen.findIndex(
-                            (item: boolean) => item == true
-                          ) !== -1
-                            ? milestonesOpen.findIndex(
-                                (item: boolean) => item == true
-                              )
-                            : 0
-                        ]?.rewards?.rewards721,
-                      ];
-                      rewards[index] = {
-                        ...milestones[
-                          milestonesOpen.findIndex(
-                            (item: boolean) => item == true
-                          ) !== -1
-                            ? milestonesOpen.findIndex(
-                                (item: boolean) => item == true
-                              )
-                            : 0
-                        ]?.rewards?.rewards721?.[index],
-                        details: {
-                          ...milestones[
-                            milestonesOpen.findIndex(
-                              (item: boolean) => item == true
-                            ) !== -1
-                              ? milestonesOpen.findIndex(
-                                  (item: boolean) => item == true
-                                )
-                              : 0
-                          ]?.rewards?.rewards721?.[index]?.details,
-                          images:
-                            milestones[
-                              milestonesOpen.findIndex(
-                                (item: boolean) => item == true
-                              ) !== -1
-                                ? milestonesOpen.findIndex(
-                                    (item: boolean) => item == true
-                                  )
-                                : 0
-                            ]?.rewards?.rewards721?.[index]?.details?.media ==
-                            "static"
-                              ? [e]
-                              : [],
-                          video:
-                            milestones[
-                              milestonesOpen.findIndex(
-                                (item: boolean) => item == true
-                              ) !== -1
-                                ? milestonesOpen.findIndex(
-                                    (item: boolean) => item == true
-                                  )
-                                : 0
-                            ]?.rewards?.rewards721?.[index]?.details?.media ==
-                            "video"
-                              ? e
-                              : "",
-                          mediaCover:
-                            milestones[
-                              milestonesOpen.findIndex(
-                                (item: boolean) => item == true
-                              ) !== -1
-                                ? milestonesOpen.findIndex(
-                                    (item: boolean) => item == true
-                                  )
-                                : 0
-                            ]?.rewards?.rewards721?.[index]?.details?.media ==
-                            "audio"
-                              ? e
-                              : "",
-                        },
-                      };
-                      milestones[
-                        milestonesOpen.findIndex(
-                          (item: boolean) => item == true
-                        ) !== -1
-                          ? milestonesOpen.findIndex(
-                              (item: boolean) => item == true
-                            )
-                          : 0
-                      ] = {
-                        ...milestones[
-                          milestonesOpen.findIndex(
-                            (item: boolean) => item == true
-                          ) !== -1
-                            ? milestonesOpen.findIndex(
-                                (item: boolean) => item == true
-                              )
-                            : 0
-                        ],
-                        rewards: {
-                          ...milestones[
-                            milestonesOpen.findIndex(
-                              (item: boolean) => item == true
-                            ) !== -1
-                              ? milestonesOpen.findIndex(
-                                  (item: boolean) => item == true
-                                )
-                              : 0
-                          ]?.rewards,
-                          rewards721: rewards,
-                        },
-                      };
-
-                      dispatch(
-                        setQuestInfo({
-                          actionDetails: questInfo?.details,
-                          actionMilestones: milestones,
-                          actionDeveloperKey: questInfo?.developerKey,
-                        })
-                      );
-                    }
+                      className="relative rounded-sm w-full h-full flex"
+                    />
                   )
-                }
-              />
-            </div>
-          </label>
-          <div className="absolute left-2 top-2 flex flex-row gap-2">
-            {[
-              {
-                type: "static",
-                component: <IoImageOutline color="white" size={12} />,
-              },
-              {
-                type: "audio",
-                component: <IoMusicalNotesOutline color="white" size={12} />,
-              },
-              {
-                type: "video",
-                component: <IoVideocamOutline color="white" size={12} />,
-              },
-            ]?.map(
-              (
-                value: {
-                  type: string;
-                  component: JSX.Element;
-                },
-                indexTwo: number
-              ) => {
-                return (
-                  <div
-                    key={indexTwo}
-                    className={`relative bg-black rounded-full w-5 p-1 flex items-center justify-center h-5 border border-white cursor-pointer active:scale-95 ${
-                      item?.media != value?.type && "opacity-50"
-                    }`}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      const milestones = [...questInfo?.milestones];
-                      const rewards = [
+                ) : (
+                  <video
+                    className="relative rounded-sm w-full h-full flex object-cover"
+                    id={item?.video}
+                    draggable={false}
+                    controls={false}
+                    playsInline
+                    loop
+                    key={item?.video}
+                  >
+                    <source
+                      src={
+                        item?.video?.includes("ipfs://")
+                          ? `${INFURA_GATEWAY}/ipfs/${
+                              item?.video?.split("ipfs://")?.[1]
+                            }`
+                          : item?.video?.includes("ar://")
+                          ? `https://arweave.net/${item?.video
+                              ?.split("ar://")?.[1]
+                              ?.replace(/"/g, "")
+                              ?.trim()}`
+                          : item?.video
+                      }
+                    />
+                  </video>
+                )}
+              </>
+            )}
+            <input
+              hidden
+              type="file"
+              accept={
+                item?.media === "video" ? "video/mp4" : "image/png, image/gif"
+              }
+              multiple={false}
+              onChange={(e) =>
+                e?.target?.files?.[0] &&
+                handleMediaUpload(
+                  e,
+                  () => {},
+                  () => {},
+                  (e) => {
+                    const milestones = [...questInfo?.milestones];
+                    const rewards = [
+                      ...milestones[
+                        milestonesOpen.findIndex(
+                          (item: boolean) => item == true
+                        ) !== -1
+                          ? milestonesOpen.findIndex(
+                              (item: boolean) => item == true
+                            )
+                          : 0
+                      ]?.rewards?.rewards721,
+                    ];
+                    rewards[index] = {
+                      ...milestones[
+                        milestonesOpen.findIndex(
+                          (item: boolean) => item == true
+                        ) !== -1
+                          ? milestonesOpen.findIndex(
+                              (item: boolean) => item == true
+                            )
+                          : 0
+                      ]?.rewards?.rewards721?.[index],
+                      details: {
                         ...milestones[
                           milestonesOpen.findIndex(
                             (item: boolean) => item == true
@@ -260,20 +132,9 @@ const Mint: FunctionComponent<MintProps> = ({
                                 (item: boolean) => item == true
                               )
                             : 0
-                        ]?.rewards?.rewards721,
-                      ];
-                      rewards[index] = {
-                        ...milestones[
-                          milestonesOpen.findIndex(
-                            (item: boolean) => item == true
-                          ) !== -1
-                            ? milestonesOpen.findIndex(
-                                (item: boolean) => item == true
-                              )
-                            : 0
-                        ]?.rewards?.rewards721?.[index],
-                        details: {
-                          ...milestones[
+                        ]?.rewards?.rewards721?.[index]?.details,
+                        images:
+                          milestones[
                             milestonesOpen.findIndex(
                               (item: boolean) => item == true
                             ) !== -1
@@ -281,10 +142,238 @@ const Mint: FunctionComponent<MintProps> = ({
                                   (item: boolean) => item == true
                                 )
                               : 0
-                          ]?.rewards?.rewards721?.[index]?.details,
-                          media: value.type,
-                        },
-                      };
+                          ]?.rewards?.rewards721?.[index]?.details?.media ==
+                          "static"
+                            ? [e]
+                            : [],
+                        video:
+                          milestones[
+                            milestonesOpen.findIndex(
+                              (item: boolean) => item == true
+                            ) !== -1
+                              ? milestonesOpen.findIndex(
+                                  (item: boolean) => item == true
+                                )
+                              : 0
+                          ]?.rewards?.rewards721?.[index]?.details?.media ==
+                          "video"
+                            ? e
+                            : "",
+                        mediaCover:
+                          milestones[
+                            milestonesOpen.findIndex(
+                              (item: boolean) => item == true
+                            ) !== -1
+                              ? milestonesOpen.findIndex(
+                                  (item: boolean) => item == true
+                                )
+                              : 0
+                          ]?.rewards?.rewards721?.[index]?.details?.media ==
+                          "audio"
+                            ? e
+                            : "",
+                      },
+                    };
+                    milestones[
+                      milestonesOpen.findIndex(
+                        (item: boolean) => item == true
+                      ) !== -1
+                        ? milestonesOpen.findIndex(
+                            (item: boolean) => item == true
+                          )
+                        : 0
+                    ] = {
+                      ...milestones[
+                        milestonesOpen.findIndex(
+                          (item: boolean) => item == true
+                        ) !== -1
+                          ? milestonesOpen.findIndex(
+                              (item: boolean) => item == true
+                            )
+                          : 0
+                      ],
+                      rewards: {
+                        ...milestones[
+                          milestonesOpen.findIndex(
+                            (item: boolean) => item == true
+                          ) !== -1
+                            ? milestonesOpen.findIndex(
+                                (item: boolean) => item == true
+                              )
+                            : 0
+                        ]?.rewards,
+                        rewards721: rewards,
+                      },
+                    };
+
+                    dispatch(
+                      setQuestInfo({
+                        actionDetails: questInfo?.details,
+                        actionMilestones: milestones,
+                        actionDeveloperKey: questInfo?.developerKey,
+                      })
+                    );
+                  }
+                )
+              }
+            />
+          </div>
+        </label>
+        <div className="absolute left-2 top-2 flex flex-row gap-2">
+          {[
+            {
+              type: "static",
+              component: <IoImageOutline color="white" size={12} />,
+            },
+            {
+              type: "audio",
+              component: <IoMusicalNotesOutline color="white" size={12} />,
+            },
+            {
+              type: "video",
+              component: <IoVideocamOutline color="white" size={12} />,
+            },
+          ]?.map(
+            (
+              value: {
+                type: string;
+                component: JSX.Element;
+              },
+              indexTwo: number
+            ) => {
+              return (
+                <div
+                  key={indexTwo}
+                  className={`relative bg-black rounded-full w-5 p-1 flex items-center justify-center h-5 border border-white cursor-pointer active:scale-95 ${
+                    item?.media != value?.type && "opacity-50"
+                  }`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    const milestones = [...questInfo?.milestones];
+                    const rewards = [
+                      ...milestones[
+                        milestonesOpen.findIndex(
+                          (item: boolean) => item == true
+                        ) !== -1
+                          ? milestonesOpen.findIndex(
+                              (item: boolean) => item == true
+                            )
+                          : 0
+                      ]?.rewards?.rewards721,
+                    ];
+                    rewards[index] = {
+                      ...milestones[
+                        milestonesOpen.findIndex(
+                          (item: boolean) => item == true
+                        ) !== -1
+                          ? milestonesOpen.findIndex(
+                              (item: boolean) => item == true
+                            )
+                          : 0
+                      ]?.rewards?.rewards721?.[index],
+                      details: {
+                        ...milestones[
+                          milestonesOpen.findIndex(
+                            (item: boolean) => item == true
+                          ) !== -1
+                            ? milestonesOpen.findIndex(
+                                (item: boolean) => item == true
+                              )
+                            : 0
+                        ]?.rewards?.rewards721?.[index]?.details,
+                        media: value.type,
+                      },
+                    };
+                    milestones[
+                      milestonesOpen.findIndex(
+                        (item: boolean) => item == true
+                      ) !== -1
+                        ? milestonesOpen.findIndex(
+                            (item: boolean) => item == true
+                          )
+                        : 0
+                    ] = {
+                      ...milestones[
+                        milestonesOpen.findIndex(
+                          (item: boolean) => item == true
+                        ) !== -1
+                          ? milestonesOpen.findIndex(
+                              (item: boolean) => item == true
+                            )
+                          : 0
+                      ],
+                      rewards: {
+                        ...milestones[
+                          milestonesOpen.findIndex(
+                            (item: boolean) => item == true
+                          ) !== -1
+                            ? milestonesOpen.findIndex(
+                                (item: boolean) => item == true
+                              )
+                            : 0
+                        ]?.rewards,
+                        rewards721: rewards,
+                      },
+                    };
+
+                    dispatch(
+                      setQuestInfo({
+                        actionDetails: questInfo?.details,
+                        actionMilestones: milestones,
+                        actionDeveloperKey: questInfo?.developerKey,
+                      })
+                    );
+                  }}
+                >
+                  <div className="relative w-fit h-fit flex items-center justify-center">
+                    {value.component}
+                  </div>
+                </div>
+              );
+            }
+          )}
+        </div>
+        {(item?.audio?.trim() !== "" ||
+          item?.media === "video" ||
+          item?.media === "audio") &&
+          item?.media !== "static" && (
+            <Waveform
+              loaderEnd={() => {}}
+              loaderStart={() => {}}
+              internalFunction={(e) => {
+                const milestones = [...questInfo?.milestones];
+                const rewards = [
+                  ...milestones[
+                    milestonesOpen.findIndex(
+                      (item: boolean) => item == true
+                    ) !== -1
+                      ? milestonesOpen.findIndex(
+                          (item: boolean) => item == true
+                        )
+                      : 0
+                  ]?.rewards?.rewards721,
+                ];
+                rewards[index] = {
+                  ...milestones[
+                    milestonesOpen.findIndex(
+                      (item: boolean) => item == true
+                    ) !== -1
+                      ? milestonesOpen.findIndex(
+                          (item: boolean) => item == true
+                        )
+                      : 0
+                  ]?.rewards?.rewards721?.[index],
+                  details: {
+                    ...milestones[
+                      milestonesOpen.findIndex(
+                        (item: boolean) => item == true
+                      ) !== -1
+                        ? milestonesOpen.findIndex(
+                            (item: boolean) => item == true
+                          )
+                        : 0
+                    ]?.rewards?.rewards721?.[index]?.details,
+                    audio:
                       milestones[
                         milestonesOpen.findIndex(
                           (item: boolean) => item == true
@@ -293,293 +382,179 @@ const Mint: FunctionComponent<MintProps> = ({
                               (item: boolean) => item == true
                             )
                           : 0
-                      ] = {
-                        ...milestones[
-                          milestonesOpen.findIndex(
+                      ]?.rewards?.rewards721?.[index]?.details?.media == "audio"
+                        ? e
+                        : "",
+                  },
+                };
+                milestones[
+                  milestonesOpen.findIndex((item: boolean) => item == true) !==
+                  -1
+                    ? milestonesOpen.findIndex((item: boolean) => item == true)
+                    : 0
+                ] = {
+                  ...milestones[
+                    milestonesOpen.findIndex(
+                      (item: boolean) => item == true
+                    ) !== -1
+                      ? milestonesOpen.findIndex(
+                          (item: boolean) => item == true
+                        )
+                      : 0
+                  ],
+                  rewards: {
+                    ...milestones[
+                      milestonesOpen.findIndex(
+                        (item: boolean) => item == true
+                      ) !== -1
+                        ? milestonesOpen.findIndex(
                             (item: boolean) => item == true
-                          ) !== -1
-                            ? milestonesOpen.findIndex(
-                                (item: boolean) => item == true
-                              )
-                            : 0
-                        ],
-                        rewards: {
-                          ...milestones[
-                            milestonesOpen.findIndex(
-                              (item: boolean) => item == true
-                            ) !== -1
-                              ? milestonesOpen.findIndex(
-                                  (item: boolean) => item == true
-                                )
-                              : 0
-                          ]?.rewards,
-                          rewards721: rewards,
-                        },
-                      };
+                          )
+                        : 0
+                    ]?.rewards,
+                    rewards721: rewards,
+                  },
+                };
 
-                      dispatch(
-                        setQuestInfo({
-                          actionDetails: questInfo?.details,
-                          actionMilestones: milestones,
-                          actionDeveloperKey: questInfo?.developerKey,
-                        })
-                      );
-                    }}
-                  >
-                    <div className="relative w-fit h-fit flex items-center justify-center">
-                      {value.component}
-                    </div>
-                  </div>
+                dispatch(
+                  setQuestInfo({
+                    actionDetails: questInfo?.details,
+                    actionMilestones: milestones,
+                    actionDeveloperKey: questInfo?.developerKey,
+                  })
                 );
-              }
-            )}
-          </div>
-          {(item?.audio?.trim() !== "" ||
-            item?.media === "video" ||
-            item?.media === "audio") &&
-            item?.media !== "static" && (
-              <Waveform
-                loaderEnd={() => {}}
-                loaderStart={() => {}}
-                internalFunction={(e) => {
-                  const milestones = [...questInfo?.milestones];
-                  const rewards = [
-                    ...milestones[
-                      milestonesOpen.findIndex(
-                        (item: boolean) => item == true
-                      ) !== -1
-                        ? milestonesOpen.findIndex(
-                            (item: boolean) => item == true
-                          )
-                        : 0
-                    ]?.rewards?.rewards721,
-                  ];
-                  rewards[index] = {
-                    ...milestones[
-                      milestonesOpen.findIndex(
-                        (item: boolean) => item == true
-                      ) !== -1
-                        ? milestonesOpen.findIndex(
-                            (item: boolean) => item == true
-                          )
-                        : 0
-                    ]?.rewards?.rewards721?.[index],
-                    details: {
-                      ...milestones[
-                        milestonesOpen.findIndex(
-                          (item: boolean) => item == true
-                        ) !== -1
-                          ? milestonesOpen.findIndex(
-                              (item: boolean) => item == true
-                            )
-                          : 0
-                      ]?.rewards?.rewards721?.[index]?.details,
-                      audio:
-                        milestones[
-                          milestonesOpen.findIndex(
-                            (item: boolean) => item == true
-                          ) !== -1
-                            ? milestonesOpen.findIndex(
-                                (item: boolean) => item == true
-                              )
-                            : 0
-                        ]?.rewards?.rewards721?.[index]?.details?.media ==
-                        "audio"
-                          ? e
-                          : "",
-                    },
-                  };
-                  milestones[
-                    milestonesOpen.findIndex(
-                      (item: boolean) => item == true
-                    ) !== -1
-                      ? milestonesOpen.findIndex(
-                          (item: boolean) => item == true
-                        )
-                      : 0
-                  ] = {
-                    ...milestones[
-                      milestonesOpen.findIndex(
-                        (item: boolean) => item == true
-                      ) !== -1
-                        ? milestonesOpen.findIndex(
-                            (item: boolean) => item == true
-                          )
-                        : 0
-                    ],
-                    rewards: {
-                      ...milestones[
-                        milestonesOpen.findIndex(
-                          (item: boolean) => item == true
-                        ) !== -1
-                          ? milestonesOpen.findIndex(
-                              (item: boolean) => item == true
-                            )
-                          : 0
-                      ]?.rewards,
-                      rewards721: rewards,
-                    },
-                  };
-
-                  dispatch(
-                    setQuestInfo({
-                      actionDetails: questInfo?.details,
-                      actionMilestones: milestones,
-                      actionDeveloperKey: questInfo?.developerKey,
-                    })
-                  );
-                }}
-                type={item?.media}
-                video={item?.video}
-                audio={item?.audio}
-                upload
-                keyValue={item?.audio || item?.video}
-              />
-            )}
-        </div>
-        <div className="relative w-full h-fit flex items-center justify-center gap-2 flex-col">
-          <input
-            className="h-10 w-full bg-black border border-white rounded-md p-1 text-xs"
-            placeholder="Title."
-            value={item?.title}
-            onChange={(e) => {
-              const milestones = [...questInfo?.milestones];
-              const rewards = [
-                ...milestones[
-                  milestonesOpen.findIndex((item: boolean) => item == true) !==
-                  -1
-                    ? milestonesOpen.findIndex((item: boolean) => item == true)
-                    : 0
-                ]?.rewards?.rewards721,
-              ];
-              rewards[index] = {
-                ...milestones[
-                  milestonesOpen.findIndex((item: boolean) => item == true) !==
-                  -1
-                    ? milestonesOpen.findIndex((item: boolean) => item == true)
-                    : 0
-                ]?.rewards?.rewards721?.[index],
-                details: {
-                  ...milestones[
-                    milestonesOpen.findIndex(
-                      (item: boolean) => item == true
-                    ) !== -1
-                      ? milestonesOpen.findIndex(
-                          (item: boolean) => item == true
-                        )
-                      : 0
-                  ]?.rewards?.rewards721?.[index]?.details,
-                  title: e.target.value,
-                },
-              };
-              milestones[
-                milestonesOpen.findIndex((item: boolean) => item == true) !== -1
-                  ? milestonesOpen.findIndex((item: boolean) => item == true)
-                  : 0
-              ] = {
-                ...milestones[
-                  milestonesOpen.findIndex((item: boolean) => item == true) !==
-                  -1
-                    ? milestonesOpen.findIndex((item: boolean) => item == true)
-                    : 0
-                ],
-                rewards: {
-                  ...milestones[
-                    milestonesOpen.findIndex(
-                      (item: boolean) => item == true
-                    ) !== -1
-                      ? milestonesOpen.findIndex(
-                          (item: boolean) => item == true
-                        )
-                      : 0
-                  ]?.rewards,
-                  rewards721: rewards,
-                },
-              };
-
-              dispatch(
-                setQuestInfo({
-                  actionDeveloperKey: questInfo?.developerKey,
-                  actionDetails: questInfo?.details,
-                  actionMilestones: milestones,
-                })
-              );
-            }}
-          />
-          <textarea
-            className="h-40 w-full bg-black border border-white rounded-md p-2 text-xs"
-            style={{
-              resize: "none",
-            }}
-            placeholder="Description."
-            value={item?.description}
-            onChange={(e) => {
-              const milestones = [...questInfo?.milestones];
-              const rewards = [
-                ...milestones[
-                  milestonesOpen.findIndex((item: boolean) => item == true) !==
-                  -1
-                    ? milestonesOpen.findIndex((item: boolean) => item == true)
-                    : 0
-                ]?.rewards?.rewards721,
-              ];
-              rewards[index] = {
-                ...milestones[
-                  milestonesOpen.findIndex((item: boolean) => item == true) !==
-                  -1
-                    ? milestonesOpen.findIndex((item: boolean) => item == true)
-                    : 0
-                ]?.rewards?.rewards721?.[index],
-                details: {
-                  ...milestones[
-                    milestonesOpen.findIndex(
-                      (item: boolean) => item == true
-                    ) !== -1
-                      ? milestonesOpen.findIndex(
-                          (item: boolean) => item == true
-                        )
-                      : 0
-                  ]?.rewards?.rewards721?.[index]?.details,
-                  description: e.target.value,
-                },
-              };
-              milestones[
-                milestonesOpen.findIndex((item: boolean) => item == true) !== -1
-                  ? milestonesOpen.findIndex((item: boolean) => item == true)
-                  : 0
-              ] = {
-                ...milestones[
-                  milestonesOpen.findIndex((item: boolean) => item == true) !==
-                  -1
-                    ? milestonesOpen.findIndex((item: boolean) => item == true)
-                    : 0
-                ],
-                rewards: {
-                  ...milestones[
-                    milestonesOpen.findIndex(
-                      (item: boolean) => item == true
-                    ) !== -1
-                      ? milestonesOpen.findIndex(
-                          (item: boolean) => item == true
-                        )
-                      : 0
-                  ]?.rewards,
-                  rewards721: rewards,
-                },
-              };
-
-              dispatch(
-                setQuestInfo({
-                  actionDeveloperKey: questInfo?.developerKey,
-                  actionDetails: questInfo?.details,
-                  actionMilestones: milestones,
-                })
-              );
-            }}
-          ></textarea>
-        </div>
+              }}
+              type={item?.media}
+              video={item?.video}
+              audio={item?.audio}
+              upload
+              keyValue={item?.audio || item?.video}
+            />
+          )}
       </div>
-      <div></div>
+      <div className="relative w-full h-fit flex items-center justify-center gap-2 flex-col">
+        <input
+          className="h-10 w-full bg-black border border-white rounded-md p-1 text-xs"
+          placeholder="Title."
+          value={item?.title}
+          onChange={(e) => {
+            const milestones = [...questInfo?.milestones];
+            const rewards = [
+              ...milestones[
+                milestonesOpen.findIndex((item: boolean) => item == true) !== -1
+                  ? milestonesOpen.findIndex((item: boolean) => item == true)
+                  : 0
+              ]?.rewards?.rewards721,
+            ];
+            rewards[index] = {
+              ...milestones[
+                milestonesOpen.findIndex((item: boolean) => item == true) !== -1
+                  ? milestonesOpen.findIndex((item: boolean) => item == true)
+                  : 0
+              ]?.rewards?.rewards721?.[index],
+              details: {
+                ...milestones[
+                  milestonesOpen.findIndex((item: boolean) => item == true) !==
+                  -1
+                    ? milestonesOpen.findIndex((item: boolean) => item == true)
+                    : 0
+                ]?.rewards?.rewards721?.[index]?.details,
+                title: e.target.value,
+              },
+            };
+            milestones[
+              milestonesOpen.findIndex((item: boolean) => item == true) !== -1
+                ? milestonesOpen.findIndex((item: boolean) => item == true)
+                : 0
+            ] = {
+              ...milestones[
+                milestonesOpen.findIndex((item: boolean) => item == true) !== -1
+                  ? milestonesOpen.findIndex((item: boolean) => item == true)
+                  : 0
+              ],
+              rewards: {
+                ...milestones[
+                  milestonesOpen.findIndex((item: boolean) => item == true) !==
+                  -1
+                    ? milestonesOpen.findIndex((item: boolean) => item == true)
+                    : 0
+                ]?.rewards,
+                rewards721: rewards,
+              },
+            };
+
+            dispatch(
+              setQuestInfo({
+                actionDeveloperKey: questInfo?.developerKey,
+                actionDetails: questInfo?.details,
+                actionMilestones: milestones,
+              })
+            );
+          }}
+        />
+        <textarea
+          className="h-40 w-full bg-black border border-white rounded-md p-2 text-xs"
+          style={{
+            resize: "none",
+          }}
+          placeholder="Description."
+          value={item?.description}
+          onChange={(e) => {
+            const milestones = [...questInfo?.milestones];
+            const rewards = [
+              ...milestones[
+                milestonesOpen.findIndex((item: boolean) => item == true) !== -1
+                  ? milestonesOpen.findIndex((item: boolean) => item == true)
+                  : 0
+              ]?.rewards?.rewards721,
+            ];
+            rewards[index] = {
+              ...milestones[
+                milestonesOpen.findIndex((item: boolean) => item == true) !== -1
+                  ? milestonesOpen.findIndex((item: boolean) => item == true)
+                  : 0
+              ]?.rewards?.rewards721?.[index],
+              details: {
+                ...milestones[
+                  milestonesOpen.findIndex((item: boolean) => item == true) !==
+                  -1
+                    ? milestonesOpen.findIndex((item: boolean) => item == true)
+                    : 0
+                ]?.rewards?.rewards721?.[index]?.details,
+                description: e.target.value,
+              },
+            };
+            milestones[
+              milestonesOpen.findIndex((item: boolean) => item == true) !== -1
+                ? milestonesOpen.findIndex((item: boolean) => item == true)
+                : 0
+            ] = {
+              ...milestones[
+                milestonesOpen.findIndex((item: boolean) => item == true) !== -1
+                  ? milestonesOpen.findIndex((item: boolean) => item == true)
+                  : 0
+              ],
+              rewards: {
+                ...milestones[
+                  milestonesOpen.findIndex((item: boolean) => item == true) !==
+                  -1
+                    ? milestonesOpen.findIndex((item: boolean) => item == true)
+                    : 0
+                ]?.rewards,
+                rewards721: rewards,
+              },
+            };
+
+            dispatch(
+              setQuestInfo({
+                actionDeveloperKey: questInfo?.developerKey,
+                actionDetails: questInfo?.details,
+                actionMilestones: milestones,
+              })
+            );
+          }}
+        ></textarea>
+      </div>
     </div>
   ) : (
     <div
@@ -647,7 +622,10 @@ const Mint: FunctionComponent<MintProps> = ({
         );
       }}
     >
-      <div className="relative w-8 h-8 flex items-center justify-center rounded-sm p-px" id="rainbow">
+      <div
+        className="relative w-8 h-8 flex items-center justify-center rounded-sm p-px"
+        id="rainbow"
+      >
         <MediaSwitch
           classNameImage="rounded-sm"
           classNameVideo="object-cover w-full h-full flex rounded-sm"

@@ -11,6 +11,8 @@ import { createPublicClient, http } from "viem";
 import { polygon } from "viem/chains";
 import useCriteria from "@/components/Envoke/hooks/useCriteria";
 import { NextRouter } from "next/router";
+import usePostLive from "@/components/Envoke/hooks/usePostLive";
+import { QuestStage } from "@/components/Envoke/types/envoke.types";
 
 export default function Envoke({ router }: { router: NextRouter }) {
   const dispatch = useDispatch();
@@ -80,6 +82,7 @@ export default function Envoke({ router }: { router: NextRouter }) {
     milestoneStoryboardStage,
     setMilestoneStoryboardStage,
   } = useCriteria(lensConnected);
+  const { handlePostLive, postLoading } = usePostLive();
   return (
     <>
       {walletConnected && lensConnected ? (
@@ -101,40 +104,44 @@ export default function Envoke({ router }: { router: NextRouter }) {
             <div className="relative w-fit h-fit flex items-start justify-start font-bit text-white text-xl pb-10">
               Envoke A New Quest
             </div>
-            <div className="relative w-full h-full flex items-start justify-end flex-col md:flex-row gap-8 pb-2">
-              <QuestSwitch
-                questStage={questStage}
-                dispatch={dispatch}
-                questInfo={questInfo}
-                setCoverLoading={setCoverLoading}
-                coverLoading={coverLoading}
-                milestoneCoversLoading={milestoneCoversLoading}
-                setMilestoneCoversLoading={setMilestoneCoversLoading}
-                milestonesOpen={milestonesOpen}
-                milestoneStage={milestoneStage}
-                collections={collections}
-                collectionsSearch={collectionsSearch}
-                setCollectionsSearch={setCollectionsSearch}
-                getMoreCollectionsSearch={getMoreCollectionsSearch}
-                getCollectionsSearch={getCollectionsSearch}
-                collectionsInfo={collectionsInfo}
-                getMoreCollectionsSample={getMoreCollectionsSample}
-                setCollectionsInfo={setCollectionsInfo}
-                handleBalance={handleBalance}
-                balanceLoading={balanceLoading}
-                getMoreVideosSample={getMoreVideosSample}
-                getMoreVideosSearch={getMoreVideosSearch}
-                getVideosSearch={getVideosSearch}
-                videoInfo={videoInfo}
-                videoSearch={videoSearch}
-                videoSearchLoading={videoSearchLoading}
-                videos={videos}
-                setVideoSearch={setVideoSearch}
-                chromadinVideos={chromadinVideos}
-                router={router}
-                storyboardStage={storyboardStage}
-                milestoneStoryboardStage={milestoneStoryboardStage}
-              />
+            <div className={`relative w-full h-full flex flex-col md:flex-row gap-8 pb-2 items-start  ${
+              questStage !== QuestStage.Post ? "justify-end" : "justify-center"
+            }`}>
+              {questStage !== QuestStage.Post && (
+                <QuestSwitch
+                  questStage={questStage}
+                  dispatch={dispatch}
+                  questInfo={questInfo}
+                  setCoverLoading={setCoverLoading}
+                  coverLoading={coverLoading}
+                  milestoneCoversLoading={milestoneCoversLoading}
+                  setMilestoneCoversLoading={setMilestoneCoversLoading}
+                  milestonesOpen={milestonesOpen}
+                  milestoneStage={milestoneStage}
+                  collections={collections}
+                  collectionsSearch={collectionsSearch}
+                  setCollectionsSearch={setCollectionsSearch}
+                  getMoreCollectionsSearch={getMoreCollectionsSearch}
+                  getCollectionsSearch={getCollectionsSearch}
+                  collectionsInfo={collectionsInfo}
+                  getMoreCollectionsSample={getMoreCollectionsSample}
+                  setCollectionsInfo={setCollectionsInfo}
+                  handleBalance={handleBalance}
+                  balanceLoading={balanceLoading}
+                  getMoreVideosSample={getMoreVideosSample}
+                  getMoreVideosSearch={getMoreVideosSearch}
+                  getVideosSearch={getVideosSearch}
+                  videoInfo={videoInfo}
+                  videoSearch={videoSearch}
+                  videoSearchLoading={videoSearchLoading}
+                  videos={videos}
+                  setVideoSearch={setVideoSearch}
+                  chromadinVideos={chromadinVideos}
+                  router={router}
+                  storyboardStage={storyboardStage}
+                  milestoneStoryboardStage={milestoneStoryboardStage}
+                />
+              )}
               <Stages
                 questInfo={questInfo}
                 questStage={questStage}
@@ -147,6 +154,8 @@ export default function Envoke({ router }: { router: NextRouter }) {
                 setMilestoneStoryboardStage={setMilestoneStoryboardStage}
                 setStoryboardStage={setStoryboardStage}
                 storyboardStage={storyboardStage}
+                handlePostLive={handlePostLive}
+                postLoading={postLoading}
               />
             </div>
           </div>

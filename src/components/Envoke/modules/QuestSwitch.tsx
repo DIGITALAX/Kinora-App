@@ -35,7 +35,7 @@ const QuestSwitch: FunctionComponent<QuestSwitchProps> = ({
   chromadinVideos,
   router,
   storyboardStage,
-  milestoneStoryboardStage
+  milestoneStoryboardStage,
 }): JSX.Element => {
   switch (questStage) {
     case QuestStage.Details:

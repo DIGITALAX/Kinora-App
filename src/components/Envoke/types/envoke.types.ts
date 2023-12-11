@@ -165,6 +165,8 @@ export type StagesProps = {
   dispatch: Dispatch<Action>;
   questStage: QuestStage;
   questInfo: QuestInfoState;
+  postLoading: boolean;
+  handlePostLive: () => Promise<void>;
   milestonesOpen: boolean[];
   setMilestonesOpen: (e: SetStateAction<boolean[]>) => void;
   milestoneStage: number;
@@ -324,5 +326,9 @@ export enum StoryboardStage {
 
 export type StoryboardMilestonesProps = {
   milestone: Milestone;
-  index: number;
+};
+
+export type PostLiveProps = {
+  postLoading: boolean;
+  handlePostLive: () => Promise<void>;
 };
