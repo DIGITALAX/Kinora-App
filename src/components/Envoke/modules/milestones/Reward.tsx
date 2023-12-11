@@ -185,7 +185,7 @@ const Reward: FunctionComponent<RewardProps> = ({
                       const milestones = [...questInfo?.milestones];
 
                       const rewards20 = [
-                        ...questInfo?.milestones?.[
+                        ...(questInfo?.milestones?.[
                           milestonesOpen.findIndex(
                             (item: boolean) => item == true
                           ) !== -1
@@ -193,7 +193,7 @@ const Reward: FunctionComponent<RewardProps> = ({
                                 (item: boolean) => item == true
                               )
                             : 0
-                        ]?.rewards?.rewards20,
+                        ]?.rewards?.rewards20 || []),
                       ];
 
                       rewards20[index] = {

@@ -62,4 +62,5 @@ export type MediaProps = {
   classNameAudio?: string;
   objectFit?: string;
   hidden?: boolean;
+  autoPlay?: boolean;
 };

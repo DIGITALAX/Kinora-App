@@ -27,9 +27,9 @@ const QuestPreview: FunctionComponent<QuestPreviewProps> = ({
         }}
         onClick={() => router.push(`/quest/${quest?.id}`)}
       >
-        {image && (
+        {image?.asset && (
           <Image
-            src={image}
+            src={image?.asset}
             objectFit="cover"
             draggable={false}
             className="rounded-sm"
