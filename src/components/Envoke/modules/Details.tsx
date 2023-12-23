@@ -11,12 +11,21 @@ import {
   IPFS_REGEX,
 } from "../../../../lib/constants";
 import handleMediaUpload from "../../../../lib/helpers/handleMediaUpload";
+import GatedLogic from "./milestones/GatedLogic";
 
 const Details: FunctionComponent<DetailsProps> = ({
   questInfo,
   dispatch,
   setCoverLoading,
   coverLoading,
+  collections,
+  collectionsSearch,
+  setCollectionsSearch,
+  getMoreCollectionsSearch,
+  getCollectionsSearch,
+  collectionsInfo,
+  getMoreCollectionsSample,
+  setCollectionsInfo,
 }): JSX.Element => {
   return (
     <div className="relative w-full h-fit flex flex-col lg:flex-row items-start justify-start gap-6">
@@ -36,7 +45,6 @@ const Details: FunctionComponent<DetailsProps> = ({
                       cover: COVER_CONSTANTS.sort(() => 0.5 - Math.random())[0],
                     },
                     actionMilestones: questInfo?.milestones,
-                    actionDeveloperKey: questInfo?.developerKey,
                   })
                 )
               }
@@ -92,7 +100,6 @@ const Details: FunctionComponent<DetailsProps> = ({
                             cover,
                           },
                           actionMilestones: questInfo?.milestones,
-                          actionDeveloperKey: questInfo?.developerKey,
                         })
                       )
                   )
@@ -117,7 +124,6 @@ const Details: FunctionComponent<DetailsProps> = ({
                     title: e.target.value,
                   },
                   actionMilestones: questInfo?.milestones,
-                  actionDeveloperKey: questInfo?.developerKey,
                 })
               )
             }
@@ -142,7 +148,6 @@ const Details: FunctionComponent<DetailsProps> = ({
                     description: e.target.value,
                   },
                   actionMilestones: questInfo?.milestones,
-                  actionDeveloperKey: questInfo?.developerKey,
                 })
               )
             }
@@ -164,7 +169,6 @@ const Details: FunctionComponent<DetailsProps> = ({
                     tags: e.target.value,
                   },
                   actionMilestones: questInfo?.milestones,
-                  actionDeveloperKey: questInfo?.developerKey,
                 })
               )
             }
@@ -217,7 +221,6 @@ const Details: FunctionComponent<DetailsProps> = ({
                                 tags: newTags,
                               },
                               actionMilestones: questInfo?.milestones,
-                              actionDeveloperKey: questInfo?.developerKey,
                             })
                           );
                         }
@@ -231,6 +234,24 @@ const Details: FunctionComponent<DetailsProps> = ({
                 </div>
               </div>
             )}
+        </div>
+        <div className="flex flex-col items-start justify-start w-full h-fit gap-1 relative">
+          <div className="relative w-fit h-fit text-sm break-words">
+            Set Gates for who can join your Quest
+          </div>
+          <GatedLogic
+            questInfo={questInfo}
+            dispatch={dispatch}
+            join={true}
+            collections={collections}
+            collectionsSearch={collectionsSearch}
+            setCollectionsSearch={setCollectionsSearch}
+            getMoreCollectionsSearch={getMoreCollectionsSearch}
+            getCollectionsSearch={getCollectionsSearch}
+            collectionsInfo={collectionsInfo}
+            getMoreCollectionsSample={getMoreCollectionsSample}
+            setCollectionsInfo={setCollectionsInfo}
+          />
         </div>
       </div>
     </div>

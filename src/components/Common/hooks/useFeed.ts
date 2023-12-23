@@ -41,12 +41,9 @@ const useFeed = (
       const promises = data?.data?.questCreateds?.map(async (item: any) => {
         const publication = await getPublication(
           {
-            forId:
-              "0x" +
-              toHexWithLeadingZero(Number(item?.profileId)) +
-              "-" +
-              "0x" +
-              toHexWithLeadingZero(Number(item?.pubId)),
+            forId: `${toHexWithLeadingZero(
+              Number(item?.profileId)
+            )}-${toHexWithLeadingZero(Number(item?.pubId))}`,
           },
           lensConnected?.id
         );
@@ -84,12 +81,9 @@ const useFeed = (
       const promises = data?.data?.questCreateds?.map(async (item: any) => {
         const publication = await getPublication(
           {
-            forId:
-              "0x" +
-              toHexWithLeadingZero(Number(item?.profileId)) +
-              "-" +
-              "0x" +
-              toHexWithLeadingZero(Number(item?.pubId)),
+            forId: `${toHexWithLeadingZero(
+              Number(item?.profileId)
+            )}-${toHexWithLeadingZero(Number(item?.pubId))}`,
           },
           lensConnected?.id
         );

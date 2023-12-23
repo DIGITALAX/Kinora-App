@@ -90,14 +90,10 @@ export default function Handle({ router }: { router: NextRouter }) {
             savesInfo={savesInfo}
             router={router}
             envokedQuests={envokedQuests}
-            setEnvokedQuests={setEnvokedQuests}
             savesLoading={savesLoading}
             getMoreSaves={getMoreSaves}
             accountType={accountType}
             dispatch={dispatch}
-            setAllSaves={setAllSaves}
-            setCompletedQuests={setCompletedQuests}
-            setLiveQuests={setLiveQuests}
             liveQuests={liveQuests}
             completedQuests={completedQuests}
             questsLoading={questsLoading}

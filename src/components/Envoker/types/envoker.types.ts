@@ -10,11 +10,7 @@ export type AccountSwitchProps = {
   allSaves: Post[];
   envokedQuests: Quest[];
   router: NextRouter;
-  setEnvokedQuests: (e: SetStateAction<Quest[]>) => void;
   questsLoading: boolean;
-  setLiveQuests: (e: SetStateAction<Quest[]>) => void;
-  setCompletedQuests: (e: SetStateAction<Quest[]>) => void;
-  setAllSaves: (e: SetStateAction<Post[]>) => void;
   accountType: AccountType;
   savesInfo: {
     hasMore: boolean;
@@ -25,6 +21,17 @@ export type AccountSwitchProps = {
   getMoreSaves: () => Promise<void>;
   savesLoading: boolean;
   dispatch: Dispatch;
+  setMirrorChoiceOpenSave: (e: SetStateAction<boolean[]>) => void;
+  mirrorChoiceOpenSave: boolean[];
+  mirrorSave: (id: string, post?: boolean) => Promise<void>;
+  bookmarkSave: (id: string, post?: boolean) => Promise<void>;
+  likeSave: (id: string, post?: boolean) => Promise<void>;
+  simpleCollectSave: (id: string, post?: boolean) => Promise<void>;
+  interactionsLoadingSave: {
+    mirror: boolean;
+    simpleCollect: boolean;
+    like: boolean;
+  }[];
 };
 
 export enum AccountType {
@@ -36,12 +43,9 @@ export enum AccountType {
 
 export type HomeProps = {
   questsLoading: boolean;
-  setCompletedQuests: (e: SetStateAction<Quest[]>) => void;
-  setLiveQuests: (e: SetStateAction<Quest[]>) => void;
   liveQuests: Quest[];
   completedQuests: Quest[];
   envokedQuests: Quest[];
-  setEnvokedQuests: (e: SetStateAction<Quest[]>) => void;
   dispatch: Dispatch;
   lensConnected: Profile | undefined;
   onlyHistory: boolean;
@@ -59,5 +63,15 @@ export type SavesProps = {
   allSaves: Post[];
   dispatch: Dispatch;
   lensConnected: Profile | undefined;
-  setAllSaves: (e: SetStateAction<Post[]>) => void;
+  setMirrorChoiceOpen: (e: SetStateAction<boolean[]>) => void;
+  mirrorChoiceOpen: boolean[];
+  mirror: (id: string, post?: boolean) => Promise<void>;
+  bookmark: (id: string, post?: boolean) => Promise<void>;
+  like: (id: string, post?: boolean) => Promise<void>;
+  simpleCollect: (id: string, post?: boolean) => Promise<void>;
+  interactionsLoading: {
+    mirror: boolean;
+    simpleCollect: boolean;
+    like: boolean;
+  }[];
 };

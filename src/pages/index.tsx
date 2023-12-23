@@ -3,9 +3,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import QuestFeed from "@/components/Common/modules/QuestFeed";
 import { NextRouter } from "next/router";
+import useInteractions from "@/components/Common/hooks/useInteractions";
+import { useAccount } from "wagmi";
+import { createPublicClient, http } from "viem";
+import { polygon } from "viem/chains";
 
 export default function Home({ router }: { router: NextRouter }) {
   const dispatch = useDispatch();
+  const { address } = useAccount();
+  const publicClient = createPublicClient({
+    chain: polygon,
+    transport: http(
+      `https://polygon-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`
+    ),
+  });
   const questFeed = useSelector(
     (state: RootState) => state.app.questFeedReducer.feed
   );
@@ -19,6 +30,24 @@ export default function Home({ router }: { router: NextRouter }) {
     dispatch,
     questFeed,
     lensConnected
+  );
+  const {
+    mirror,
+    like,
+    bookmark,
+    interactionsLoading,
+    setMirrorChoiceOpen,
+    mirrorChoiceOpen,
+    profileHovers,
+    setProfileHovers,
+    followProfile,
+    unfollowProfile,
+  } = useInteractions(
+    lensConnected,
+    dispatch,
+    questFeed,
+    address,
+    publicClient
   );
 
   return (
@@ -68,6 +97,16 @@ export default function Home({ router }: { router: NextRouter }) {
             lensConnected={lensConnected}
             dispatch={dispatch}
             router={router}
+            mirror={mirror}
+            like={like}
+            interactionsLoading={interactionsLoading}
+            bookmark={bookmark}
+            setMirrorChoiceOpen={setMirrorChoiceOpen}
+            mirrorChoiceOpen={mirrorChoiceOpen}
+            followProfile={followProfile}
+            unfollowProfile={unfollowProfile}
+            setProfileHovers={setProfileHovers}
+            profileHovers={profileHovers}
           />
         )}
       </div>

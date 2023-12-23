@@ -45,6 +45,14 @@ const QuestSwitch: FunctionComponent<QuestSwitchProps> = ({
           setCoverLoading={setCoverLoading}
           questInfo={questInfo}
           dispatch={dispatch}
+          collections={collections}
+          collectionsSearch={collectionsSearch}
+          setCollectionsSearch={setCollectionsSearch}
+          getMoreCollectionsSearch={getMoreCollectionsSearch}
+          getCollectionsSearch={getCollectionsSearch}
+          collectionsInfo={collectionsInfo}
+          getMoreCollectionsSample={getMoreCollectionsSample}
+          setCollectionsInfo={setCollectionsInfo}
         />
       );
 

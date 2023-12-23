@@ -7,7 +7,6 @@ import { createSlice } from "@reduxjs/toolkit";
 export interface QuestInfoState {
   details: QuestDetails;
   milestones: Milestone[];
-  developerKey: string | undefined;
 }
 
 const initialQuestInfoState: QuestInfoState = {
@@ -15,10 +14,16 @@ const initialQuestInfoState: QuestInfoState = {
     title: "",
     description: "",
     cover: "",
-    tags: ""
+    tags: "",
+    gated: {
+      erc721Addresses: [],
+      erc721TokenIds: [],
+      erc20Addresses: [],
+      erc20Thresholds: [],
+      oneOf: true,
+    },
   },
   milestones: [],
-  developerKey: undefined,
 };
 
 export const questInfoSlice = createSlice({
@@ -27,11 +32,10 @@ export const questInfoSlice = createSlice({
   reducers: {
     setQuestInfo: (
       state: QuestInfoState,
-      { payload: { actionDetails, actionMilestones, actionDeveloperKey } }
+      { payload: { actionDetails, actionMilestones } }
     ) => {
       state.details = actionDetails;
       state.milestones = actionMilestones;
-      state.developerKey = actionDeveloperKey;
     },
   },
 });

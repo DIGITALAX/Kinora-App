@@ -61,9 +61,25 @@ const Stages: FunctionComponent<StagesProps> = ({
                       className="relative w-fit h-fit flex items-center justify-center gap-1"
                     >
                       <div className="relative w-fit h-fit flex items-center justify-center">
-                        {questInfo?.details?.[
-                          item?.toLowerCase() as keyof QuestDetails
-                        ]?.trim() !== "" ? (
+                        {(({ ["gated"]: _, ...rest }) => rest)(
+                          questInfo?.details
+                        )[
+                          item?.toLowerCase() as keyof {
+                            title: string;
+                            description: string;
+                            cover: string;
+                            tags: string;
+                          }
+                        ]?.trim() !== "" ||
+                        (item?.toLowerCase == "gates" &&
+                          (questInfo?.details?.gated?.erc20Addresses?.length >
+                            0 ||
+                            questInfo?.details?.gated?.erc20Addresses?.length >
+                              0 ||
+                            questInfo?.details?.gated?.erc20Thresholds?.length >
+                              0 ||
+                            questInfo?.details?.gated?.erc721TokenIds?.length >
+                              0)) ? (
                           <MdOutlineCheckBox color="#FE0000" size={20} />
                         ) : (
                           <MdOutlineCheckBoxOutlineBlank
@@ -74,9 +90,26 @@ const Stages: FunctionComponent<StagesProps> = ({
                       </div>
                       <div
                         className={`relative w-fit h-fit flex items-center justify-center text-white font-bit text-xs sm:text-base ${
-                          questInfo?.details?.[
-                            item?.toLowerCase() as keyof QuestDetails
-                          ]?.trim() !== "" && "line-through"
+                          ((({ ["gated"]: _, ...rest }) => rest)(
+                            questInfo?.details
+                          )[
+                            item?.toLowerCase() as keyof {
+                              title: string;
+                              description: string;
+                              cover: string;
+                              tags: string;
+                            }
+                          ]?.trim() !== "" ||
+                            (item?.toLowerCase == "gates" &&
+                              (questInfo?.details?.gated?.erc20Addresses
+                                ?.length > 0 ||
+                                questInfo?.details?.gated?.erc20Addresses
+                                  ?.length > 0 ||
+                                questInfo?.details?.gated?.erc20Thresholds
+                                  ?.length > 0 ||
+                                questInfo?.details?.gated?.erc721TokenIds
+                                  ?.length > 0))) &&
+                          "line-through"
                         }`}
                       >
                         {item}
@@ -124,7 +157,7 @@ const Stages: FunctionComponent<StagesProps> = ({
                               dispatch(
                                 setQuestInfo({
                                   actionDetails: questInfo?.details,
-                                  actionDeveloperKey: questInfo?.developerKey,
+
                                   actionMilestones:
                                     questInfo?.milestones?.filter(
                                       (_, i) => index !== i
@@ -264,7 +297,6 @@ const Stages: FunctionComponent<StagesProps> = ({
                           eligibility: [],
                         },
                       ],
-                      actionDeveloperKey: questInfo?.developerKey,
                     })
                   );
                 }}

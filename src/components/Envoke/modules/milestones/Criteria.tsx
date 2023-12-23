@@ -202,7 +202,7 @@ const Criteria: FunctionComponent<CriteriaProps> = ({
                             setQuestInfo({
                               actionDetails: questInfo?.details,
                               actionMilestones: milestones,
-                              actionDeveloperKey: questInfo?.developerKey,
+                              
                             })
                           );
                         }}
@@ -321,7 +321,7 @@ const Criteria: FunctionComponent<CriteriaProps> = ({
                       setQuestInfo({
                         actionDetails: questInfo?.details,
                         actionMilestones: milestones,
-                        actionDeveloperKey: questInfo?.developerKey,
+                        
                       })
                     );
                   }}

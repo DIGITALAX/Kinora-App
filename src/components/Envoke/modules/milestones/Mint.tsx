@@ -210,7 +210,7 @@ const Mint: FunctionComponent<MintProps> = ({
                       setQuestInfo({
                         actionDetails: questInfo?.details,
                         actionMilestones: milestones,
-                        actionDeveloperKey: questInfo?.developerKey,
+                        
                       })
                     );
                   }
@@ -320,7 +320,7 @@ const Mint: FunctionComponent<MintProps> = ({
                       setQuestInfo({
                         actionDetails: questInfo?.details,
                         actionMilestones: milestones,
-                        actionDeveloperKey: questInfo?.developerKey,
+                        
                       })
                     );
                   }}
@@ -420,7 +420,7 @@ const Mint: FunctionComponent<MintProps> = ({
                   setQuestInfo({
                     actionDetails: questInfo?.details,
                     actionMilestones: milestones,
-                    actionDeveloperKey: questInfo?.developerKey,
+                    
                   })
                 );
               }}
@@ -485,7 +485,7 @@ const Mint: FunctionComponent<MintProps> = ({
 
             dispatch(
               setQuestInfo({
-                actionDeveloperKey: questInfo?.developerKey,
+                
                 actionDetails: questInfo?.details,
                 actionMilestones: milestones,
               })
@@ -547,7 +547,7 @@ const Mint: FunctionComponent<MintProps> = ({
 
             dispatch(
               setQuestInfo({
-                actionDeveloperKey: questInfo?.developerKey,
+                
                 actionDetails: questInfo?.details,
                 actionMilestones: milestones,
               })
@@ -615,7 +615,7 @@ const Mint: FunctionComponent<MintProps> = ({
 
         dispatch(
           setQuestInfo({
-            actionDeveloperKey: questInfo?.developerKey,
+            
             actionDetails: questInfo?.details,
             actionMilestones: milestones,
           })

@@ -11,17 +11,20 @@ const AccountSwitch: FunctionComponent<AccountSwitchProps> = ({
   savesInfo,
   savesLoading,
   envokedQuests,
-  setEnvokedQuests,
   lensConnected,
   dispatch,
   questsLoading,
   allSaves,
   liveQuests,
   completedQuests,
-  setAllSaves,
-  setCompletedQuests,
-  setLiveQuests,
   router,
+  mirrorChoiceOpenSave,
+  mirrorSave,
+  likeSave,
+  setMirrorChoiceOpenSave,
+  simpleCollectSave,
+  interactionsLoadingSave,
+  bookmarkSave,
 }): JSX.Element => {
   if (pageProfile?.handle?.fullHandle === lensConnected?.handle?.fullHandle) {
     switch (accountType) {
@@ -31,13 +34,10 @@ const AccountSwitch: FunctionComponent<AccountSwitchProps> = ({
             onlyHistory={false}
             dispatch={dispatch}
             lensConnected={lensConnected}
-            setLiveQuests={setLiveQuests}
             liveQuests={liveQuests}
             completedQuests={completedQuests}
-            setCompletedQuests={setCompletedQuests}
             questsLoading={questsLoading}
             envokedQuests={envokedQuests}
-            setEnvokedQuests={setEnvokedQuests}
             router={router}
           />
         );
@@ -49,10 +49,16 @@ const AccountSwitch: FunctionComponent<AccountSwitchProps> = ({
             savesInfo={savesInfo}
             savesLoading={savesLoading}
             allSaves={allSaves}
-            setAllSaves={setAllSaves}
             dispatch={dispatch}
             lensConnected={lensConnected}
             router={router}
+            mirror={mirrorSave}
+            mirrorChoiceOpen={mirrorChoiceOpenSave}
+            setMirrorChoiceOpen={setMirrorChoiceOpenSave}
+            simpleCollect={simpleCollectSave}
+            bookmark={bookmarkSave}
+            like={likeSave}
+            interactionsLoading={interactionsLoadingSave}
           />
         );
 
@@ -62,13 +68,10 @@ const AccountSwitch: FunctionComponent<AccountSwitchProps> = ({
             onlyHistory={true}
             dispatch={dispatch}
             lensConnected={lensConnected}
-            setLiveQuests={setLiveQuests}
             liveQuests={liveQuests}
             completedQuests={completedQuests}
-            setCompletedQuests={setCompletedQuests}
             questsLoading={questsLoading}
             envokedQuests={envokedQuests}
-            setEnvokedQuests={setEnvokedQuests}
             router={router}
           />
         );
@@ -82,13 +85,10 @@ const AccountSwitch: FunctionComponent<AccountSwitchProps> = ({
         onlyHistory={false}
         dispatch={dispatch}
         lensConnected={lensConnected}
-        setLiveQuests={setLiveQuests}
         liveQuests={liveQuests}
         completedQuests={completedQuests}
-        setCompletedQuests={setCompletedQuests}
         questsLoading={questsLoading}
         envokedQuests={envokedQuests}
-        setEnvokedQuests={setEnvokedQuests}
         router={router}
       />
     );
