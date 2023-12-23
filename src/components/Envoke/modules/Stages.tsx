@@ -61,17 +61,18 @@ const Stages: FunctionComponent<StagesProps> = ({
                       className="relative w-fit h-fit flex items-center justify-center gap-1"
                     >
                       <div className="relative w-fit h-fit flex items-center justify-center">
-                        {(({ ["gated"]: _, ...rest }) => rest)(
-                          questInfo?.details
-                        )[
-                          item?.toLowerCase() as keyof {
-                            title: string;
-                            description: string;
-                            cover: string;
-                            tags: string;
-                          }
-                        ]?.trim() !== "" ||
-                        (item?.toLowerCase == "gates" &&
+                        {(item?.toLowerCase() != "gates" &&
+                          (({ ["gated"]: _, ...rest }) => rest)(
+                            questInfo?.details
+                          )[
+                            item?.toLowerCase() as keyof {
+                              title: string;
+                              description: string;
+                              cover: string;
+                              tags: string;
+                            }
+                          ]?.trim() !== "") ||
+                        (item?.toLowerCase() == "gates" &&
                           (questInfo?.details?.gated?.erc20Addresses?.length >
                             0 ||
                             questInfo?.details?.gated?.erc20Addresses?.length >
@@ -90,17 +91,18 @@ const Stages: FunctionComponent<StagesProps> = ({
                       </div>
                       <div
                         className={`relative w-fit h-fit flex items-center justify-center text-white font-bit text-xs sm:text-base ${
-                          ((({ ["gated"]: _, ...rest }) => rest)(
-                            questInfo?.details
-                          )[
-                            item?.toLowerCase() as keyof {
-                              title: string;
-                              description: string;
-                              cover: string;
-                              tags: string;
-                            }
-                          ]?.trim() !== "" ||
-                            (item?.toLowerCase == "gates" &&
+                          ((item?.toLowerCase() != "gates" &&
+                            (({ ["gated"]: _, ...rest }) => rest)(
+                              questInfo?.details
+                            )[
+                              item?.toLowerCase() as keyof {
+                                title: string;
+                                description: string;
+                                cover: string;
+                                tags: string;
+                              }
+                            ]?.trim() !== "") ||
+                            (item?.toLowerCase() == "gates" &&
                               (questInfo?.details?.gated?.erc20Addresses
                                 ?.length > 0 ||
                                 questInfo?.details?.gated?.erc20Addresses
