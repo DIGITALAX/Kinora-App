@@ -1,10 +1,10 @@
 import { FunctionComponent } from "react";
 import { QuestPreviewProps } from "../types/common.types";
 import createMedia from "../../../../lib/helpers/createMedia";
-import SaveQuest from "./SaveQuest";
 import { Post, VideoMetadataV3 } from "../../../../graphql/generated";
 import Image from "next/legacy/image";
 import { Quest } from "@/components/Quest/types/quest.types";
+import InteractBar from "./InteractBar";
 
 const QuestPreview: FunctionComponent<QuestPreviewProps> = ({
   quest,
@@ -12,10 +12,19 @@ const QuestPreview: FunctionComponent<QuestPreviewProps> = ({
   width,
   dispatch,
   lensConnected,
-  questFeed,
-  setItemFeed,
   router,
   post,
+  interactionsLoading,
+  mirror,
+  mirrorChoiceOpen,
+  setMirrorChoiceOpen,
+  like,
+  bookmark,
+  index,
+  profileHovers,
+  setProfileHovers,
+  followProfile,
+  unfollowProfile,
 }): JSX.Element => {
   const image = createMedia(
     (post ? (quest as Post) : (quest as Quest)?.publication)?.metadata
@@ -45,17 +54,22 @@ const QuestPreview: FunctionComponent<QuestPreviewProps> = ({
             className="rounded-sm"
           />
         )}
-        <SaveQuest
+        <InteractBar
           dispatch={dispatch}
           lensConnected={lensConnected}
-          questSaved={
-            (post ? (quest as Post) : (quest as Quest)?.publication)?.operations
-              ?.hasBookmarked
-          }
-          post={post}
-          questId={(post ? (quest as Post) : (quest as Quest)?.publication)?.id}
-          questFeed={questFeed}
-          setItemFeed={setItemFeed}
+          publication={post ? (quest as Post) : (quest as Quest)?.publication}
+          mirror={mirror}
+          mirrorChoiceOpen={mirrorChoiceOpen}
+          setMirrorChoiceOpen={setMirrorChoiceOpen}
+          like={like}
+          bookmark={bookmark}
+          index={index}
+          interactionsLoading={interactionsLoading}
+          followProfile={followProfile}
+          unfollowProfile={unfollowProfile}
+          setProfileHovers={setProfileHovers}
+          profileHovers={profileHovers}
+          router={router}
         />
       </div>
       <div className="relative w-fit h-fit flex items-center justify-center text-white font-bit text-sm break-words">

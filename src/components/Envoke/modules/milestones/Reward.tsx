@@ -116,7 +116,7 @@ const Reward: FunctionComponent<RewardProps> = ({
                   setQuestInfo({
                     actionDetails: questInfo?.details,
                     actionMilestones: milestones,
-                    actionDeveloperKey: questInfo?.developerKey,
+                    
                   })
                 );
               }}
@@ -265,7 +265,7 @@ const Reward: FunctionComponent<RewardProps> = ({
                         setQuestInfo({
                           actionDetails: questInfo?.details,
                           actionMilestones: milestones,
-                          actionDeveloperKey: questInfo?.developerKey,
+                          
                         })
                       );
                     }}
@@ -372,7 +372,7 @@ const Reward: FunctionComponent<RewardProps> = ({
                           setQuestInfo({
                             actionDetails: questInfo?.details,
                             actionMilestones: milestones,
-                            actionDeveloperKey: questInfo?.developerKey,
+                            
                           })
                         );
                       }}

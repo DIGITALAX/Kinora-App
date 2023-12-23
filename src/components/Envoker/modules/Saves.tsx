@@ -11,8 +11,14 @@ const Saves: FunctionComponent<SavesProps> = ({
   getMoreSaves,
   dispatch,
   lensConnected,
-  setAllSaves,
   router,
+  bookmark,
+  mirror,
+  mirrorChoiceOpen,
+  setMirrorChoiceOpen,
+  simpleCollect,
+  interactionsLoading,
+  like
 }): JSX.Element => {
   return (
     <>
@@ -28,7 +34,7 @@ const Saves: FunctionComponent<SavesProps> = ({
             );
           })}
         </div>
-      ) : allSaves?.length > 1 ? (
+      ) : allSaves?.length < 1 ? (
         <div className="relative text-white font-bit text-base text-center flex items-center justify-center w-full h-fit">
           No Saved Quests Yet.
         </div>
@@ -54,8 +60,14 @@ const Saves: FunctionComponent<SavesProps> = ({
                     height="11rem"
                     lensConnected={lensConnected}
                     dispatch={dispatch}
-                    questFeed={allSaves}
-                    setItemFeed={setAllSaves}
+                    mirror={mirror}
+                    mirrorChoiceOpen={mirrorChoiceOpen}
+                    setMirrorChoiceOpen={setMirrorChoiceOpen}
+                    simpleCollect={simpleCollect}
+                    like={like}
+                    index={index}
+                    interactionsLoading={interactionsLoading}
+                    bookmark={bookmark}
                     router={router}
                     post
                   />

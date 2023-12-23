@@ -53,7 +53,7 @@ const MilestoneDetails: FunctionComponent<MilestoneDetailsProps> = ({
               setQuestInfo({
                 actionDetails: questInfo?.details,
                 actionMilestones: milestones,
-                actionDeveloperKey: questInfo?.developerKey,
+                
               })
             );
           }}
@@ -199,7 +199,7 @@ const MilestoneDetails: FunctionComponent<MilestoneDetailsProps> = ({
                     setQuestInfo({
                       actionDetails: questInfo?.details,
                       actionMilestones: milestones,
-                      actionDeveloperKey: questInfo?.developerKey,
+                      
                     })
                   );
                 }
@@ -249,7 +249,7 @@ const MilestoneDetails: FunctionComponent<MilestoneDetailsProps> = ({
               setQuestInfo({
                 actionDetails: questInfo?.details,
                 actionMilestones: milestones,
-                actionDeveloperKey: questInfo?.developerKey,
+                
               })
             );
           }}
@@ -299,7 +299,7 @@ const MilestoneDetails: FunctionComponent<MilestoneDetailsProps> = ({
               setQuestInfo({
                 actionDetails: questInfo?.details,
                 actionMilestones: milestones,
-                actionDeveloperKey: questInfo?.developerKey,
+                
               })
             );
           }}

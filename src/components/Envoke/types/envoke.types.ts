@@ -16,6 +16,7 @@ export interface QuestDetails {
   description: string;
   cover: string;
   tags: string;
+  gated: GatingLogic;
 }
 
 export enum RewardType {
@@ -86,8 +87,8 @@ export interface MilestoneEligibility {
 }
 
 export interface MilestoneEligibilityCriteria {
-  averageAvd?: number;
-  averageCtr?: number;
+  minAvd?: number;
+  minCtr?: number;
   minPlayCount?: number;
   quoteLens?: boolean;
   mirrorLens?: boolean;
@@ -160,6 +161,22 @@ export type DetailsProps = {
   dispatch: Dispatch<Action>;
   coverLoading: boolean;
   setCoverLoading: (e: SetStateAction<boolean>) => void;
+  collections: Collection[];
+  collectionsSearch: string;
+  setCollectionsSearch: (e: SetStateAction<string>) => void;
+  getMoreCollectionsSearch: () => Promise<void>;
+  getCollectionsSearch: () => Promise<void>;
+  getMoreCollectionsSample: () => Promise<void>;
+  setCollectionsInfo: (
+    e: SetStateAction<{
+      hasMore: boolean;
+      cursor: number;
+    }>
+  ) => void;
+  collectionsInfo: {
+    hasMore: boolean;
+    cursor: number;
+  };
 };
 
 export type StagesProps = {
@@ -229,7 +246,7 @@ export type MilestoneSwitchProps = {
 };
 
 export type GatedLogicProps = {
-  milestonesOpen: boolean[];
+  milestonesOpen?: boolean[];
   questInfo: QuestInfoState;
   dispatch: Dispatch<Action>;
   collections: Collection[];
@@ -248,6 +265,7 @@ export type GatedLogicProps = {
     hasMore: boolean;
     cursor: number;
   };
+  join?: boolean;
 };
 
 export interface Collection {

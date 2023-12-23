@@ -8,7 +8,7 @@ const getStageArray = (
 ): any[] => {
   switch (questStage) {
     case QuestStage.Details:
-      return ["Title", "Description", "Cover", "Tags"];
+      return ["Title", "Description", "Cover", "Tags", "Gates"];
 
     case QuestStage.Milestones:
       return milestones?.length < 3 ? Array.from({ length: 3 }) : milestones;
