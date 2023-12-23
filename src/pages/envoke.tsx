@@ -82,7 +82,7 @@ export default function Envoke({ router }: { router: NextRouter }) {
     milestoneStoryboardStage,
     setMilestoneStoryboardStage,
   } = useCriteria(lensConnected);
-  const { handlePostLive, postLoading } = usePostLive();
+  const { handlePostLive, postLoading } = usePostLive(dispatch);
   return (
     <>
       {walletConnected && lensConnected ? (
@@ -104,9 +104,13 @@ export default function Envoke({ router }: { router: NextRouter }) {
             <div className="relative w-fit h-fit flex items-start justify-start font-bit text-white text-xl pb-10">
               Envoke A New Quest
             </div>
-            <div className={`relative w-full h-full flex flex-col md:flex-row gap-8 pb-2 items-start  ${
-              questStage !== QuestStage.Post ? "justify-end" : "justify-center"
-            }`}>
+            <div
+              className={`relative w-full h-full flex flex-col md:flex-row gap-8 pb-2 items-start  ${
+                questStage !== QuestStage.Post
+                  ? "justify-end"
+                  : "justify-center"
+              }`}
+            >
               {questStage !== QuestStage.Post && (
                 <QuestSwitch
                   questStage={questStage}

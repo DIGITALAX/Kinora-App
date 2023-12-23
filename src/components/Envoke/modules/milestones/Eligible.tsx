@@ -42,7 +42,7 @@ const Eligible: FunctionComponent<EligibleProps> = ({
                 milestonesOpen.findIndex((item: boolean) => item == true) !== -1
                   ? milestonesOpen.findIndex((item: boolean) => item == true)
                   : 0
-              ]?.eligibility?.[index]?.criteria?.averageAvd,
+              ]?.eligibility?.[index]?.criteria?.minAvd,
             input: true,
             function: (e: string) => {
               const milestones = [...questInfo?.milestones];
@@ -60,7 +60,7 @@ const Eligible: FunctionComponent<EligibleProps> = ({
                 ...eligibility[index],
                 criteria: {
                   ...eligibility[index]?.criteria,
-                  averageAvd: Number(e),
+                  minAvd: Number(e),
                 },
               };
 
@@ -82,7 +82,7 @@ const Eligible: FunctionComponent<EligibleProps> = ({
                 setQuestInfo({
                   actionDetails: questInfo?.details,
                   actionMilestones: milestones,
-                  actionDeveloperKey: questInfo?.developerKey,
+                  
                 })
               );
             },
@@ -94,7 +94,7 @@ const Eligible: FunctionComponent<EligibleProps> = ({
                 milestonesOpen.findIndex((item: boolean) => item == true) !== -1
                   ? milestonesOpen.findIndex((item: boolean) => item == true)
                   : 0
-              ]?.eligibility?.[index]?.criteria?.averageCtr,
+              ]?.eligibility?.[index]?.criteria?.minCtr,
             input: true,
             function: (e: string) => {
               const milestones = [...questInfo?.milestones];
@@ -112,7 +112,7 @@ const Eligible: FunctionComponent<EligibleProps> = ({
                 ...eligibility[index],
                 criteria: {
                   ...eligibility[index]?.criteria,
-                  averageCtr: Number(e),
+                  minCtr: Number(e),
                 },
               };
 
@@ -134,7 +134,7 @@ const Eligible: FunctionComponent<EligibleProps> = ({
                 setQuestInfo({
                   actionDetails: questInfo?.details,
                   actionMilestones: milestones,
-                  actionDeveloperKey: questInfo?.developerKey,
+                  
                 })
               );
             },
@@ -186,7 +186,7 @@ const Eligible: FunctionComponent<EligibleProps> = ({
                 setQuestInfo({
                   actionDetails: questInfo?.details,
                   actionMilestones: milestones,
-                  actionDeveloperKey: questInfo?.developerKey,
+                  
                 })
               );
             },
@@ -241,7 +241,7 @@ const Eligible: FunctionComponent<EligibleProps> = ({
                 setQuestInfo({
                   actionDetails: questInfo?.details,
                   actionMilestones: milestones,
-                  actionDeveloperKey: questInfo?.developerKey,
+                  
                 })
               );
             },
@@ -295,7 +295,7 @@ const Eligible: FunctionComponent<EligibleProps> = ({
                 setQuestInfo({
                   actionDetails: questInfo?.details,
                   actionMilestones: milestones,
-                  actionDeveloperKey: questInfo?.developerKey,
+                  
                 })
               );
             },
@@ -350,7 +350,7 @@ const Eligible: FunctionComponent<EligibleProps> = ({
                 setQuestInfo({
                   actionDetails: questInfo?.details,
                   actionMilestones: milestones,
-                  actionDeveloperKey: questInfo?.developerKey,
+                  
                 })
               );
             },
@@ -404,7 +404,7 @@ const Eligible: FunctionComponent<EligibleProps> = ({
                 setQuestInfo({
                   actionDetails: questInfo?.details,
                   actionMilestones: milestones,
-                  actionDeveloperKey: questInfo?.developerKey,
+                  
                 })
               );
             },
@@ -458,7 +458,7 @@ const Eligible: FunctionComponent<EligibleProps> = ({
                 setQuestInfo({
                   actionDetails: questInfo?.details,
                   actionMilestones: milestones,
-                  actionDeveloperKey: questInfo?.developerKey,
+                  
                 })
               );
             },
@@ -513,7 +513,7 @@ const Eligible: FunctionComponent<EligibleProps> = ({
                 setQuestInfo({
                   actionDetails: questInfo?.details,
                   actionMilestones: milestones,
-                  actionDeveloperKey: questInfo?.developerKey,
+                  
                 })
               );
             },

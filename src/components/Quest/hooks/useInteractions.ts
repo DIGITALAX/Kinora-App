@@ -118,11 +118,7 @@ const useInteractions = (
         },
         lensConnected?.id
       );
-      setAllComments(
-        (data?.data?.publications?.items || []) as (Comment & {
-          decrypted: any;
-        })[]
-      );
+      setAllComments((data?.data?.publications?.items || []) as Comment[]);
 
       if (data?.data?.publications?.items?.length != 10) {
         setCommentInfo({
@@ -159,9 +155,7 @@ const useInteractions = (
       );
       setAllComments([
         ...allComments,
-        ...((data?.data?.publications?.items || []) as (Comment & {
-          decrypted: any;
-        })[]),
+        ...((data?.data?.publications?.items || []) as Comment[]),
       ]);
       if (data?.data?.publications?.items?.length != 10) {
         setCommentInfo({
@@ -592,12 +586,7 @@ const useInteractions = (
     handleLoaders(false, main, index, "mirror");
   };
 
-  const like = async (
-    id: string,
-    hasReacted: boolean,
-    main?: boolean,
-    mirror?: string
-  ) => {
+  const like = async (id: string, hasReacted: boolean, main?: boolean) => {
     if (!lensConnected?.id) return;
     const index = main
       ? undefined

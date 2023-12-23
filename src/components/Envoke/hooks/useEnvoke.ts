@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Collection, ERC20Reward, Milestone } from "../types/envoke.types";
+import { Collection } from "../types/envoke.types";
 import {
   getAllCollections,
   getCollectionSample,
@@ -48,7 +48,7 @@ const useEnvoke = (
         async (coll: Collection) => {
           const prof = await getProfile(
             {
-              forProfileId: "0x" + toHexWithLeadingZero(Number(coll.profileId)),
+              forProfileId: `${toHexWithLeadingZero(Number(coll.profileId))}`,
             },
             true
           );
@@ -80,7 +80,7 @@ const useEnvoke = (
         async (coll: Collection) => {
           const prof = await getProfile(
             {
-              forProfileId: "0x" + toHexWithLeadingZero(Number(coll.profileId)),
+              forProfileId: `${toHexWithLeadingZero(Number(coll.profileId))}`,
             },
             true
           );
@@ -115,7 +115,7 @@ const useEnvoke = (
         async (coll: Collection) => {
           const prof = await getProfile(
             {
-              forProfileId: "0x" + toHexWithLeadingZero(Number(coll.profileId)),
+              forProfileId: `${toHexWithLeadingZero(Number(coll.profileId))}`,
             },
             true
           );
@@ -152,7 +152,7 @@ const useEnvoke = (
         async (coll: Collection) => {
           const prof = await getProfile(
             {
-              forProfileId: "0x" + toHexWithLeadingZero(Number(coll.profileId)),
+              forProfileId: `${toHexWithLeadingZero(Number(coll.profileId))}`,
             },
             true
           );
@@ -217,7 +217,7 @@ const useEnvoke = (
       dispatch(
         setQuestInfo({
           actionDetails: questInfo?.details,
-          actionDeveloperKey: questInfo?.developerKey,
+
           actionMilestones: allMilestones,
         })
       );

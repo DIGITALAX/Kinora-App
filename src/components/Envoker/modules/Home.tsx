@@ -7,13 +7,10 @@ const Home: FunctionComponent<HomeProps> = ({
   lensConnected,
   dispatch,
   onlyHistory,
-  setCompletedQuests,
-  setLiveQuests,
   liveQuests,
   completedQuests,
   questsLoading,
   envokedQuests,
-  setEnvokedQuests,
   router,
 }): JSX.Element => {
   return (
@@ -30,88 +27,126 @@ const Home: FunctionComponent<HomeProps> = ({
             );
           })}
         </div>
-      ) : liveQuests?.length > 1 && completedQuests?.length > 1 ? (
+      ) : liveQuests?.length < 1 &&
+        completedQuests?.length < 1 &&
+        envokedQuests?.length < 1 ? (
         <div className="relative text-white font-bit text-base text-center flex items-center justify-center w-full h-fit">
-          No Completed or Live Quests Yet.
+          No Active Quest Data Yet.
         </div>
       ) : (
         <div className="relative w-full h-fit flex flex-col gap-10 items-start justify-start">
           {!onlyHistory && (
             <>
-              <div className="relative w-full h-fit flex flex-col items-start justify-center">
-                <div className="relative w-fit h-fit flex w-fit h-fit text-left text-base font-bit text-white">
-                  Live Quests
+              {liveQuests?.length < 1 ? (
+                <div className="relative text-white font-bit text-base text-center flex items-center justify-center w-full h-fit">
+                  No Live Quests Currently.
                 </div>
-                <div className="relative w-full h-fit flex overflow-x-scroll">
-                  <div className="relative w-fit h-fit flex flex-row items-start justify-start gap-4">
-                    {liveQuests?.map((quest: Quest, index: number) => {
-                      return (
-                        <QuestPreview
-                          quest={quest}
-                          key={index}
-                          width="18rem"
-                          height="11rem"
-                          lensConnected={lensConnected}
-                          dispatch={dispatch}
-                          questFeed={liveQuests}
-                          setItemFeed={setLiveQuests}
-                          router={router}
-                        />
-                      );
-                    })}
+              ) : (
+                <div className="relative w-full h-fit flex flex-col items-start justify-center">
+                  <div className="relative w-fit h-fit flex w-fit h-fit text-left text-base font-bit text-white">
+                    Live Quests
+                  </div>
+                  <div className="relative w-full h-fit flex overflow-x-scroll">
+                    <div className="relative w-fit h-fit flex flex-row items-start justify-start gap-4">
+                      {liveQuests?.map((quest: Quest, index: number) => {
+                        return (
+                          <QuestPreview
+                            quest={quest}
+                            key={index}
+                            width="18rem"
+                            height="11rem"
+                            lensConnected={lensConnected}
+                            dispatch={dispatch}
+                            mirror={mirror}
+                            mirrorChoiceOpen={mirrorChoiceOpen}
+                            setMirrorChoiceOpen={setMirrorChoiceOpen}
+                            simpleCollect={simpleCollect}
+                            like={like}
+                            index={index}
+                            interactionsLoading={interactionsLoading}
+                            bookmark={bookmark}
+                            router={router}
+                          />
+                        );
+                      })}
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="relative w-full h-fit flex flex-col items-start justify-center">
-                <div className="relative w-fit h-fit flex w-fit h-fit text-left text-base font-bit text-white">
-                  Envoked Quests
+              )}
+              {envokedQuests?.length < 1 ? (
+                <div className="relative text-white font-bit text-base text-center flex items-center justify-center w-full h-fit">
+                  No Envoked Quests Yet.
                 </div>
-                <div className="relative w-full h-fit flex overflow-x-scroll">
-                  <div className="relative w-fit h-fit flex flex-row items-start justify-start gap-4">
-                    {envokedQuests?.map((quest: Quest, index: number) => {
-                      return (
-                        <QuestPreview
-                          quest={quest}
-                          key={index}
-                          width="18rem"
-                          height="11rem"
-                          lensConnected={lensConnected}
-                          dispatch={dispatch}
-                          questFeed={envokedQuests}
-                          setItemFeed={setEnvokedQuests}
-                          router={router}
-                        />
-                      );
-                    })}
+              ) : (
+                <div className="relative w-full h-fit flex flex-col items-start justify-center">
+                  <div className="relative w-fit h-fit flex w-fit h-fit text-left text-base font-bit text-white">
+                    Envoked Quests
+                  </div>
+                  <div className="relative w-full h-fit flex overflow-x-scroll">
+                    <div className="relative w-fit h-fit flex flex-row items-start justify-start gap-4">
+                      {envokedQuests?.map((quest: Quest, index: number) => {
+                        return (
+                          <QuestPreview
+                            quest={quest}
+                            key={index}
+                            width="18rem"
+                            height="11rem"
+                            lensConnected={lensConnected}
+                            dispatch={dispatch}
+                            mirror={mirror}
+                            mirrorChoiceOpen={mirrorChoiceOpen}
+                            setMirrorChoiceOpen={setMirrorChoiceOpen}
+                            simpleCollect={simpleCollect}
+                            like={like}
+                            index={index}
+                            interactionsLoading={interactionsLoading}
+                            bookmark={bookmark}
+                            router={router}
+                          />
+                        );
+                      })}
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
             </>
           )}
-          <div className="relative w-full h-fit flex flex-col items-start justify-center">
-            <div className="relative w-fit h-fit flex w-fit h-fit text-left text-base font-bit text-white">
-              Completed Quests
+          {completedQuests?.length < 1 ? (
+            <div className="relative text-white font-bit text-base text-center flex items-center justify-center w-full h-fit">
+              No Completed Quests Yet.
             </div>
-            <div className="relative w-full h-fit flex overflow-y-scroll">
-              <div className="relative w-full gap-4 h-fit grid grid-cols-4">
-                {completedQuests?.map((quest: Quest, index: number) => {
-                  return (
-                    <QuestPreview
-                      quest={quest}
-                      key={index}
-                      width="100%"
-                      height="11rem"
-                      lensConnected={lensConnected}
-                      dispatch={dispatch}
-                      questFeed={completedQuests}
-                      setItemFeed={setCompletedQuests}
-                      router={router}
-                    />
-                  );
-                })}
+          ) : (
+            <div className="relative w-full h-fit flex flex-col items-start justify-center">
+              <div className="relative w-fit h-fit flex w-fit h-fit text-left text-base font-bit text-white">
+                Completed Quests
+              </div>
+              <div className="relative w-full h-fit flex overflow-y-scroll">
+                <div className="relative w-full gap-4 h-fit grid grid-cols-4">
+                  {completedQuests?.map((quest: Quest, index: number) => {
+                    return (
+                      <QuestPreview
+                        quest={quest}
+                        key={index}
+                        width="100%"
+                        height="11rem"
+                        lensConnected={lensConnected}
+                        dispatch={dispatch}
+                        mirror={mirror}
+                        mirrorChoiceOpen={mirrorChoiceOpen}
+                        setMirrorChoiceOpen={setMirrorChoiceOpen}
+                        simpleCollect={simpleCollect}
+                        like={like}
+                        index={index}
+                        interactionsLoading={interactionsLoading}
+                        bookmark={bookmark}
+                        router={router}
+                      />
+                    );
+                  })}
+                </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
       )}
     </>
