@@ -523,7 +523,7 @@ const GatedLogic: FunctionComponent<GatedLogicProps> = ({
                             />
                           )}
                         </div>
-                        <div className="absolute flex flex-row gap-1 text-xxs items-center justify-center bottom-2 right-2">
+                        <div className="absolute flex flex-row gap-1 text-xxs items-center justify-center top-2 left-2">
                           <div
                             className="rounded-full w-6 h-6 p-px flex items-center justify-center"
                             id="rainbow"
