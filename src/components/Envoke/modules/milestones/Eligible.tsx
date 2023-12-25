@@ -82,7 +82,6 @@ const Eligible: FunctionComponent<EligibleProps> = ({
                 setQuestInfo({
                   actionDetails: questInfo?.details,
                   actionMilestones: milestones,
-                  
                 })
               );
             },
@@ -134,7 +133,6 @@ const Eligible: FunctionComponent<EligibleProps> = ({
                 setQuestInfo({
                   actionDetails: questInfo?.details,
                   actionMilestones: milestones,
-                  
                 })
               );
             },
@@ -186,66 +184,11 @@ const Eligible: FunctionComponent<EligibleProps> = ({
                 setQuestInfo({
                   actionDetails: questInfo?.details,
                   actionMilestones: milestones,
-                  
                 })
               );
             },
           },
-          {
-            title: "Needs to Collect?",
-            value:
-              questInfo?.milestones?.[
-                milestonesOpen.findIndex((item: boolean) => item == true) !== -1
-                  ? milestonesOpen.findIndex((item: boolean) => item == true)
-                  : 0
-              ]?.eligibility?.[index]?.criteria?.collectLens,
-            input: true,
-            function: (e: string) => {
-              const milestones = [...questInfo?.milestones];
 
-              const eligibility = [
-                ...(questInfo?.milestones?.[
-                  milestonesOpen.findIndex((item: boolean) => item == true) !==
-                  -1
-                    ? milestonesOpen.findIndex((item: boolean) => item == true)
-                    : 0
-                ]?.eligibility || []),
-              ];
-
-              eligibility[index] = {
-                ...eligibility[index],
-                criteria: {
-                  ...eligibility[index]?.criteria,
-                  collectLens:
-                    eligibility[index].criteria.collectLens !== undefined
-                      ? !eligibility[index].criteria.collectLens
-                      : true,
-                },
-              };
-
-              milestones[
-                milestonesOpen.findIndex((item: boolean) => item == true) !== -1
-                  ? milestonesOpen.findIndex((item: boolean) => item == true)
-                  : 0
-              ] = {
-                ...milestones[
-                  milestonesOpen.findIndex((item: boolean) => item == true) !==
-                  -1
-                    ? milestonesOpen.findIndex((item: boolean) => item == true)
-                    : 0
-                ],
-                eligibility,
-              };
-
-              dispatch(
-                setQuestInfo({
-                  actionDetails: questInfo?.details,
-                  actionMilestones: milestones,
-                  
-                })
-              );
-            },
-          },
           {
             title: "Needs to Quote?",
             value:
@@ -295,7 +238,6 @@ const Eligible: FunctionComponent<EligibleProps> = ({
                 setQuestInfo({
                   actionDetails: questInfo?.details,
                   actionMilestones: milestones,
-                  
                 })
               );
             },
@@ -350,7 +292,6 @@ const Eligible: FunctionComponent<EligibleProps> = ({
                 setQuestInfo({
                   actionDetails: questInfo?.details,
                   actionMilestones: milestones,
-                  
                 })
               );
             },
@@ -404,7 +345,6 @@ const Eligible: FunctionComponent<EligibleProps> = ({
                 setQuestInfo({
                   actionDetails: questInfo?.details,
                   actionMilestones: milestones,
-                  
                 })
               );
             },
@@ -458,7 +398,6 @@ const Eligible: FunctionComponent<EligibleProps> = ({
                 setQuestInfo({
                   actionDetails: questInfo?.details,
                   actionMilestones: milestones,
-                  
                 })
               );
             },
@@ -513,7 +452,6 @@ const Eligible: FunctionComponent<EligibleProps> = ({
                 setQuestInfo({
                   actionDetails: questInfo?.details,
                   actionMilestones: milestones,
-                  
                 })
               );
             },
