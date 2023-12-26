@@ -23,6 +23,7 @@
     "redux": "^5.0.0",
     "textarea-caret": "^3.1.0",
     "uuid": "^9.0.1",
+    "kinora-sdk": "0.0.384",
     "viem": "^1.16.5",
     "wagmi": "^1.4.3",
     "wavesurfer.js": "^7.5.1"
