@@ -82,7 +82,7 @@ export default function Envoke({ router }: { router: NextRouter }) {
     milestoneStoryboardStage,
     setMilestoneStoryboardStage,
   } = useCriteria(lensConnected);
-  const { handlePostLive, postLoading } = usePostLive(dispatch);
+  const { handlePostLive, postLoading } = usePostLive(dispatch, questInfo);
   return (
     <>
       {walletConnected && lensConnected ? (

@@ -17,6 +17,7 @@ export interface QuestDetails {
   cover: string;
   tags: string;
   gated: GatingLogic;
+  maxPlayerCount: number;
 }
 
 export enum RewardType {
@@ -278,6 +279,7 @@ export interface Collection {
     mediaCover: string;
     images: string[];
   };
+  uri: string;
   profileId: string;
   profile: Profile;
 }

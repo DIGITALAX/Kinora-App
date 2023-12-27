@@ -64,9 +64,14 @@ const Media: FunctionComponent<MediaImageProps> = ({
                         type={media?.type}
                         srcUrl={media?.url}
                         srcCover={media?.cover}
-                        classNameVideo={
-                          "rounded-sm absolute w-full h-full object-cover"
-                        }
+                        classNameVideo={{
+                          borderRadius: "0.125rem",
+                          objectFit: "cover",
+                          width: "100%",
+                          height: "100%",
+                          position: "absolute",
+                          display: "flex"
+                        }}
                         classNameImage={"rounded-sm"}
                         classNameAudio={"rounded-md"}
                       />
