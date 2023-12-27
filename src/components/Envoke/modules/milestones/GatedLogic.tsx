@@ -221,6 +221,7 @@ const GatedLogic: FunctionComponent<GatedLogicProps> = ({
                         : 0
                     ]?.gated?.erc721TokenIds
                 )?.map((item: Collection, index: number) => {
+            
                   return (
                     <div
                       key={index}
@@ -228,24 +229,23 @@ const GatedLogic: FunctionComponent<GatedLogicProps> = ({
                       id="rainbow"
                     >
                       <div className="relative w-full h-full relative rounded-md">
-                        {(item?.collectionMetadata?.mediaCover ||
-                          item?.collectionMetadata?.images?.[0]) && (
-                          <Image
-                            className={"rounded-md"}
-                            draggable={false}
-                            src={`${INFURA_GATEWAY}/ipfs/${
-                              item?.collectionMetadata?.mediaCover
-                                ? item?.collectionMetadata?.mediaCover?.split(
-                                    "ipfs://"
-                                  )?.[1]
-                                : item?.collectionMetadata?.images?.[0]?.split(
-                                    "ipfs://"
-                                  )?.[1]
-                            }`}
-                            objectFit="cover"
-                            layout="fill"
-                          />
-                        )}
+                        <Image
+                          className={"rounded-md"}
+                          draggable={false}
+                          src={`${INFURA_GATEWAY}/ipfs/${
+                            item?.collectionMetadata?.mediaCover?.split(
+                              "ipfs://"
+                            )?.[1]
+                              ? item?.collectionMetadata?.mediaCover?.split(
+                                  "ipfs://"
+                                )?.[1]
+                              : item?.collectionMetadata?.images?.[0]?.split(
+                                  "ipfs://"
+                                )?.[1]
+                          }`}
+                          objectFit="cover"
+                          layout="fill"
+                        />
                       </div>
                       <div
                         className="absolute w-5 h-5 flex cursor-pointer bg-black rounded-full border border-white hover:opacity-80 p-1 items-center justify-center"
@@ -504,24 +504,23 @@ const GatedLogic: FunctionComponent<GatedLogicProps> = ({
                         }}
                       >
                         <div className="relative w-full h-full relative rounded-md">
-                          {(item?.collectionMetadata?.mediaCover ||
-                            item?.collectionMetadata?.images?.[0]) && (
-                            <Image
-                              className={"rounded-md"}
-                              draggable={false}
-                              src={`${INFURA_GATEWAY}/ipfs/${
-                                item?.collectionMetadata?.mediaCover
-                                  ? item?.collectionMetadata?.mediaCover?.split(
-                                      "ipfs://"
-                                    )?.[1]
-                                  : item?.collectionMetadata?.images?.[0]?.split(
-                                      "ipfs://"
-                                    )?.[1]
-                              }`}
-                              objectFit="cover"
-                              layout="fill"
-                            />
-                          )}
+                          <Image
+                            className={"rounded-md"}
+                            draggable={false}
+                            src={`${INFURA_GATEWAY}/ipfs/${
+                              item?.collectionMetadata?.mediaCover?.split(
+                                "ipfs://"
+                              )?.[1]
+                                ? item?.collectionMetadata?.mediaCover?.split(
+                                    "ipfs://"
+                                  )?.[1]
+                                : item?.collectionMetadata?.images?.[0]?.split(
+                                    "ipfs://"
+                                  )?.[1]
+                            }`}
+                            objectFit="cover"
+                            layout="fill"
+                          />
                         </div>
                         <div className="absolute flex flex-row gap-1 text-xxs items-center justify-center top-2 left-2">
                           <div

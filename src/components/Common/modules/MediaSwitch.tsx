@@ -30,15 +30,16 @@ const MediaSwitch: FunctionComponent<MediaProps> = ({
   });
   switch (type?.toLowerCase()) {
     case "video":
-      const keyValueVideo = srcUrl + Math.random().toString();
+      const keyValueVideo = srcUrl ;
       return (
         <>
-          <div id={keyValueVideo} className={classNameVideo}>
+          <div id={keyValueVideo} style={classNameVideo}>
             <KinoraPlayerWrapper
               parentId={keyValueVideo}
               key={keyValueVideo}
               customControls={true}
               play={videoInfo?.isPlaying}
+              styles={classNameVideo}
               fillWidthHeight
               seekTo={{
                 id: Math.random() * 0.5,
@@ -56,6 +57,10 @@ const MediaSwitch: FunctionComponent<MediaProps> = ({
                   isPlaying: true,
                 }))
               }
+              volume={{
+                id: Math.random() * 0.5,
+                level: hidden ? 0 : 0.5,
+              }}
             >
               {(setMediaElement: (node: HTMLVideoElement) => void) => (
                 <Player
@@ -68,8 +73,8 @@ const MediaSwitch: FunctionComponent<MediaProps> = ({
                     ipfsGateway: INFURA_GATEWAY,
                   }}
                   loop={hidden}
-                  autoPlay={hidden}
-                  muted={hidden}
+                  autoPlay={autoPlay}
+                  muted={true}
                 />
               )}
             </KinoraPlayerWrapper>
@@ -80,6 +85,29 @@ const MediaSwitch: FunctionComponent<MediaProps> = ({
               type={"video"}
               keyValue={keyValueVideo}
               video={srcUrl}
+              handlePauseVideo={() =>
+                setVideoInfo((prev) => {
+                  return {
+                    ...prev,
+                    isPlaying: false,
+                  };
+                })
+              }
+              handlePlayVideo={() =>
+                setVideoInfo((prev) => {
+                  return {
+                    ...prev,
+                    isPlaying: true,
+                  };
+                })
+              }
+              handleSeekVideo={(e) =>
+                setVideoInfo((prev) => ({
+                  ...prev,
+                  currentTime: e * videoInfo?.duration,
+                }))
+              }
+              videoInfo={videoInfo}
             />
           )}
         </>

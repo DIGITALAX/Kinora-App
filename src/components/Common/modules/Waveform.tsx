@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect, useRef } from "react";
+import { FunctionComponent, useEffect, useRef, useState } from "react";
 import { BsCloudUpload } from "react-icons/bs";
 import { HiOutlinePlayPause } from "react-icons/hi2";
 import WaveSurfer from "wavesurfer.js";
@@ -16,12 +16,18 @@ const Waveform: FunctionComponent<WaveFormProps> = ({
   loaderEnd,
   loaderStart,
   internalFunction,
+  handlePlayVideo,
+  handlePauseVideo,
+  handleSeekVideo,
+  videoInfo,
 }): JSX.Element => {
   const waveformRef = useRef(null);
   const wavesurfer = useRef<null | WaveSurfer>(null);
+  const [waveLoading, setWaveLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const waver = async () => {
+      setWaveLoading(true);
       if (waveformRef.current) {
         if (wavesurfer.current) {
           wavesurfer.current.destroy();
@@ -37,29 +43,41 @@ const Waveform: FunctionComponent<WaveFormProps> = ({
         if (!wavesurfer.current) return;
 
         wavesurfer.current.on("seeking", function (seekProgress) {
-          const videoElement = document.getElementById(
-            keyValue
-          ) as HTMLVideoElement;
-          if (videoElement) {
-            videoElement.currentTime = seekProgress;
+          if (type == "video") {
+            handleSeekVideo!(seekProgress);
+          } else {
+            const videoElement = document.getElementById(
+              keyValue
+            ) as HTMLVideoElement;
+            if (videoElement) {
+              videoElement.currentTime = seekProgress;
+            }
           }
         });
 
         wavesurfer.current.on("play", function () {
-          const videoElement = document.getElementById(
-            keyValue
-          ) as HTMLVideoElement;
-          if (videoElement) {
-            videoElement.play();
+          if (type == "video") {
+            handlePlayVideo!();
+          } else {
+            const videoElement = document.getElementById(
+              keyValue
+            ) as HTMLVideoElement;
+            if (videoElement) {
+              videoElement.play();
+            }
           }
         });
 
         wavesurfer.current.on("pause", function () {
-          const videoElement = document.getElementById(
-            keyValue
-          ) as HTMLVideoElement;
-          if (videoElement) {
-            videoElement.pause();
+          if (type == "video") {
+            handlePauseVideo!();
+          } else {
+            const videoElement = document.getElementById(
+              keyValue
+            ) as HTMLVideoElement;
+            if (videoElement) {
+              videoElement.pause();
+            }
           }
         });
 
@@ -72,6 +90,7 @@ const Waveform: FunctionComponent<WaveFormProps> = ({
           console.error("Error loading media:", error);
         }
       }
+      setWaveLoading(false);
     };
 
     waver();
@@ -82,17 +101,29 @@ const Waveform: FunctionComponent<WaveFormProps> = ({
   }, [audio, wavesurfer, video, type, waveformRef]);
 
   return (
-    <div className="absolute right-0 bottom-0 w-full h-10 flex flex-row gap-1.5 items-center justify-between bg-offBlack px-1 border border-white z-20">
-      <div
-        className="relative flex w-fit h-fit items-center justify-center flex cursor-pointer active:scale-95"
-        onClick={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          handlePlayPause(keyValue, wavesurfer, type);
-        }}
-      >
-        <HiOutlinePlayPause color="white" size={15} />
-      </div>
+    <div
+      className={`absolute right-0 bottom-0 w-full h-10 flex flex-row gap-1.5 items-center justify-between bg-offBlack px-1 border border-white z-20 ${
+        waveLoading && "animate-pulse opacity-90"
+      }`}
+    >
+      {!waveLoading && (
+        <div
+          className={`relative flex w-fit h-fit items-center justify-center flex cursor-pointer active:scale-95`}
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            handlePlayPause(
+              wavesurfer,
+              type,
+              videoInfo?.isPlaying!,
+              handlePlayVideo!,
+              handlePauseVideo!
+            );
+          }}
+        >
+         <HiOutlinePlayPause color="white" size={15} />
+        </div>
+      )}
       <div
         className="relative w-full h-fit justify-center items-center cursor-pointer"
         ref={waveformRef}
