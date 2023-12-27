@@ -11,6 +11,8 @@ import {
   IoVideocamOutline,
   IoImageOutline,
 } from "react-icons/io5";
+import { KinoraPlayerWrapper } from "kinora-sdk";
+import { Player } from "@livepeer/react";
 
 const Mint: FunctionComponent<MintProps> = ({
   item,
@@ -60,30 +62,48 @@ const Mint: FunctionComponent<MintProps> = ({
                     />
                   )
                 ) : (
-                  <video
-                    className="relative rounded-sm w-full h-full flex object-cover"
+                  <div
                     id={item?.video}
-                    draggable={false}
-                    controls={false}
-                    playsInline
-                    loop
-                    key={item?.video}
+                    className="relative rounded-sm w-full h-full flex object-cover"
                   >
-                    <source
-                      src={
-                        item?.video?.includes("ipfs://")
-                          ? `${INFURA_GATEWAY}/ipfs/${
-                              item?.video?.split("ipfs://")?.[1]
-                            }`
-                          : item?.video?.includes("ar://")
-                          ? `https://arweave.net/${item?.video
-                              ?.split("ar://")?.[1]
-                              ?.replace(/"/g, "")
-                              ?.trim()}`
-                          : item?.video
-                      }
-                    />
-                  </video>
+                    <KinoraPlayerWrapper
+                      parentId={item?.video}
+                      key={item?.video}
+                      customControls={true}
+                      play={true}
+                      fillWidthHeight
+                      volume={{
+                        id: Math.random() * 0.5,
+                        level: 0,
+                      }}
+                    >
+                      {(setMediaElement: (node: HTMLVideoElement) => void) => (
+                        <Player
+                          mediaElementRef={setMediaElement}
+                          src={
+                            item?.video?.includes("ipfs://")
+                              ? `${INFURA_GATEWAY}/ipfs/${
+                                  item?.video?.split("ipfs://")?.[1]
+                                }`
+                              : item?.video?.includes("ar://")
+                              ? `https://arweave.net/${item?.video
+                                  ?.split("ar://")?.[1]
+                                  ?.replace(/"/g, "")
+                                  ?.trim()}`
+                              : item?.video
+                          }
+                          muted
+                          loop
+                          autoPlay
+                          objectFit="cover"
+                          autoUrlUpload={{
+                            fallback: true,
+                            ipfsGateway: INFURA_GATEWAY,
+                          }}
+                        />
+                      )}
+                    </KinoraPlayerWrapper>
+                  </div>
                 )}
               </>
             )}
@@ -210,7 +230,6 @@ const Mint: FunctionComponent<MintProps> = ({
                       setQuestInfo({
                         actionDetails: questInfo?.details,
                         actionMilestones: milestones,
-                        
                       })
                     );
                   }
@@ -320,7 +339,6 @@ const Mint: FunctionComponent<MintProps> = ({
                       setQuestInfo({
                         actionDetails: questInfo?.details,
                         actionMilestones: milestones,
-                        
                       })
                     );
                   }}
@@ -420,7 +438,6 @@ const Mint: FunctionComponent<MintProps> = ({
                   setQuestInfo({
                     actionDetails: questInfo?.details,
                     actionMilestones: milestones,
-                    
                   })
                 );
               }}
@@ -485,7 +502,6 @@ const Mint: FunctionComponent<MintProps> = ({
 
             dispatch(
               setQuestInfo({
-                
                 actionDetails: questInfo?.details,
                 actionMilestones: milestones,
               })
@@ -547,7 +563,6 @@ const Mint: FunctionComponent<MintProps> = ({
 
             dispatch(
               setQuestInfo({
-                
                 actionDetails: questInfo?.details,
                 actionMilestones: milestones,
               })
@@ -615,7 +630,6 @@ const Mint: FunctionComponent<MintProps> = ({
 
         dispatch(
           setQuestInfo({
-            
             actionDetails: questInfo?.details,
             actionMilestones: milestones,
           })

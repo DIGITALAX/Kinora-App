@@ -17,6 +17,12 @@ import { useRouter } from "next/router";
 import Footer from "@/components/Layout/modules/Footer";
 import Header from "@/components/Layout/modules/Header";
 import Modals from "@/components/Modals/modules/Modals";
+import {
+  createReactClient,
+  studioProvider,
+  LivepeerConfig,
+} from "@livepeer/react";
+import { KinoraProvider } from "kinora-sdk";
 
 const walletTheme = merge(darkTheme(), {
   colors: {
@@ -28,6 +34,12 @@ const { chains, publicClient } = configureChains(
   [polygon],
   [alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY! })]
 );
+
+const livepeerClient = createReactClient({
+  provider: studioProvider({
+    apiKey: process.env.LIVEPEER_STUDIO_KEY!,
+  }),
+});
 
 const { connectors } = getDefaultWallets({
   appName: "Kinora",
@@ -46,14 +58,18 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <WagmiConfig config={wagmiConfig}>
       <RainbowKitProvider chains={chains} theme={walletTheme}>
-        <Provider store={store}>
-          <div className="relative w-full h-full flex bg-nave flex-col">
-            <Header router={router} />
-            <Component router={router} {...pageProps} />
-            <Modals router={router} />
-            <Footer router={router} />
-          </div>
-        </Provider>
+        <LivepeerConfig client={livepeerClient}>
+          <KinoraProvider errorHandlingModeStrict={false}>
+            <Provider store={store}>
+              <div className="relative w-full h-full flex bg-nave flex-col">
+                <Header router={router} />
+                <Component router={router} {...pageProps} />
+                <Modals router={router} />
+                <Footer router={router} />
+              </div>
+            </Provider>
+          </KinoraProvider>
+        </LivepeerConfig>
       </RainbowKitProvider>
     </WagmiConfig>
   );
