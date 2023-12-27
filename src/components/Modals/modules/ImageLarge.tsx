@@ -3,6 +3,8 @@ import { FunctionComponent } from "react";
 import { INFURA_GATEWAY, IPFS_REGEX } from "../../../../lib/constants";
 import { setImageViewer } from "../../../../redux/reducers/imageViewerSlice";
 import { ImageLargeProps } from "../types/modals.types";
+import { KinoraPlayerWrapper } from "kinora-sdk";
+import { Player } from "@livepeer/react";
 
 const ImageLarge: FunctionComponent<ImageLargeProps> = ({
   mainImage,
