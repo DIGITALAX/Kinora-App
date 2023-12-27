@@ -85,7 +85,15 @@ export default function Upload() {
                   {postDetails?.video && (
                     <MediaSwitch
                       type="video"
-                      classNameVideo="object-cover w-full h-full flex items-center justify-center rounded-md"
+                      classNameVideo={{
+                        borderRadius: "0.375rem",
+                        objectFit: "cover",
+                        width: "100%",
+                        height: "100%",
+                        position: "relative",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
                       srcUrl={
                         IPFS_REGEX.test(postDetails?.video)
                           ? `${INFURA_GATEWAY}/ipfs/${postDetails?.video}`

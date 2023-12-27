@@ -233,7 +233,15 @@ const Milestones: FunctionComponent<StoryboardMilestonesProps> = ({
                     >
                       <MediaSwitch
                         classNameImage="rounded-sm"
-                        classNameVideo="object-cover w-full h-full flex rounded-sm"
+                        classNameVideo={{
+                          borderRadius: "0.125rem",
+                          objectFit: "cover",
+                          width: "100%",
+                          height: "100%",
+                          position: "relative",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
                         classNameAudio="rounded-sm"
                         hidden
                         type={item?.details?.media}
@@ -286,7 +294,15 @@ const Milestones: FunctionComponent<StoryboardMilestonesProps> = ({
                       <MediaSwitch
                         srcUrl={media?.asset!}
                         srcCover={media?.cover!}
-                        classNameVideo="rounded-md w-full h-full flex object-cover"
+                        classNameVideo={{
+                          borderRadius: "0.375rem",
+                          objectFit: "cover",
+                          width: "100%",
+                          height: "100%",
+                          position: "relative",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
                         type="video"
                         hidden
                       />

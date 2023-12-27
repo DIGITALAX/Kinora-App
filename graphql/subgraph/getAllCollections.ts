@@ -22,6 +22,7 @@ export const getAllCollections = async (
           mediaCover
           images
         }
+        uri
         profileId
       }
     }
@@ -72,6 +73,7 @@ export const getCollectionSample = async (
           mediaCover
           images
         }
+        uri
         profileId
       }
     }

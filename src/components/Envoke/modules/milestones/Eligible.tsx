@@ -27,7 +27,16 @@ const Eligible: FunctionComponent<EligibleProps> = ({
               srcUrl={image?.asset}
               srcCover={image?.cover}
               classNameImage="rounded-md w-full h-full flex"
-              classNameVideo="rounded-md object-cover flex w-full h-full items-center justify-center"
+              classNameVideo={{
+                borderRadius: "0.375rem",
+                objectFit: "cover",
+                width: "100%",
+                height: "100%",
+                position: "relative",
+                justifyContent: "center",
+                alignItems: "center",
+                display: "flex",
+              }}
               type="video"
             />
           )}

@@ -15,6 +15,7 @@ const initialQuestInfoState: QuestInfoState = {
     description: "",
     cover: "",
     tags: "",
+    maxPlayerCount: 100,
     gated: {
       erc721Addresses: [],
       erc721TokenIds: [],

@@ -80,6 +80,7 @@ const Mint: FunctionComponent<MintProps> = ({
                       {(setMediaElement: (node: HTMLVideoElement) => void) => (
                         <Player
                           mediaElementRef={setMediaElement}
+                        
                           src={
                             item?.video?.includes("ipfs://")
                               ? `${INFURA_GATEWAY}/ipfs/${
@@ -642,7 +643,14 @@ const Mint: FunctionComponent<MintProps> = ({
       >
         <MediaSwitch
           classNameImage="rounded-sm"
-          classNameVideo="object-cover w-full h-full flex rounded-sm"
+          classNameVideo={{
+            borderRadius: "0.125rem",
+            objectFit: "cover",
+            width: "100%",
+            height: "100%",
+            position: "relative",
+            display: "flex",
+          }}
           classNameAudio="rounded-sm"
           hidden
           type={item?.media}

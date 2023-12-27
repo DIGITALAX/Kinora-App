@@ -6,6 +6,8 @@ export const KINORA_OPEN_ACTION: `0x${string}` = "0x";
 export const CHROMADIN_ID: string = "0x01c6a9";
 export const LENS_HUB_PROXY_ADDRESS_MATIC: `0x${string}` =
   "0xDb46d1Dc155634FbC732f92E853b10B288AD5a1d";
+export const PRINT_DESIGN_DATA: `0x${string}` =
+  "0x062aA8B94a308fE84bE7974bAC758bC574145907";
 
 export const COVER_CONSTANTS: string[] = [
   "QmPW4zahvfhNUUbc27sM2WZE9uQcZ9KYGcXTq64zzuoazi",
@@ -105,4 +107,3 @@ export const ACCEPTED_TOKENS: string[][] = [
     "0x6968105460f67c3bf751be7c15f92f5286fd0ce5",
   ],
 ];
-

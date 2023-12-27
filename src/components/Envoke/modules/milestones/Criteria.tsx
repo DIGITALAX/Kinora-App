@@ -88,7 +88,7 @@ const Criteria: FunctionComponent<CriteriaProps> = ({
                 loader={<></>}
                 className="relative w-full h-fit flex overflow-y-scroll"
               >
-                <div className="relative w-full flex flex-wrap gap-3 items-start justify-start h-fit max-h-[28rem]">
+                <div className="relative w-full flex flex-wrap gap-3 items-start justify-start h-fit max-h-[28rem] rounded-md">
                   {(videoSearch?.trim() !== "" && videos?.length > 0
                     ? videos
                     : chromadinVideos
@@ -202,21 +202,20 @@ const Criteria: FunctionComponent<CriteriaProps> = ({
                             setQuestInfo({
                               actionDetails: questInfo?.details,
                               actionMilestones: milestones,
-                              
                             })
                           );
                         }}
                       >
                         <div className="relative w-full h-full relative rounded-md flex bg-black">
                           <MediaSwitch
-                            srcUrl={image?.asset!}
-                            srcCover={image?.cover!}
-                            classNameVideo="rounded-md w-full h-full flex object-cover"
-                            type="video"
-                            hidden
+                            srcUrl={image?.cover!}
+                            classNameImage={
+                              "relative rounded-md w-full h-full flex"
+                            }
+                            type="static"
                           />
                         </div>
-                        <div className="absolute flex flex-col gap-1 text-xxs items-start justify-start top-2 left-2">
+                        <div className="absolute flex flex-col gap-1 text-xxs items-start justify-start top-2 left-2 z-10">
                           <div className="relative w-fit h-fit flex items-start justify-start">
                             {(item?.metadata as VideoMetadataV3)?.title}
                           </div>
@@ -321,7 +320,6 @@ const Criteria: FunctionComponent<CriteriaProps> = ({
                       setQuestInfo({
                         actionDetails: questInfo?.details,
                         actionMilestones: milestones,
-                        
                       })
                     );
                   }}
@@ -334,7 +332,14 @@ const Criteria: FunctionComponent<CriteriaProps> = ({
                       <MediaSwitch
                         srcUrl={image?.asset!}
                         srcCover={image?.cover!}
-                        classNameVideo="rounded-md w-full h-full flex object-cover"
+                        classNameVideo={{
+                          borderRadius: "0.375rem",
+                          objectFit: "cover",
+                          width: "100%",
+                          height: "100%",
+                          position: "relative",
+                          display: "flex",
+                        }}
                         type="video"
                         hidden
                       />

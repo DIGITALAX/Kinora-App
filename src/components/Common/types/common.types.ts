@@ -108,13 +108,21 @@ export type WaveFormProps = {
   loaderEnd?: () => void;
   loaderStart?: () => void;
   internalFunction?: (e: string) => void;
+  handlePlayVideo?: () => void;
+  handlePauseVideo?: () => void;
+  handleSeekVideo?: (e: number) => void;
+  videoInfo?: {
+    isPlaying: boolean;
+    currentTime: number;
+    duration: number;
+  };
 };
 
 export type MediaProps = {
   type: string;
   srcUrl: string;
   srcCover?: string;
-  classNameVideo?: string;
+  classNameVideo?: React.CSSProperties;
   classNameImage?: string;
   classNameAudio?: string;
   objectFit?: string;
