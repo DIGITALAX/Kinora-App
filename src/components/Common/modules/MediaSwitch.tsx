@@ -30,7 +30,7 @@ const MediaSwitch: FunctionComponent<MediaProps> = ({
   });
   switch (type?.toLowerCase()) {
     case "video":
-      const keyValueVideo = srcUrl ;
+      const keyValueVideo = srcUrl;
       return (
         <>
           <div id={keyValueVideo} style={classNameVideo}>
@@ -66,6 +66,7 @@ const MediaSwitch: FunctionComponent<MediaProps> = ({
                 <Player
                   mediaElementRef={setMediaElement}
                   src={srcUrl}
+                  playbackId={srcUrl?.split("/ipfs/")?.[1]}
                   poster={srcCover}
                   objectFit="cover"
                   autoUrlUpload={{

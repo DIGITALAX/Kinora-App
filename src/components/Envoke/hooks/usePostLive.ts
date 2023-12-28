@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Dispatch } from "redux";
 import {
   QuestInfoState,
@@ -10,12 +10,29 @@ import { Address, createWalletClient, custom } from "viem";
 import { polygon } from "viem/chains";
 import convertToFile from "../../../../lib/helpers/convertToFile";
 import { PRINT_DESIGN_DATA } from "../../../../lib/constants";
+import { Asset, useCreateAsset } from "@livepeer/react";
+import { VideoMetadataV3 } from "kinora-sdk/dist/@types/generated";
+import { convertIPFS } from "../../../../lib/helpers/convertIPFS";
 
 const usePostLive = (dispatch: Dispatch, questInfo: QuestInfoState) => {
   const [postLoading, setPostLoading] = useState<boolean>(false);
+  const [allUploaded, setAllUploaded] = useState<Asset[]>([]);
   const questEnvoker = new Envoker({
     authedApolloClient: apolloClient,
   });
+
+  const handleUploadAssets = async () => {
+    try {
+      const data = await fetch("/api/livepeer", {
+        method: "POST",
+      });
+
+      const res = await data.json();
+      setAllUploaded(res.json);
+    } catch (err: any) {
+      console.error(err.message);
+    }
+  };
 
   const handlePostLive = async () => {
     setPostLoading(true);
@@ -133,12 +150,56 @@ const usePostLive = (dispatch: Dispatch, questInfo: QuestInfoState) => {
               description: item.details.description,
             },
             eligibility: {
-              internalCriteria: item?.eligibility?.map((item) => ({
-                playbackId: item?.playbackId as string,
-                postId: item?.video?.id as string,
-                playbackCriteria:
-                  item?.criteria as MilestoneEligibilityCriteria,
-              })),
+              internalCriteria: await Promise.all(
+                item?.eligibility?.map(async (item) => {
+                  let assetWithPlaybackId = allUploaded.find((asset) =>
+                    asset?.hash?.some(
+                      (h) =>
+                        h?.hash?.toLowerCase() ===
+                        (
+                          item?.video?.metadata as VideoMetadataV3
+                        )?.asset?.video?.raw?.uri
+                          ?.split("ipfs://")?.[1]
+                          ?.toLowerCase()
+                    )
+                  );
+
+                  if (!assetWithPlaybackId?.hash) {
+                    const {
+                      data: createdAsset,
+                      status: createStatus,
+                      mutateAsync: createAsset,
+                    } = useCreateAsset({
+                      sources: [
+                        {
+                          name: (item?.video?.metadata as VideoMetadataV3)
+                            ?.title,
+                          file: await convertIPFS(
+                            (
+                              item?.video?.metadata as VideoMetadataV3
+                            )?.asset?.video?.raw?.uri
+                              ?.split("ipfs://")?.[1]
+                              ?.toLowerCase()
+                          ),
+                        },
+                      ],
+                    });
+
+                    await createAsset?.();
+
+                    if (createStatus === "success") {
+                      assetWithPlaybackId = createdAsset?.[0];
+                    }
+                  }
+
+                  return {
+                    playbackId: assetWithPlaybackId?.playbackId as string,
+                    postId: item?.video?.id as string,
+                    playbackCriteria:
+                      item?.criteria as MilestoneEligibilityCriteria,
+                  };
+                })
+              ),
             },
           };
         }
@@ -203,6 +264,12 @@ const usePostLive = (dispatch: Dispatch, questInfo: QuestInfoState) => {
     }
     setPostLoading(false);
   };
+
+  useEffect(() => {
+    if (allUploaded?.length < 1) {
+      handleUploadAssets();
+    }
+  }, []);
 
   return {
     handlePostLive,
