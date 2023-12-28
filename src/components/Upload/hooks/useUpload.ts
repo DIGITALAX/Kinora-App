@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useCreateAsset } from "@livepeer/react";
 import {
   Erc20,
   LimitType,
@@ -13,6 +14,7 @@ import lensPost from "../../../../lib/helpers/lensPost";
 import { PublicClient, createWalletClient, custom } from "viem";
 import { polygon } from "viem/chains";
 import uploadPostContent from "../../../../lib/helpers/uploadPostContent";
+import convertToFile from "../../../../lib/helpers/convertToFile";
 
 const useUpload = (
   address: `0x${string}` | undefined,
@@ -95,6 +97,17 @@ const useUpload = (
       return;
     setUploadLoading(true);
     try {
+      const { mutateAsync: createAsset } = useCreateAsset({
+        sources: [
+          {
+            name: postDetails.title,
+            file: convertToFile(postDetails?.video, "video/mp4") as File,
+          },
+        ],
+      });
+
+      await createAsset?.();
+
       const contentURI = await uploadPostContent(
         postDetails.description?.trim() == "" ? " " : postDetails.description,
         [],
