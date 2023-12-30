@@ -10,6 +10,7 @@ import indexerReducer from "./reducers/indexerSlice";
 import questStageReducer from "./reducers/questStageSlice";
 import questInfoReducer from "./reducers/questInfoSlice";
 import availableCurrenciesReducer from "./reducers/availableCurrenciesSlice";
+import successReducer from "./reducers/successSlice";
 import postCollectGifReducer from "./reducers/postCollectGifSlice";
 import quoteReducer from "./reducers/quoteSlice";
 import followCollectReducer from "./reducers/followCollectSlice";
@@ -30,6 +31,7 @@ const reducer = combineReducers({
   quoteReducer,
   followCollectReducer,
   imageViewerReducer,
+  successReducer
 });
 
 export const store = configureStore({

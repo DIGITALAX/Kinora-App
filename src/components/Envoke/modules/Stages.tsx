@@ -1,5 +1,6 @@
 import { FunctionComponent } from "react";
 import {
+  Milestone,
   QuestStage,
   StagesProps,
   StoryboardStage,
@@ -30,13 +31,15 @@ const Stages: FunctionComponent<StagesProps> = ({
   setMilestoneStoryboardStage,
   postLoading,
   handlePostLive,
+  handleApprove,
+  tokensToApprove,
 }): JSX.Element => {
   return (
     <div
       className={`relative w-full flex flex-col border border-white rounded-md justify-between lg:top-20 ${
         questStage !== QuestStage.Post
           ? "h-full lg:h-5/6 lg:max-w-[20rem]"
-          : "h-80 lg:max-w-[30rem]"
+          : "h-96 lg:max-w-[30rem]"
       }`}
     >
       <div className="relative w-full p-2 flex items-center justify-center text-white font-bit border-b border-white">
@@ -319,7 +322,12 @@ const Stages: FunctionComponent<StagesProps> = ({
           )}
         </div>
       ) : (
-        <PostLive handlePostLive={handlePostLive} postLoading={postLoading} />
+        <PostLive
+          handlePostLive={handlePostLive}
+          postLoading={postLoading}
+          handleApprove={handleApprove}
+          tokensToApprove={tokensToApprove}
+        />
       )}
       <div className="relative w-full p-2 h-fit flex items-center justify-center text-white font-bit mb-0 flex-row gap-1 border-t border-white">
         {questStage !== QuestStage.Details && (
@@ -406,8 +414,11 @@ const Stages: FunctionComponent<StagesProps> = ({
                       setMilestoneStage(milestoneStage + 1);
                     }
                   }
-                : questStage === QuestStage.Storyboard &&
-                  milestoneStoryboardStage < questInfo?.milestones?.length - 1
+                : (questStage === QuestStage.Storyboard &&
+                    milestoneStoryboardStage <
+                      questInfo?.milestones?.length - 1) ||
+                  (questStage === QuestStage.Storyboard &&
+                    storyboardStage !== StoryboardStage.Milestones)
                 ? storyboardStage == StoryboardStage.Details
                   ? () =>
                       setStoryboardStage(
@@ -421,7 +432,47 @@ const Stages: FunctionComponent<StagesProps> = ({
                       )
                   : () =>
                       setMilestoneStoryboardStage(milestoneStoryboardStage + 1)
-                : () =>
+                : () => {
+                    if (
+                      Object.values(QuestStage)[
+                        (Object.values(QuestStage).indexOf(questStage) + 1) %
+                          Object.values(QuestStage).length
+                      ] == QuestStage.Storyboard
+                    ) {
+                      dispatch(
+                        setQuestInfo({
+                          actionDetails: questInfo?.details,
+                          actionMilestones: questInfo?.milestones?.map(
+                            (value: Milestone) => ({
+                              ...value,
+                              gated: {
+                                ...value.gated,
+                                erc20Thresholds:
+                                  value?.gated?.erc20Thresholds?.filter(
+                                    (item) => Number(item || 0) > 0
+                                  ),
+                              },
+                              rewards: {
+                                rewards721: value?.rewards?.rewards721?.filter(
+                                  (reward) =>
+                                    reward.details.title?.trim() !== "" &&
+                                    reward.details.description?.trim() !== "" &&
+                                    ((reward?.details?.images?.length > 0 &&
+                                      reward.details.images?.[0]?.trim() !==
+                                        "") ||
+                                      reward?.details?.audio?.trim() !== "" ||
+                                      reward?.details?.video?.trim() !== "")
+                                ),
+                                rewards20: value?.rewards?.rewards20?.filter(
+                                  (reward) => Number(reward?.amount || 0) > 0
+                                ),
+                              },
+                            })
+                          ),
+                        })
+                      );
+                    }
+
                     dispatch(
                       setQuestStage(
                         Object.values(QuestStage)[
@@ -429,7 +480,8 @@ const Stages: FunctionComponent<StagesProps> = ({
                             Object.values(QuestStage).length
                         ]
                       )
-                    )
+                    );
+                  }
             }
           >
             <div className="relative w-fit h-fit flex items-center justify-center top-px">

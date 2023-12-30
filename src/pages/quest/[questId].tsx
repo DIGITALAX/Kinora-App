@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { createPublicClient, http } from "viem";
-import { polygon } from "viem/chains";
+import { polygon, polygonMumbai } from "viem/chains";
 import { RootState } from "../../../redux/store";
 import { NextRouter } from "next/router";
 import useJoin from "@/components/Quest/hooks/useJoin";
@@ -12,9 +12,9 @@ export default function QuestId({ router }: { router: NextRouter }) {
   const dispatch = useDispatch();
   const { address } = useAccount();
   const publicClient = createPublicClient({
-    chain: polygon,
+    chain: polygonMumbai,
     transport: http(
-      `https://polygon-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`
+      `https://polygon-mumbai.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY_MUMBAI}`
     ),
   });
   const openSidebar = useSelector(

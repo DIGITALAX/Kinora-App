@@ -28,6 +28,10 @@ export type InteractErrorProps = {
   dispatch: Dispatch;
 };
 
+export type SuccessProps = {
+  dispatch: Dispatch;
+};
+
 export type FollowCollectProps = {
   dispatch: Dispatch<Action>;
   type: string;

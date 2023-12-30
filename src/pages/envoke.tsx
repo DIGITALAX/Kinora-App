@@ -8,7 +8,7 @@ import { useAccountModal, useConnectModal } from "@rainbow-me/rainbowkit";
 import useSignIn from "@/components/Layout/hooks/useSignIn";
 import { useAccount } from "wagmi";
 import { createPublicClient, http } from "viem";
-import { polygon } from "viem/chains";
+import { polygon, polygonMumbai } from "viem/chains";
 import useCriteria from "@/components/Envoke/hooks/useCriteria";
 import { NextRouter } from "next/router";
 import usePostLive from "@/components/Envoke/hooks/usePostLive";
@@ -17,9 +17,9 @@ import { QuestStage } from "@/components/Envoke/types/envoke.types";
 export default function Envoke({ router }: { router: NextRouter }) {
   const dispatch = useDispatch();
   const publicClient = createPublicClient({
-    chain: polygon,
+    chain: polygonMumbai,
     transport: http(
-      `https://polygon-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`
+      `https://polygon-mumbai.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY_MUMBAI}`
     ),
   });
   const { openConnectModal } = useConnectModal();
@@ -82,7 +82,8 @@ export default function Envoke({ router }: { router: NextRouter }) {
     milestoneStoryboardStage,
     setMilestoneStoryboardStage,
   } = useCriteria(lensConnected);
-  const { handlePostLive, postLoading } = usePostLive(dispatch, questInfo);
+  const { handlePostLive, postLoading, handleApprove, tokensToApprove } =
+    usePostLive(dispatch, questInfo, address, publicClient);
   return (
     <>
       {walletConnected && lensConnected ? (
@@ -160,6 +161,8 @@ export default function Envoke({ router }: { router: NextRouter }) {
                 storyboardStage={storyboardStage}
                 handlePostLive={handlePostLive}
                 postLoading={postLoading}
+                handleApprove={handleApprove}
+                tokensToApprove={tokensToApprove}
               />
             </div>
           </div>
