@@ -7,6 +7,8 @@ export const KINORA_OPEN_ACTION: `0x${string}` =
 export const CHROMADIN_ID: string = "0x01c6a9";
 export const LENS_HUB_PROXY_ADDRESS_MATIC: `0x${string}` =
   "0xDb46d1Dc155634FbC732f92E853b10B288AD5a1d";
+  export const LENS_HUB_PROXY_ADDRESS_MUMBAI: `0x${string}` =
+  "0x4fbffF20302F3326B20052ab9C217C44F6480900";
 export const PRINT_DESIGN_DATA: `0x${string}` =
   "0x062aA8B94a308fE84bE7974bAC758bC574145907";
 export const KINORA_ESCROW_CONTRACT: `0x${string}` =

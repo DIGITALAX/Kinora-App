@@ -1,7 +1,7 @@
 import { omit } from "lodash";
 import LensHubProxy from "./../../abis/LensHubProxy.json";
 import { Action, Dispatch } from "redux";
-import { LENS_HUB_PROXY_ADDRESS_MATIC } from "../constants";
+import { LENS_HUB_PROXY_ADDRESS_MUMBAI } from "../constants";
 import { polygon, polygonMumbai } from "viem/chains";
 import { PublicClient, WalletClient } from "viem";
 import { InputMaybe, OpenActionModuleInput } from "../../graphql/generated";
@@ -78,7 +78,7 @@ const lensPost = async (
     );
   } else {
     const { request } = await publicClient.simulateContract({
-      address: LENS_HUB_PROXY_ADDRESS_MATIC,
+      address: LENS_HUB_PROXY_ADDRESS_MUMBAI,
       abi: LensHubProxy,
       functionName: "post",
       chain: polygonMumbai,

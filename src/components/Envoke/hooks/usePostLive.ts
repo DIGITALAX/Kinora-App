@@ -14,10 +14,10 @@ import {
   MilestoneEligibilityCriteria,
   RewardType,
 } from "../types/envoke.types";
-import { convertIPFS } from "../../../../lib/helpers/convertIPFS";
 import { ethers } from "ethers";
 import convertToFile from "../../../../lib/helpers/convertToFile";
 import {
+  INFURA_GATEWAY,
   IPFS_REGEX,
   KINORA_ESCROW_CONTRACT,
   PRINT_DESIGN_DATA,
@@ -30,10 +30,10 @@ const usePostLive = (
   dispatch: Dispatch,
   questInfo: QuestInfoState,
   address: `0x${string}` | undefined,
-  publicClient: PublicClient
+  publicClient: PublicClient,
+  allUploaded: Asset[]
 ) => {
   const [postLoading, setPostLoading] = useState<boolean>(false);
-  const [allUploaded, setAllUploaded] = useState<Asset[]>([]);
   const [tokensToApprove, setTokensToApprove] = useState<
     {
       address: string;
@@ -45,26 +45,8 @@ const usePostLive = (
     authedApolloClient: apolloClient,
   });
 
-  const handleUploadAssets = async () => {
-    try {
-      const data = await fetch("/api/livepeer", {
-        method: "POST",
-      });
-
-      const res = await data.json();
-      setAllUploaded(res.json);
-    } catch (err: any) {
-      console.error(err.message);
-    }
-  };
-
   const checkApproved = async () => {
     try {
-      console.log(
-        questInfo?.milestones?.map(
-          (item) => item?.rewards?.rewards20?.length > 0
-        )?.length
-      );
       if (
         questInfo?.milestones?.length < 1 ||
         questInfo?.milestones?.filter((item) =>
@@ -416,37 +398,38 @@ const usePostLive = (
                             ?.split("ipfs://")?.[1]
                             ?.toLowerCase()
                       )
-                    );
+                    )?.playbackId;
 
-                    // if (!assetWithPlaybackId?.hash) {
-                    //   const file = await convertIPFS(
-                    //     (item?.video?.metadata as VideoMetadataV3)?.asset?.video
-                    //       ?.optimized?.uri ||
-                    //       (item?.video?.metadata as VideoMetadataV3)?.asset?.video
-                    //         ?.raw?.uri
-                    //   );
+                    if (!assetWithPlaybackId) {
+                      const formData = new FormData();
+                      formData.append(
+                        "name",
+                        (playbackCriteria?.video?.metadata as VideoMetadataV3)
+                          ?.title
+                          ? (
+                              playbackCriteria?.video
+                                ?.metadata as VideoMetadataV3
+                            )?.title
+                          : (
+                              playbackCriteria?.video
+                                ?.metadata as VideoMetadataV3
+                            )?.content?.split("\n\n")[0]
+                      );
+                      formData.append(
+                        "link",
+                        `${INFURA_GATEWAY}/ipfs/${
+                          (
+                            playbackCriteria?.video?.metadata as VideoMetadataV3
+                          )?.asset?.video?.raw?.uri?.split("ipfs://")?.[1]
+                        }`
+                      );
+                      const result = await fetch("/api/video", {
+                        method: "POST",
+                        body: formData,
+                      });
 
-                    //   console.log({file})
-
-                    //   const formData = new FormData();
-                    //   formData.append(
-                    //     "name",
-                    //     (item?.video?.metadata as VideoMetadataV3)?.title
-                    //       ? (item?.video?.metadata as VideoMetadataV3)?.title
-                    //       : (
-                    //           item?.video?.metadata as VideoMetadataV3
-                    //         )?.content?.split("\n\n")[0]
-                    //   );
-                    //   formData.append("file", file as Blob);
-                    //   const result = await fetch("/api/video", {
-                    //     method: "POST",
-                    //     body: formData,
-                    //   });
-
-                    //   assetWithPlaybackId = await result.json();
-
-                    //   console.log({ assetWithPlaybackId });
-                    // }
+                      assetWithPlaybackId = (await result.json())?.assetId;
+                    }
 
                     const fields: (keyof MilestoneEligibilityCriteria)[] = [
                       "minPlayCount",
@@ -489,10 +472,8 @@ const usePostLive = (
                         }
                       }
                     );
-
                     return {
-                      playbackId:
-                        (assetWithPlaybackId?.playbackId as string) || "",
+                      playbackId: assetWithPlaybackId as string,
                       postId: playbackCriteria?.video?.id as string,
                       playbackCriteria: playbackCriteria.criteria,
                     };
@@ -542,30 +523,24 @@ const usePostLive = (
         approveRewardTokens: false,
       });
 
-      // dispatch(
-      //   setQuestInfo({
-      //     actionDetails: {
-      //       title: "",
-      //       description: "",
-      //       cover: "",
-      //       tags: "",
-      //       maxPlayerCount: 100,
-      //     },
-      //     actionMilestones: [],
-      //   })
-      // );
-      // dispatch(setSuccess(true));
+      dispatch(
+        setQuestInfo({
+          actionDetails: {
+            title: "",
+            description: "",
+            cover: "",
+            tags: "",
+            maxPlayerCount: 100,
+          },
+          actionMilestones: [],
+        })
+      );
+      dispatch(setSuccess(true));
     } catch (err: any) {
       console.error(err.message);
     }
     setPostLoading(false);
   };
-
-  useEffect(() => {
-    if (allUploaded?.length < 1) {
-      handleUploadAssets();
-    }
-  }, []);
 
   useEffect(() => {
     if (
