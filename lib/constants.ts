@@ -1,13 +1,16 @@
 export const INFURA_GATEWAY: string = "https://thedial.infura-ipfs.io";
-export const BASE_URL: string = "https://api-v2.lens.dev/";
+export const BASE_URL: string = "https://api-v2-mumbai-live.lens.dev";
 export const IPFS_REGEX: RegExp = /\b(Qm[1-9A-Za-z]{44}|ba[A-Za-z2-7]{57})\b/;
 
-export const KINORA_OPEN_ACTION: `0x${string}` = "0x";
+export const KINORA_OPEN_ACTION: `0x${string}` =
+  "0xF451CD340AEfe28C58162543D5167E35b36325d7";
 export const CHROMADIN_ID: string = "0x01c6a9";
 export const LENS_HUB_PROXY_ADDRESS_MATIC: `0x${string}` =
   "0xDb46d1Dc155634FbC732f92E853b10B288AD5a1d";
 export const PRINT_DESIGN_DATA: `0x${string}` =
   "0x062aA8B94a308fE84bE7974bAC758bC574145907";
+export const KINORA_ESCROW_CONTRACT: `0x${string}` =
+  "0x9266F71E1888a53923A605a82882F83211eF64E0";
 
 export const COVER_CONSTANTS: string[] = [
   "QmPW4zahvfhNUUbc27sM2WZE9uQcZ9KYGcXTq64zzuoazi",
@@ -105,5 +108,28 @@ export const ACCEPTED_TOKENS: string[][] = [
     "QmS6f8vrNZok9j4pJttUuWpNrjsf4vP9RD5mRL36z6UdaL",
     "MONA",
     "0x6968105460f67c3bf751be7c15f92f5286fd0ce5",
+  ],
+];
+
+export const ACCEPTED_TOKENS_MUMBAI: string[][] = [
+  [
+    "QmYYUQ8nGDnyuk8jQSung1WmTksvLEQBXjnCctdRrKtsNk",
+    "WMATIC",
+    "0x3cf7283c025d82390e86d2feb96eda32a393036b",
+  ],
+  [
+    "QmZRhUgjK6bJM8fC7uV145yf66q2e7vGeT7CLosw1SdMdN",
+    "WETH",
+    "0x566d63f1cc7f45bfc9b2bdc785ffcc6f858f0997",
+  ],
+  [
+    "QmS6f8vrNZok9j4pJttUuWpNrjsf4vP9RD5mRL36z6UdaL",
+    "MONA",
+    "0xf87b6343c172720ac9cc7d1c9465d63454a8ef30",
+  ],
+  [
+    "QmSbpsDRwxSCPBWPkwWvcb49jViSxzmNHjYy3AcGF3qM2x",
+    "USDT",
+    "0x07b722856369f6b923e1f276abca58dd3d15243d",
   ],
 ];

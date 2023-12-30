@@ -220,7 +220,7 @@ const MilestoneDetails: FunctionComponent<MilestoneDetailsProps> = ({
               milestonesOpen.findIndex((item: boolean) => item == true) !== -1
                 ? milestonesOpen.findIndex((item: boolean) => item == true)
                 : 0
-            ]?.details?.title
+            ]?.details?.title || ""
           }
           onChange={(e) => {
             const milestones = [...questInfo?.milestones];
