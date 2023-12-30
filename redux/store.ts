@@ -15,6 +15,7 @@ import postCollectGifReducer from "./reducers/postCollectGifSlice";
 import quoteReducer from "./reducers/quoteSlice";
 import followCollectReducer from "./reducers/followCollectSlice";
 import imageViewerReducer from "./reducers/imageViewerSlice";
+import allUploadedReducer from "./reducers/allUploadedSlice";
 
 const reducer = combineReducers({
   walletConnectedReducer,
@@ -31,7 +32,8 @@ const reducer = combineReducers({
   quoteReducer,
   followCollectReducer,
   imageViewerReducer,
-  successReducer
+  successReducer,
+  allUploadedReducer,
 });
 
 export const store = configureStore({

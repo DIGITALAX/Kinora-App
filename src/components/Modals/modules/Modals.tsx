@@ -51,6 +51,9 @@ const Modals: FunctionComponent<{ router: NextRouter }> = ({
   const followCollect = useSelector(
     (state: RootState) => state.app.followCollectReducer
   );
+  const allUploaded = useSelector(
+    (state: RootState) => state.app.allUploadedReducer.videos
+  );
   const indexer = useSelector((state: RootState) => state.app.indexerReducer);
   const interactError = useSelector(
     (state: RootState) => state.app.interactErrorReducer
@@ -60,7 +63,8 @@ const Modals: FunctionComponent<{ router: NextRouter }> = ({
     openAccountModal,
     dispatch,
     isConnected,
-    address
+    address,
+    allUploaded
   );
   const {
     handleCollect,

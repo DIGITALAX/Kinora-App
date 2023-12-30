@@ -6,7 +6,6 @@ import { useAccount } from "wagmi";
 import useSignIn from "@/components/Layout/hooks/useSignIn";
 import useUpload from "@/components/Upload/hooks/useUpload";
 import handleMediaUpload from "../../lib/helpers/handleMediaUpload";
-import MediaSwitch from "@/components/Common/modules/MediaSwitch";
 import {
   HASHTAG_CONSTANTS,
   INFURA_GATEWAY,
@@ -34,6 +33,9 @@ export default function Upload() {
   const walletConnected = useSelector(
     (state: RootState) => state.app.walletConnectedReducer.value
   );
+  const allUploaded = useSelector(
+    (state: RootState) => state.app.allUploadedReducer.videos
+  );
   const availableCurrencies = useSelector(
     (state: RootState) => state.app.availableCurrenciesReducer.currencies
   );
@@ -45,7 +47,8 @@ export default function Upload() {
     openAccountModal,
     dispatch,
     isConnected,
-    address
+    address,
+    allUploaded
   );
   const {
     uploadLoading,
@@ -54,7 +57,13 @@ export default function Upload() {
     setPostDetails,
     openMeasure,
     setOpenMeasure,
-  } = useUpload(address, dispatch, availableCurrencies, publicClient);
+  } = useUpload(
+    address,
+    dispatch,
+    availableCurrencies,
+    publicClient,
+    allUploaded
+  );
   return (
     <>
       {walletConnected && lensConnected ? (
@@ -83,23 +92,20 @@ export default function Upload() {
               >
                 <div className="relative w-full h-full flex items-center justify-center rounded-md">
                   {postDetails?.video && (
-                    <MediaSwitch
-                      type="video"
-                      classNameVideo={{
-                        borderRadius: "0.375rem",
-                        objectFit: "cover",
-                        width: "100%",
-                        height: "100%",
-                        position: "relative",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                      srcUrl={
-                        IPFS_REGEX.test(postDetails?.video)
-                          ? `${INFURA_GATEWAY}/ipfs/${postDetails?.video}`
-                          : postDetails?.video
-                      }
-                    />
+                    <video
+                      className="rounded-md object-cover w-full h-full relative flex items-center justify-center"
+                      draggable={false}
+                      muted
+                      autoPlay
+                    >
+                      <source
+                        src={
+                          IPFS_REGEX.test(postDetails?.video)
+                            ? `${INFURA_GATEWAY}/ipfs/${postDetails?.video}`
+                            : postDetails?.video
+                        }
+                      />
+                    </video>
                   )}
                   <input
                     hidden
@@ -168,7 +174,7 @@ export default function Upload() {
                             ?.toLowerCase()!
                         )
                     ) && (
-                      <div className="absolute top-16 z-10 w-full max-h-[6rem] h-fit flex border border-sol rounded-md overflow-y-scroll">
+                      <div className="absolute top-16 z-10 w-full max-h-[6rem] h-fit flex bg-nave border border-sol rounded-md overflow-y-scroll">
                         <div className="relative w-full h-fit flex flex-col items-center justify-start">
                           {HASHTAG_CONSTANTS?.filter((tag) =>
                             tag.toLowerCase().includes(

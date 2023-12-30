@@ -28,6 +28,9 @@ export default function Envoke({ router }: { router: NextRouter }) {
   const questInfo = useSelector(
     (state: RootState) => state.app.questInfoReducer
   );
+  const allUploaded = useSelector(
+    (state: RootState) => state.app.allUploadedReducer.videos
+  );
   const walletConnected = useSelector(
     (state: RootState) => state.app.walletConnectedReducer.value
   );
@@ -65,7 +68,8 @@ export default function Envoke({ router }: { router: NextRouter }) {
     openAccountModal,
     dispatch,
     isConnected,
-    address
+    address,
+    allUploaded
   );
   const {
     getMoreVideosSample,
@@ -83,7 +87,7 @@ export default function Envoke({ router }: { router: NextRouter }) {
     setMilestoneStoryboardStage,
   } = useCriteria(lensConnected);
   const { handlePostLive, postLoading, handleApprove, tokensToApprove } =
-    usePostLive(dispatch, questInfo, address, publicClient);
+    usePostLive(dispatch, questInfo, address, publicClient, allUploaded);
   return (
     <>
       {walletConnected && lensConnected ? (

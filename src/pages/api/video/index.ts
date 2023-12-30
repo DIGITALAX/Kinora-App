@@ -13,13 +13,12 @@ interface ExtendedRequest extends IncomingMessage {
 
 handler.use(async (req: ExtendedRequest, _, next) => {
   const form = new IncomingForm();
-  form.parse(req, (err, fields, files) => {
+  form.parse(req, (err, fields) => {
     if (err) {
       next(err);
       return;
     }
     req.body = fields;
-    req.files = files;
     next();
   });
 });
@@ -31,13 +30,18 @@ handler.post(async (req: any, res: NextApiResponse) => {
     });
 
     const results = await livepeer.asset.create({
-      name: req.body.name,
-      staticMp4: req.files.file,
+      name: req.body.name[0],
+      url: req.body.link[0],
+      
     });
 
     return res.status(200).json({ assetId: results.data?.asset.playbackId });
   } catch (err: any) {
     console.error(err.message);
+    return res.status(500).json({
+      error: "Error processing video upload",
+      message: err.message,
+    });
   }
 });
 
