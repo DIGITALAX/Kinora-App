@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useCreateAsset } from "@livepeer/react";
 import {
   Erc20,
   LimitType,
@@ -15,12 +14,15 @@ import { PublicClient, createWalletClient, custom } from "viem";
 import { polygon, polygonMumbai } from "viem/chains";
 import uploadPostContent from "../../../../lib/helpers/uploadPostContent";
 import convertToFile from "../../../../lib/helpers/convertToFile";
+import { INFURA_GATEWAY } from "../../../../lib/constants";
+import { Asset } from "@livepeer/react";
 
 const useUpload = (
   address: `0x${string}` | undefined,
   dispatch: Dispatch,
   availableCurrencies: Erc20[],
-  publicClient: PublicClient
+  publicClient: PublicClient,
+  allUploaded: Asset[]
 ) => {
   const [uploadLoading, setUploadLoading] = useState<boolean>(false);
   const [postDetails, setPostDetails] = useState<{
@@ -97,17 +99,6 @@ const useUpload = (
       return;
     setUploadLoading(true);
     try {
-      const { mutateAsync: createAsset } = useCreateAsset({
-        sources: [
-          {
-            name: postDetails.title,
-            file: convertToFile(postDetails?.video, "video/mp4") as File,
-          },
-        ],
-      });
-
-      await createAsset?.();
-
       const contentURI = await uploadPostContent(
         postDetails.description?.trim() == "" ? " " : postDetails.description,
         [],
@@ -123,55 +114,94 @@ const useUpload = (
         getVideoCover()
       );
 
-      const clientWallet = createWalletClient({
-        chain: polygonMumbai,
-        transport: custom((window as any).ethereum),
-      });
+      const hashExists = allUploaded.find((asset) =>
+        asset?.hash?.some(
+          (h) =>
+            h?.hash?.toLowerCase() ===
+            (contentURI?.object as any)?.lens?.video?.item
+              ?.split("ipfs://")?.[1]
+              ?.toLowerCase()
+        )
+      )?.playbackId;
 
-      await lensPost(
-        contentURI?.string!,
-        dispatch,
-        [
-          {
-            collectOpenAction: {
-              simpleCollectOpenAction: postDetails?.collectDetails,
+      let result: number = 200;
+
+      console.log({hashExists})
+
+      if (!hashExists) {
+        const formData = new FormData();
+        formData.append("name", postDetails?.title);
+        formData.append(
+          "link",
+          `${INFURA_GATEWAY}/ipfs/${
+            (contentURI?.object as any)?.lens?.video?.item?.split(
+              "ipfs://"
+            )?.[1]
+          }`
+        );
+        const res = await fetch("/api/video", {
+          method: "POST",
+          body: formData,
+        });
+
+        result = res.status as number;
+
+        await res.json();
+      }
+
+      if (result == 200) {
+        const clientWallet = createWalletClient({
+          chain: polygonMumbai,
+          transport: custom((window as any).ethereum),
+        });
+
+        await lensPost(
+          contentURI?.string!,
+          dispatch,
+          [
+            {
+              collectOpenAction: {
+                simpleCollectOpenAction: postDetails?.collectDetails,
+              },
             },
-          },
-        ],
-        address as `0x${string}`,
-        clientWallet,
-        publicClient
-      );
+          ],
+          address as `0x${string}`,
+          clientWallet,
+          publicClient
+        );
 
-      setPostDetails({
-        title: "",
-        description: "",
-        video: "",
-        tags: "",
-        collectDetails: {
-          amount: {
-            currency: "",
-            value: "",
+        setPostDetails({
+          title: "",
+          description: "",
+          video: "",
+          tags: "",
+          collectDetails: {
+            amount: {
+              currency: "",
+              value: "",
+            },
+            collectLimit: undefined,
+            endsAt: undefined,
+            followerOnly: false,
+            recipient: address,
+            referralFee: 0,
           },
-          collectLimit: undefined,
-          endsAt: undefined,
-          followerOnly: false,
-          recipient: address,
-          referralFee: 0,
-        },
-      });
-      setOpenMeasure({
-        collectibleOpen: false,
-        collectible: "Yes",
-        award: "No",
-        whoCollectsOpen: false,
-        creatorAwardOpen: false,
-        currencyOpen: false,
-        editionOpen: false,
-        edition: "",
-        timeOpen: false,
-        time: "",
-      });
+        });
+        setOpenMeasure({
+          collectibleOpen: false,
+          collectible: "Yes",
+          award: "No",
+          whoCollectsOpen: false,
+          creatorAwardOpen: false,
+          currencyOpen: false,
+          editionOpen: false,
+          edition: "",
+          timeOpen: false,
+          time: "",
+        });
+      } else {
+        dispatch(setInteractError(true));
+      }
     } catch (err: any) {
       if (
         !err?.messages?.includes("Block at number") &&

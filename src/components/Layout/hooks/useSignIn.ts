@@ -14,13 +14,16 @@ import generateChallenge from "../../../../graphql/lens/queries/challenge";
 import authenticate from "../../../../graphql/lens/mutations/authenticate";
 import { useSignMessage } from "wagmi";
 import { setWalletConnected } from "../../../../redux/reducers/walletConnectedSlice";
+import { Asset } from "@livepeer/react";
+import { setAllUploaded } from "../../../../redux/reducers/allUploadedSlice";
 
 const useSignIn = (
   lensConnected: Profile | undefined,
   openAccountModal: (() => void) | undefined,
   dispatch: Dispatch,
   isConnected: boolean,
-  address: `0x${string}` | undefined
+  address: `0x${string}` | undefined,
+  allUploaded: Asset[]
 ) => {
   const { signMessageAsync } = useSignMessage();
   const [signLoading, setSignLoading] = useState<boolean>(false);
@@ -104,6 +107,25 @@ const useSignIn = (
     handleAuthentication();
     dispatch(setWalletConnected(isConnected));
   }, [isConnected, address]);
+
+  const handleUploadAssets = async () => {
+    try {
+      const data = await fetch("/api/livepeer", {
+        method: "POST",
+      });
+
+      const res = await data.json();
+      dispatch(setAllUploaded(res.json || []));
+    } catch (err: any) {
+      console.error(err.message);
+    }
+  };
+
+  useEffect(() => {
+    if (allUploaded?.length < 1) {
+      handleUploadAssets();
+    }
+  }, []);
 
   return {
     signLoading,
