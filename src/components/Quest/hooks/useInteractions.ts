@@ -11,7 +11,7 @@ import {
 } from "../../../../graphql/generated";
 import errorChoice from "../../../../lib/helpers/errorChoice";
 import { Dispatch } from "redux";
-import { polygon } from "viem/chains";
+import { polygon, polygonMumbai } from "viem/chains";
 import { PublicClient, createWalletClient, custom } from "viem";
 import { MakePostComment, Quest } from "../types/quest.types";
 import uploadPostContent from "../../../../lib/helpers/uploadPostContent";
@@ -312,7 +312,7 @@ const useInteractions = (
 
     try {
       const clientWallet = createWalletClient({
-        chain: polygon,
+        chain: polygonMumbai,
         transport: custom((window as any).ethereum),
       });
 
@@ -428,7 +428,7 @@ const useInteractions = (
       );
 
       const clientWallet = createWalletClient({
-        chain: polygon,
+        chain: polygonMumbai,
         transport: custom((window as any).ethereum),
       });
 
@@ -547,7 +547,7 @@ const useInteractions = (
 
     try {
       const clientWallet = createWalletClient({
-        chain: polygon,
+        chain: polygonMumbai,
         transport: custom((window as any).ethereum),
       });
       await lensMirror(
@@ -679,7 +679,7 @@ const useInteractions = (
 
     try {
       const clientWallet = createWalletClient({
-        chain: polygon,
+        chain: polygonMumbai,
         transport: custom((window as any).ethereum),
       });
 
@@ -730,7 +730,7 @@ const useInteractions = (
 
     try {
       const clientWallet = createWalletClient({
-        chain: polygon,
+        chain: polygonMumbai,
         transport: custom((window as any).ethereum),
       });
 

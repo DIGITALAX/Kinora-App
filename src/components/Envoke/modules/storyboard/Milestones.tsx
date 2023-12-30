@@ -8,7 +8,7 @@ import {
 } from "../../types/envoke.types";
 import Image from "next/legacy/image";
 import {
-  ACCEPTED_TOKENS,
+  ACCEPTED_TOKENS_MUMBAI,
   INFURA_GATEWAY,
   IPFS_REGEX,
 } from "../../../../../lib/constants";
@@ -86,30 +86,10 @@ const Milestones: FunctionComponent<StoryboardMilestonesProps> = ({
                                     "ipfs://"
                                   )?.[1]
                             }`}
+                            layout="fill"
                             objectFit="cover"
                           />
                         )}
-                      </div>
-                      <div className="absolute flex flex-row gap-1 text-xxs items-center justify-center top-2 left-2">
-                        <div
-                          className="rounded-full w-6 h-6 p-px flex items-center justify-center"
-                          id="rainbow"
-                        >
-                          <div className="relative w-full h-full flex items-center justify-center">
-                            {pfp && (
-                              <Image
-                                src={pfp}
-                                draggable={false}
-                                className="rounded-full"
-                                objectFit="cover"
-                                layout="fill"
-                              />
-                            )}
-                          </div>
-                        </div>
-                        <div className="relative w-fit h-fit flex items-center justify-center">
-                          {item?.profile?.handle?.suggestedFormatted?.localName}
-                        </div>
                       </div>
                     </div>
                   );
@@ -138,7 +118,7 @@ const Milestones: FunctionComponent<StoryboardMilestonesProps> = ({
                         <div className="relative w-7 h-8 flex items-center justify-center rounded-full">
                           <Image
                             src={`${INFURA_GATEWAY}/ipfs/${
-                              ACCEPTED_TOKENS?.find(
+                              ACCEPTED_TOKENS_MUMBAI?.find(
                                 (value) => value[2] === item
                               )?.[0]
                             }`}
@@ -189,8 +169,10 @@ const Milestones: FunctionComponent<StoryboardMilestonesProps> = ({
                       <div className="relative w-7 h-8 flex items-center justify-center rounded-full">
                         <Image
                           src={`${INFURA_GATEWAY}/ipfs/${
-                            ACCEPTED_TOKENS?.find(
-                              (value) => value[2] === item?.address
+                            ACCEPTED_TOKENS_MUMBAI?.find(
+                              (value) =>
+                                value[2]?.toLowerCase() ===
+                                item?.address?.toLowerCase()
                             )?.[0]
                           }`}
                           className="flex rounded-full"
@@ -269,13 +251,13 @@ const Milestones: FunctionComponent<StoryboardMilestonesProps> = ({
         <div className="relative text-base underline underline-offset-4 items-start justify-start flex">
           Video Ops
         </div>
-        <div className="relative w-fit h-fit flex flex-col gap-2 items-start justify-start">
+        <div className="relative w-fit h-fit flex flex-col gap-7 lg:gap-2 items-start justify-start">
           {milestone?.eligibility?.map((item: VideoEligible, index: number) => {
             const media = createMedia(item?.video?.metadata);
             return (
               <div
                 key={index}
-                className="relative w-full h-fit flex flex-row gap-4 items-start justify-start"
+                className="relative w-full h-fit flex flex-col lg:flex-row gap-4 items-start justify-start"
               >
                 <div className="relative w-fit h-fit items-start justify-start gap-2 flex flex-col">
                   <div className="relative w-fit h-fit flex items-start justify-start text-xs">

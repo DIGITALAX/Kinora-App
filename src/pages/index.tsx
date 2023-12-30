@@ -6,15 +6,15 @@ import { NextRouter } from "next/router";
 import useInteractions from "@/components/Common/hooks/useInteractions";
 import { useAccount } from "wagmi";
 import { createPublicClient, http } from "viem";
-import { polygon } from "viem/chains";
+import { polygon, polygonMumbai } from "viem/chains";
 
 export default function Home({ router }: { router: NextRouter }) {
   const dispatch = useDispatch();
   const { address } = useAccount();
   const publicClient = createPublicClient({
-    chain: polygon,
+    chain: polygonMumbai,
     transport: http(
-      `https://polygon-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`
+      `https://polygon-mumbai.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY_MUMBAI}`
     ),
   });
   const questFeed = useSelector(

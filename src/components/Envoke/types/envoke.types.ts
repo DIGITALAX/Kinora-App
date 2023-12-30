@@ -76,26 +76,24 @@ export interface VideoEligible {
 
 export interface MilestoneEligibility {
   internalPlaybackCriteria?: {
+    playbackId: string;
     postId: string;
     playbackCriteria: MilestoneEligibilityCriteria;
   }[];
-  averageGlobalPlaybackCriteria?: {
-    postId: string;
-    playbackCriteria: MilestoneEligibilityCriteria;
-  }[];
-  averageInternalVideoStats: MilestoneEligibilityCriteria;
-  averageGlobalVideoStats: MilestoneEligibilityCriteria;
 }
 
 export interface MilestoneEligibilityCriteria {
-  minAvd?: number;
-  minCtr?: number;
   minPlayCount?: number;
-  quoteLens?: boolean;
-  mirrorLens?: boolean;
-  likeLens?: boolean;
-  bookmarkLens?: boolean;
-  commentLens?: boolean;
+  minCtr?: number;
+  minAvd?: number;
+  minImpressionCount?: number;
+  minEngagementRate?: number;
+  minDuration?: number;
+  quote?: boolean;
+  mirror?: boolean;
+  comment?: boolean;
+  bookmark?: boolean;
+  react?: boolean;
 }
 
 export interface MetricCriteria {
@@ -193,6 +191,12 @@ export type StagesProps = {
   setStoryboardStage: (e: SetStateAction<StoryboardStage>) => void;
   milestoneStoryboardStage: number;
   setMilestoneStoryboardStage: (e: SetStateAction<number>) => void;
+  tokensToApprove: {
+    address: string;
+    amount: string;
+    approved: boolean;
+  }[];
+  handleApprove: (approveTokenAddress: `0x${string}`) => Promise<void>;
 };
 
 export type MilestoneDetailsProps = {
@@ -351,4 +355,10 @@ export type StoryboardMilestonesProps = {
 export type PostLiveProps = {
   postLoading: boolean;
   handlePostLive: () => Promise<void>;
+  tokensToApprove: {
+    address: string;
+    amount: string;
+    approved: boolean;
+  }[];
+  handleApprove: (approveTokenAddress: `0x${string}`) => Promise<void>;
 };

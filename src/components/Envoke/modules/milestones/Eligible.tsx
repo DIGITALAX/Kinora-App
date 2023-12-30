@@ -205,7 +205,7 @@ const Eligible: FunctionComponent<EligibleProps> = ({
                 milestonesOpen.findIndex((item: boolean) => item == true) !== -1
                   ? milestonesOpen.findIndex((item: boolean) => item == true)
                   : 0
-              ]?.eligibility?.[index]?.criteria?.quoteLens,
+              ]?.eligibility?.[index]?.criteria?.quote,
             input: false,
             function: () => {
               const milestones = [...questInfo?.milestones];
@@ -222,9 +222,9 @@ const Eligible: FunctionComponent<EligibleProps> = ({
                 ...eligibility[index],
                 criteria: {
                   ...eligibility[index]?.criteria,
-                  quoteLens:
-                    eligibility[index].criteria.quoteLens !== undefined
-                      ? !eligibility[index].criteria.quoteLens
+                  quote:
+                    eligibility[index].criteria.quote !== undefined
+                      ? !eligibility[index].criteria.quote
                       : true,
                 },
               };
@@ -258,7 +258,7 @@ const Eligible: FunctionComponent<EligibleProps> = ({
                 milestonesOpen.findIndex((item: boolean) => item == true) !== -1
                   ? milestonesOpen.findIndex((item: boolean) => item == true)
                   : 0
-              ]?.eligibility?.[index]?.criteria?.mirrorLens,
+              ]?.eligibility?.[index]?.criteria?.mirror,
             input: false,
             function: () => {
               const milestones = [...questInfo?.milestones];
@@ -276,9 +276,9 @@ const Eligible: FunctionComponent<EligibleProps> = ({
                 ...eligibility[index],
                 criteria: {
                   ...eligibility[index]?.criteria,
-                  mirrorLens:
-                    eligibility[index].criteria.mirrorLens !== undefined
-                      ? !eligibility[index].criteria.mirrorLens
+                  mirror:
+                    eligibility[index].criteria.mirror !== undefined
+                      ? !eligibility[index].criteria.mirror
                       : true,
                 },
               };
@@ -312,7 +312,7 @@ const Eligible: FunctionComponent<EligibleProps> = ({
                 milestonesOpen.findIndex((item: boolean) => item == true) !== -1
                   ? milestonesOpen.findIndex((item: boolean) => item == true)
                   : 0
-              ]?.eligibility?.[index]?.criteria?.likeLens,
+              ]?.eligibility?.[index]?.criteria?.react,
             input: false,
             function: () => {
               const milestones = [...questInfo?.milestones];
@@ -329,9 +329,9 @@ const Eligible: FunctionComponent<EligibleProps> = ({
                 ...eligibility[index],
                 criteria: {
                   ...eligibility[index]?.criteria,
-                  likeLens:
-                    eligibility[index].criteria.likeLens !== undefined
-                      ? !eligibility[index].criteria.likeLens
+                  react:
+                    eligibility[index].criteria.react !== undefined
+                      ? !eligibility[index].criteria.react
                       : true,
                 },
               };
@@ -365,7 +365,7 @@ const Eligible: FunctionComponent<EligibleProps> = ({
                 milestonesOpen.findIndex((item: boolean) => item == true) !== -1
                   ? milestonesOpen.findIndex((item: boolean) => item == true)
                   : 0
-              ]?.eligibility?.[index]?.criteria?.bookmarkLens,
+              ]?.eligibility?.[index]?.criteria?.bookmark,
             input: false,
             function: () => {
               const milestones = [...questInfo?.milestones];
@@ -382,9 +382,9 @@ const Eligible: FunctionComponent<EligibleProps> = ({
                 ...eligibility[index],
                 criteria: {
                   ...eligibility[index]?.criteria,
-                  bookmarkLens:
-                    eligibility[index].criteria.bookmarkLens !== undefined
-                      ? !eligibility[index].criteria.bookmarkLens
+                  bookmark:
+                    eligibility[index].criteria.bookmark !== undefined
+                      ? !eligibility[index].criteria.bookmark
                       : true,
                 },
               };
@@ -418,7 +418,7 @@ const Eligible: FunctionComponent<EligibleProps> = ({
                 milestonesOpen.findIndex((item: boolean) => item == true) !== -1
                   ? milestonesOpen.findIndex((item: boolean) => item == true)
                   : 0
-              ]?.eligibility?.[index]?.criteria?.commentLens,
+              ]?.eligibility?.[index]?.criteria?.comment,
             input: false,
             function: () => {
               const milestones = [...questInfo?.milestones];
@@ -436,9 +436,9 @@ const Eligible: FunctionComponent<EligibleProps> = ({
                 ...eligibility[index],
                 criteria: {
                   ...eligibility[index]?.criteria,
-                  commentLens:
-                    eligibility[index].criteria.commentLens !== undefined
-                      ? !eligibility[index].criteria.commentLens
+                  comment:
+                    eligibility[index].criteria.comment !== undefined
+                      ? !eligibility[index].criteria.comment
                       : true,
                 },
               };

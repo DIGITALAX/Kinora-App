@@ -8,8 +8,104 @@ export const getQuest = async (
   const queryPromise = graphKinoraClient.query({
     query: gql(`
     query($questId: String, $first: Int, $skip: Int) {
-      questCreateds(where: {questId: $questId}, first: $first, skip: $skip, orderDirection: desc, orderBy: blockTimestamp) {
-        
+      questInstantiateds(where: {questId: $questId}, first: $first, skip: $skip, orderDirection: desc, orderBy: blockTimestamp) {
+          questInstantiateds {
+            gate {
+              erc721Logic {
+                uris
+                tokenIds
+                address
+              }
+              erc20Logic {
+                address
+                amount
+              }
+            }
+            questMetadata {
+              id
+              title
+              description
+              cover
+            }
+            milestones {
+              gated {
+                erc721Logic {
+                  uris
+                  tokenIds
+                  address
+                }
+                erc20Logic {
+                  address
+                  amount
+                  id
+                }
+                oneOf
+              }
+              details
+              milestoneId
+              rewards {
+                amount
+                tokenAddress
+                uri
+                type
+              }
+              rewardsLength
+              videoLength
+              videos {
+                videoBytes
+                react
+                quote
+                pubId
+                profileId
+                playerId
+                minPlayCount
+                mirror
+                minImpressionCount
+                minEngagementRate
+                minDuration
+                minCTR
+                minAVD
+                comment
+                bookmark
+              }
+            }
+            questId
+            transactionHash
+            uri
+            milestoneCount
+            players {
+              milestonesCompleted {
+                questId
+                milestonesCompleted
+              }
+              eligibile {
+                milestone
+                questId
+                status
+              }
+              profileId
+              questsCompleted
+              questsJoined
+              videos {
+                pubId
+                profileId
+                playCount
+                mostViewedSegment
+                mostReplayedArea
+                interactionRate
+                impressionCount
+                hasReacted
+                hasQuoted
+                hasMirrored
+                hasCommented
+                hasBookmarked
+                engagementRate
+                duration
+                ctr
+                avd
+              }
+            }
+        }
       }
     }
   `),

@@ -29,7 +29,7 @@ const Mint: FunctionComponent<MintProps> = ({
           id="rainbow"
         >
           <div className="relative w-full h-full flex items-center justify-center rounded-sm">
-            {item?.images?.[0] && item?.media === "static" ? (
+            {item?.images?.[0] || item?.media === "static" ? (
               <Image
                 layout="fill"
                 src={
@@ -80,7 +80,6 @@ const Mint: FunctionComponent<MintProps> = ({
                       {(setMediaElement: (node: HTMLVideoElement) => void) => (
                         <Player
                           mediaElementRef={setMediaElement}
-                        
                           src={
                             item?.video?.includes("ipfs://")
                               ? `${INFURA_GATEWAY}/ipfs/${
@@ -239,7 +238,7 @@ const Mint: FunctionComponent<MintProps> = ({
             />
           </div>
         </label>
-        <div className="absolute left-2 top-2 flex flex-row gap-2">
+        <div className="absolute z-10 left-2 top-2 flex flex-row gap-2">
           {[
             {
               type: "static",

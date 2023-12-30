@@ -12,7 +12,7 @@ import { setInteractError } from "../../../../redux/reducers/interactErrorSlice"
 import { setIndexer } from "../../../../redux/reducers/indexerSlice";
 import lensPost from "../../../../lib/helpers/lensPost";
 import { PublicClient, createWalletClient, custom } from "viem";
-import { polygon } from "viem/chains";
+import { polygon, polygonMumbai } from "viem/chains";
 import uploadPostContent from "../../../../lib/helpers/uploadPostContent";
 import convertToFile from "../../../../lib/helpers/convertToFile";
 
@@ -124,7 +124,7 @@ const useUpload = (
       );
 
       const clientWallet = createWalletClient({
-        chain: polygon,
+        chain: polygonMumbai,
         transport: custom((window as any).ethereum),
       });
 
