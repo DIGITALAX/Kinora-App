@@ -75,7 +75,7 @@ const usePostLive = (
       const rewardsArray = Object.entries(accumulatedRewards).map(
         ([address, amount]) => ({
           address,
-          amount,
+          amount: Number(amount) * questInfo?.details?.maxPlayerCount,
         })
       );
 
@@ -517,7 +517,7 @@ const usePostLive = (
             ?.filter(Boolean),
           oneOf: questInfo.details?.gated?.oneOf,
         },
-        maxPlayerCount: questInfo.details.maxPlayerCount,
+        maxPlayerCount: questInfo?.details?.maxPlayerCount,
         milestones: milestonePromises,
         wallet: signer as unknown as ethers.Wallet,
         approveRewardTokens: false,
@@ -551,7 +551,7 @@ const usePostLive = (
     ) {
       checkApproved();
     }
-  }, [questInfo?.milestones]);
+  }, [questInfo?.milestones, questInfo?.details?.maxPlayerCount]);
 
   return {
     handlePostLive,

@@ -3,7 +3,7 @@ export const BASE_URL: string = "https://api-v2-mumbai-live.lens.dev";
 export const IPFS_REGEX: RegExp = /\b(Qm[1-9A-Za-z]{44}|ba[A-Za-z2-7]{57})\b/;
 
 export const KINORA_OPEN_ACTION: `0x${string}` =
-  "0xF451CD340AEfe28C58162543D5167E35b36325d7";
+  "0x9b83de365593BF5efB754eB581387034D655aEaF";
 export const CHROMADIN_ID: string = "0x01c6a9";
 export const LENS_HUB_PROXY_ADDRESS_MATIC: `0x${string}` =
   "0xDb46d1Dc155634FbC732f92E853b10B288AD5a1d";
@@ -12,7 +12,7 @@ export const LENS_HUB_PROXY_ADDRESS_MATIC: `0x${string}` =
 export const PRINT_DESIGN_DATA: `0x${string}` =
   "0x062aA8B94a308fE84bE7974bAC758bC574145907";
 export const KINORA_ESCROW_CONTRACT: `0x${string}` =
-  "0x9266F71E1888a53923A605a82882F83211eF64E0";
+  "0x71A584c68d5B61Df0a6FadA8dbfa4382781D9c25";
 
 export const COVER_CONSTANTS: string[] = [
   "QmPW4zahvfhNUUbc27sM2WZE9uQcZ9KYGcXTq64zzuoazi",
