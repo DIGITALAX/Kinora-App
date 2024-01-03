@@ -111,7 +111,11 @@ export interface Gate {
 export interface Reward {
   amount: string;
   tokenAddress: string;
-  uri: string;
+  uri: {
+    cover: string;
+    title: string;
+    description: string;
+  };
   type: string;
 }
 
@@ -323,7 +327,6 @@ export type QuestBoardSwitchProps = {
 
 export type MilestoneInfoProps = {
   completeLoading: boolean;
-  lensConnected: Profile | undefined;
   handleCompleteMilestone: () => Promise<void>;
   milestone: Milestone;
   player: Player;
@@ -338,4 +341,16 @@ export type ChannelsProps = {
 
 export type MainVideoProps = {
   videoPlaying: Video;
+  playing: boolean;
+  setPlaying: (e: boolean) => void;
+  setVolume: (e: number) => void;
+  volume: number;
+  seek: number;
+  volumeOpen: boolean;
+  setVolumeOpen: (e: boolean) => void;
+  duration: number;
+  setDuration: (e: number) => void;
+  setSeek: (e: number) => void;
+  setVideoPlaying: (e: SetStateAction<Video | undefined>) => void;
+  allVideos: Video[];
 };
