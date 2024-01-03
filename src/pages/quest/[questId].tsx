@@ -58,7 +58,20 @@ export default function QuestId({ router }: { router: NextRouter }) {
     address,
     publicClient
   );
-  const { videoPlaying, setVideoPlaying } = useVideos(
+  const {
+    videoPlaying,
+    setVideoPlaying,
+    playing,
+    setPlaying,
+    volume,
+    setVolume,
+    seek,
+    setSeek,
+    volumeOpen,
+    setVolumeOpen,
+    duration,
+    setDuration,
+  } = useVideos(
     mainViewer === 0 ? [] : questInfo?.milestones?.[mainViewer - 1]?.videos!
   );
   const {
@@ -129,8 +142,6 @@ export default function QuestId({ router }: { router: NextRouter }) {
       : undefined,
     showComments
   );
-
-  console.log({ questInfo });
 
   return (
     <div
@@ -260,7 +271,21 @@ export default function QuestId({ router }: { router: NextRouter }) {
                       }`}
                     />
                   ) : (
-                    <MainVideo videoPlaying={videoPlaying} />
+                    <MainVideo
+                      allVideos={questInfo?.milestones[mainViewer - 1]?.videos!}
+                      setVideoPlaying={setVideoPlaying}
+                      videoPlaying={videoPlaying}
+                      playing={playing}
+                      setPlaying={setPlaying}
+                      volume={volume}
+                      setVolume={setVolume}
+                      seek={seek}
+                      setSeek={setSeek}
+                      volumeOpen={volumeOpen}
+                      setVolumeOpen={setVolumeOpen}
+                      duration={duration}
+                      setDuration={setDuration}
+                    />
                   ))}
               </div>
             </div>
@@ -342,7 +367,7 @@ export default function QuestId({ router }: { router: NextRouter }) {
                   )}
                 </div>
               </div>
-              {mainViewer == 0 && (
+              {mainViewer == 0 ? (
                 <div className="relative w-fit h-fit flex">
                   <div className="relative w-full h-fit flex flex-row items-center justify-start text-white font-bit text-xs gap-3">
                     <div className="relative w-4 h-4 flex items-start justify-start ">
@@ -362,6 +387,27 @@ export default function QuestId({ router }: { router: NextRouter }) {
                             questInfo?.maxPlayerCount
                           )}`
                     }`}</div>
+                  </div>
+                </div>
+              ) : (
+                <div className="relative w-full h-fit flex flex-col items-start justify-start gap-2 font-vcr text-white text-xs">
+                  <div className="relative w-full h-fit flex flex-row items-center justify-start gap-1 break-words">
+                    <div className="relative w-fit h-fit flex items-center justify-center">
+                      Video Count:
+                    </div>
+                    <div className="relative w-fit h-fit flex items-center justify-center text-girasol break-words">
+                      {questInfo?.milestones?.[mainViewer - 1]?.videoLength}
+                    </div>
+                    <div
+                      className="relative w-3.5 h-3.5 flex items-center justify-center cursor-pointer active:scale-95"
+                      onClick={() => window.open("https://livepeer.studio/")}
+                    >
+                      <Image
+                        draggable={false}
+                        layout="fill"
+                        src={`${INFURA_GATEWAY}/ipfs/QmVa8AWMYyAfcQAEpbqdUoRSxSkntpH1DEMpdyajZWz4AR`}
+                      />
+                    </div>
                   </div>
                 </div>
               )}

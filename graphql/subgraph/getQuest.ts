@@ -53,6 +53,12 @@ export const getQuest = async (
                 amount
                 tokenAddress
                 uri
+                rewardMetadata {
+                  id
+                  title
+                  description
+                  cover
+                }
                 type
               }
               rewardsLength

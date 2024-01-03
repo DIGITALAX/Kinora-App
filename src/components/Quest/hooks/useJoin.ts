@@ -191,8 +191,6 @@ const useJoin = (
 
               const videos = await Promise.all(videoPromises);
 
-              console.log({videos})
-
               return {
                 ...milestone,
                 videos,
