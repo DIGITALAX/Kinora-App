@@ -1,6 +1,9 @@
 import { MakePostComment } from "@/components/Quest/types/quest.types";
 import { useState } from "react";
-import { Profile } from "../../../../graphql/generated";
+import {
+  Profile,
+  SimpleCollectOpenActionModuleInput,
+} from "../../../../graphql/generated";
 import {
   PostCollectGifState,
   setPostCollectGif,
@@ -24,6 +27,43 @@ const useQuote = (
 ) => {
   const [mentionProfiles, setMentionProfiles] = useState<Profile[]>([]);
   const [profilesOpen, setProfilesOpen] = useState<boolean[]>([false]);
+  const [searchGifLoading, setSearchGifLoading] = useState<boolean>(false);
+  const [collects, setCollects] = useState<
+    SimpleCollectOpenActionModuleInput | undefined
+  >({
+    followerOnly: false,
+  });
+  const [gifInfo, setGifInfo] = useState<{
+    searchedGifs: string[];
+    search: string;
+  }>({
+    searchedGifs: [],
+    search: "",
+  });
+  const [openMeasure, setOpenMeasure] = useState<{
+    collectibleOpen: boolean;
+    collectible: string;
+    award: string;
+    whoCollectsOpen: boolean;
+    creatorAwardOpen: boolean;
+    currencyOpen: boolean;
+    editionOpen: boolean;
+    edition: string;
+    timeOpen: boolean;
+    time: string;
+  }>({
+    collectibleOpen: false,
+    collectible: "Yes",
+    award: "",
+    whoCollectsOpen: false,
+    creatorAwardOpen: false,
+    currencyOpen: false,
+    editionOpen: false,
+    edition: "",
+    timeOpen: false,
+    time: "",
+  });
+
   const [caretCoord, setCaretCoord] = useState<{
     x: number;
     y: number;
@@ -156,13 +196,31 @@ const useQuote = (
     setQuoteLoading([false]);
   };
 
+  const handleGif = async (search: string) => {
+    try {
+      setSearchGifLoading(true);
+      const response = await fetch("/api/giphy", {
+        method: "POST",
+        body: search,
+      });
+      const allGifs = await response.json();
+      setOpenMeasure((prev) => ({
+        ...prev,
+        searchedGifs: allGifs?.json?.results,
+      }));
+      setSearchGifLoading(false);
+    } catch (err: any) {
+      console.error(err.message);
+    }
+  };
+
   const clearBox = () => {
     setMakeQuote([
       {
         content: "",
         images: [],
         videos: [],
-        gifs: []
+        gifs: [],
       },
     ]);
     dispatch(
@@ -186,6 +244,14 @@ const useQuote = (
     setContentLoading,
     contentLoading,
     handleQuote,
+    handleGif,
+    openMeasure,
+    setOpenMeasure,
+    searchGifLoading,
+    collects,
+    setCollects,
+    gifInfo,
+    setGifInfo,
   };
 };
 

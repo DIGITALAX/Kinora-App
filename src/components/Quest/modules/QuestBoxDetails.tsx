@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import { Player, QuestBoxDetailsProps, SocialType } from "../types/quest.types";
+import {  QuestBoxDetailsProps, SocialType } from "../types/quest.types";
 import Image from "next/legacy/image";
 import createProfilePicture from "../../../../lib/helpers/createProfilePicture";
 import moment from "moment";
@@ -112,7 +112,7 @@ const QuestBoxDetails: FunctionComponent<QuestBoxDetailsProps> = ({
               questInfo?.gate?.erc721Logic?.length > 0)) && (
             <div className="relative w-full h-fit flex flex-col items-start justify-start gap-2 font-vcr text-white text-xs">
               <div className="relative w-fit h-fit flex items-center justify-center text-xxs">
-              Ready player? Gather your tokens to accept this quest.
+                Ready player? Gather your tokens to accept this quest.
               </div>
               {questInfo?.gate?.erc20Logic &&
                 questInfo?.gate?.erc20Logic?.length > 0 && (
@@ -511,7 +511,11 @@ const QuestBoxDetails: FunctionComponent<QuestBoxDetailsProps> = ({
                 )}
               </div>
               <div className="relative w-fit h-fit text-sm font-vcr text-gray-300">
-                Join Quest
+                {questInfo?.players?.some(
+                  (item) => item?.profile?.id == lensConnected?.id
+                )
+                  ? "Quest Joined"
+                  : "Join Quest"}
               </div>
             </div>
           </div>

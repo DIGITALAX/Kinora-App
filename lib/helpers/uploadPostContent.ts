@@ -20,11 +20,7 @@ const uploadPostContent = async (
     value: object = {},
     coverJSON: string | undefined;
 
-  if (
-    images?.length < 1 &&
-    gifs?.length < 1 &&
-    videos?.length < 1 
-  ) {
+  if (images?.length < 1 && gifs?.length < 1 && videos?.length < 1) {
     $schema = "https://json-schemas.lens.dev/publications/text-only/3.0.0.json";
     mainContentFocus = PublicationMetadataMainFocusType.TextOnly;
   } else {
@@ -56,9 +52,7 @@ const uploadPostContent = async (
       })),
       ...[...(gifs || []), ...(cleanedGifs || [])].map((gif) => ({
         type: "image/gif",
-        item:
-          gif &&
-          (gif?.includes("ipfs://") ? gif : convertToFile(gif, "image/gif")),
+        item: gif,
       })),
     ]
       ?.filter(Boolean)
@@ -68,7 +62,8 @@ const uploadPostContent = async (
       mediaWithKeys.map(async (media) => {
         if (
           typeof media?.item == "string" &&
-          (media?.item as String)?.includes("ipfs://")
+          ((media?.item as String)?.includes("ipfs://") ||
+            (media?.item as String)?.includes("https://media.tenor.com"))
         ) {
           return { type: media?.type, item: media?.item };
         } else {
@@ -130,8 +125,14 @@ const uploadPostContent = async (
       $schema,
       lens: {
         mainContentFocus,
-        title: title ? title : contentText ? contentText.slice(0, 20) : "",
-        content: contentText ? contentText : "",
+        title:
+          title && title?.trim() !== ""
+            ? title
+            : contentText && contentText?.trim() !== ""
+            ? contentText.slice(0, 20)
+            : undefined,
+        content:
+          contentText && contentText?.trim() !== "" ? contentText : undefined,
         appId: "kinora",
         ...value,
         id: uuidv4(),

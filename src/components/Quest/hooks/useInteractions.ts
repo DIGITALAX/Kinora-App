@@ -21,7 +21,10 @@ import lensLike from "../../../../lib/helpers/lensLike";
 import lensComment from "../../../../lib/helpers/lensComment";
 import lensBookmark from "../../../../lib/helpers/lensBookmark";
 import lensCollect from "../../../../lib/helpers/lensCollect";
-import { PostCollectGifState } from "../../../../redux/reducers/postCollectGifSlice";
+import {
+  PostCollectGifState,
+  setPostCollectGif,
+} from "../../../../redux/reducers/postCollectGifSlice";
 import lensUnfollow from "../../../../lib/helpers/lensUnfollow";
 
 const useInteractions = (
@@ -117,11 +120,7 @@ const useInteractions = (
   ) => {
     if (!lensConnected?.id) return;
 
-    setMainInteractionsLoading((prev) => {
-      const updatedArray = [...prev];
-      updatedArray[0] = { ...updatedArray[0], bookmark: true };
-      return updatedArray;
-    });
+    handleLoaders(true, true, index, "bookmark");
 
     try {
       await lensBookmark(on, dispatch);
@@ -151,11 +150,7 @@ const useInteractions = (
       );
     }
 
-    setMainInteractionsLoading((prev) => {
-      const updatedArray = [...prev];
-      updatedArray[0] = { ...updatedArray[0], bookmark: false };
-      return updatedArray;
-    });
+    handleLoaders(false, true, index, "bookmark");
   };
 
   const simpleCollect = async (id: string, type: string) => {
@@ -166,11 +161,7 @@ const useInteractions = (
       return;
     }
 
-    setInteractionsItemsLoading((prev) => {
-      const updatedArray = [...prev];
-      updatedArray[index!] = { ...updatedArray[index!], simpleCollect: true };
-      return updatedArray;
-    });
+    handleLoaders(true, false, index, "simpleCollect");
 
     try {
       const clientWallet = createWalletClient({
@@ -220,14 +211,7 @@ const useInteractions = (
       );
     }
 
-    setInteractionsItemsLoading((prev) => {
-      const updatedArray = [...prev];
-      updatedArray[index!] = {
-        ...updatedArray[index!],
-        simpleCollect: false,
-      };
-      return updatedArray;
-    });
+    handleLoaders(false, false, index, "simpleCollect");
   };
 
   const comment = async (id: string, main?: boolean | undefined) => {
@@ -307,7 +291,7 @@ const useInteractions = (
         address as `0x${string}`,
         clientWallet,
         publicClient,
-        () => clearComment(index, main)
+        () => clearComment(index, main, id)
       );
       updateInteractions(index!, {}, "comments", true, main);
       await showComments();
@@ -365,7 +349,8 @@ const useInteractions = (
 
   const clearComment = async (
     index: number | undefined,
-    main: boolean | undefined
+    main: boolean | undefined,
+    id: string
   ) => {
     if (!main) {
       setMakeComment((prev) => {
@@ -383,6 +368,16 @@ const useInteractions = (
         updatedArray[index!] = !updatedArray[index!];
         return updatedArray;
       });
+      const gifs = { ...postCollectGif.gifs };
+      delete gifs["post"];
+      const cts = { ...postCollectGif.collectTypes };
+      delete cts["post"];
+      dispatch(
+        setPostCollectGif({
+          actionCollectType: cts,
+          actionGifs: gifs,
+        })
+      );
     } else {
       setMainMakeComment((prev) => {
         const updatedArr = [...prev];
@@ -394,6 +389,16 @@ const useInteractions = (
         };
         return updatedArr;
       });
+      const gifs = { ...postCollectGif.gifs };
+      delete gifs[id];
+      const cts = { ...postCollectGif.collectTypes };
+      delete cts[id];
+      dispatch(
+        setPostCollectGif({
+          actionCollectType: cts,
+          actionGifs: gifs,
+        })
+      );
     }
   };
 

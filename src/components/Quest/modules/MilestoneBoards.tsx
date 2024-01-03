@@ -8,6 +8,7 @@ const MilestoneBoards: FunctionComponent<MilestoneBoardsProps> = ({
   mainViewer,
   setMainViewer,
   quest,
+  setVideoPlaying,
 }): JSX.Element => {
   return (
     <div
@@ -23,7 +24,10 @@ const MilestoneBoards: FunctionComponent<MilestoneBoardsProps> = ({
                 className={`relative w-40 h-full p-px flex items-center justify-center rounded-md cursor-pointer hover:opacity-70 ${
                   mainViewer == index && "opacity-30"
                 }`}
-                onClick={() => setMainViewer(index)}
+                onClick={() => {
+                  setMainViewer(index);
+                  setVideoPlaying(undefined);
+                }}
                 id="rainbow"
               >
                 <div className="relative w-full h-full flex items-center justify-center rounded-md">
