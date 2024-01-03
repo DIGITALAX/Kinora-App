@@ -580,7 +580,13 @@ const usePostLive = (
             actionMilestones: [],
           })
         );
-        dispatch(setSuccess(true));
+        dispatch(
+          setSuccess({
+            open: true,
+            image: "QmdzmfW6ikDzYMDYmkQMHMUfdZuqyFQPhzKL8ujPC7wxfj",
+            text: "Your Quest is Live! You can keep track of player progress and approve rewards from your dashboard.",
+          })
+        );
         setMilestonesOpen([true, false, false]);
         setMilestoneStage(0);
         setCollectionsSearch("");

@@ -114,9 +114,11 @@ const InteractBar: FunctionComponent<InteractBarProps> = ({
                   title: "Collect",
                   icon: "QmNomDrWUNrcy2SAVzsKoqd5dPMogeohB8PSuHCg57nyzF",
                   function: () =>
+                    publication?.openActionModules &&
+                    publication?.openActionModules?.length > 0 &&
                     simpleCollect!(
                       publication?.id,
-                      publication?.openActionModules?.[0]?.__typename!
+                      publication?.openActionModules?.[0]?.type!
                     ),
                   amount: publication?.stats?.countOpenActions || 0,
                   reacted:
@@ -145,11 +147,14 @@ const InteractBar: FunctionComponent<InteractBarProps> = ({
                   className="relative w-fit h-fit flex items-center justify-center gap-1"
                 >
                   <div
-                    className={`relative hover:opacity-80 w-7 h-6 rounded-full flex items-center cursor-pointer active:scale-95 justify-center ${
+                    className={`relative hover:opacity-80 w-7 h-6 rounded-full flex items-center justify-center ${
                       item?.reacted && "hue-rotate-60"
                     } ${
-                      !lensConnected?.id
-                        ? "opacity-80"
+                      !lensConnected?.id ||
+                      (item?.title === "Collect" &&
+                        (!publication?.openActionModules ||
+                          publication?.openActionModules?.length == 0))
+                        ? "opacity-50"
                         : "cursor-pointer active:scale-95"
                     }`}
                     title={item?.title}

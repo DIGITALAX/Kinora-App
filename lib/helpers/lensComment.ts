@@ -25,12 +25,22 @@ const lensComment = async (
 ): Promise<void> => {
   if (
     openActionModules &&
-    openActionModules?.hasOwnProperty("collectOpenAction") &&
+    openActionModules?.[0]?.hasOwnProperty("collectOpenAction") &&
     openActionModules?.[0]?.collectOpenAction?.hasOwnProperty(
       "simpleCollectOpenAction"
     )
   ) {
     openActionModules = cleanCollect(openActionModules);
+  } else {
+    openActionModules = [
+      {
+        collectOpenAction: {
+          simpleCollectOpenAction: {
+            followerOnly: false,
+          },
+        },
+      },
+    ];
   }
 
   const metadata = await validateMetadata({

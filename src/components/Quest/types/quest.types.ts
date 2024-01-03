@@ -72,7 +72,7 @@ export interface Player {
   eligibile: {
     milestone: string;
     questId: string;
-    status: string;
+    status: boolean;
   };
   profileId: string;
   questsCompleted: string[];
@@ -83,6 +83,7 @@ export interface Player {
 
 export interface Video {
   videoBytes: string;
+  publication?: Post;
   react: boolean;
   quote: boolean;
   pubId: string;
@@ -158,6 +159,7 @@ export type MilestoneBoardsProps = {
   mainViewer: number;
   quest: string;
   setMainViewer: (e: SetStateAction<number>) => void;
+  setVideoPlaying: (e: SetStateAction<Video | undefined>) => void;
 };
 
 export enum SocialType {
@@ -181,7 +183,6 @@ export type QuestSocialProps = {
   dispatch: Dispatch<Action>;
   lensConnected: Profile | undefined;
   commentPost: (id: string, main?: boolean | undefined) => Promise<void>;
-  commentLoading: boolean;
   setCaretCoord: (
     e: SetStateAction<{
       x: number;
@@ -217,11 +218,15 @@ export type QuestSocialProps = {
     hasReacted: boolean,
     main?: boolean | undefined
   ) => Promise<void>;
-  simpleCollect: (
-    id: string,
-    type: string,
-  ) => Promise<void>;
+  simpleCollect: (id: string, type: string) => Promise<void>;
   interactionsLoading: {
+    like: boolean;
+    mirror: boolean;
+    comment: boolean;
+    follow: boolean;
+    unfollow: boolean;
+  }[];
+  mainInteractionsLoading: {
     like: boolean;
     mirror: boolean;
     comment: boolean;
@@ -244,4 +249,93 @@ export type QuestSocialProps = {
   ) => Promise<void>;
   setCommentsOpen: (e: SetStateAction<boolean[]>) => void;
   commentsOpen: boolean[];
+  setCaretCoordMain: (
+    e: SetStateAction<{
+      x: number;
+      y: number;
+    }>
+  ) => void;
+  caretCoordMain: {
+    x: number;
+    y: number;
+  };
+  profilesOpenMain: boolean[];
+  mentionProfilesMain: Profile[];
+  setMentionProfilesMain: (e: SetStateAction<Profile[]>) => void;
+  setProfilesOpenMain: (e: SetStateAction<boolean[]>) => void;
+  setMakeCommentMain: (e: SetStateAction<MakePostComment[]>) => void;
+  makeCommentMain: MakePostComment[];
+  contentLoadingMain: {
+    image: boolean;
+    video: boolean;
+  }[];
+  setContentLoadingMain: (
+    e: SetStateAction<
+      {
+        image: boolean;
+        video: boolean;
+      }[]
+    >
+  ) => void;
+};
+
+export type QuestBoardSwitchProps = {
+  questInfo: Quest | undefined;
+  mainViewer: number;
+  router: NextRouter;
+  lensConnected: Profile | undefined;
+  setSocialType: (e: SocialType) => void;
+  followProfile: (
+    id: string,
+    index?: number | undefined,
+    main?: boolean | undefined
+  ) => Promise<void>;
+  unfollowProfile: (
+    id: string,
+    index?: number | undefined,
+    main?: boolean | undefined
+  ) => Promise<void>;
+  dispatch: Dispatch<Action>;
+  joinLoading: boolean;
+  handlePlayerJoin: () => Promise<void>;
+  mainInteractionsLoading: {
+    like: boolean;
+    mirror: boolean;
+    comment: boolean;
+    bookmark: boolean;
+    follow: boolean;
+    unfollow: boolean;
+  }[];
+  questInfoLoading: boolean;
+  like: (id: string, hasReacted: boolean, main?: boolean) => Promise<void>;
+  mirror: (id: string, main?: boolean) => Promise<void>;
+  bookmark: (
+    on: string,
+    hasBookmarked: boolean,
+    index: number,
+    main?: boolean
+  ) => Promise<void>;
+  mirrorChoiceOpen: boolean;
+  setMirrorChoiceOpen: (e: boolean) => void;
+  handleCompleteMilestone: () => Promise<void>;
+  completeLoading: boolean;
+};
+
+export type MilestoneInfoProps = {
+  completeLoading: boolean;
+  lensConnected: Profile | undefined;
+  handleCompleteMilestone: () => Promise<void>;
+  milestone: Milestone;
+  player: Player;
+  videoMetrics: boolean;
+};
+
+export type ChannelsProps = {
+  videos: Video[];
+  setVideoPlaying: (e: SetStateAction<Video | undefined>) => void;
+  videoPlaying: Video | undefined;
+};
+
+export type MainVideoProps = {
+  videoPlaying: Video;
 };

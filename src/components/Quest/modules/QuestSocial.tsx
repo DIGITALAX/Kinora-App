@@ -21,7 +21,6 @@ const QuestSocial: FunctionComponent<QuestSocialProps> = ({
   lensConnected,
   dispatch,
   commentPost,
-  commentLoading,
   setCaretCoord,
   caretCoord,
   profilesOpen,
@@ -47,6 +46,17 @@ const QuestSocial: FunctionComponent<QuestSocialProps> = ({
   followProfile,
   setCommentsOpen,
   commentsOpen,
+  setCaretCoordMain,
+  setContentLoadingMain,
+  setMakeCommentMain,
+  setMentionProfilesMain,
+  setProfilesOpenMain,
+  profilesOpenMain,
+  makeCommentMain,
+  mentionProfilesMain,
+  caretCoordMain,
+  contentLoadingMain,
+  mainInteractionsLoading,
 }): JSX.Element => {
   switch (socialType) {
     case SocialType.Comments:
@@ -54,24 +64,24 @@ const QuestSocial: FunctionComponent<QuestSocialProps> = ({
         <div className="relative flex items-start justify-start flex-col gap-5 h-full w-full">
           <div className="relative w-full h-fit flex flex-col gap-2">
             <PostComment
-              setCaretCoord={setCaretCoord}
-              caretCoord={caretCoord}
-              profilesOpen={profilesOpen?.[0]}
-              mentionProfiles={mentionProfiles}
-              setMentionProfiles={setMentionProfiles}
-              setProfilesOpen={setProfilesOpen}
+              setCaretCoord={setCaretCoordMain}
+              caretCoord={caretCoordMain}
+              profilesOpen={profilesOpenMain?.[0]}
+              mentionProfiles={mentionProfilesMain}
+              setMentionProfiles={setMentionProfilesMain}
+              setProfilesOpen={setProfilesOpenMain}
               lensConnected={lensConnected}
               main={true}
-              setMakePostComment={setMakeComment}
-              makePostComment={makeComment?.[0]}
-              commentPostLoading={commentLoading}
+              setMakePostComment={setMakeCommentMain}
+              makePostComment={makeCommentMain?.[0]}
+              commentPostLoading={mainInteractionsLoading?.[0]?.comment}
               commentPost={commentPost}
               height="8rem"
               imageHeight="1rem"
               imageWidth="1rem"
-              contentLoading={contentLoading?.[0]}
+              contentLoading={contentLoadingMain?.[0]}
               index={0}
-              setContentLoading={setContentLoading}
+              setContentLoading={setContentLoadingMain}
               dispatch={dispatch}
               postCollectGif={postCollectGif}
               id={questInfo?.publication?.id}
@@ -183,16 +193,19 @@ const QuestSocial: FunctionComponent<QuestSocialProps> = ({
                   >
                     {quoters?.map((quote: Quote, index: number) => {
                       return (
-                        <div className="relative w-full h-fit flex items-start justify-start">
+                        <div
+                          className="relative w-full h-fit flex items-start justify-start"
+                          key={index}
+                        >
                           <PostQuote
                             router={router}
-                            key={index}
                             dispatch={dispatch}
                             quote={(quote as Post)!}
                             disabled={false}
                             index={index}
                             mirror={mirror}
                             like={like}
+                            lensConnected={lensConnected!}
                             setMirrorChoiceOpen={setMirrorChoiceOpen}
                             mirrorChoiceOpen={mirrorChoiceOpen}
                             interactionsLoading={interactionsLoading}

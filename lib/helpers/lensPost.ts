@@ -31,6 +31,16 @@ const lensPost = async (
     openActionModules?.[0]?.collectOpenAction?.simpleCollectOpenAction
   ) {
     openActionModules = cleanCollect(openActionModules);
+  } else {
+    openActionModules = [
+      {
+        collectOpenAction: {
+          simpleCollectOpenAction: {
+            followerOnly: false,
+          },
+        },
+      },
+    ];
   }
 
   const metadata = await validateMetadata({

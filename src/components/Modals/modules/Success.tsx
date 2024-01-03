@@ -7,6 +7,8 @@ import { setSuccess } from "../../../../redux/reducers/successSlice";
 
 const Success: FunctionComponent<SuccessProps> = ({
   dispatch,
+  image,
+  text
 }): JSX.Element => {
   return (
     <div className="inset-0 justify-center fixed z-50 bg-opacity-50 backdrop-blur-sm overflow-y-hidden grid grid-flow-col auto-cols-auto w-full h-auto">
@@ -16,13 +18,14 @@ const Success: FunctionComponent<SuccessProps> = ({
             <ImCross
               color="white"
               size={10}
-              onClick={() => dispatch(setSuccess(false))}
+              onClick={() => dispatch(setSuccess({
+                open: false
+              }))}
             />
           </div>
           <div className="relative w-full h-fit items-center justify-center flex flex-col gap-3 pb-4">
             <div className="relative w-2/3 h-fit items-center justify-center text-center break-words font-bit text-white text-sm">
-              Your Quest is Live! You can keep track of player progress and
-              approve rewards from your dashboard.
+              {text}
             </div>
             <div
               className="relative w-full sm:w-2/3 h-full min-h-[25vh] flex items-center justify-center rounded-sm p-px"
@@ -31,7 +34,7 @@ const Success: FunctionComponent<SuccessProps> = ({
               <Image
                 className="rounded-sm"
                 layout="fill"
-                src={`${INFURA_GATEWAY}/ipfs/QmdzmfW6ikDzYMDYmkQMHMUfdZuqyFQPhzKL8ujPC7wxfj`}
+                src={`${INFURA_GATEWAY}/ipfs/${image}`}
                 draggable={false}
                 objectFit="cover"
               />

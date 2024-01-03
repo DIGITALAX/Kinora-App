@@ -3,6 +3,7 @@ import {
   Erc20,
   SimpleCollectOpenActionModuleInput,
 } from "../../../../graphql/generated";
+import { Action, Dispatch } from "redux";
 
 export type CollectOptionsProps = {
   openMeasure: {
@@ -31,15 +32,21 @@ export type CollectOptionsProps = {
       time: string;
     }>
   ) => void;
+  id?: string;
+  collectTypes?:
+    | {
+        [key: string]: SimpleCollectOpenActionModuleInput | undefined;
+      }
+    | undefined;
   availableCurrencies: Erc20[];
-  postDetails: {
+  postDetails?: {
     title: string;
     description: string;
     video: string;
     tags: string;
     collectDetails: SimpleCollectOpenActionModuleInput;
   };
-  setPostDetails: (
+  setPostDetails?: (
     e: SetStateAction<{
       title: string;
       description: string;
@@ -48,4 +55,12 @@ export type CollectOptionsProps = {
       collectDetails: SimpleCollectOpenActionModuleInput;
     }>
   ) => void;
+  dispatch?: Dispatch<Action>;
+  collect?: boolean;
+  type?: string;
+  gifs?:
+    | {
+        [key: string]: string[];
+      }
+    | undefined;
 };

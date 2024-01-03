@@ -1,11 +1,15 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface SuccessState {
-  value: boolean;
+  value: {
+    open: boolean;
+    image?: string;
+    text?: string;
+  };
 }
 
 const initialSuccessState: SuccessState = {
-  value: false,
+  value: { open: false },
 };
 
 export const successSlice = createSlice({
@@ -14,7 +18,11 @@ export const successSlice = createSlice({
   reducers: {
     setSuccess: (
       state: SuccessState,
-      action: PayloadAction<boolean>
+      action: PayloadAction<{
+        open: boolean;
+        image?: string;
+        text?: string;
+      }>
     ) => {
       state.value = action.payload;
     },

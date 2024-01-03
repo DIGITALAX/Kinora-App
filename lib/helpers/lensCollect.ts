@@ -28,15 +28,21 @@ const lensCollect = async (
 
   if (
     type === "SimpleCollectOpenActionSettings" ||
-    type === "MultirecipientFeeCollectOpenActionSettings"
+    type === "MultirecipientFeeCollectOpenActionSettings" ||
+    type === "SimpleCollectOpenActionModule" ||
+    type === "MultirecipientFeeCollectOpenActionModule"
   ) {
     const { data } = await collectPost({
       for: id,
       actOn: {
         simpleCollectOpenAction:
-          type === "SimpleCollectOpenActionSettings" ? true : undefined,
+          type === "SimpleCollectOpenActionSettings" ||
+          type === "SimpleCollectOpenActionModule"
+            ? true
+            : undefined,
         multirecipientCollectOpenAction:
-          type === "MultirecipientFeeCollectOpenActionSettings"
+          type === "MultirecipientFeeCollectOpenActionSettings" ||
+          type === "MultirecipientFeeCollectOpenActionModule"
             ? true
             : undefined,
       },
@@ -51,6 +57,8 @@ const lensCollect = async (
       message: omit(typedData?.value, ["__typename"]),
       account: address as `0x${string}`,
     });
+
+
 
     broadcastResult = await broadcast({
       id: data?.createActOnOpenActionTypedData?.id,
