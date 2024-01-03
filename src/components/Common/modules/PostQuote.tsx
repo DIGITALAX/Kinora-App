@@ -5,17 +5,46 @@ import moment from "moment";
 import PostSwitch from "./PostSwitch";
 import { PostQuoteProps } from "../types/common.types";
 import InteractBar from "./InteractBar";
+import { Post } from "../../../../graphql/generated";
+import PostComment from "./PostComment";
 
 const PostQuote: FunctionComponent<PostQuoteProps> = ({
   quote,
   dispatch,
   disabled,
   router,
+  lensConnected,
+  mirror,
+  like,
+  setMirrorChoiceOpen,
+  mirrorChoiceOpen,
+  profileHovers,
+  setProfileHovers,
+  unfollowProfile,
+  followProfile,
+  simpleCollect,
+  setCommentsOpen,
+  commentsOpen,
+  index,
+  interactionsLoading,
+  main,
+  setCaretCoord,
+  caretCoord,
+  profilesOpen,
+  mentionProfiles,
+  setMentionProfiles,
+  setProfilesOpen,
+  setMakeComment,
+  makeComment,
+  commentPost,
+  contentLoading,
+  setContentLoading,
+  postCollectGif,
 }): JSX.Element => {
   const profilePicture = createProfilePicture(quote?.by?.metadata?.picture);
   return (
     <div
-      className={`relative w-full overflow-y-hidden flex items-start justify-center rounded-sm ${
+      className={`relative w-full overflow-y-hidden flex flex-col gap-3 items-start justify-center rounded-sm ${
         disabled ? "h-52" : "h-fit"
       }`}
       id={disabled ? "fadedQuote" : undefined}
@@ -76,9 +105,55 @@ const PostQuote: FunctionComponent<PostQuoteProps> = ({
           <div className="relative w-full h-fit flex items-start justify-center">
             <PostSwitch item={quote} dispatch={dispatch} disabled={disabled} />
           </div>
-          <InteractBar />
+          <InteractBar
+            publication={quote as Post}
+            lensConnected={lensConnected!}
+            mirror={mirror!}
+            like={like!}
+            setMirrorChoiceOpen={setMirrorChoiceOpen!}
+            mirrorChoiceOpen={mirrorChoiceOpen!}
+            index={index}
+            interactionsLoading={interactionsLoading!}
+            dispatch={dispatch}
+            profileHovers={profileHovers}
+            setProfileHovers={setProfileHovers}
+            unfollowProfile={unfollowProfile!}
+            followProfile={followProfile!}
+            router={router}
+            mainFeed={false}
+            simpleCollect={simpleCollect!}
+            setCommentsOpen={setCommentsOpen!}
+            main={main!}
+          />
         </div>
       </div>
+      {!disabled && commentsOpen?.[index] && (
+        <div className="relative h-full w-full items-center justify-center flex">
+          <PostComment
+            setCaretCoord={setCaretCoord!}
+            caretCoord={caretCoord!}
+            profilesOpen={profilesOpen?.[index]!}
+            mentionProfiles={mentionProfiles!}
+            setMentionProfiles={setMentionProfiles!}
+            setProfilesOpen={setProfilesOpen!}
+            lensConnected={lensConnected}
+            main={false}
+            setMakePostComment={setMakeComment!}
+            makePostComment={makeComment?.[index]!}
+            commentPostLoading={interactionsLoading?.[index]?.comment!}
+            commentPost={commentPost!}
+            height="6rem"
+            imageHeight="0.7rem"
+            imageWidth="0.7rem"
+            contentLoading={contentLoading?.[index]!}
+            index={index}
+            setContentLoading={setContentLoading!}
+            dispatch={dispatch}
+            postCollectGif={postCollectGif!}
+            id={quote?.id}
+          />
+        </div>
+      )}
     </div>
   );
 };

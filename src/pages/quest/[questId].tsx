@@ -57,6 +57,8 @@ export default function QuestId({ router }: { router: NextRouter }) {
     showComments,
     quoteMirrorSwitch,
     setQuoteMirrorSwitch,
+    setReactors,
+    setQuoters
   } = useWho(lensConnected, questId as string, socialType);
   const {
     mirror,
@@ -89,6 +91,11 @@ export default function QuestId({ router }: { router: NextRouter }) {
     setMainMakeComment,
     mainContentLoading,
     setMainContentLoading,
+    interactionsItemsLoading,
+    setCommentsOpen,
+    mirrorChoiceOpen,
+    setMirrorChoiceOpen,
+    simpleCollect,
   } = useInteractions(
     lensConnected,
     dispatch,
@@ -96,7 +103,16 @@ export default function QuestId({ router }: { router: NextRouter }) {
     publicClient,
     postCollectGif,
     setQuestInfo,
-    socialType == SocialType.Comments ? reactors : [],
+    socialType == SocialType.Comments
+      ? reactors
+      : socialType == SocialType.Mirrors
+      ? quoters
+      : [],
+    socialType == SocialType.Comments
+      ? setReactors
+      : socialType == SocialType.Mirrors
+      ? setQuoters
+      : undefined,
     showComments
   );
 
@@ -133,6 +149,18 @@ export default function QuestId({ router }: { router: NextRouter }) {
                 </div>
               ) : (
                 <QuestSocial
+                  mirrorChoiceOpen={mirrorChoiceOpen}
+                  setMirrorChoiceOpen={setMirrorChoiceOpen}
+                  profileHovers={profilesOpen}
+                  setProfileHovers={setProfilesOpen}
+                  followProfile={followProfile}
+                  unfollowProfile={unfollowProfile}
+                  simpleCollect={simpleCollect}
+                  setCommentsOpen={setCommentsOpen}
+                  commentsOpen={commentsOpen}
+                  mirror={mirror}
+                  like={like}
+                  interactionsLoading={interactionsItemsLoading}
                   setQuoteMirrorSwitch={setQuoteMirrorSwitch}
                   quoteMirrorSwitch={quoteMirrorSwitch}
                   socialType={socialType}

@@ -4,6 +4,7 @@ import {
   Post,
   Profile,
   PublicationStats,
+  Quote,
 } from "../../../../graphql/generated";
 import errorChoice from "../../../../lib/helpers/errorChoice";
 import { Dispatch } from "redux";
@@ -30,7 +31,8 @@ const useInteractions = (
   publicClient: PublicClient,
   postCollectGif: PostCollectGifState,
   setQuestInfo: (e: SetStateAction<Quest | undefined>) => void,
-  allComments: Comment[],
+  allComments: (Comment | Quote)[],
+  setAllComments: ((e: SetStateAction<any[]>) => void) | undefined,
   showComments: () => Promise<void>
 ) => {
   const [makeComment, setMakeComment] = useState<MakePostComment[]>([]);
@@ -52,6 +54,7 @@ const useInteractions = (
     x: 0,
     y: 0,
   });
+  const [mirrorChoiceOpen, setMirrorChoiceOpen] = useState<boolean[]>([]);
   const [mirrorChoiceOpenMain, setMirrorChoiceOpenMain] =
     useState<boolean>(false);
   const [contentLoading, setContentLoading] = useState<
@@ -110,27 +113,15 @@ const useInteractions = (
   const handleBookmark = async (
     on: string,
     hasBookmarked: boolean,
-    index: number,
-    main?: boolean
+    index: number
   ) => {
     if (!lensConnected?.id) return;
-    if (main) {
-      setMainInteractionsLoading((prev) => {
-        const updatedArray = [...prev];
-        updatedArray[0] = { ...updatedArray[0], bookmark: true };
-        return updatedArray;
-      });
-    } else {
-      if (index == -1) {
-        return;
-      }
 
-      setInteractionsItemsLoading((prev) => {
-        const updatedArray = [...prev];
-        updatedArray[index!] = { ...updatedArray[index!], bookmark: true };
-        return updatedArray;
-      });
-    }
+    setMainInteractionsLoading((prev) => {
+      const updatedArray = [...prev];
+      updatedArray[0] = { ...updatedArray[0], bookmark: true };
+      return updatedArray;
+    });
 
     try {
       await lensBookmark(on, dispatch);
@@ -141,7 +132,7 @@ const useInteractions = (
         },
         "bookmarks",
         hasBookmarked ? false : true,
-        main
+        true
       );
     } catch (err: any) {
       errorChoice(
@@ -154,28 +145,17 @@ const useInteractions = (
             },
             "bookmarks",
             hasBookmarked ? false : true,
-            main
+            true
           ),
         dispatch
       );
     }
-    if (main) {
-      setMainInteractionsLoading((prev) => {
-        const updatedArray = [...prev];
-        updatedArray[0] = { ...updatedArray[0], bookmark: false };
-        return updatedArray;
-      });
-    } else {
-      if (index == -1) {
-        return;
-      }
 
-      setInteractionsItemsLoading((prev) => {
-        const updatedArray = [...prev];
-        updatedArray[index!] = { ...updatedArray[index!], bookmark: false };
-        return updatedArray;
-      });
-    }
+    setMainInteractionsLoading((prev) => {
+      const updatedArray = [...prev];
+      updatedArray[0] = { ...updatedArray[0], bookmark: false };
+      return updatedArray;
+    });
   };
 
   const simpleCollect = async (id: string, type: string) => {
@@ -533,6 +513,25 @@ const useInteractions = (
             } as Post,
           } as Quest)
       );
+    } else {
+      const newInteractions = [...allComments];
+
+      newInteractions[index] = {
+        ...newInteractions[index],
+        operations: {
+          ...newInteractions[index]?.operations,
+          ...valueToUpdate,
+        },
+        stats: {
+          ...newInteractions[index]?.stats,
+          [statToUpdate]:
+            newInteractions[index]?.stats?.[
+              statToUpdate as keyof PublicationStats
+            ] + (increase ? 1 : -1),
+        },
+      };
+
+      setAllComments!(newInteractions);
     }
   };
 
@@ -664,6 +663,9 @@ const useInteractions = (
           gifs: [],
         }))
       );
+      setMirrorChoiceOpen(
+        Array.from({ length: allComments.length }, () => false)
+      );
       setCommentsOpen(Array.from({ length: allComments.length }, () => false));
       setProfilesOpen(Array.from({ length: allComments.length }, () => false));
     }
@@ -701,6 +703,10 @@ const useInteractions = (
     setMainMakeComment,
     mainContentLoading,
     setMainContentLoading,
+    setCommentsOpen,
+    mirrorChoiceOpen,
+    setMirrorChoiceOpen,
+    simpleCollect,
   };
 };
 
