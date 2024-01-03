@@ -5,7 +5,7 @@ import Image from "next/legacy/image";
 import InfiniteScroll from "react-infinite-scroll-component";
 import PostComment from "@/components/Common/modules/PostComment";
 import PostQuote from "@/components/Common/modules/PostQuote";
-import { Comment, Mirror, Post, Quote } from "../../../../graphql/generated";
+import { Comment, Post, Quote } from "../../../../graphql/generated";
 import numeral from "numeral";
 import { INFURA_GATEWAY } from "../../../../lib/constants";
 
@@ -35,6 +35,18 @@ const QuestSocial: FunctionComponent<QuestSocialProps> = ({
   postCollectGif,
   quoteMirrorSwitch,
   setQuoteMirrorSwitch,
+  mirror,
+  like,
+  simpleCollect,
+  interactionsLoading,
+  setMirrorChoiceOpen,
+  mirrorChoiceOpen,
+  profileHovers,
+  setProfileHovers,
+  unfollowProfile,
+  followProfile,
+  setCommentsOpen,
+  commentsOpen,
 }): JSX.Element => {
   switch (socialType) {
     case SocialType.Comments:
@@ -86,6 +98,32 @@ const QuestSocial: FunctionComponent<QuestSocialProps> = ({
                       dispatch={dispatch}
                       quote={reactor!}
                       disabled={false}
+                      index={index}
+                      lensConnected={lensConnected!}
+                      mirror={mirror}
+                      like={like}
+                      setMirrorChoiceOpen={setMirrorChoiceOpen}
+                      mirrorChoiceOpen={mirrorChoiceOpen}
+                      interactionsLoading={interactionsLoading}
+                      profileHovers={profileHovers}
+                      setProfileHovers={setProfileHovers}
+                      unfollowProfile={unfollowProfile}
+                      followProfile={followProfile}
+                      simpleCollect={simpleCollect}
+                      setCommentsOpen={setCommentsOpen}
+                      commentsOpen={commentsOpen}
+                      setCaretCoord={setCaretCoord}
+                      caretCoord={caretCoord}
+                      profilesOpen={profilesOpen}
+                      mentionProfiles={mentionProfiles}
+                      setMentionProfiles={setMentionProfiles}
+                      setProfilesOpen={setProfilesOpen}
+                      setMakeComment={setMakeComment}
+                      makeComment={makeComment}
+                      commentPost={commentPost}
+                      contentLoading={contentLoading}
+                      setContentLoading={setContentLoading}
+                      postCollectGif={postCollectGif}
                     />
                   );
                 })}
@@ -152,6 +190,31 @@ const QuestSocial: FunctionComponent<QuestSocialProps> = ({
                             dispatch={dispatch}
                             quote={(quote as Post)!}
                             disabled={false}
+                            index={index}
+                            mirror={mirror}
+                            like={like}
+                            setMirrorChoiceOpen={setMirrorChoiceOpen}
+                            mirrorChoiceOpen={mirrorChoiceOpen}
+                            interactionsLoading={interactionsLoading}
+                            profileHovers={profileHovers}
+                            setProfileHovers={setProfileHovers}
+                            unfollowProfile={unfollowProfile}
+                            followProfile={followProfile}
+                            simpleCollect={simpleCollect}
+                            setCommentsOpen={setCommentsOpen}
+                            commentsOpen={commentsOpen}
+                            setCaretCoord={setCaretCoord}
+                            caretCoord={caretCoord}
+                            profilesOpen={profilesOpen}
+                            mentionProfiles={mentionProfiles}
+                            setMentionProfiles={setMentionProfiles}
+                            setProfilesOpen={setProfilesOpen}
+                            setMakeComment={setMakeComment}
+                            makeComment={makeComment}
+                            commentPost={commentPost}
+                            contentLoading={contentLoading}
+                            setContentLoading={setContentLoading}
+                            postCollectGif={postCollectGif}
                           />
                         </div>
                       );

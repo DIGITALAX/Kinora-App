@@ -316,6 +316,8 @@ const useWho = (
     showComments,
     quoteMirrorSwitch,
     setQuoteMirrorSwitch,
+    setReactors,
+    setQuoters,
   };
 };
 
