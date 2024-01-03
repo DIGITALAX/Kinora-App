@@ -2,11 +2,14 @@ import { FunctionComponent } from "react";
 import descriptionRegex from "../../../../lib/helpers/descriptionRegex";
 import { TextProps } from "../types/common.types";
 
-const Text: FunctionComponent<TextProps> = ({ metadata }): JSX.Element => {
+const Text: FunctionComponent<TextProps> = ({
+  metadata,
+  disabled,
+}): JSX.Element => {
   return (
     <div className="relative w-full h-fit flex flex-col justify-start items-center gap-3">
       <div
-        className={`relative w-full h-fit max-h-[20rem] font-aust text-white text-left items-start justify-start break-words flex overflow-y-scroll p-3 text-sm whitespace-preline ${
+        className={`relative w-full h-fit max-h-[20rem] font-vcr text-white text-left items-start justify-start rounded-sm break-words flex overflow-y-scroll py-3 text-xs whitespace-preline ${
           metadata?.__typename !== "TextOnlyMetadataV3" &&
           metadata?.content?.length > 200
             ? "bg-black"
@@ -14,7 +17,9 @@ const Text: FunctionComponent<TextProps> = ({ metadata }): JSX.Element => {
         }`}
         dangerouslySetInnerHTML={{
           __html: descriptionRegex(
-            metadata?.content,
+            disabled
+              ? metadata?.content?.slice(0, 100) + "..."
+              : metadata?.content,
             metadata?.__typename !== "TextOnlyMetadataV3" &&
               metadata?.content?.length > 200
               ? false

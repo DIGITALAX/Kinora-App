@@ -206,7 +206,7 @@ const Criteria: FunctionComponent<CriteriaProps> = ({
                           );
                         }}
                       >
-                        <div className="relative w-full h-full relative rounded-md flex bg-black">
+                        <div className="relative w-full h-full relative rounded-md flex">
                           <MediaSwitch
                             srcUrl={image?.cover!}
                             classNameImage={

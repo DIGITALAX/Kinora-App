@@ -28,7 +28,7 @@ const Details: FunctionComponent<DetailsProps> = ({
   setCollectionsInfo,
 }): JSX.Element => {
   return (
-    <div className="relative w-full h-fit flex flex-col items-start justify-start gap-6 overflow-y-scroll font-bit text-white">
+    <div className="relative w-full h-fit flex flex-col items-start justify-start gap-6 overflow-y-scroll font-bit text-white pb-3">
       <div className="relative w-full h-fit flex items-start justify-start flex-col lg:flex-row gap-6">
         <div className="relative w-full h-fit flex items-start justify-start gap-2 flex-col">
           <div className="relative w-fit h-fit flex items-start justify-start">

@@ -18,7 +18,7 @@ const Saves: FunctionComponent<SavesProps> = ({
   setMirrorChoiceOpen,
   simpleCollect,
   interactionsLoading,
-  like
+  like,
 }): JSX.Element => {
   return (
     <>
@@ -63,13 +63,16 @@ const Saves: FunctionComponent<SavesProps> = ({
                     mirror={mirror}
                     mirrorChoiceOpen={mirrorChoiceOpen}
                     setMirrorChoiceOpen={setMirrorChoiceOpen}
-                    simpleCollect={simpleCollect}
                     like={like}
                     index={index}
                     interactionsLoading={interactionsLoading}
                     bookmark={bookmark}
                     router={router}
                     post
+                    // unfollowProfile={unfollowProfile}
+                    // followProfile={followProfile}
+                    // setProfileHoversts={setProfileHoversts}
+                    // profileHovers={ProfileHovers}
                   />
                 );
               })}

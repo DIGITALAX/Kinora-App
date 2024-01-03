@@ -2,7 +2,10 @@ import { FunctionComponent } from "react";
 import { ERC721Reward, RewardProps } from "../../types/envoke.types";
 import Mint from "./Mint";
 import Image from "next/legacy/image";
-import { ACCEPTED_TOKENS_MUMBAI, INFURA_GATEWAY } from "../../../../../lib/constants";
+import {
+  ACCEPTED_TOKENS_MUMBAI,
+  INFURA_GATEWAY,
+} from "../../../../../lib/constants";
 import { setQuestInfo } from "../../../../../redux/reducers/questInfoSlice";
 import { AiOutlineLoading } from "react-icons/ai";
 
@@ -116,7 +119,6 @@ const Reward: FunctionComponent<RewardProps> = ({
                   setQuestInfo({
                     actionDetails: questInfo?.details,
                     actionMilestones: milestones,
-                    
                   })
                 );
               }}
@@ -202,7 +204,7 @@ const Reward: FunctionComponent<RewardProps> = ({
                           rewards20[index]?.amount?.trim() == ""
                             ? rewards20[index]?.amount
                             : "0",
-                        balance: true,
+                        balance: undefined,
                       };
 
                       milestones[
@@ -265,7 +267,6 @@ const Reward: FunctionComponent<RewardProps> = ({
                         setQuestInfo({
                           actionDetails: questInfo?.details,
                           actionMilestones: milestones,
-                          
                         })
                       );
                     }}
@@ -291,20 +292,35 @@ const Reward: FunctionComponent<RewardProps> = ({
                             (item: boolean) => item == true
                           )
                         : 0
-                    ]?.rewards?.rewards20?.[index] &&
-                      !questInfo?.milestones?.[
-                        milestonesOpen.findIndex(
-                          (item: boolean) => item == true
-                        ) !== -1
-                          ? milestonesOpen.findIndex(
+                    ]?.rewards?.rewards20?.[index]?.balance !== undefined && (
+                      <div
+                        className={`relative w-full h-fit flex font-bit items-start justify-start text-xxs ${
+                          questInfo?.milestones?.[
+                            milestonesOpen.findIndex(
                               (item: boolean) => item == true
-                            )
-                          : 0
-                      ]?.rewards?.rewards20?.[index]?.balance && (
-                        <div className="relative w-full h-fit flex font-bit items-start justify-start text-xxs text-rojo">
-                          Insufficient Balance
-                        </div>
-                      )}
+                            ) !== -1
+                              ? milestonesOpen.findIndex(
+                                  (item: boolean) => item == true
+                                )
+                              : 0
+                          ]?.rewards?.rewards20?.[index]?.balance == false
+                            ? "text-rojo"
+                            : "text-white"
+                        }`}
+                      >
+                        {questInfo?.milestones?.[
+                          milestonesOpen.findIndex(
+                            (item: boolean) => item == true
+                          ) !== -1
+                            ? milestonesOpen.findIndex(
+                                (item: boolean) => item == true
+                              )
+                            : 0
+                        ]?.rewards?.rewards20?.[index]?.balance == false
+                          ? "Insufficient Balance"
+                          : "Sufficient Balance"}
+                      </div>
+                    )}
                     <input
                       value={
                         questInfo?.milestones?.[
@@ -334,7 +350,7 @@ const Reward: FunctionComponent<RewardProps> = ({
                         tokens[index] = {
                           ...tokens[index],
                           amount: e.target.value,
-                          balance: true,
+                          balance: undefined,
                         };
                         milestones[
                           milestonesOpen.findIndex(
@@ -372,7 +388,6 @@ const Reward: FunctionComponent<RewardProps> = ({
                           setQuestInfo({
                             actionDetails: questInfo?.details,
                             actionMilestones: milestones,
-                            
                           })
                         );
                       }}

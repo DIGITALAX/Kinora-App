@@ -32,13 +32,13 @@ export default function Handle({ router }: { router: NextRouter }) {
     envokedQuests,
     setEnvokedQuests,
   } = usePageProfile(handle as string, lensConnected);
-  const { savesInfo, savesLoading, getMoreSaves, allSaves, setAllSaves } =
+  const { savesInfo, savesLoading, getMoreSaves, allSaves, setAllSaves,  } =
     useSaves(lensConnected, handle as string, accountType);
   return (
     <div
       className="relative overflow-y-scroll flex min-h-full w-full justify-end"
       style={{
-        height: "calc(100vh - 5.5rem)",
+        height: "calc(100vh - 5.5rem) pb-5",
       }}
     >
       <div
@@ -98,6 +98,13 @@ export default function Handle({ router }: { router: NextRouter }) {
             completedQuests={completedQuests}
             questsLoading={questsLoading}
             allSaves={allSaves}
+            mirrorSave={mirrorSave}
+            bookmarkSave={bookmarkSave}
+            likeSave={likeSave}
+            simpleCollectSave={simpleCollectSave}
+            setMirrorChoiceOpenSave={setMirrorChoiceOpenSave}
+            mirrorChoiceOpenSave={mirrorChoiceOpenSave}
+            interactionsLoadingSave={interactionsLoadingSave}
           />
         </div>
       </div>

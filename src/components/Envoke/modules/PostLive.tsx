@@ -21,7 +21,7 @@ const PostLive: FunctionComponent<PostLiveProps> = ({
       {tokensToApprove?.filter((item) => !item.approved)?.length > 0 && (
         <div className="relative w-full h-fit flex items-center justify-center flex-col gap-3">
           <div className="relative w-fit h-fit flex items-center justify-center text-xs">
-            Approve You Reward Tokens.
+            Approve Your Reward Tokens.
           </div>
           <div className="relative w-full h-fit flex items-center justify-center flex-row gap-3 flex-wrap">
             {tokensToApprove
@@ -38,17 +38,19 @@ const PostLive: FunctionComponent<PostLiveProps> = ({
                   return (
                     <div
                       key={index}
-                      className="relative w-fit h-fit flex flex-col gap-1.5 items-center justify-center"
+                      className="relative w-fit h-fit flex flex-col gap-2 items-center justify-center"
                     >
-                      <div className="relative flex w-fit h-fit items-center justify-center text-white font-bit text-xs">
-                        {`${
+                      <div className="relative flex flex-col gap-1 w-fit h-fit items-center justify-center font-bit">
+                        <div className="relative w-fit h-fit flex items-center justify-center text-xs text-white" >{`${
                           ACCEPTED_TOKENS_MUMBAI?.find(
                             (value) =>
                               value[2]?.toLowerCase() ===
                               item?.address?.toLowerCase()
                           )?.[1]
-                        }`}{" "}
-                        {Number(item?.amount) / 10 ** 18}
+                        }`}</div>
+                        <div className="relative w-fit h-fit flex items-center justify-center text-xxs text-ligera">
+                          {Number(item?.amount) / 10 ** 18}
+                        </div>
                       </div>
                       <div
                         className="relative w-7 h-8 flex items-center justify-center rounded-full cursor-pointer hover:opacity-70 active:scale-95"
