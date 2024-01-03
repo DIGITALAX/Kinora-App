@@ -7,6 +7,7 @@ import {
   Mirror,
   Post,
   Profile,
+  Quote,
   StoryMetadataV3,
   TextOnlyMetadataV3,
   VideoMetadataV3,
@@ -67,6 +68,7 @@ export type QuestPreviewProps = {
   setProfileHovers: (id: SetStateAction<boolean[]>) => void;
   unfollowProfile: (id: string, index: number) => void;
   followProfile: (id: string, index: number) => void;
+  mainFeed?: boolean;
 };
 
 export type InteractBarProps = {
@@ -85,11 +87,12 @@ export type InteractBarProps = {
   mirrorChoiceOpen: boolean[];
   bookmark: (id: string) => Promise<void>;
   setMirrorChoiceOpen: (id: SetStateAction<boolean[]>) => void;
-  profileHovers: boolean[];
-  setProfileHovers: (id: SetStateAction<boolean[]>) => void;
+  profileHovers?: boolean[];
+  setProfileHovers?: (id: SetStateAction<boolean[]>) => void;
   unfollowProfile: (id: string, index: number) => void;
   followProfile: (id: string, index: number) => void;
   router: NextRouter;
+  mainFeed?: boolean;
 };
 
 export type ConnectFirstProps = {
@@ -155,7 +158,6 @@ export type PostCommentProps = {
       y: number;
     }>
   ) => void;
-  router: NextRouter;
   mentionProfiles: Profile[];
   profilesOpen: boolean;
   setMentionProfiles: (e: SetStateAction<Profile[]>) => void;
@@ -164,7 +166,6 @@ export type PostCommentProps = {
   postCollectGif: PostCollectGifState;
   setMakePostComment: (e: SetStateAction<MakePostComment[]>) => void;
   main?: boolean | undefined;
-  itemId: string | undefined;
   commentPost:
     | ((id: string) => Promise<void>)
     | (() => Promise<void>)
@@ -191,15 +192,15 @@ export type PostCommentProps = {
 };
 
 export type PostQuoteProps = {
-  quote: Post;
+  quote: Post | Comment;
   dispatch: Dispatch<Action>;
-  router: NextRouter;
-  pink?: boolean;
   disabled: boolean | undefined;
+  router: NextRouter;
 };
 
 export type TextProps = {
   metadata: ArticleMetadataV3 | StoryMetadataV3 | TextOnlyMetadataV3;
+  disabled: boolean;
 };
 
 export type PostSwitchProps = {
@@ -213,3 +214,14 @@ export type MediaImageProps = {
   dispatch: Dispatch<Action>;
   metadata: ImageMetadataV3 | VideoMetadataV3 | AudioMetadataV3;
 };
+
+export enum ItemType {
+  CoinOp = "coinop",
+  Chromadin = "chromadin",
+  Legend = "legend",
+  Listener = "listener",
+  F3M = "f3m",
+  Other = "other",
+  Kinora = "kinora",
+  TheDial = "dial",
+}

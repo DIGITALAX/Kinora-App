@@ -73,6 +73,7 @@ export const getCollectionSample = async (
           mediaCover
           images
         }
+        origin
         uri
         profileId
       }
@@ -81,6 +82,47 @@ export const getCollectionSample = async (
     variables: {
       first,
       skip,
+    },
+    fetchPolicy: "no-cache",
+    errorPolicy: "all",
+  });
+
+  const timeoutPromise = new Promise((resolve) => {
+    timeoutId = setTimeout(() => {
+      resolve({ timedOut: true });
+    }, 60000);
+    return () => clearTimeout(timeoutId);
+  });
+
+  const result: any = await Promise.race([queryPromise, timeoutPromise]);
+
+  timeoutId && clearTimeout(timeoutId);
+  if (result.timedOut) {
+    return;
+  } else {
+    return result;
+  }
+};
+
+export const getCollectionURI = async (
+  uri: string
+): Promise<FetchResult | void> => {
+  let timeoutId: NodeJS.Timeout | undefined;
+  const queryPromise = graphPrintClient.query({
+    query: gql(`
+    query($uri: String) {
+      collectionCreateds(first: 1, where: { uri_contains_nocase: $uri}, orderDirection: desc, orderBy: blockTimestamp) {
+        collectionMetadata {
+          title
+          mediaCover
+          images
+        }
+        origin
+      }
+    }
+  `),
+    variables: {
+      uri,
     },
     fetchPolicy: "no-cache",
     errorPolicy: "all",

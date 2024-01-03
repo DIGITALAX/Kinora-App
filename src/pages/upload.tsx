@@ -68,7 +68,7 @@ export default function Upload() {
     <>
       {walletConnected && lensConnected ? (
         <div
-          className="relative flex overflow-y-scroll min-h-full w-full items-start justify-end"
+          className="relative flex overflow-y-scroll min-h-full w-full items-start justify-end pb-5"
           style={{
             height: "calc(100vh - 5.5rem)",
           }}

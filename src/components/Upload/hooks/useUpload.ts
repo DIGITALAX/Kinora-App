@@ -104,7 +104,6 @@ const useUpload = (
         [],
         [postDetails?.video],
         [],
-        [],
         postDetails.title,
         postDetails?.tags
           ?.split(",")
@@ -125,8 +124,6 @@ const useUpload = (
       )?.playbackId;
 
       let result: number = 200;
-
-      console.log({hashExists})
 
       if (!hashExists) {
         const formData = new FormData();

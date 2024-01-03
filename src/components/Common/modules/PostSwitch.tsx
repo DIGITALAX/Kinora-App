@@ -34,6 +34,7 @@ const PostSwitch: FunctionComponent<PostSwitchProps> = ({
               | StoryMetadataV3
               | TextOnlyMetadataV3
           }
+          disabled={disabled!}
         />
       );
 

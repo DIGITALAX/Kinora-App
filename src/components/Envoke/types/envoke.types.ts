@@ -51,7 +51,7 @@ export interface ERC721Reward {
 export interface ERC20Reward {
   amount: string;
   address: `0x${string}`;
-  balance: boolean;
+  balance: boolean | undefined;
 }
 
 export interface Milestone {
@@ -283,6 +283,7 @@ export interface Collection {
     mediaCover: string;
     images: string[];
   };
+  origin: string;
   uri: string;
   profileId: string;
   profile: Profile;

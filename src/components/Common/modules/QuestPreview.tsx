@@ -5,6 +5,7 @@ import { Post, VideoMetadataV3 } from "../../../../graphql/generated";
 import Image from "next/legacy/image";
 import { Quest } from "@/components/Quest/types/quest.types";
 import InteractBar from "./InteractBar";
+import { INFURA_GATEWAY } from "../../../../lib/constants";
 
 const QuestPreview: FunctionComponent<QuestPreviewProps> = ({
   quest,
@@ -25,10 +26,8 @@ const QuestPreview: FunctionComponent<QuestPreviewProps> = ({
   setProfileHovers,
   followProfile,
   unfollowProfile,
+  mainFeed,
 }): JSX.Element => {
-  const image = createMedia(
-    (post ? (quest as Post) : (quest as Quest)?.publication)?.metadata
-  );
   return (
     <div className="relative w-full h-fit flex flex-col gap-2 flex items-start justify-start">
       <div
@@ -46,32 +45,38 @@ const QuestPreview: FunctionComponent<QuestPreviewProps> = ({
           )
         }
       >
-        {image?.asset && (
+        <div className="relative rounded-sm w-full h-full flex items-center justify-center">
           <Image
-            src={image?.asset}
+            src={`${INFURA_GATEWAY}/ipfs/${
+              (quest as Quest)?.questMetadata?.cover?.includes("ipfs://")
+                ? (quest as Quest)?.questMetadata?.cover?.split("ipfs://")?.[1]
+                : (quest as Quest)?.questMetadata?.cover
+            }`}
             objectFit="cover"
             draggable={false}
             className="rounded-sm"
+            layout="fill"
           />
-        )}
-        <InteractBar
-          dispatch={dispatch}
-          lensConnected={lensConnected}
-          publication={post ? (quest as Post) : (quest as Quest)?.publication}
-          mirror={mirror}
-          mirrorChoiceOpen={mirrorChoiceOpen}
-          setMirrorChoiceOpen={setMirrorChoiceOpen}
-          like={like}
-          bookmark={bookmark}
-          index={index}
-          interactionsLoading={interactionsLoading}
-          followProfile={followProfile}
-          unfollowProfile={unfollowProfile}
-          setProfileHovers={setProfileHovers}
-          profileHovers={profileHovers}
-          router={router}
-        />
+        </div>
       </div>
+      <InteractBar
+        dispatch={dispatch}
+        lensConnected={lensConnected}
+        publication={post ? (quest as Post) : (quest as Quest)?.publication}
+        mirror={mirror}
+        mirrorChoiceOpen={mirrorChoiceOpen}
+        setMirrorChoiceOpen={setMirrorChoiceOpen}
+        like={like}
+        bookmark={bookmark}
+        index={index}
+        interactionsLoading={interactionsLoading}
+        followProfile={followProfile}
+        unfollowProfile={unfollowProfile}
+        setProfileHovers={setProfileHovers}
+        profileHovers={profileHovers}
+        router={router}
+        mainFeed={mainFeed}
+      />
       <div className="relative w-fit h-fit flex items-center justify-center text-white font-bit text-sm break-words">
         {(
           (post ? (quest as Post) : (quest as Quest)?.publication)

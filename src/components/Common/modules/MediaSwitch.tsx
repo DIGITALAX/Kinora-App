@@ -67,12 +67,13 @@ const MediaSwitch: FunctionComponent<MediaProps> = ({
                   mediaElementRef={setMediaElement}
                   src={srcUrl}
                   playbackId={srcUrl?.split("/ipfs/")?.[1]}
-                  poster={srcCover}
+                  // poster={srcCover? srcCover : undefined}
                   objectFit="cover"
                   autoUrlUpload={{
                     fallback: true,
                     ipfsGateway: INFURA_GATEWAY,
                   }}
+                  showLoadingSpinner={false}
                   loop={hidden}
                   autoPlay={autoPlay}
                   muted={true}

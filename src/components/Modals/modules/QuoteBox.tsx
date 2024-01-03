@@ -50,8 +50,6 @@ const QuoteBox: FunctionComponent<QuoteBoxProps> = ({
           <div className="relative w-full h-full flex items-center justify-center pb-3">
             <div className="relative h-full w-4/5 items-center justify-center flex">
               <PostComment
-                itemId={undefined}
-                router={router}
                 setCaretCoord={setCaretCoord}
                 caretCoord={caretCoord}
                 profilesOpen={profilesOpen?.[0]}

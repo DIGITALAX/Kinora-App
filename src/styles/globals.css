@@ -7,8 +7,15 @@
   src: url("/fonts/Bitblox.otf");
 }
 
+@font-face {
+  font-family: "Vcr";
+  src: url("/fonts/Vcr.ttf");
+}
+
 html {
   background-color: #0b0e16;
+  background-image: url("https://thedial.infura-ipfs.io/ipfs/QmcnyZRwBo2yRC8xPuyD2UVEfRGX6JNPX86dT43aPSsy5y");
+  background-repeat: repeat;
 }
 
 #rainbow {
@@ -36,9 +43,12 @@ html {
 }
 
 #negro {
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%);
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 1) 100%
+  );
 }
-
 
 body::-webkit-scrollbar {
   width: 0px;
@@ -74,9 +84,38 @@ div::-webkit-scrollbar-thumb {
   background-color: transparent;
 }
 
-
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+#xScroll::-webkit-scrollbar {
+  height: 0px;
+  background-color: white;
+}
+
+#xScroll::-webkit-scrollbar-track {
+  background-color: white;
+}
+
+#xScroll::-webkit-scrollbar-thumb {
+  background-color: white;
+}
+
+
+#fadedQuote {
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    #151316 0%,
+    #0b0e16 70%,
+    transparent 95%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    to bottom,
+    #1f2937 0%,
+    #0b0e16 50%,
+    transparent 100%
+  );
 }

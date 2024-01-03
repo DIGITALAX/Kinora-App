@@ -10,7 +10,6 @@ export const getQuests = async (
     query: gql(`
     query($first: Int, $skip: Int) {
       questInstantiateds(first: $first, skip: $skip, orderDirection: desc, orderBy: blockTimestamp) {
-        questInstantiateds {
           gate {
             erc721Logic {
               uris
@@ -21,6 +20,7 @@ export const getQuests = async (
               address
               amount
             }
+            oneOf
           }
           questMetadata {
             id
@@ -42,7 +42,12 @@ export const getQuests = async (
               }
               oneOf
             }
-            details
+            uri
+              milestoneMetadata {
+                title
+                description
+                cover
+              }
             milestoneId
             rewards {
               amount
@@ -70,7 +75,10 @@ export const getQuests = async (
               bookmark
             }
           }
+          maxPlayerCount
           questId
+          pubId
+          profileId
           transactionHash
           uri
           milestoneCount
@@ -106,7 +114,6 @@ export const getQuests = async (
               avd
             }
           }
-        }
       }
     }
   `),

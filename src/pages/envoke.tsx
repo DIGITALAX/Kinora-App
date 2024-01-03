@@ -87,12 +87,21 @@ export default function Envoke({ router }: { router: NextRouter }) {
     setMilestoneStoryboardStage,
   } = useCriteria(lensConnected);
   const { handlePostLive, postLoading, handleApprove, tokensToApprove } =
-    usePostLive(dispatch, questInfo, address, publicClient, allUploaded);
+    usePostLive(
+      dispatch,
+      questInfo,
+      address,
+      publicClient,
+      allUploaded,
+      setMilestonesOpen,
+      setMilestoneStage,
+      setCollectionsSearch
+    );
   return (
     <>
       {walletConnected && lensConnected ? (
         <div
-          className="relative flex overflow-y-scroll min-h-full w-full items-start justify-end"
+          className="relative flex overflow-y-scroll min-h-full w-full items-start justify-end pb-5"
           style={{
             height: "calc(100vh - 5.5rem)",
           }}

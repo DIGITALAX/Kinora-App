@@ -2,14 +2,14 @@ import { FetchResult, gql } from "@apollo/client";
 import { graphKinoraClient } from "../../lib/graph/client";
 
 export const getQuest = async (
-  questId: string
+  pubId: string,
+  profileId: string
 ): Promise<FetchResult | void> => {
   let timeoutId: NodeJS.Timeout | undefined;
   const queryPromise = graphKinoraClient.query({
     query: gql(`
-    query($questId: String, $first: Int, $skip: Int) {
-      questInstantiateds(where: {questId: $questId}, first: $first, skip: $skip, orderDirection: desc, orderBy: blockTimestamp) {
-          questInstantiateds {
+    query($pubId: String, $profileId: String) {
+      questInstantiateds(where: {profileId: $profileId, pubId: $pubId}, first: 1, orderDirection: desc, orderBy: blockTimestamp) {
             gate {
               erc721Logic {
                 uris
@@ -20,6 +20,7 @@ export const getQuest = async (
                 address
                 amount
               }
+              oneOf
             }
             questMetadata {
               id
@@ -41,7 +42,12 @@ export const getQuest = async (
                 }
                 oneOf
               }
-              details
+              uri
+              milestoneMetadata {
+                title
+                description
+                cover
+              }
               milestoneId
               rewards {
                 amount
@@ -69,7 +75,10 @@ export const getQuest = async (
                 bookmark
               }
             }
+            maxPlayerCount
             questId
+            pubId
+            profileId
             transactionHash
             uri
             milestoneCount
@@ -105,12 +114,12 @@ export const getQuest = async (
                 avd
               }
             }
-        }
       }
     }
   `),
     variables: {
-        questId
+      pubId,
+      profileId,
     },
     fetchPolicy: "no-cache",
     errorPolicy: "all",
