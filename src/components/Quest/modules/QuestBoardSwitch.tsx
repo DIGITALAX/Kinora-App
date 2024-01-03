@@ -55,7 +55,6 @@ const QuestBoardSwitch: FunctionComponent<QuestBoardSwitchProps> = ({
               (item) => item?.profile?.id == lensConnected?.id
             )!
           }
-          lensConnected={lensConnected}
           completeLoading={completeLoading}
           milestone={questInfo?.milestones?.[mainViewer - 1]!}
           handleCompleteMilestone={handleCompleteMilestone}
