@@ -1,14 +1,17 @@
 import { NextRouter } from "next/router";
 import {
+  Erc20,
   MultirecipientFeeCollectOpenActionSettings,
   Post,
   Profile,
+  SimpleCollectOpenActionModuleInput,
   SimpleCollectOpenActionSettings,
 } from "../../../../graphql/generated";
 import { Action, Dispatch } from "redux";
 import { SetStateAction } from "react";
 import { MakePostComment } from "@/components/Quest/types/quest.types";
 import { PostCollectGifState } from "../../../../redux/reducers/postCollectGifSlice";
+import { Collection } from "@/components/Envoke/types/envoke.types";
 
 export type SidebarProps = {
   openSidebar: boolean;
@@ -30,6 +33,8 @@ export type InteractErrorProps = {
 
 export type SuccessProps = {
   dispatch: Dispatch;
+  image: string;
+  text: string;
 };
 
 export type FollowCollectProps = {
@@ -96,4 +101,75 @@ export type ImageLargeProps = {
   mainImage: string;
   dispatch: Dispatch<Action>;
   type: string;
+};
+
+export type PostCollectGifProps = {
+  dispatch: Dispatch<Action>;
+  type: string | undefined;
+  id: string;
+  handleGif: (e: string) => Promise<void>;
+  setCollects: (
+    e: SetStateAction<SimpleCollectOpenActionModuleInput | undefined>
+  ) => void;
+  collects: SimpleCollectOpenActionModuleInput | undefined;
+  gifInfo: {
+    searchedGifs: string[];
+    search: string;
+  };
+  setGifInfo: (
+    e: SetStateAction<{
+      searchedGifs: string[];
+      search: string;
+    }>
+  ) => void;
+  openMeasure: {
+    collectibleOpen: boolean;
+    collectible: string;
+    award: string;
+    whoCollectsOpen: boolean;
+    creatorAwardOpen: boolean;
+    currencyOpen: boolean;
+    editionOpen: boolean;
+    edition: string;
+    timeOpen: boolean;
+    time: string;
+  };
+  setOpenMeasure: (
+    e: SetStateAction<{
+      collectibleOpen: boolean;
+      collectible: string;
+      award: string;
+      whoCollectsOpen: boolean;
+      creatorAwardOpen: boolean;
+      currencyOpen: boolean;
+      editionOpen: boolean;
+      edition: string;
+      timeOpen: boolean;
+      time: string;
+    }>
+  ) => void;
+  availableCurrencies: Erc20[];
+  gifs:
+    | {
+        [key: string]: string[];
+      }
+    | undefined;
+  collectTypes:
+    | {
+        [key: string]: SimpleCollectOpenActionModuleInput | undefined;
+      }
+    | undefined;
+  searchGifLoading: boolean;
+};
+
+export type QuestGatesProps = {
+  dispatch: Dispatch<Action>;
+  gates: {
+    erc20?: {
+      address: string;
+      amount: string;
+    }[];
+    erc721?: Collection[];
+    oneof?: boolean
+  };
 };

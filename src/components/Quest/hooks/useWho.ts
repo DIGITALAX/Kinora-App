@@ -235,7 +235,7 @@ const useWho = (
     } catch (err: any) {
       console.error(err.message);
     }
-    setDataLoading(true);
+    setDataLoading(false);
   };
 
   const showMoreComments = async () => {

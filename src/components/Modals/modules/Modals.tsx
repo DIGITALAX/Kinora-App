@@ -16,6 +16,8 @@ import QuoteBox from "./QuoteBox";
 import useQuote from "../hooks/useQuote";
 import ImageLarge from "./ImageLarge";
 import Success from "./Success";
+import PostCollectGif from "./PostCollectGif";
+import QuestGates from "./QuestGates";
 
 const Modals: FunctionComponent<{ router: NextRouter }> = ({
   router,
@@ -30,6 +32,9 @@ const Modals: FunctionComponent<{ router: NextRouter }> = ({
       `https://polygon-mumbai.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY_MUMBAI}`
     ),
   });
+  const questGates = useSelector(
+    (state: RootState) => state.app.questGatesReducer
+  );
   const lensConnected = useSelector(
     (state: RootState) => state.app.lensConnectedReducer.profile
   );
@@ -94,6 +99,14 @@ const Modals: FunctionComponent<{ router: NextRouter }> = ({
     setContentLoading,
     contentLoading,
     handleQuote,
+    openMeasure,
+    setOpenMeasure,
+    collects,
+    setCollects,
+    handleGif,
+    searchGifLoading,
+    gifInfo,
+    setGifInfo,
   } = useQuote(postCollectGif, publicClient, address, dispatch, quote);
   return (
     <>
@@ -148,9 +161,36 @@ const Modals: FunctionComponent<{ router: NextRouter }> = ({
           type={image.type}
         />
       )}
+      {questGates?.gates && (
+        <QuestGates gates={questGates?.gates} dispatch={dispatch} />
+      )}
+      {postCollectGif?.type && (
+        <PostCollectGif
+          dispatch={dispatch}
+          gifInfo={gifInfo}
+          setGifInfo={setGifInfo}
+          openMeasure={openMeasure}
+          setOpenMeasure={setOpenMeasure}
+          availableCurrencies={availableCurrencies}
+          collects={collects}
+          setCollects={setCollects}
+          type={postCollectGif?.type}
+          id={postCollectGif?.id!}
+          collectTypes={postCollectGif?.collectTypes}
+          handleGif={handleGif}
+          gifs={postCollectGif?.gifs}
+          searchGifLoading={searchGifLoading}
+        />
+      )}
       {indexer?.open && <Index message={indexer?.message!} />}
       {interactError?.value && <InteractError dispatch={dispatch} />}
-      {success?.value && <Success dispatch={dispatch} />}
+      {success?.value?.open && (
+        <Success
+          image={success?.value?.image!}
+          dispatch={dispatch}
+          text={success?.value?.text!}
+        />
+      )}
     </>
   );
 };
