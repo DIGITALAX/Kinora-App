@@ -211,4 +211,37 @@ export type QuestSocialProps = {
     >
   ) => void;
   postCollectGif: PostCollectGifState;
+  mirror: (id: string, main?: boolean | undefined) => Promise<void>;
+  like: (
+    id: string,
+    hasReacted: boolean,
+    main?: boolean | undefined
+  ) => Promise<void>;
+  simpleCollect: (
+    id: string,
+    type: string,
+  ) => Promise<void>;
+  interactionsLoading: {
+    like: boolean;
+    mirror: boolean;
+    comment: boolean;
+    follow: boolean;
+    unfollow: boolean;
+  }[];
+  setMirrorChoiceOpen: (e: SetStateAction<boolean[]>) => void;
+  mirrorChoiceOpen: boolean[];
+  profileHovers: boolean[];
+  setProfileHovers: (e: SetStateAction<boolean[]>) => void;
+  followProfile: (
+    id: string,
+    index?: number | undefined,
+    main?: boolean | undefined
+  ) => Promise<void>;
+  unfollowProfile: (
+    id: string,
+    index?: number | undefined,
+    main?: boolean | undefined
+  ) => Promise<void>;
+  setCommentsOpen: (e: SetStateAction<boolean[]>) => void;
+  commentsOpen: boolean[];
 };

@@ -23,7 +23,10 @@ const InteractBar: FunctionComponent<InteractBarProps> = ({
   unfollowProfile,
   followProfile,
   router,
-  noBookmark,
+  mainFeed,
+  simpleCollect,
+  setCommentsOpen,
+  main,
 }): JSX.Element => {
   const pfp = createProfilePicture(publication?.by?.metadata?.picture);
   return (
@@ -35,25 +38,41 @@ const InteractBar: FunctionComponent<InteractBarProps> = ({
       <div className="relative w-full h-fit flex flex-row gap-4 justify-between items-center px-1 py-1.5 bg-nave rounded-sm">
         <div className="relative w-full h-fit flex flex-row gap-2">
           {[
-            {
-              icon: "QmVXkRB4HCd6gkXmj1cweEh4nVV6oBuKCAWfsKUEJae433",
-              function: () => bookmark(publication?.id),
-              title: "Save Quest",
-              amount: publication?.stats?.bookmarks || 0,
-              reacted: publication?.operations?.hasBookmarked,
-              loader: false,
-              width: "0.8rem",
-              height: "1rem",
-            },
+            mainFeed
+              ? {
+                  icon: "QmVXkRB4HCd6gkXmj1cweEh4nVV6oBuKCAWfsKUEJae433",
+                  function: () => bookmark!(publication?.id),
+                  title: "Save Quest",
+                  amount: publication?.stats?.bookmarks || 0,
+                  reacted: publication?.operations?.hasBookmarked,
+                  loader: false,
+                  width: "0.8rem",
+                  height: "1rem",
+                }
+              : {
+                  icon: "QmXD3LnHiiLSqG2TzaNd1Pmhk2nVqDHDqn8k7RtwVspE6n",
+                  function: () =>
+                    setCommentsOpen!((prev) => {
+                      const current = [...prev];
+                      current[index] = !current[index];
+                      return current;
+                    }),
+                  title: "Comment",
+                  amount: publication?.stats?.comments || 0,
+                  reacted: false,
+                  loader: false,
+                  width: "0.8rem",
+                  height: "0.8rem",
+                },
             {
               icon: "QmPRRRX1S3kxpgJdLC4G425pa7pMS1AGNnyeSedngWmfK3",
               function: () =>
-                setMirrorChoiceOpen((prev) => {
+                setMirrorChoiceOpen!((prev) => {
                   const arr = [...prev];
                   arr[index] = !arr[index];
                   return arr;
                 }),
-              title: "Mirror or Quote Quest",
+              title: mainFeed ? "Mirror or Quote Quest" : "Mirror",
               amount:
                 (publication?.stats?.mirrors || 0) +
                 (publication?.stats?.quotes || 0),
@@ -67,24 +86,45 @@ const InteractBar: FunctionComponent<InteractBarProps> = ({
             {
               icon: "QmT1aZypVcoAWc6ffvrudV3JQtgkL8XBMjYpJEfdFwkRMZ",
               function: () =>
-                like(publication?.id, publication?.operations?.hasReported),
-              title: "Like Quest",
+                like!(
+                  publication?.id,
+                  publication?.operations?.hasReported,
+                  main!
+                ),
+              title: mainFeed ? "Like Quest" : "Like",
               amount: publication?.stats?.reactions || 0,
               reacted: publication?.operations?.hasReacted,
-              loader: interactionsLoading?.[index]?.like,
+              loader: interactionsLoading?.[index]?.like!,
               width: "0.9rem",
               height: "0.9rem",
             },
-            {
-              title: "Players",
-              icon: "QmNomDrWUNrcy2SAVzsKoqd5dPMogeohB8PSuHCg57nyzF",
-              function: () => router.push(`/quest/${publication?.id}`),
-              amount: publication?.stats?.countOpenActions || 0,
-              reacted: publication?.operations?.hasActed?.isFinalisedOnchain,
-              loader: false,
-              width: "0.9rem",
-              height: "0.9rem",
-            },
+            mainFeed
+              ? {
+                  title: "Players",
+                  icon: "QmNomDrWUNrcy2SAVzsKoqd5dPMogeohB8PSuHCg57nyzF",
+                  function: () => router.push(`/quest/${publication?.id}`),
+                  amount: publication?.stats?.countOpenActions || 0,
+                  reacted:
+                    publication?.operations?.hasActed?.isFinalisedOnchain,
+                  loader: false,
+                  width: "0.9rem",
+                  height: "0.9rem",
+                }
+              : {
+                  title: "Collect",
+                  icon: "QmNomDrWUNrcy2SAVzsKoqd5dPMogeohB8PSuHCg57nyzF",
+                  function: () =>
+                    simpleCollect!(
+                      publication?.id,
+                      publication?.openActionModules?.[0]?.__typename!
+                    ),
+                  amount: publication?.stats?.countOpenActions || 0,
+                  reacted:
+                    publication?.operations?.hasActed?.isFinalisedOnchain,
+                  loader: false,
+                  width: "0.9rem",
+                  height: "0.9rem",
+                },
           ]?.map(
             (
               item: {
@@ -182,10 +222,10 @@ const InteractBar: FunctionComponent<InteractBarProps> = ({
             {[
               {
                 icon: "QmPRRRX1S3kxpgJdLC4G425pa7pMS1AGNnyeSedngWmfK3",
-                function: () => mirror(publication?.id),
+                function: () => mirror!(publication?.id, main)!,
                 title: "Mirror Quest",
                 reacted: publication?.operations?.hasMirrored,
-                loader: interactionsLoading?.[index]?.mirror,
+                loader: interactionsLoading?.[index]?.mirror!,
                 width: "1rem",
                 height: "0.8rem",
               },
@@ -262,12 +302,12 @@ const InteractBar: FunctionComponent<InteractBarProps> = ({
       )}
       {profileHovers?.[index] && (
         <ProfileHover
-          followProfile={followProfile}
-          unfollowProfile={unfollowProfile}
+          followProfile={followProfile!}
+          unfollowProfile={unfollowProfile!}
           profile={publication?.by}
           index={index}
-          followLoading={interactionsLoading?.[index]?.follow}
-          unfollowLoading={interactionsLoading?.[index]?.unfollow}
+          followLoading={interactionsLoading?.[index]?.follow!}
+          unfollowLoading={interactionsLoading?.[index]?.unfollow!}
           pfp={pfp}
           setProfileHovers={setProfileHovers!}
           dispatch={dispatch}

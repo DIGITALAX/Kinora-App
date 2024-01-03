@@ -75,24 +75,27 @@ export type InteractBarProps = {
   lensConnected: Profile | undefined;
   dispatch: Dispatch;
   index: number;
-  interactionsLoading: {
+  interactionsLoading?: {
     mirror: boolean;
     like: boolean;
     follow: boolean;
     unfollow: boolean;
   }[];
   publication: Post;
-  mirror: (id: string) => void;
-  like: (id: string, hasReacted: boolean) => Promise<void>;
-  mirrorChoiceOpen: boolean[];
-  bookmark: (id: string) => Promise<void>;
-  setMirrorChoiceOpen: (id: SetStateAction<boolean[]>) => void;
+  mirror?: (id: string, main?: boolean) => void;
+  like?: (id: string, hasReacted: boolean, main?: boolean) => Promise<void>;
+  mirrorChoiceOpen?: boolean[];
+  bookmark?: (id: string) => Promise<void>;
+  setMirrorChoiceOpen?: (id: SetStateAction<boolean[]>) => void;
   profileHovers?: boolean[];
   setProfileHovers?: (id: SetStateAction<boolean[]>) => void;
-  unfollowProfile: (id: string, index: number) => void;
-  followProfile: (id: string, index: number) => void;
+  unfollowProfile?: (id: string, index: number) => Promise<void>;
+  followProfile?: (id: string, index: number) => Promise<void>;
   router: NextRouter;
   mainFeed?: boolean;
+  simpleCollect?: (id: string, type: string) => Promise<void>;
+  setCommentsOpen?: (e: SetStateAction<boolean[]>) => void;
+  main?: boolean;
 };
 
 export type ConnectFirstProps = {
@@ -196,6 +199,61 @@ export type PostQuoteProps = {
   dispatch: Dispatch<Action>;
   disabled: boolean | undefined;
   router: NextRouter;
+  index: number;
+  lensConnected?: Profile | undefined;
+  interactionsLoading?: {
+    mirror: boolean;
+    like: boolean;
+    follow: boolean;
+    unfollow: boolean;
+    comment: boolean;
+  }[];
+  main?: boolean;
+  mirror?: (id: string, main?: boolean | undefined) => void;
+  like?: (
+    id: string,
+    hasReacted: boolean,
+    main?: boolean | undefined
+  ) => Promise<void>;
+  mirrorChoiceOpen?: boolean[];
+  setMirrorChoiceOpen?: (id: SetStateAction<boolean[]>) => void;
+  profileHovers?: boolean[];
+  setProfileHovers?: (id: SetStateAction<boolean[]>) => void;
+  unfollowProfile?: (id: string, index: number) => Promise<void>;
+  followProfile?: (id: string, index: number) => Promise<void>;
+  simpleCollect?: (id: string, type: string) => Promise<void>;
+  setCommentsOpen?: (e: SetStateAction<boolean[]>) => void;
+  commentsOpen?: boolean[];
+  makeComment?: MakePostComment[];
+  caretCoord?: {
+    x: number;
+    y: number;
+  };
+  setCaretCoord?: (
+    e: SetStateAction<{
+      x: number;
+      y: number;
+    }>
+  ) => void;
+  mentionProfiles?: Profile[];
+  profilesOpen?: boolean[];
+  setMentionProfiles?: (e: SetStateAction<Profile[]>) => void;
+  setProfilesOpen?: (e: SetStateAction<boolean[]>) => void;
+  postCollectGif?: PostCollectGifState;
+  setMakeComment?: (e: SetStateAction<MakePostComment[]>) => void;
+  commentPost?: (id: string, main: boolean) => Promise<void>;
+  contentLoading?: {
+    image: boolean;
+    video: boolean;
+  }[];
+  setContentLoading?: (
+    e: SetStateAction<
+      {
+        image: boolean;
+        video: boolean;
+      }[]
+    >
+  ) => void;
 };
 
 export type TextProps = {
