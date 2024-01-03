@@ -1,18 +1,102 @@
 import { useEffect, useState } from "react";
-import { Quest } from "../types/quest.types";
+import { Quest, SocialType } from "../types/quest.types";
+import { getQuest } from "../../../../graphql/subgraph/getQuest";
+import getPublication from "../../../../graphql/lens/queries/publication";
+import toHexWithLeadingZero from "../../../../lib/helpers/toHexWithLeadingZero";
+import { Profile } from "../../../../graphql/generated";
+import { getCollectionURI } from "../../../../graphql/subgraph/getAllCollections";
+import { Collection } from "@/components/Envoke/types/envoke.types";
 
-const useJoin = (questId: string) => {
+const useJoin = (questId: string, lensConnected: Profile | undefined) => {
   const [questInfoLoading, setQuestInfoLoading] = useState<boolean>(false);
   const [questInfo, setQuestInfo] = useState<Quest | undefined>();
+  const [showFullText, setShowFullText] = useState<boolean>(false);
+  const [mainViewer, setMainViewer] = useState<number>(0);
+  const [joinLoading, setJoinLoading] = useState<boolean>(false);
+  const [socialType, setSocialType] = useState<SocialType>(SocialType.Players);
+
+  const handlePlayerJoin = async () => {
+    setJoinLoading(true);
+    try {
+    } catch (err: any) {
+      console.error(err.message);
+    }
+    setJoinLoading(false);
+  };
 
   const getQuestInfo = async () => {
     setQuestInfoLoading(true);
     try {
+      const data = await getQuest(
+        parseInt(questId?.split("-")?.[1], 16)?.toString(),
+        parseInt(questId?.split("-")?.[0], 16)?.toString()
+      );
+
+      if (data) {
+        const questInstantiateds = data?.data?.questInstantiateds || [];
+        const promises = questInstantiateds.map(async (item: any) => {
+          const publication = await getPublication(
+            {
+              forId: `${toHexWithLeadingZero(
+                Number(item?.profileId)
+              )}-${toHexWithLeadingZero(Number(item?.pubId))}`,
+            },
+            lensConnected?.id
+          );
+
+          const uris = item?.gate?.erc721Logic?.[0]?.uris || [];
+          const updated721sPromises = uris?.map(async (erc721: any) => {
+            const collection = await getCollectionURI(erc721);
+            return collection?.data?.collectionCreateds?.[0];
+          });
+
+          const erc721Logic = await Promise.all(updated721sPromises);
+
+          const milestones = item?.milestones || [];
+          const newMilestonesPromises = milestones.map(
+            async (milestone: any) => {
+              const erc721Logics = milestone?.gated?.erc721Logic || [];
+              let erc721LogicPromises = erc721Logics.flatMap((logic: any) => {
+                const logicUris = logic?.uris || [];
+                return logicUris.map(async (erc721: any) => {
+                  const collection = await getCollectionURI(erc721);
+                  return collection?.data?.collectionCreateds?.[0];
+                });
+              });
+
+              const erc721Logic = await Promise.all(erc721LogicPromises);
+              return {
+                ...milestone,
+                gated: {
+                  ...milestone?.gated,
+                  erc721Logic,
+                },
+              };
+            }
+          );
+
+          const newMilestones = await Promise.all(newMilestonesPromises);
+
+          return {
+            ...item,
+            gate: {
+              ...item?.gate,
+              erc721Logic,
+            },
+            milestones: newMilestones,
+            publication: publication?.data?.publication,
+          };
+        });
+
+        const questInfoResolved = await Promise.all(promises);
+        setQuestInfo(questInfoResolved[0]);
+      }
     } catch (err: any) {
       console.error(err.message);
     }
     setQuestInfoLoading(false);
   };
+
 
   useEffect(() => {
     if (questId && !questInfo) {
@@ -24,6 +108,14 @@ const useJoin = (questId: string) => {
     questInfo,
     questInfoLoading,
     setQuestInfo,
+    setShowFullText,
+    showFullText,
+    mainViewer,
+    setMainViewer,
+    joinLoading,
+    handlePlayerJoin,
+    socialType,
+    setSocialType,
   };
 };
 

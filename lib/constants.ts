@@ -1,3 +1,5 @@
+import { ItemType } from "@/components/Common/types/common.types";
+
 export const INFURA_GATEWAY: string = "https://thedial.infura-ipfs.io";
 export const BASE_URL: string = "https://api-v2-mumbai-live.lens.dev";
 export const IPFS_REGEX: RegExp = /\b(Qm[1-9A-Za-z]{44}|ba[A-Za-z2-7]{57})\b/;
@@ -7,10 +9,12 @@ export const KINORA_OPEN_ACTION: `0x${string}` =
 export const CHROMADIN_ID: string = "0x01c6a9";
 export const LENS_HUB_PROXY_ADDRESS_MATIC: `0x${string}` =
   "0xDb46d1Dc155634FbC732f92E853b10B288AD5a1d";
-  export const LENS_HUB_PROXY_ADDRESS_MUMBAI: `0x${string}` =
+export const LENS_HUB_PROXY_ADDRESS_MUMBAI: `0x${string}` =
   "0x4fbffF20302F3326B20052ab9C217C44F6480900";
-export const PRINT_DESIGN_DATA: `0x${string}` =
-  "0x062aA8B94a308fE84bE7974bAC758bC574145907";
+export const NFT_CREATOR: `0x${string}` =
+  "0x0147435c505390Bb1E657c8EBc373DcEdfDe0F08";
+export const NFT_CREATOR_MUMBAI: `0x${string}` =
+  "0x5B714F8eb491453f9cb9D5c4Ba698b34E9b8c0f0";
 export const KINORA_ESCROW_CONTRACT: `0x${string}` =
   "0x71A584c68d5B61Df0a6FadA8dbfa4382781D9c25";
 
@@ -135,3 +139,12 @@ export const ACCEPTED_TOKENS_MUMBAI: string[][] = [
     "0x07b722856369f6b923e1f276abca58dd3d15243d",
   ],
 ];
+
+export const numberToItemTypeMap: { [key: number]: ItemType } = {
+  0: ItemType.CoinOp,
+  1: ItemType.Chromadin,
+  2: ItemType.Legend,
+  3: ItemType.Listener,
+  4: ItemType.F3M,
+  5: ItemType.Other,
+};

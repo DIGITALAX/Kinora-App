@@ -17,7 +17,6 @@ const PostComment: FunctionComponent<PostCommentProps> = ({
   setMakePostComment,
   commentPostLoading,
   id,
-  itemId,
   height,
   imageHeight,
   imageWidth,
@@ -34,19 +33,18 @@ const PostComment: FunctionComponent<PostCommentProps> = ({
   lensConnected,
   caretCoord,
   setCaretCoord,
-  router,
 }): JSX.Element => {
   const textElement = useRef(null);
   return (
     <div className="relative w-full h-fit flex flex-col items-start justify-start gap-2">
       <div
-        className="relative w-full p-2 border border-white text-white font-aust text-sm bg-black flex items-center justify-center text-left rounded-md"
+        className="relative w-full p-2 border border-gray-700 text-white font-vcr text-sm bg-nave flex items-center justify-center text-left rounded-md"
         style={{
           height,
         }}
       >
         <textarea
-          className="bg-black relative w-full text-xs h-full p-1 flex"
+          className="bg-nave relative w-full text-xs h-full p-1 flex"
           style={{ resize: "none" }}
           value={makePostComment?.content}
           onChange={(e) => {
@@ -72,7 +70,7 @@ const PostComment: FunctionComponent<PostCommentProps> = ({
         ></textarea>
         {mentionProfiles?.length > 0 && profilesOpen && (
           <div
-            className={`absolute w-32 border border-white max-h-28 h-fit flex flex-col overflow-y-auto items-start justify-start z-60`}
+            className={`absolute w-32 border border-gray-700 max-h-28 h-fit flex flex-col overflow-y-auto items-start justify-start z-60`}
             style={{
               top: caretCoord.y + 30,
               left: caretCoord.x,
@@ -85,7 +83,7 @@ const PostComment: FunctionComponent<PostCommentProps> = ({
               return (
                 <div
                   key={indexTwo}
-                  className={`relative border-y border-white w-full h-10 px-3 py-2 bg-black flex flex-row gap-3 cursor-pointer items-center justify-center`}
+                  className={`relative border-y border-gray-700 w-full h-10 px-3 py-2 bg-nave flex flex-row gap-3 cursor-pointer items-center justify-center`}
                   onClick={() => {
                     setProfilesOpen((prev) => {
                       const arr = [...prev];
@@ -107,9 +105,9 @@ const PostComment: FunctionComponent<PostCommentProps> = ({
                     });
                   }}
                 >
-                  <div className="relative flex flex-row w-full h-full text-white font-aust items-center justify-center gap-2">
+                  <div className="relative flex flex-row w-full h-full text-white font-vcr items-center justify-center gap-2">
                     <div
-                      className={`relative rounded-full flex bg-black w-3 h-3 items-center justify-center`}
+                      className={`relative rounded-full flex bg-nave w-3 h-3 items-center justify-center`}
                       id="pfp"
                     >
                       {profileImage && (
@@ -224,23 +222,14 @@ const PostComment: FunctionComponent<PostCommentProps> = ({
         </div>
         <div className="relative w-full sm:w-fit h-fit items-center justify-end flex">
           <div
-            className={`relative w-20 h-8 font-aust text-white flex items-center justify-center bg-fuego border border-white text-xs rounded-sm ${
+            className={`relative w-20 h-8 font-vcr text-white flex items-center justify-center bg-fuego border border-gray-700 text-xs rounded-sm ${
               !commentPostLoading && "cursor-pointer active:scale-95"
             }`}
             onClick={() =>
-              !commentPostLoading &&
-              (main || router.asPath?.includes("item")
-                ? (
-                    commentPost as (
-                      id: string,
-                      main?: boolean,
-                      mirror?: string
-                    ) => Promise<void>
-                  )(itemId ? itemId : id, main, id)
-                : (commentPost as (
-                    id: string,
-                    mirror?: string
-                  ) => Promise<void>)!(itemId ? itemId : id, id))
+              (commentPost as (id: string, main?: boolean) => Promise<void>)(
+                id,
+                main
+              )
             }
           >
             <div
@@ -287,7 +276,7 @@ const PostComment: FunctionComponent<PostCommentProps> = ({
                 return (
                   <div
                     key={indexTwo}
-                    className="relative w-40 h-40 rounded-md flex items-center justify-center border border-white"
+                    className="relative w-40 h-40 rounded-md flex items-center justify-center border border-gray-700"
                   >
                     <MediaSwitch
                       type={media.type !== "video" ? "image" : "video"}
@@ -301,12 +290,12 @@ const PostComment: FunctionComponent<PostCommentProps> = ({
                         position: "relative",
                         justifyContent: "center",
                         alignItems: "center",
-                        display: "flex"
+                        display: "flex",
                       }}
                       srcUrl={media?.item}
                     />
                     <div
-                      className="absolute w-5 h-5 bg-black p-px -right-2 -top-2 bg-black rounded-full cursor-pointer flex items-center justify-center border border-white"
+                      className="absolute w-5 h-5 bg-nave p-px -right-2 -top-2 bg-nave rounded-full cursor-pointer flex items-center justify-center border border-gray-700 z-10"
                       onClick={() => {
                         if (media?.type === "gif") {
                           const newGifs = { ...postCollectGif.gifs };

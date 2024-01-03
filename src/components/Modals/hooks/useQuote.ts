@@ -37,6 +37,7 @@ const useQuote = (
       content: "",
       images: [],
       videos: [],
+      gifs: [],
     },
   ]);
   const [contentLoading, setContentLoading] = useState<
@@ -66,7 +67,6 @@ const useQuote = (
         makeQuote[0]?.content?.trim() == "" ? " " : makeQuote[0]?.content,
         makeQuote[0]?.images || [],
         makeQuote[0]?.videos || [],
-        [],
         postCollectGif.gifs?.[quoteBox?.publication?.id] || []
       );
 
@@ -162,6 +162,7 @@ const useQuote = (
         content: "",
         images: [],
         videos: [],
+        gifs: []
       },
     ]);
     dispatch(

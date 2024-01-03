@@ -3,6 +3,7 @@ import { EligibleProps } from "../../types/envoke.types";
 import MediaSwitch from "@/components/Common/modules/MediaSwitch";
 import createMedia from "../../../../../lib/helpers/createMedia";
 import { setQuestInfo } from "../../../../../redux/reducers/questInfoSlice";
+import { ImCross } from "react-icons/im";
 
 const Eligible: FunctionComponent<EligibleProps> = ({
   item,
@@ -21,6 +22,48 @@ const Eligible: FunctionComponent<EligibleProps> = ({
         className="relative w-full h-72 p-px rounded-md flex items-center justify-center"
         id="rainbow"
       >
+        <div className="absolute top-2 right-2 flex items-center justify-center w-fit h-fit">
+          <div
+            className="relative w-5 h-5 border border-white flex items-center justify-center rounded-full p-1 bg-black cursor-pointer active:scale-95 z-20"
+            onClick={() => {
+              let milestones = [...questInfo?.milestones];
+
+              const eligibility = [
+                ...milestones?.[
+                  milestonesOpen.findIndex((item: boolean) => item == true) !==
+                  -1
+                    ? milestonesOpen.findIndex((item: boolean) => item == true)
+                    : 0
+                ]?.eligibility
+                  ?.filter((_, i) => i !== index)
+                  ?.filter(Boolean),
+              ];
+
+              milestones[
+                milestonesOpen.findIndex((item: boolean) => item == true) !== -1
+                  ? milestonesOpen.findIndex((item: boolean) => item == true)
+                  : 0
+              ] = {
+                ...milestones[
+                  milestonesOpen.findIndex((item: boolean) => item == true) !==
+                  -1
+                    ? milestonesOpen.findIndex((item: boolean) => item == true)
+                    : 0
+                ],
+                eligibility,
+              };
+
+              dispatch(
+                setQuestInfo({
+                  actionDetails: questInfo?.details,
+                  actionMilestones: milestones,
+                })
+              );
+            }}
+          >
+            <ImCross color={"white"} size={8} />
+          </div>
+        </div>
         <div className="relative w-full h-full relative rounded-md flex items-center justify-center">
           {image?.asset && (
             <MediaSwitch
@@ -28,14 +71,15 @@ const Eligible: FunctionComponent<EligibleProps> = ({
               srcCover={image?.cover}
               classNameImage="rounded-md w-full h-full flex"
               classNameVideo={{
-                borderRadius: "0.375rem",
                 objectFit: "cover",
+                display: "flex",
                 width: "100%",
                 height: "100%",
-                position: "relative",
-                justifyContent: "center",
                 alignItems: "center",
-                display: "flex",
+                justifyItems: "center",
+                borderRadius: "0.375rem",
+                position: "relative",
+                zIndex: "0",
               }}
               type="video"
             />

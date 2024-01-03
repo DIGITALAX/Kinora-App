@@ -52,6 +52,13 @@ const Sidebar: FunctionComponent<SidebarProps> = ({
           >
             {[
               {
+                title: "Feed",
+                image: "QmRs3h5EmfHLKGNLUPKiUdhw5i25UKtFRYQ7frGiYmxE4K",
+                link: () => {
+                  router.push(`/`);
+                },
+              },
+              {
                 title: "Account",
                 image: "QmbRjUquntNwVuSn1GpUpVi7hMygvhShZrA7rHgmFYtzSf",
                 link: () => {
@@ -135,7 +142,7 @@ const Sidebar: FunctionComponent<SidebarProps> = ({
                     }
                   >
                     <div
-                      className="relative w-5 h-5 flex items-center justify-center"
+                      className={`relative flex items-center justify-center w-5 h-5`}
                       title={item?.title}
                     >
                       <Image
@@ -186,10 +193,10 @@ const Sidebar: FunctionComponent<SidebarProps> = ({
                 >{`See All >`}</div>
               </>
             )}
-            <div className="relative w-full h-fit flex flex-row gap-2 flex-wrap">
+            <div className="relative w-full h-fit flex flex-row gap-2 flex-wrap overflow-hidden">
               {(openSidebar
-                ? Array.from({ length: 4 })
-                : Array.from({ length: 4 })?.slice(0, 1)
+                ? Array.from({ length: 2 })
+                : Array.from({ length: 2 })?.slice(0, 1)
               ).map((_, index: number) => {
                 return (
                   <div

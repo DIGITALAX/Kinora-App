@@ -61,7 +61,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <LivepeerConfig client={livepeerClient}>
           <KinoraProvider errorHandlingModeStrict={false}>
             <Provider store={store}>
-              <div className="relative w-full h-full flex bg-nave flex-col">
+              <div className="relative w-full h-full flex bg-fuzz flex-col">
                 <Header router={router} />
                 <Component router={router} {...pageProps} />
                 <Modals router={router} />

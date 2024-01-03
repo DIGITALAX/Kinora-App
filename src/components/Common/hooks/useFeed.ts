@@ -26,7 +26,7 @@ const useFeed = (
     try {
       const data = await getQuests(25, 0);
 
-      if (data?.data?.questCreateds?.length !== 25) {
+      if (data?.data?.questInstantiateds?.length !== 25) {
         setQuestInfo({
           hasMore: false,
           cursor: 0,
@@ -38,7 +38,7 @@ const useFeed = (
         });
       }
 
-      const promises = data?.data?.questCreateds?.map(async (item: any) => {
+      const promises = (data?.data?.questInstantiateds || [])?.map(async (item: any) => {
         const publication = await getPublication(
           {
             forId: `${toHexWithLeadingZero(
@@ -66,7 +66,7 @@ const useFeed = (
     try {
       const data = await getQuests(25, questInfo?.cursor);
 
-      if (data?.data?.questCreateds?.length !== 25) {
+      if (data?.data?.questInstantiateds?.length !== 25) {
         setQuestInfo({
           hasMore: false,
           cursor: questInfo?.cursor,
@@ -78,7 +78,7 @@ const useFeed = (
         });
       }
 
-      const promises = data?.data?.questCreateds?.map(async (item: any) => {
+      const promises = data?.data?.questInstantiateds?.map(async (item: any) => {
         const publication = await getPublication(
           {
             forId: `${toHexWithLeadingZero(

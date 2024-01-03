@@ -52,7 +52,7 @@ export default function Home({ router }: { router: NextRouter }) {
 
   return (
     <div
-      className="relative overflow-y-scroll flex min-h-full w-full justify-end"
+      className="relative overflow-y-scroll flex min-h-full w-full justify-end pb-5"
       style={{
         height: "calc(100vh - 5.5rem)",
       }}

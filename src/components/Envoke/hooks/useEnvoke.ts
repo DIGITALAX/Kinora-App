@@ -52,7 +52,6 @@ const useEnvoke = (
             },
             true
           );
-
           return {
             ...coll,
             profile: prof?.data?.profile,
@@ -193,6 +192,7 @@ const useEnvoke = (
     try {
       const allMilestones = [...questInfo?.milestones];
       const rewards20 = [...allMilestones[milestoneIndex]?.rewards?.rewards20];
+
       rewards20[rewardIndex] = {
         ...rewards20[rewardIndex],
         balance:
@@ -202,7 +202,9 @@ const useEnvoke = (
               rewards20[rewardIndex]?.address,
               address as `0x${string}`
             )
-          ) < Number(rewards20[rewardIndex]?.amount)
+          ) <
+          Number(rewards20[rewardIndex]?.amount) *
+            Number(questInfo?.details?.maxPlayerCount)
             ? false
             : true,
       };
@@ -217,7 +219,6 @@ const useEnvoke = (
       dispatch(
         setQuestInfo({
           actionDetails: questInfo?.details,
-
           actionMilestones: allMilestones,
         })
       );

@@ -10,6 +10,7 @@ const config: Config = {
     extend: {
       fontFamily: {
         bit: "Bitblox",
+        vcr: "Vcr",
       },
       backgroundColor: {
         nave: "#0b0e16",
@@ -21,6 +22,8 @@ const config: Config = {
         offBlack: "#0F121A",
         verde: "#7CDD00",
         rojo: "#FE0000",
+        azul: "#0097FC",
+        girasol: "#FBD201"
       },
       fontSize: {
         xxs: "0.6rem",
@@ -33,6 +36,9 @@ const config: Config = {
         galaxy: "300px",
         pre: "400px",
         otro: "1350px",
+      },
+      backgroundImage: {
+        fuzz: 'url("https://thedial.infura-ipfs.io/ipfs/QmcnyZRwBo2yRC8xPuyD2UVEfRGX6JNPX86dT43aPSsy5y")',
       },
     },
   },

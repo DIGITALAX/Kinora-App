@@ -7,7 +7,7 @@ const Index: FunctionComponent<IndexProps> = ({ message }): JSX.Element => {
       <div
         className="w-fit h-10 sm:h-16 flex items-center justify-center border border-white bg-nave rounded-md"
       >
-        <div className="relative w-fit h-fit flex items-center justify-center px-4 py-2 text-xs sm:text-base text-white font-bit top-px">
+        <div className="relative w-fit h-fit flex items-center justify-center px-4 py-2 text-xs text-white font-vcr top-px">
           {message}
         </div>
       </div>

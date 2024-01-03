@@ -5,6 +5,7 @@ const findBalance = async (
   checkoutCurrency: string,
   address: `0x${string}`
 ) => {
+  if (!address || !checkoutCurrency) return;
   const data = await publicClient.readContract({
     address: checkoutCurrency as `0x${string}`,
     abi: [
@@ -18,6 +19,7 @@ const findBalance = async (
     ],
     functionName: "balanceOf",
     args: [address],
+    account: address,
   });
 
   return data;

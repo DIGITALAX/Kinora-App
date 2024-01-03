@@ -13,6 +13,7 @@ import {
   VideoEligible,
   MilestoneEligibilityCriteria,
   RewardType,
+  QuestStage,
 } from "../types/envoke.types";
 import { ethers } from "ethers";
 import convertToFile from "../../../../lib/helpers/convertToFile";
@@ -20,18 +21,26 @@ import {
   INFURA_GATEWAY,
   IPFS_REGEX,
   KINORA_ESCROW_CONTRACT,
-  PRINT_DESIGN_DATA,
+  NFT_CREATOR,
+  NFT_CREATOR_MUMBAI,
 } from "../../../../lib/constants";
 import { setSuccess } from "../../../../redux/reducers/successSlice";
 import { PublicClient, createWalletClient, custom } from "viem";
 import { polygonMumbai } from "viem/chains";
+import { setInteractError } from "../../../../redux/reducers/interactErrorSlice";
+import { setAccountSwitch } from "../../../../redux/reducers/accountSwitchSlice";
+import { AccountType } from "@/components/Envoker/types/envoker.types";
+import { setQuestStage } from "../../../../redux/reducers/questStageSlice";
 
 const usePostLive = (
   dispatch: Dispatch,
   questInfo: QuestInfoState,
   address: `0x${string}` | undefined,
   publicClient: PublicClient,
-  allUploaded: Asset[]
+  allUploaded: Asset[],
+  setMilestonesOpen: (e: boolean[]) => void,
+  setMilestoneStage: (e: number) => void,
+  setCollectionsSearch: (e: string) => void
 ) => {
   const [postLoading, setPostLoading] = useState<boolean>(false);
   const [tokensToApprove, setTokensToApprove] = useState<
@@ -57,78 +66,83 @@ const usePostLive = (
 
       const accumulatedRewards: Record<string, string> = {};
 
-      (questInfo.milestones || [])?.forEach((milestone) => {
-        (milestone.rewards.rewards20 || [])?.forEach((reward) => {
-          if (accumulatedRewards[reward.address]) {
-            accumulatedRewards[reward.address] = (
-              BigInt(accumulatedRewards[reward.address]) + BigInt(reward.amount)
-            ).toString();
-          } else {
-            accumulatedRewards[reward.address] = (
-              Number(reward.amount) *
-              10 ** 18
-            ).toString();
+      (questInfo?.milestones || [])?.forEach((milestone) => {
+        (milestone?.rewards?.rewards20?.filter(Boolean) || [])?.forEach(
+          (reward) => {
+            if (accumulatedRewards[reward?.address]) {
+              accumulatedRewards[reward?.address] = (
+                BigInt(accumulatedRewards[reward?.address]) +
+                BigInt(reward?.amount)
+              ).toString();
+            } else {
+              accumulatedRewards[reward?.address] = (
+                Number(reward?.amount) *
+                10 ** 18
+              ).toString();
+            }
           }
-        });
+        );
       });
 
       const rewardsArray = Object.entries(accumulatedRewards).map(
         ([address, amount]) => ({
           address,
-          amount: Number(amount) * questInfo?.details?.maxPlayerCount,
+          amount: Number(amount) * Number(questInfo?.details?.maxPlayerCount),
         })
       );
 
       const newTokensToApprove = [];
 
       for (const reward of rewardsArray) {
-        const data = await publicClient.readContract({
-          address: reward.address as `0x${string}`,
-          abi: [
-            {
-              inputs: [
-                {
-                  internalType: "address",
-                  name: "owner",
-                  type: "address",
-                },
-                {
-                  internalType: "address",
-                  name: "spender",
-                  type: "address",
-                },
-              ],
-              name: "allowance",
-              outputs: [
-                {
-                  internalType: "uint256",
-                  name: "",
-                  type: "uint256",
-                },
-              ],
-              stateMutability: "view",
-              type: "function",
-            },
-          ],
-          functionName: "allowance",
-          args: [address as `0x${string}`, KINORA_ESCROW_CONTRACT],
-          account: address,
-        });
+        if (reward.address) {
+          const data = await publicClient.readContract({
+            address: reward.address as `0x${string}`,
+            abi: [
+              {
+                inputs: [
+                  {
+                    internalType: "address",
+                    name: "owner",
+                    type: "address",
+                  },
+                  {
+                    internalType: "address",
+                    name: "spender",
+                    type: "address",
+                  },
+                ],
+                name: "allowance",
+                outputs: [
+                  {
+                    internalType: "uint256",
+                    name: "",
+                    type: "uint256",
+                  },
+                ],
+                stateMutability: "view",
+                type: "function",
+              },
+            ],
+            functionName: "allowance",
+            args: [address as `0x${string}`, KINORA_ESCROW_CONTRACT],
+            account: address,
+          });
 
-        const allowance = Number((data as any)?.toString());
-        const requiredAmount = Number(reward.amount);
-        if (allowance >= requiredAmount) {
-          newTokensToApprove.push({
-            address: reward.address,
-            amount: requiredAmount.toString(),
-            approved: true,
-          });
-        } else {
-          newTokensToApprove.push({
-            address: reward.address,
-            amount: requiredAmount.toString(),
-            approved: false,
-          });
+          const allowance = Number((data as any)?.toString());
+          const requiredAmount = Number(reward.amount);
+          if (allowance > requiredAmount) {
+            newTokensToApprove.push({
+              address: reward.address,
+              amount: requiredAmount.toString(),
+              approved: true,
+            });
+          } else {
+            newTokensToApprove.push({
+              address: reward.address,
+              amount: requiredAmount.toString(),
+              approved: false,
+            });
+          }
         }
       }
 
@@ -145,13 +159,13 @@ const usePostLive = (
     try {
       let totalAmount = "0";
 
-      questInfo.milestones.forEach((milestone) => {
-        milestone.rewards.rewards20.forEach((reward) => {
+      questInfo.milestones?.forEach((milestone) => {
+        milestone.rewards.rewards20?.forEach((reward) => {
           if (
             reward.address?.toLowerCase() === approveTokenAddress.toLowerCase()
           ) {
             totalAmount = (
-              BigInt(totalAmount) + BigInt(reward.amount)
+              Number(totalAmount) + Number(reward.amount)
             ).toString();
           }
         });
@@ -228,7 +242,11 @@ const usePostLive = (
         functionName: "approve",
         args: [
           KINORA_ESCROW_CONTRACT,
-          BigInt(Number(totalAmount) * 10 ** 18) as bigint,
+          BigInt(
+            Number(totalAmount) *
+              10 ** 18 *
+              Number(questInfo?.details?.maxPlayerCount)
+          ) as bigint,
         ],
         account: address,
       });
@@ -289,24 +307,33 @@ const usePostLive = (
 
           return {
             gated: {
-              erc721TokenURIs: [
-                (item?.gated?.erc721TokenIds || [])?.map(
-                  (item) => item.uri
-                ) as `0x${string}`[],
-              ]?.filter(Boolean),
+              erc721TokenURIs:
+                item?.gated?.erc721TokenIds?.length > 0
+                  ? [
+                      (item?.gated?.erc721TokenIds || [])?.map(
+                        (item) => item.uri
+                      ) as `0x${string}`[],
+                    ]?.filter(Boolean)
+                  : [],
               erc721TokenIds: [],
               erc721Addresses:
-                [
-                  (item?.gated?.erc721TokenIds || [])?.map(
-                    (item) => item.uri
-                  ) as `0x${string}`[],
-                ]?.filter(Boolean)?.length > 0
-                  ? [PRINT_DESIGN_DATA]
+                (item?.gated?.erc721TokenIds || [])
+                  ?.map((item) => item?.uri)
+                  ?.filter(Boolean)?.length > 0
+                  ? [NFT_CREATOR_MUMBAI]
                   : [],
-              erc20Addresses: item?.gated?.erc20Addresses,
-              erc20Thresholds: (item?.gated?.erc20Thresholds || [])?.map(
-                (item) => String(Number(item) * 10 ** 18)
-              ),
+              erc20Addresses:
+                item?.gated?.erc20Addresses?.filter(Boolean)?.length > 0
+                  ? item?.gated?.erc20Addresses?.filter(Boolean)
+                  : [],
+              erc20Thresholds: (item?.gated?.erc20Thresholds || [])
+                ?.map((item) =>
+                  (Number(item || 0) * 10 ** 18).toLocaleString("fullwide", {
+                    useGrouping: false,
+                  })
+                )
+                ?.filter(Boolean)
+                ?.filter((item) => item !== "0"),
               oneOf: item?.gated?.oneOf,
             },
             milestone: index + 1,
@@ -315,7 +342,10 @@ const usePostLive = (
                 ?.map((item) => ({
                   type: 0 as RewardType,
                   erc20tokenAddress: item?.address,
-                  erc20tokenAmount: String(Number(item?.amount) * 10 ** 18),
+                  erc20tokenAmount: (
+                    Number(item?.amount) *
+                    10 ** 18
+                  )?.toLocaleString("fullwide", { useGrouping: false }),
                 }))
                 .filter(Boolean),
               ...(await Promise.all(
@@ -464,7 +494,7 @@ const usePostLive = (
                       }
                     }
 
-                    fields.forEach(
+                    fields?.forEach(
                       (field: keyof MilestoneEligibilityCriteria) => {
                         if (!(field in playbackCriteria.criteria)) {
                           (playbackCriteria.criteria as any)[field] =
@@ -485,36 +515,47 @@ const usePostLive = (
         })
       );
 
-      await questEnvoker.instantiateNewQuest({
+      const { error, errorMessage } = await questEnvoker.instantiateNewQuest({
         questDetails: {
           title: questInfo.details.title,
           description: questInfo.details.description,
-          cover: cover as `ipfs://${string}`,
+          cover: (cover?.includes("ipfs://")
+            ? cover
+            : "ipfs://" + cover) as `ipfs://${string}`,
           tags: questInfo?.details?.tags
             ?.split(",")
             ?.map((tag) => tag?.trim())
             ?.filter((tag) => tag.length > 0),
         },
         joinQuestTokenGatedLogic: {
-          erc721TokenURIs: [
-            (questInfo.details?.gated?.erc721TokenIds || [])?.map(
-              (item) => item.uri
-            ) as `0x${string}`[],
-          ]?.filter(Boolean),
+          erc721TokenURIs:
+            questInfo.details?.gated?.erc721TokenIds?.length > 0
+              ? [
+                  (questInfo.details?.gated?.erc721TokenIds || [])?.map(
+                    (item) => item.uri
+                  ) as `0x${string}`[],
+                ]?.filter(Boolean)
+              : [],
           erc721TokenIds: [],
           erc721Addresses:
-            [
-              (questInfo.details?.gated?.erc721TokenIds || [])?.map(
-                (item) => item.uri
-              ) as `0x${string}`[],
-            ]?.filter(Boolean)?.length > 0
-              ? [PRINT_DESIGN_DATA]
+            (questInfo.details?.gated?.erc721TokenIds || [])
+              ?.map((item) => item.uri)
+              ?.filter(Boolean)?.length > 0
+              ? [NFT_CREATOR_MUMBAI]
               : [],
           erc20Addresses:
-            questInfo.details?.gated?.erc20Addresses?.filter(Boolean),
+            questInfo.details?.gated?.erc20Addresses?.filter(Boolean)?.length >
+            0
+              ? questInfo.details?.gated?.erc20Addresses?.filter(Boolean)
+              : [],
           erc20Thresholds: (questInfo.details?.gated?.erc20Thresholds || [])
-            ?.map((item) => String(Number(item) * 10 ** 18))
-            ?.filter(Boolean),
+            ?.map((item) =>
+              (Number(item || 0) * 10 ** 18).toLocaleString("fullwide", {
+                useGrouping: false,
+              })
+            )
+            ?.filter(Boolean)
+            ?.filter((item) => item !== "0") as string[],
           oneOf: questInfo.details?.gated?.oneOf,
         },
         maxPlayerCount: questInfo?.details?.maxPlayerCount,
@@ -523,19 +564,29 @@ const usePostLive = (
         approveRewardTokens: false,
       });
 
-      dispatch(
-        setQuestInfo({
-          actionDetails: {
-            title: "",
-            description: "",
-            cover: "",
-            tags: "",
-            maxPlayerCount: 100,
-          },
-          actionMilestones: [],
-        })
-      );
-      dispatch(setSuccess(true));
+      if (error) {
+        console.error(errorMessage);
+        dispatch(setInteractError(true));
+      } else {
+        dispatch(
+          setQuestInfo({
+            actionDetails: {
+              title: "",
+              description: "",
+              cover: "",
+              tags: "",
+              maxPlayerCount: 100,
+            },
+            actionMilestones: [],
+          })
+        );
+        dispatch(setSuccess(true));
+        setMilestonesOpen([true, false, false]);
+        setMilestoneStage(0);
+        setCollectionsSearch("");
+        dispatch(setQuestStage(QuestStage.Details));
+        dispatch(setAccountSwitch(AccountType.Home));
+      }
     } catch (err: any) {
       console.error(err.message);
     }
@@ -562,126 +613,3 @@ const usePostLive = (
 };
 
 export default usePostLive;
-
-// {
-//   questDetails: {
-//     cover: "ipfs://QmWF2rPYcJJQQbq9cCS2Vgzs1ZWRsakF1Rk5tbDP1wbU2u",
-//     title: "dsf",
-//     description: "asdfsadf",
-//   },
-//   maxPlayerCount: 100,
-//   milestones: [
-//     {
-//       gated: {
-//         erc721TokenURIs: [
-//           [
-//             "ipfs://QmPs78ezRnRzXu5pnD3zkeSWfFHuYS2bwS7pBpu7y9tS9a",
-//             "ipfs://QmcdAXfprAtwjWnYcjWFf2u4N34GRuEzkbyEffDZKq5ncj",
-//           ],
-//         ],
-//         erc721TokenIds: [[]],
-//         erc721Addresses: ["0x062aA8B94a308fE84bE7974bAC758bC574145907"],
-//         erc20Addresses: [],
-//         erc20Thresholds: [],
-//         oneOf: true,
-//       },
-//       milestone: 1,
-//       reward: [
-//         {
-//           type: 0,
-//           erc20tokenAddress: "0x92ee85a0aa39df75634c143ae298a91cc8ecfe7c",
-//           erc20tokenAmount: "1",
-//         },
-//         {
-//           type: 1,
-//           erc721URI:
-//             "ipfs://QmWxQo9TnUaSEo6fj1mdbHs6qnRtsTJrHfhsVkGykYiz8G",
-//         },
-//       ],
-//       details: {
-//         title: "ten tedn",
-//         cover: "ipfs://QmbuV5vN2AQxPeUxGnyVxLtkrvpTnrAAFoA5pUiQAkCxFm",
-//         description: "sasfadsf",
-//       },
-//       eligibility: {
-//         internalCriteria: [
-//           {
-//             playbackId: "",
-//             postId: "0x01c6a9-0x44",
-//             playbackCriteria: {
-//               minPlayCount: 100,
-//               minCtr: 100,
-//               minAvd: 100,
-//               minImpressionCount: 100,
-//               minEngagementRate: 100,
-//               minDuration: 100,
-//               quote: true,
-//               mirror: true,
-//               comment: true,
-//               bookmark: true,
-//               react: true,
-//             },
-//           },
-//         ],
-//       },
-//     },
-//     {
-//       gated: {
-//         erc721TokenURIs: [
-//           ["ipfs://QmPs78ezRnRzXu5pnD3zkeSWfFHuYS2bwS7pBpu7y9tS9a"],
-//         ],
-//         erc721TokenIds: [],
-//         erc721Addresses: ["0x062aA8B94a308fE84bE7974bAC758bC574145907"],
-//         erc20Thresholds: [],
-//         erc20Addresses: [],
-//         oneOf: true,
-//       },
-//       milestone: 2,
-//       reward: [
-//         {
-//           type: 0,
-//           erc20tokenAddress: "0x92ee85a0aa39df75634c143ae298a91cc8ecfe7c",
-//           erc20tokenAmount: "1",
-//         },
-//       ],
-//       details: {
-//         title: "adf",
-//         cover: "ipfs://QmNjiLqrkh1BWz53aSkJ11eSGdrhWtg4ELXHMH3iRWcbmR",
-//         description: "sdafdasfdsafdas",
-//       },
-//       eligibility: {
-//         internalCriteria: [
-//           {
-//             playbackId: "",
-//             postId: "0x01c6a9-0x43",
-//             playbackCriteria: {
-//               minPlayCount: 100,
-//               minCtr: 100,
-//               minAvd: 100,
-//               minImpressionCount: 100,
-//               minEngagementRate: 100,
-//               minDuration: 100,
-//               quote: true,
-//               mirror: true,
-//               comment: true,
-//               bookmark: true,
-//               react: true,
-//             },
-//           },
-//         ],
-//       },
-//     },
-//   ],
-//   joinQuestTokenGatedLogic: {
-//     erc721TokenURIs: [
-//       ["ipfs://QmPs78ezRnRzXu5pnD3zkeSWfFHuYS2bwS7pBpu7y9tS9a"],
-//     ],
-//     erc721TokenIds: [],
-//     erc721Addresses: ["0x062aA8B94a308fE84bE7974bAC758bC574145907"],
-//     erc20Addresses: [],
-//     erc20Thresholds: [],
-//     oneOf: true,
-//   },
-//   wallet: signer as unknown as ethers.Wallet,
-//   approveRewardTokens: true,
-// }

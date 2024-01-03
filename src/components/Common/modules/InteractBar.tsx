@@ -22,28 +22,31 @@ const InteractBar: FunctionComponent<InteractBarProps> = ({
   setProfileHovers,
   unfollowProfile,
   followProfile,
-  router
+  router,
+  noBookmark,
 }): JSX.Element => {
   const pfp = createProfilePicture(publication?.by?.metadata?.picture);
   return (
     <div
-      className="absolute bottom-2 w-full h-fit flex p-1 cursor-default"
+      className="relative w-full h-fit flex cursor-default p-px rounded-sm"
       onClick={(e) => e.stopPropagation()}
+      id="rainbow"
     >
-      <div className="relative w-full h-fit flex flex-row gap-4 justify-between items-center px-1 py-1.5 bg-black/90 rounded-md border border-white">
+      <div className="relative w-full h-fit flex flex-row gap-4 justify-between items-center px-1 py-1.5 bg-nave rounded-sm">
         <div className="relative w-full h-fit flex flex-row gap-2">
           {[
             {
-              icon: "QmQG559iscGC7YY4pQCsQn4tfWG3k76dMjFmXnnxeoELzs",
+              icon: "QmVXkRB4HCd6gkXmj1cweEh4nVV6oBuKCAWfsKUEJae433",
               function: () => bookmark(publication?.id),
               title: "Save Quest",
+              amount: publication?.stats?.bookmarks || 0,
               reacted: publication?.operations?.hasBookmarked,
               loader: false,
               width: "0.8rem",
               height: "1rem",
             },
             {
-              icon: "QmWfqc2xwGpaGsja7f834zDEGEeiZLsT5qqBdeTrHkK8Bu",
+              icon: "QmPRRRX1S3kxpgJdLC4G425pa7pMS1AGNnyeSedngWmfK3",
               function: () =>
                 setMirrorChoiceOpen((prev) => {
                   const arr = [...prev];
@@ -51,20 +54,34 @@ const InteractBar: FunctionComponent<InteractBarProps> = ({
                   return arr;
                 }),
               title: "Mirror or Quote Quest",
+              amount:
+                (publication?.stats?.mirrors || 0) +
+                (publication?.stats?.quotes || 0),
               reacted:
                 publication?.operations?.hasMirrored ||
                 publication?.operations?.hasQuoted,
-              loader: interactionsLoading?.[index]?.mirror,
+              loader: false,
               width: "1rem",
               height: "0.8rem",
             },
             {
-              icon: "QmUAC59ETYvPYmAJxrnNMXy6M9SHEPXicCSMB2gSEP5TbC",
+              icon: "QmT1aZypVcoAWc6ffvrudV3JQtgkL8XBMjYpJEfdFwkRMZ",
               function: () =>
                 like(publication?.id, publication?.operations?.hasReported),
               title: "Like Quest",
+              amount: publication?.stats?.reactions || 0,
               reacted: publication?.operations?.hasReacted,
               loader: interactionsLoading?.[index]?.like,
+              width: "0.9rem",
+              height: "0.9rem",
+            },
+            {
+              title: "Players",
+              icon: "QmNomDrWUNrcy2SAVzsKoqd5dPMogeohB8PSuHCg57nyzF",
+              function: () => router.push(`/quest/${publication?.id}`),
+              amount: publication?.stats?.countOpenActions || 0,
+              reacted: publication?.operations?.hasActed?.isFinalisedOnchain,
+              loader: false,
               width: "0.9rem",
               height: "0.9rem",
             },
@@ -78,53 +95,63 @@ const InteractBar: FunctionComponent<InteractBarProps> = ({
                 loader: boolean;
                 width: string;
                 height: string;
+                amount: number;
               },
               index: number
             ) => {
               return (
                 <div
                   key={index}
-                  className={`relative hover:opacity-80 w-7 p-1 h-6 rounded-full flex items-center cursor-pointer active:scale-95 justify-center ${
-                    !item?.reacted && "hue-rotate-60"
-                  } ${
-                    !lensConnected?.id
-                      ? "opacity-80"
-                      : "cursor-pointer active:scale-95"
-                  }`}
-                  title={item?.title}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    item.function();
-                  }}
+                  className="relative w-fit h-fit flex items-center justify-center gap-1"
                 >
-                  {item?.loader ? (
-                    <div className="relative w-fit h-fit flex items-center justify-center animate-spin">
-                      <AiOutlineLoading size={15} color={"white"} />
-                    </div>
-                  ) : (
-                    <div
-                      className="relative flex items-center justify-center"
-                      style={{
-                        width: item.width,
-                        height: item.height,
-                      }}
-                    >
-                      <Image
-                        draggable={false}
-                        layout="fill"
-                        src={`${INFURA_GATEWAY}/ipfs/${item.icon}`}
-                      />
-                    </div>
-                  )}
+                  <div
+                    className={`relative hover:opacity-80 w-7 h-6 rounded-full flex items-center cursor-pointer active:scale-95 justify-center ${
+                      item?.reacted && "hue-rotate-60"
+                    } ${
+                      !lensConnected?.id
+                        ? "opacity-80"
+                        : "cursor-pointer active:scale-95"
+                    }`}
+                    title={item?.title}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      item.function();
+                    }}
+                  >
+                    {item?.loader ? (
+                      <div className="relative w-fit h-fit flex items-center justify-center animate-spin">
+                        <AiOutlineLoading size={15} color={"white"} />
+                      </div>
+                    ) : (
+                      <div
+                        className="relative flex items-center justify-center"
+                        style={{
+                          width: item.width,
+                          height: item.height,
+                        }}
+                      >
+                        <Image
+                          draggable={false}
+                          layout="fill"
+                          src={`${INFURA_GATEWAY}/ipfs/${item.icon}`}
+                        />
+                      </div>
+                    )}
+                  </div>
+                  <div className="relative w-fit h-fit flex items-center justify-center font-bit text-white text-xs">
+                    {item?.amount}
+                  </div>
                 </div>
               );
             }
           )}
         </div>
-        <div className="relative w-fit h-fit flex items-center justify-center ml-auto">
+        <div
+          className="relative w-fit h-fit flex items-center justify-center ml-auto p-px rounded-full"
+          id="rainbow"
+        >
           <div
-            className="relative flex items-center justify-center rounded-full border border-white w-6 h-6 cursor-pointer"
-            id="rainbow"
+            className="relative flex items-center justify-center rounded-full  w-6 h-6 cursor-pointer"
             onMouseEnter={(e) => {
               e.stopPropagation();
               setProfileHovers!((prev) => {
@@ -147,85 +174,90 @@ const InteractBar: FunctionComponent<InteractBarProps> = ({
         </div>
       </div>
       {mirrorChoiceOpen?.[index] && (
-        <div className="absolute w-fit h-fit rounded-md bottom-10 flex flex-row gap-1.5 bg-black/90 p-1 border border-white">
-          {[
-            {
-              icon: "QmWfqc2xwGpaGsja7f834zDEGEeiZLsT5qqBdeTrHkK8Bu",
-              function: () => mirror(publication?.id),
-              title: "Mirror Quest",
-              reacted: publication?.operations?.hasMirrored,
-              loader: interactionsLoading?.[index]?.mirror,
-              width: "1rem",
-              height: "0.8rem",
-            },
-            {
-              icon: "QmeXejJgQMAe625N7pgncmEzxFqfJVvpvXKeGjvMtzVdzV",
-              function: () =>
-                dispatch(
-                  setQuote({
-                    actionOpen: true,
-                    actionPublication: publication,
-                  })
-                ),
-              title: "Quote Quest",
-              reacted: publication?.operations?.hasQuoted,
-              loader: false,
-              width: "0.6rem",
-              height: "0.6rem",
-            },
-          ]?.map(
-            (
-              item: {
-                icon: string;
-                function: () => void;
-                title: string;
-                reacted: boolean;
-                loader: boolean;
-                width: string;
-                height: string;
+        <div
+          className="absolute w-fit h-fit rounded-md bottom-10 flex bg-nave p-px"
+          id="rainbow"
+        >
+          <div className="relative w-fit h-fit flex flex-row gap-1.5 p-1 bg-nave rounded-md">
+            {[
+              {
+                icon: "QmPRRRX1S3kxpgJdLC4G425pa7pMS1AGNnyeSedngWmfK3",
+                function: () => mirror(publication?.id),
+                title: "Mirror Quest",
+                reacted: publication?.operations?.hasMirrored,
+                loader: interactionsLoading?.[index]?.mirror,
+                width: "1rem",
+                height: "0.8rem",
               },
-              index: number
-            ) => {
-              return (
-                <div
-                  key={index}
-                  className={`relative hover:opacity-80 w-7 p-1 h-6 rounded-full flex cursor-pointer active:scale-95 items-center justify-center ${
-                    !item?.reacted && "hue-rotate-60"
-                  } ${
-                    !lensConnected?.id
-                      ? "opacity-80"
-                      : "cursor-pointer active:scale-95"
-                  }`}
-                  title={item.title}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    item.function();
-                  }}
-                >
-                  {item?.loader ? (
-                    <div className="relative w-fit h-fit flex items-center justify-center animate-spin">
-                      <AiOutlineLoading size={15} color={"white"} />
-                    </div>
-                  ) : (
-                    <div
-                      className="relative flex items-center justify-center"
-                      style={{
-                        width: item.width,
-                        height: item.height,
-                      }}
-                    >
-                      <Image
-                        draggable={false}
-                        layout="fill"
-                        objectFit="contain"
-                        src={`${INFURA_GATEWAY}/ipfs/${item.icon}`}
-                      />
-                    </div>
-                  )}
-                </div>
-              );
-            }
-          )}
+              {
+                icon: "QmfDNH347Vph4b1tEuegydufjMU2QwKzYnMZCjygGvvUMM",
+                function: () =>
+                  dispatch(
+                    setQuote({
+                      actionOpen: true,
+                      actionPublication: publication,
+                    })
+                  ),
+                title: "Quote Quest",
+                reacted: publication?.operations?.hasQuoted,
+                loader: false,
+                width: "0.8rem",
+                height: "0.8rem",
+              },
+            ]?.map(
+              (
+                item: {
+                  icon: string;
+                  function: () => void;
+                  title: string;
+                  reacted: boolean;
+                  loader: boolean;
+                  width: string;
+                  height: string;
+                },
+                index: number
+              ) => {
+                return (
+                  <div
+                    key={index}
+                    className={`relative hover:opacity-80 w-7 p-1 h-6 rounded-full flex cursor-pointer active:scale-95 items-center justify-center ${
+                      item?.reacted && "hue-rotate-60"
+                    } ${
+                      !lensConnected?.id
+                        ? "opacity-80"
+                        : "cursor-pointer active:scale-95"
+                    }`}
+                    title={item.title}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      item.function();
+                    }}
+                  >
+                    {item?.loader ? (
+                      <div className="relative w-fit h-fit flex items-center justify-center animate-spin">
+                        <AiOutlineLoading size={15} color={"white"} />
+                      </div>
+                    ) : (
+                      <div
+                        className="relative flex items-center justify-center"
+                        style={{
+                          width: item.width,
+                          height: item.height,
+                        }}
+                      >
+                        <Image
+                          draggable={false}
+                          layout="fill"
+                          objectFit="contain"
+                          src={`${INFURA_GATEWAY}/ipfs/${item.icon}`}
+                        />
+                      </div>
+                    )}
+                  </div>
+                );
+              }
+            )}
+          </div>
         </div>
       )}
       {profileHovers?.[index] && (
@@ -237,7 +269,7 @@ const InteractBar: FunctionComponent<InteractBarProps> = ({
           followLoading={interactionsLoading?.[index]?.follow}
           unfollowLoading={interactionsLoading?.[index]?.unfollow}
           pfp={pfp}
-          setProfileHovers={setProfileHovers}
+          setProfileHovers={setProfileHovers!}
           dispatch={dispatch}
           router={router}
         />

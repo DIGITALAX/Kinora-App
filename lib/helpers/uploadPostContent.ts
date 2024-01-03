@@ -9,7 +9,6 @@ const uploadPostContent = async (
     type: string;
   }[],
   videos: string[],
-  audio: string[],
   gifs: string[],
   title?: string,
   tags?: string[],
@@ -24,8 +23,7 @@ const uploadPostContent = async (
   if (
     images?.length < 1 &&
     gifs?.length < 1 &&
-    videos?.length < 1 &&
-    audio?.length < 1
+    videos?.length < 1 
   ) {
     $schema = "https://json-schemas.lens.dev/publications/text-only/3.0.0.json";
     mainContentFocus = PublicationMetadataMainFocusType.TextOnly;
@@ -42,12 +40,6 @@ const uploadPostContent = async (
     });
 
     const mediaWithKeys = [
-      ...(audio || []).map((audio) => ({
-        type: "audio/mpeg",
-        item: audio?.includes("ipfs://")
-          ? audio
-          : convertToFile(audio, "audio/mpeg"),
-      })),
       ...(videos || []).map((video) => ({
         type: "video/mp4",
         item: video?.includes("ipfs://")
@@ -111,15 +103,6 @@ const uploadPostContent = async (
       mainContentFocus = PublicationMetadataMainFocusType.Video;
       value = {
         video: {
-          ...primaryMedia,
-          cover: coverJSON ? coverJSON : undefined,
-        },
-      };
-    } else if (primaryMedia?.type === "audio/mpeg") {
-      $schema = "https://json-schemas.lens.dev/publications/audio/3.0.0.json";
-      mainContentFocus = PublicationMetadataMainFocusType.Audio;
-      value = {
-        audio: {
           ...primaryMedia,
           cover: coverJSON ? coverJSON : undefined,
         },

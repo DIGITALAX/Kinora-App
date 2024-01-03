@@ -16,16 +16,16 @@ const Media: FunctionComponent<MediaImageProps> = ({
       {((metadata?.content && metadata?.content?.trim() !== "") ||
         (metadata?.title && metadata?.title?.trim() !== "")) && (
         <div
-          className={`relative w-full h-fit max-h-[12rem] font-aust  text-left items-start justify-start break-words flex overflow-y-scroll p-3 text-sm whitespace-preline ${
-            metadata?.__typename === "ImageMetadataV3"
-              ? "bg-offBlack text-white"
-              : metadata?.__typename === "VideoMetadataV3"
+          className={`relative w-full h-fit max-h-[12rem] font-vcr  text-left items-start justify-start break-words flex overflow-y-scroll py-3 text-xs whitespace-preline ${
+            metadata?.__typename === "VideoMetadataV3"
               ? "bg-viol text-black"
-              : "bg-nuba text-black"
+              : "bg-nave text-white"
           }`}
           dangerouslySetInnerHTML={{
             __html: descriptionRegex(
-              metadata?.content,
+              disabled
+                ? metadata?.content?.slice(0, 100) + "..."
+                : metadata?.content,
               metadata?.__typename === "VideoMetadataV3" ? true : false
             ),
           }}
@@ -43,9 +43,10 @@ const Media: FunctionComponent<MediaImageProps> = ({
               return (
                 <div
                   key={index}
-                  className={`w-60 border border-white rounded-sm h-60 flex items-center justify-center bg-offBlack ${
+                  className={`w-44 rounded-sm h-44 flex items-center justify-center p-px ${
                     media?.url && !disabled && "cursor-pointer"
                   }`}
+                  id="rainbow"
                   onClick={() =>
                     media?.type === "Image" &&
                     !disabled &&
@@ -70,7 +71,7 @@ const Media: FunctionComponent<MediaImageProps> = ({
                           width: "100%",
                           height: "100%",
                           position: "absolute",
-                          display: "flex"
+                          display: "flex",
                         }}
                         classNameImage={"rounded-sm"}
                         classNameAudio={"rounded-md"}

@@ -29,8 +29,9 @@ export type AccountSwitchProps = {
   simpleCollectSave: (id: string, post?: boolean) => Promise<void>;
   interactionsLoadingSave: {
     mirror: boolean;
-    simpleCollect: boolean;
     like: boolean;
+    follow: boolean;
+    unfollow: boolean;
   }[];
 };
 
@@ -68,10 +69,11 @@ export type SavesProps = {
   mirror: (id: string, post?: boolean) => Promise<void>;
   bookmark: (id: string, post?: boolean) => Promise<void>;
   like: (id: string, post?: boolean) => Promise<void>;
-  simpleCollect: (id: string, post?: boolean) => Promise<void>;
+  simpleCollect: (id: string, post?: boolean | undefined) => Promise<void>;
   interactionsLoading: {
     mirror: boolean;
-    simpleCollect: boolean;
     like: boolean;
+    follow: boolean;
+    unfollow: boolean;
   }[];
 };
