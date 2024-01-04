@@ -1,5 +1,5 @@
 import { NextRouter } from "next/router";
-import { Post, Profile, Quote } from "../../../../graphql/generated";
+import { Comment, Post, Profile, Quote } from "../../../../graphql/generated";
 import { SetStateAction } from "react";
 import { Action, Dispatch } from "redux";
 import { Collection } from "@/components/Envoke/types/envoke.types";
@@ -151,8 +151,7 @@ export type QuestBoxDetailsProps = {
   bookmark: (
     on: string,
     hasBookmarked: boolean,
-    index: number,
-    main?: boolean
+    index: number
   ) => Promise<void>;
   mirrorChoiceOpen: boolean;
   setMirrorChoiceOpen: (e: boolean) => void;
@@ -177,6 +176,7 @@ export type QuestSocialProps = {
   socialType: SocialType;
   questInfo: Quest | undefined;
   router: NextRouter;
+  videoPlaying: Video | undefined;
   quoteMirrorSwitch: boolean;
   setQuoteMirrorSwitch: (e: boolean) => void;
   reactors: any[];
@@ -222,7 +222,7 @@ export type QuestSocialProps = {
     hasReacted: boolean,
     main?: boolean | undefined
   ) => Promise<void>;
-  simpleCollect: (id: string, type: string) => Promise<void>;
+  simpleCollect: (post: Post | Comment) => Promise<void>;
   interactionsLoading: {
     like: boolean;
     mirror: boolean;
@@ -353,4 +353,43 @@ export type MainVideoProps = {
   setSeek: (e: number) => void;
   setVideoPlaying: (e: SetStateAction<Video | undefined>) => void;
   allVideos: Video[];
+};
+
+export type MetricsProps = {
+  milestoneMetrics: Video;
+  playerMetricsOnChain: VideoActivity;
+  playerMetricsLive: VideoActivity;
+};
+
+export type VideoInfoProps = {
+  videoPlaying: Video;
+  mirror: (id: string, main?: boolean | undefined) => Promise<void>;
+  like: (
+    id: string,
+    hasReacted: boolean,
+    main?: boolean | undefined
+  ) => Promise<void>;
+  bookmark: (
+    on: string,
+    hasBookmarked: boolean,
+    index: number
+  ) => Promise<void>;
+  simpleCollect: (
+    post: Post | Comment, 
+    main?: boolean | undefined
+  ) => Promise<void>;
+  lensConnected: Profile | undefined;
+  mainInteractionsLoading: {
+    like: boolean;
+    mirror: boolean;
+    comment: boolean;
+    bookmark: boolean;
+    follow: boolean;
+    unfollow: boolean;
+  }[];
+  setSocialType: (e: SocialType) => void;
+  mirrorChoiceOpen: boolean;
+  setMirrorChoiceOpen: (e: boolean) => void;
+  dispatch: Dispatch<Action>;
+  router: NextRouter;
 };

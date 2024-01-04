@@ -30,7 +30,7 @@ const ProfileHover: FunctionComponent<ProfileHoverProps> = ({
       }
     >
       <div className="relative w-full h-full rounded-md bg-nave flex flex-col items-center justify-center gap-6 p-2">
-        <div className="relative w-full h-fit flex flex-col gap-3 items-center justify-center">
+        <div className="relative w-full h-fit flex flex-col gap-3 items-center justify-center cursor-pointer">
           <div
             className="relative w-7 h-7 rounded-full cursor-pointer p-px"
             onClick={() =>

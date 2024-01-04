@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import whoReactedPublication from "../../../../graphql/lens/queries/whoReacted";
 import { LimitType, Profile, Quote } from "../../../../graphql/generated";
 import getPublications from "../../../../graphql/lens/queries/publications";
-import { SocialType } from "../types/quest.types";
+import { SocialType, Video } from "../types/quest.types";
+import toHexWithLeadingZero from "../../../../lib/helpers/toHexWithLeadingZero";
 
 const useWho = (
   lensConnected: Profile | undefined,
   questId: string,
-  socialType: SocialType
+  socialType: SocialType,
+  videoPlaying: Video | undefined
 ) => {
   const [dataLoading, setDataLoading] = useState<boolean>(false);
   const [reactors, setReactors] = useState<any[]>([]);
@@ -19,12 +21,16 @@ const useWho = (
   const [quoteMirrorSwitch, setQuoteMirrorSwitch] = useState<boolean>(false);
 
   const showLikes = async () => {
-    if (!questId) return;
+    if (!videoPlaying && !questId) return;
     setDataLoading(true);
     try {
       const data = await whoReactedPublication(
         {
-          for: questId,
+          for: videoPlaying
+            ? `${toHexWithLeadingZero(
+                Number(videoPlaying?.profileId)
+              )}-${toHexWithLeadingZero(Number(videoPlaying?.pubId))}`
+            : questId,
           limit: LimitType.Ten,
         },
         lensConnected?.id
@@ -50,7 +56,7 @@ const useWho = (
   };
 
   const showMirrorQuotes = async () => {
-    if (!questId) return;
+    if (!videoPlaying && !questId) return;
 
     setDataLoading(true);
 
@@ -59,7 +65,11 @@ const useWho = (
         {
           limit: LimitType.Ten,
           where: {
-            mirrorOn: questId,
+            mirrorOn: videoPlaying
+              ? `${toHexWithLeadingZero(
+                  Number(videoPlaying?.profileId)
+                )}-${toHexWithLeadingZero(Number(videoPlaying?.pubId))}`
+              : questId,
           },
         },
         lensConnected?.id
@@ -80,7 +90,11 @@ const useWho = (
         {
           limit: LimitType.Ten,
           where: {
-            quoteOn: questId,
+            quoteOn: videoPlaying
+              ? `${toHexWithLeadingZero(
+                  Number(videoPlaying?.profileId)
+                )}-${toHexWithLeadingZero(Number(videoPlaying?.pubId))}`
+              : questId,
           },
         },
         lensConnected?.id
@@ -109,7 +123,11 @@ const useWho = (
     try {
       const data = await whoReactedPublication(
         {
-          for: questId,
+          for: videoPlaying
+            ? `${toHexWithLeadingZero(
+                Number(videoPlaying?.profileId)
+              )}-${toHexWithLeadingZero(Number(videoPlaying?.pubId))}`
+            : questId,
           limit: LimitType.Ten,
           cursor: pageInfo,
         },
@@ -145,7 +163,11 @@ const useWho = (
           {
             limit: LimitType.Ten,
             where: {
-              mirrorOn: questId,
+              mirrorOn: videoPlaying
+                ? `${toHexWithLeadingZero(
+                    Number(videoPlaying?.profileId)
+                  )}-${toHexWithLeadingZero(Number(videoPlaying?.pubId))}`
+                : questId,
             },
             cursor: pageInfo,
           },
@@ -173,7 +195,11 @@ const useWho = (
           {
             limit: LimitType.Ten,
             where: {
-              mirrorOn: questId,
+              mirrorOn: videoPlaying
+                ? `${toHexWithLeadingZero(
+                    Number(videoPlaying?.profileId)
+                  )}-${toHexWithLeadingZero(Number(videoPlaying?.pubId))}`
+                : questId,
             },
             cursor: pageInfoQuote,
           },
@@ -208,7 +234,11 @@ const useWho = (
         {
           where: {
             commentOn: {
-              id: questId,
+              id: videoPlaying
+                ? `${toHexWithLeadingZero(
+                    Number(videoPlaying?.profileId)
+                  )}-${toHexWithLeadingZero(Number(videoPlaying?.pubId))}`
+                : questId,
               // ranking: {
               //   filter: CommentRankingFilterType.Relevant,
               // },
@@ -246,7 +276,11 @@ const useWho = (
         {
           where: {
             commentOn: {
-              id: questId,
+              id: videoPlaying
+                ? `${toHexWithLeadingZero(
+                    Number(videoPlaying?.profileId)
+                  )}-${toHexWithLeadingZero(Number(videoPlaying?.pubId))}`
+                : questId,
               // ranking: {
               //   filter: CommentRankingFilterType.Relevant,
               // },
@@ -304,7 +338,7 @@ const useWho = (
         showComments();
         break;
     }
-  }, [socialType]);
+  }, [socialType, videoPlaying]);
 
   return {
     dataLoading,

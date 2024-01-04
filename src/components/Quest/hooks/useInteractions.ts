@@ -5,12 +5,13 @@ import {
   Profile,
   PublicationStats,
   Quote,
+  SimpleCollectOpenActionSettings,
 } from "../../../../graphql/generated";
 import errorChoice from "../../../../lib/helpers/errorChoice";
 import { Dispatch } from "redux";
 import { polygon, polygonMumbai } from "viem/chains";
 import { PublicClient, createWalletClient, custom } from "viem";
-import { MakePostComment, Quest } from "../types/quest.types";
+import { MakePostComment, Quest, Video } from "../types/quest.types";
 import uploadPostContent from "../../../../lib/helpers/uploadPostContent";
 import { setIndexer } from "../../../../redux/reducers/indexerSlice";
 import { setInteractError } from "../../../../redux/reducers/interactErrorSlice";
@@ -26,6 +27,7 @@ import {
   setPostCollectGif,
 } from "../../../../redux/reducers/postCollectGifSlice";
 import lensUnfollow from "../../../../lib/helpers/lensUnfollow";
+import { setFollowCollect } from "../../../../redux/reducers/followCollectSlice";
 
 const useInteractions = (
   lensConnected: Profile | undefined,
@@ -36,7 +38,9 @@ const useInteractions = (
   setQuestInfo: (e: SetStateAction<Quest | undefined>) => void,
   allComments: (Comment | Quote)[],
   setAllComments: ((e: SetStateAction<any[]>) => void) | undefined,
-  showComments: () => Promise<void>
+  showComments: () => Promise<void>,
+  videoPlaying: Video | undefined,
+  setVideoPlaying: (e: SetStateAction<Video | undefined>) => void
 ) => {
   const [makeComment, setMakeComment] = useState<MakePostComment[]>([]);
   const [profilesOpen, setProfilesOpen] = useState<boolean[]>([]);
@@ -153,15 +157,39 @@ const useInteractions = (
     handleLoaders(false, true, index, "bookmark");
   };
 
-  const simpleCollect = async (id: string, type: string) => {
-    if (!lensConnected?.id) return;
-    const index = allComments?.findIndex((pub) => pub.id === id);
-
-    if (index == -1) {
+  const simpleCollect = async (post: Post | Comment, main?: boolean) => {
+    console.log(post?.openActionModules?.[0]);
+    if (
+      (post?.openActionModules?.[0] as SimpleCollectOpenActionSettings)
+        ?.amount &&
+      Number(
+        (post?.openActionModules?.[0] as SimpleCollectOpenActionSettings)
+          ?.amount?.value
+      ) > 0
+    ) {
+      dispatch(
+        setFollowCollect({
+          actionType: "collect",
+          actionCollect: {
+            id: post?.id,
+            stats: post?.stats,
+            item: post?.openActionModules?.[0],
+          },
+        })
+      );
       return;
     }
 
-    handleLoaders(true, false, index, "simpleCollect");
+    if (!lensConnected?.id) return;
+    let index = 0;
+    if (!main) {
+      index = allComments?.findIndex((pub) => pub.id === post?.id);
+
+      if (index == -1) {
+        return;
+      }
+    }
+    handleLoaders(true, main, index, "simpleCollect");
 
     try {
       const clientWallet = createWalletClient({
@@ -170,8 +198,8 @@ const useInteractions = (
       });
 
       await lensCollect(
-        id,
-        type,
+        post?.id,
+        post?.openActionModules?.[0]?.type!,
         dispatch,
         address as `0x${string}`,
         clientWallet,
@@ -211,7 +239,7 @@ const useInteractions = (
       );
     }
 
-    handleLoaders(false, false, index, "simpleCollect");
+    handleLoaders(false, main, index, "simpleCollect");
   };
 
   const comment = async (id: string, main?: boolean | undefined) => {
@@ -498,26 +526,49 @@ const useInteractions = (
     main?: boolean
   ) => {
     if (main) {
-      setQuestInfo(
-        (prev) =>
-          ({
-            ...(prev || {}),
-            publication: {
-              ...prev?.publication,
-              operations: {
-                ...prev?.publication?.operations,
-                ...valueToUpdate,
-              },
-              stats: {
-                ...prev?.publication?.stats,
-                [statToUpdate]:
-                  prev?.publication?.stats?.[
-                    statToUpdate as keyof PublicationStats
-                  ] + (increase ? 1 : -1),
-              },
-            } as Post,
-          } as Quest)
-      );
+      if (videoPlaying) {
+        setVideoPlaying!(
+          (prev) =>
+            ({
+              ...(prev || {}),
+              publication: {
+                ...prev?.publication,
+                operations: {
+                  ...prev?.publication?.operations,
+                  ...valueToUpdate,
+                },
+                stats: {
+                  ...prev?.publication?.stats,
+                  [statToUpdate]:
+                    prev?.publication?.stats?.[
+                      statToUpdate as keyof PublicationStats
+                    ] + (increase ? 1 : -1),
+                },
+              } as Post,
+            } as Video)
+        );
+      } else {
+        setQuestInfo(
+          (prev) =>
+            ({
+              ...(prev || {}),
+              publication: {
+                ...prev?.publication,
+                operations: {
+                  ...prev?.publication?.operations,
+                  ...valueToUpdate,
+                },
+                stats: {
+                  ...prev?.publication?.stats,
+                  [statToUpdate]:
+                    prev?.publication?.stats?.[
+                      statToUpdate as keyof PublicationStats
+                    ] + (increase ? 1 : -1),
+                },
+              } as Post,
+            } as Quest)
+        );
+      }
     } else {
       const newInteractions = [...allComments];
 
