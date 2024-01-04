@@ -30,6 +30,10 @@ const useVideos = (
   };
 
   const handleCurrentMetrics = async () => {
+    if (!videoPlaying?.publication?.id) {
+      setPlayerMetricsLive(undefined);
+      return;
+    }
     try {
       let currentActivity = {};
       if (!chainMetrics?.hasCommented) {
