@@ -116,10 +116,7 @@ const InteractBar: FunctionComponent<InteractBarProps> = ({
                   function: () =>
                     publication?.openActionModules &&
                     publication?.openActionModules?.length > 0 &&
-                    simpleCollect!(
-                      publication?.id,
-                      publication?.openActionModules?.[0]?.type!
-                    ),
+                    simpleCollect!(publication!),
                   amount: publication?.stats?.countOpenActions || 0,
                   reacted:
                     publication?.operations?.hasActed?.isFinalisedOnchain,

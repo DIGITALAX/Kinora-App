@@ -93,7 +93,7 @@ export type InteractBarProps = {
   followProfile?: (id: string, index: number) => Promise<void>;
   router: NextRouter;
   mainFeed?: boolean;
-  simpleCollect?: (id: string, type: string) => Promise<void>;
+  simpleCollect?: (post: Post | Comment) => Promise<void>;
   setCommentsOpen?: (e: SetStateAction<boolean[]>) => void;
   main?: boolean;
 };
@@ -221,7 +221,7 @@ export type PostQuoteProps = {
   setProfileHovers?: (id: SetStateAction<boolean[]>) => void;
   unfollowProfile?: (id: string, index: number) => Promise<void>;
   followProfile?: (id: string, index: number) => Promise<void>;
-  simpleCollect?: (id: string, type: string) => Promise<void>;
+  simpleCollect?: (post: Post | Comment) => Promise<void>;
   setCommentsOpen?: (e: SetStateAction<boolean[]>) => void;
   commentsOpen?: boolean[];
   makeComment?: MakePostComment[];

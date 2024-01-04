@@ -17,6 +17,9 @@ import QuestBoardSwitch from "@/components/Quest/modules/QuestBoardSwitch";
 import Channels from "@/components/Quest/modules/Channels";
 import useVideos from "@/components/Quest/hooks/useVideos";
 import MainVideo from "@/components/Quest/modules/MainVideo";
+import { AiOutlineLoading } from "react-icons/ai";
+import Metrics from "@/components/Quest/modules/Metrics";
+import VideoInfo from "@/components/Quest/modules/VideoInfo";
 
 export default function QuestId({ router }: { router: NextRouter }) {
   const { questId } = router.query;
@@ -71,6 +74,8 @@ export default function QuestId({ router }: { router: NextRouter }) {
     setVolumeOpen,
     duration,
     setDuration,
+    metricsLoading,
+    handleSendMetrics,
   } = useVideos(
     mainViewer === 0 ? [] : questInfo?.milestones?.[mainViewer - 1]?.videos!
   );
@@ -86,7 +91,7 @@ export default function QuestId({ router }: { router: NextRouter }) {
     setQuoteMirrorSwitch,
     setReactors,
     setQuoters,
-  } = useWho(lensConnected, questId as string, socialType);
+  } = useWho(lensConnected, questId as string, socialType, videoPlaying);
   const {
     mirror,
     like,
@@ -140,7 +145,9 @@ export default function QuestId({ router }: { router: NextRouter }) {
       : socialType == SocialType.Mirrors
       ? setQuoters
       : undefined,
-    showComments
+    showComments,
+    videoPlaying,
+    setVideoPlaying
   );
 
   return (
@@ -160,8 +167,24 @@ export default function QuestId({ router }: { router: NextRouter }) {
         <div className="relative h-[38rem] w-full flex items-center justify-start gap-10">
           <div className="relative w-fit h-full flex items-start justify-start">
             <div className="relative h-full w-80 flex items-start justify-start flex-col gap-6 rounded-md border border-gray-700 p-3">
+              {videoPlaying && (
+                <VideoInfo
+                  router={router}
+                  setSocialType={setSocialType}
+                  dispatch={dispatch}
+                  setMirrorChoiceOpen={setMirrorChoiceOpenMain}
+                  mirrorChoiceOpen={mirrorChoiceOpenMain}
+                  simpleCollect={simpleCollect}
+                  videoPlaying={videoPlaying}
+                  mirror={mirror}
+                  bookmark={handleBookmark}
+                  like={like}
+                  mainInteractionsLoading={mainInteractionsLoading}
+                  lensConnected={lensConnected}
+                />
+              )}
               {dataLoading ? (
-                <div className="relative flex items-start justify-start flex-col gap-5 h-full w-full">
+                <div className="relative flex items-start justify-start flex-col gap-5 h-full w-full overflow-y-scroll">
                   <div className="relative w-full h-fit flex items-start justify-start flex-wrap gap-3 overflow-y-scroll animate-pulse">
                     {Array.from({ length: 30 })?.map((_, index: number) => {
                       return (
@@ -176,6 +199,7 @@ export default function QuestId({ router }: { router: NextRouter }) {
                 </div>
               ) : (
                 <QuestSocial
+                  videoPlaying={videoPlaying}
                   mirrorChoiceOpen={mirrorChoiceOpen}
                   profilesOpen={profilesOpen}
                   mentionProfiles={mentionProfiles}
@@ -302,137 +326,192 @@ export default function QuestId({ router }: { router: NextRouter }) {
             </div>
           </div>
           <div className="relative w-fit h-full flex items-start justify-start">
-            <div className="relative h-full w-60 flex items-start justify-start flex-col gap-6">
-              <div className="relative w-full h-fit flex items-start justify-start flex-col gap-3">
-                {mainViewer !== 0 && (
-                  <div className="relative w-full h-fit flex items-start justify-start text-azul font-bit text-lg">
-                    {`Milestone ${mainViewer}`}
-                  </div>
-                )}
-                <div
-                  className={`relative w-fit h-fit flex items-start justify-start font-vcr text-white text-xl break-words ${
-                    questInfoLoading && "animate-pulse"
-                  }`}
-                >
-                  {questInfoLoading
-                    ? "Quest Loading..."
-                    : mainViewer == 0
-                    ? questInfo?.questMetadata?.title
-                    : questInfo?.milestones?.[mainViewer - 1]?.milestoneMetadata
-                        ?.title}
-                </div>
-                <div
-                  className={`relative flex items-start justify-start gap-2 w-full h-fit ${
-                    questInfoLoading && "animate-pulse"
-                  }`}
-                >
-                  <div className="relative w-full flex-1 items-start justify-start font-vcr text-gray-400 text-sm break-words text-overflow-truncate h-[6rem] overflow-y-scroll">
+            {!videoPlaying ? (
+              <div className="relative h-full w-60 flex items-start justify-start flex-col gap-6">
+                <div className="relative w-full h-fit flex items-start justify-start flex-col gap-3">
+                  {mainViewer !== 0 && (
+                    <div className="relative w-full h-fit flex items-start justify-start text-azul font-bit text-lg">
+                      {`Milestone ${mainViewer}`}
+                    </div>
+                  )}
+                  <div
+                    className={`relative w-fit h-fit flex items-start justify-start font-vcr text-white text-xl break-words ${
+                      questInfoLoading && "animate-pulse"
+                    }`}
+                  >
                     {questInfoLoading
-                      ? "....".repeat(50)
-                      : mainViewer === 0
-                      ? questInfo?.questMetadata?.description &&
-                        questInfo?.questMetadata?.description?.length > 100 &&
-                        !showFullText
-                        ? questInfo?.questMetadata?.description?.slice(0, 100) +
+                      ? "Quest Loading..."
+                      : mainViewer == 0
+                      ? questInfo?.questMetadata?.title
+                      : questInfo?.milestones?.[mainViewer - 1]
+                          ?.milestoneMetadata?.title}
+                  </div>
+                  <div
+                    className={`relative flex items-start justify-start gap-2 w-full h-fit ${
+                      questInfoLoading && "animate-pulse"
+                    }`}
+                  >
+                    <div className="relative w-full flex-1 items-start justify-start font-vcr text-gray-400 text-sm break-words text-overflow-truncate h-[6rem] overflow-y-scroll">
+                      {questInfoLoading
+                        ? "....".repeat(50)
+                        : mainViewer === 0
+                        ? questInfo?.questMetadata?.description &&
+                          questInfo?.questMetadata?.description?.length > 100 &&
+                          !showFullText
+                          ? questInfo?.questMetadata?.description?.slice(
+                              0,
+                              100
+                            ) + "..."
+                          : questInfo?.questMetadata?.description
+                        : questInfo?.milestones?.[mainViewer - 1]
+                            ?.milestoneMetadata?.description &&
+                          questInfo?.milestones?.[mainViewer - 1]
+                            ?.milestoneMetadata?.description?.length > 100 &&
+                          !showFullText
+                        ? questInfo?.milestones?.[
+                            mainViewer - 1
+                          ]?.milestoneMetadata?.description?.slice(0, 100) +
                           "..."
-                        : questInfo?.questMetadata?.description
+                        : questInfo?.milestones?.[mainViewer - 1]
+                            ?.milestoneMetadata?.description}
+                    </div>
+                    {(mainViewer == 0
+                      ? questInfo?.questMetadata?.description &&
+                        questInfo?.questMetadata?.description?.length > 100
                       : questInfo?.milestones?.[mainViewer - 1]
                           ?.milestoneMetadata?.description &&
                         questInfo?.milestones?.[mainViewer - 1]
-                          ?.milestoneMetadata?.description?.length > 100 &&
-                        !showFullText
-                      ? questInfo?.milestones?.[
-                          mainViewer - 1
-                        ]?.milestoneMetadata?.description?.slice(0, 100) + "..."
-                      : questInfo?.milestones?.[mainViewer - 1]
-                          ?.milestoneMetadata?.description}
+                          ?.milestoneMetadata?.description?.length > 100) && (
+                      <div
+                        className="relative flex items-center justify-center w-fit h-fit cursor-pointer"
+                        onClick={() => setShowFullText(!showFullText)}
+                      >
+                        {showFullText ? (
+                          <FaChevronUp color={"4b5563"} size={10} />
+                        ) : (
+                          <FaChevronDown color={"4b5563"} size={10} />
+                        )}
+                      </div>
+                    )}
                   </div>
-                  {(mainViewer == 0
-                    ? questInfo?.questMetadata?.description &&
-                      questInfo?.questMetadata?.description?.length > 100
-                    : questInfo?.milestones?.[mainViewer - 1]?.milestoneMetadata
-                        ?.description &&
-                      questInfo?.milestones?.[mainViewer - 1]?.milestoneMetadata
-                        ?.description?.length > 100) && (
-                    <div
-                      className="relative flex items-center justify-center w-fit h-fit cursor-pointer"
-                      onClick={() => setShowFullText(!showFullText)}
-                    >
-                      {showFullText ? (
-                        <FaChevronUp color={"4b5563"} size={10} />
-                      ) : (
-                        <FaChevronDown color={"4b5563"} size={10} />
-                      )}
+                </div>
+                {mainViewer == 0 ? (
+                  <div className="relative w-fit h-fit flex">
+                    <div className="relative w-full h-fit flex flex-row items-center justify-start text-white font-bit text-xs gap-3">
+                      <div className="relative w-4 h-4 flex items-start justify-start ">
+                        <Image
+                          draggable={false}
+                          layout="fill"
+                          src={`${INFURA_GATEWAY}/ipfs/QmcopbBnP4dJgRKCHJ7TN7nHFt5wpe6w8VBhztaBXGYvft`}
+                        />
+                      </div>
+                      <div className="relative w-fit h-fit flex items-center justify-center">{`Max Player Count: ${
+                        questInfoLoading
+                          ? "0"
+                          : Number(questInfo?.maxPlayerCount) ==
+                            Number(questInfo?.players?.length)
+                          ? "Limit Reached"
+                          : `${Number(questInfo?.players?.length)} / ${Number(
+                              questInfo?.maxPlayerCount
+                            )}`
+                      }`}</div>
                     </div>
-                  )}
+                  </div>
+                ) : (
+                  <div className="relative w-full h-fit flex flex-col items-start justify-start gap-2 font-vcr text-white text-xs">
+                    <div className="relative w-full h-fit flex flex-row items-center justify-start gap-1 break-words">
+                      <div className="relative w-fit h-fit flex items-center justify-center">
+                        Video Count:
+                      </div>
+                      <div className="relative w-fit h-fit flex items-center justify-center text-girasol break-words">
+                        {questInfo?.milestones?.[mainViewer - 1]?.videoLength}
+                      </div>
+                      <div
+                        className="relative w-3.5 h-3.5 flex items-center justify-center cursor-pointer active:scale-95"
+                        onClick={() => window.open("https://livepeer.studio/")}
+                      >
+                        <Image
+                          draggable={false}
+                          layout="fill"
+                          src={`${INFURA_GATEWAY}/ipfs/QmVa8AWMYyAfcQAEpbqdUoRSxSkntpH1DEMpdyajZWz4AR`}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                )}
+                <QuestBoardSwitch
+                  handleCompleteMilestone={handleCompleteMilestone}
+                  completeLoading={completeLoading}
+                  lensConnected={lensConnected}
+                  questInfo={questInfo}
+                  questInfoLoading={questInfoLoading}
+                  router={router}
+                  dispatch={dispatch}
+                  joinLoading={joinLoading}
+                  handlePlayerJoin={handlePlayerJoin}
+                  followProfile={followProfile}
+                  unfollowProfile={unfollowProfile}
+                  mainInteractionsLoading={mainInteractionsLoading}
+                  mirror={mirror}
+                  like={like}
+                  bookmark={handleBookmark}
+                  mirrorChoiceOpen={mirrorChoiceOpenMain}
+                  setMirrorChoiceOpen={setMirrorChoiceOpenMain}
+                  setSocialType={setSocialType}
+                  mainViewer={mainViewer}
+                />
+              </div>
+            ) : (
+              <div className="relative h-full w-60 flex items-between justify-start flex-col gap-6 rounded-md border border-gray-700 p-2">
+                <div className="relative w-full h-full flex flex-col gap-6 items-start justify-start">
+                  <div className="relative w-full h-fit gap-2 flex items-center justify-center flex-col">
+                    <div className="relative w-full h-fit flex items-center justify-center text-gray-400 font-bit text-sm">
+                      Milestone Video Metrics
+                    </div>
+                    <div className="relative w-full h-px bg-gray-700"></div>
+                  </div>
+                  <Metrics
+                    milestoneMetrics={videoPlaying!}
+                    playerMetricsOnChain={
+                      questInfo?.players
+                        ?.find(
+                          (player) => player?.profile?.id == lensConnected?.id
+                        )
+                        ?.videos?.find(
+                          (video) => video?.pubId == videoPlaying?.pubId
+                        )!
+                    }
+                  />
+                </div>
+                <div
+                  className={`relative w-full h-8 px-1.5 py-1 flex flex-row items-center gap-3 justify-center border border-gray-300 mb-0 rounded-md ${
+                    metricsLoading
+                      ? "opacity-70"
+                      : "cursor-pointer active:scale-95"
+                  }`}
+                  onClick={() => !metricsLoading && handleSendMetrics()}
+                >
+                  <div
+                    className={`relative w-4 h-4 flex items-center justify-center ${
+                      metricsLoading && "animate-spin"
+                    }`}
+                  >
+                    {metricsLoading ? (
+                      <AiOutlineLoading color={"FBD201"} size={15} />
+                    ) : (
+                      <Image
+                        layout="fill"
+                        src={`${INFURA_GATEWAY}/ipfs/QmNomDrWUNrcy2SAVzsKoqd5dPMogeohB8PSuHCg57nyzF`}
+                        draggable={false}
+                      />
+                    )}
+                  </div>
+                  <div className="relative w-fit h-fit text-sm font-vcr text-gray-300">
+                    {"Add Current Metrics"}
+                  </div>
                 </div>
               </div>
-              {mainViewer == 0 ? (
-                <div className="relative w-fit h-fit flex">
-                  <div className="relative w-full h-fit flex flex-row items-center justify-start text-white font-bit text-xs gap-3">
-                    <div className="relative w-4 h-4 flex items-start justify-start ">
-                      <Image
-                        draggable={false}
-                        layout="fill"
-                        src={`${INFURA_GATEWAY}/ipfs/QmcopbBnP4dJgRKCHJ7TN7nHFt5wpe6w8VBhztaBXGYvft`}
-                      />
-                    </div>
-                    <div className="relative w-fit h-fit flex items-center justify-center">{`Max Player Count: ${
-                      questInfoLoading
-                        ? "0"
-                        : Number(questInfo?.maxPlayerCount) ==
-                          Number(questInfo?.players?.length)
-                        ? "Limit Reached"
-                        : `${Number(questInfo?.players?.length)} / ${Number(
-                            questInfo?.maxPlayerCount
-                          )}`
-                    }`}</div>
-                  </div>
-                </div>
-              ) : (
-                <div className="relative w-full h-fit flex flex-col items-start justify-start gap-2 font-vcr text-white text-xs">
-                  <div className="relative w-full h-fit flex flex-row items-center justify-start gap-1 break-words">
-                    <div className="relative w-fit h-fit flex items-center justify-center">
-                      Video Count:
-                    </div>
-                    <div className="relative w-fit h-fit flex items-center justify-center text-girasol break-words">
-                      {questInfo?.milestones?.[mainViewer - 1]?.videoLength}
-                    </div>
-                    <div
-                      className="relative w-3.5 h-3.5 flex items-center justify-center cursor-pointer active:scale-95"
-                      onClick={() => window.open("https://livepeer.studio/")}
-                    >
-                      <Image
-                        draggable={false}
-                        layout="fill"
-                        src={`${INFURA_GATEWAY}/ipfs/QmVa8AWMYyAfcQAEpbqdUoRSxSkntpH1DEMpdyajZWz4AR`}
-                      />
-                    </div>
-                  </div>
-                </div>
-              )}
-              <QuestBoardSwitch
-                handleCompleteMilestone={handleCompleteMilestone}
-                completeLoading={completeLoading}
-                lensConnected={lensConnected}
-                questInfo={questInfo}
-                questInfoLoading={questInfoLoading}
-                router={router}
-                dispatch={dispatch}
-                joinLoading={joinLoading}
-                handlePlayerJoin={handlePlayerJoin}
-                followProfile={followProfile}
-                unfollowProfile={unfollowProfile}
-                mainInteractionsLoading={mainInteractionsLoading}
-                mirror={mirror}
-                like={like}
-                bookmark={handleBookmark}
-                mirrorChoiceOpen={mirrorChoiceOpenMain}
-                setMirrorChoiceOpen={setMirrorChoiceOpenMain}
-                setSocialType={setSocialType}
-                mainViewer={mainViewer}
-              />
-            </div>
+            )}
           </div>
         </div>
       </div>

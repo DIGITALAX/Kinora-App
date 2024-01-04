@@ -57,11 +57,12 @@ const QuestSocial: FunctionComponent<QuestSocialProps> = ({
   caretCoordMain,
   contentLoadingMain,
   mainInteractionsLoading,
+  videoPlaying,
 }): JSX.Element => {
   switch (socialType) {
     case SocialType.Comments:
       return (
-        <div className="relative flex items-start justify-start flex-col gap-5 h-full w-full">
+        <div className="relative flex items-start justify-start flex-col gap-5 h-full w-full overflow-y-scroll">
           <div className="relative w-full h-fit flex flex-col gap-2">
             <PostComment
               setCaretCoord={setCaretCoordMain}
@@ -84,7 +85,11 @@ const QuestSocial: FunctionComponent<QuestSocialProps> = ({
               setContentLoading={setContentLoadingMain}
               dispatch={dispatch}
               postCollectGif={postCollectGif}
-              id={questInfo?.publication?.id}
+              id={
+                videoPlaying
+                  ? videoPlaying?.publication?.id
+                  : questInfo?.publication?.id
+              }
             />
           </div>
           <div className="relative text-white font-vcr text-lg">
@@ -140,7 +145,7 @@ const QuestSocial: FunctionComponent<QuestSocialProps> = ({
               </InfiniteScroll>
             </div>
           ) : (
-            <div className="realtive w-fit h-fit flex items-center justify-center font-bit text-gray-500 text-sm break-words">
+            <div className="realtive w-full text-center h-fit flex items-center justify-center font-bit text-gray-500 text-sm break-words">
               No Comments yet. Be the first?
             </div>
           )}
@@ -149,7 +154,7 @@ const QuestSocial: FunctionComponent<QuestSocialProps> = ({
 
     case SocialType.Mirrors:
       return (
-        <div className="relative flex items-start justify-start flex-col gap-5 h-full w-full">
+        <div className="relative flex items-start justify-start flex-col gap-5 h-full w-full overflow-y-scroll">
           <div className="relative w-full h-fit flex flex-row gap-2 items-center justify-center">
             <div
               className={`relative w-6 h-6 flex items-center justify-center cursor-pointer ${
@@ -236,7 +241,7 @@ const QuestSocial: FunctionComponent<QuestSocialProps> = ({
                 </div>
               </>
             ) : (
-              <div className="realtive w-fit h-fit flex items-center justify-center font-bit text-gray-500 text-sm break-words">
+              <div className="realtive w-full text-center h-fit flex items-center justify-center font-bit text-gray-500 text-sm break-words">
                 No Quotes yet. Be the first?
               </div>
             )
@@ -307,7 +312,7 @@ const QuestSocial: FunctionComponent<QuestSocialProps> = ({
               </div>
             </>
           ) : (
-            <div className="realtive w-fit h-fit flex items-center justify-center font-bit text-gray-500 text-sm break-words">
+            <div className="realtive w-full text-center h-fit flex items-center justify-center font-bit text-gray-500 text-sm break-words">
               No Mirrors yet. Be the first?
             </div>
           )}
@@ -316,7 +321,7 @@ const QuestSocial: FunctionComponent<QuestSocialProps> = ({
 
     case SocialType.Reacts:
       return (
-        <div className="relative flex items-start justify-start flex-col gap-5 h-full w-full">
+        <div className="relative flex items-start justify-start flex-col gap-5 h-full w-full overflow-y-scroll">
           <div className="relative text-white font-vcr text-lg">
             {`Who Reacted?`}
           </div>
@@ -382,7 +387,7 @@ const QuestSocial: FunctionComponent<QuestSocialProps> = ({
               </InfiniteScroll>
             </div>
           ) : (
-            <div className="realtive w-fit h-fit flex items-center justify-center font-bit text-gray-500 text-sm break-words">
+            <div className="realtive w-full text-center h-fit flex items-center justify-center font-bit text-gray-500 text-sm break-words">
               No Reacts yet. Be the first?
             </div>
           )}
@@ -391,11 +396,15 @@ const QuestSocial: FunctionComponent<QuestSocialProps> = ({
 
     default:
       return (
-        <div className="relative flex items-start justify-start flex-col gap-5 h-full w-full">
+        <div className="relative flex items-start justify-start flex-col gap-5 h-full w-full overflow-y-scroll">
           <div className="relative text-white font-vcr text-lg">
-            {`Who's playing? ( ${numeral(
-              questInfo?.players?.length || 0
-            ).format("0a")} )`}
+            {`${
+              videoPlaying
+                ? "Who Collected?"
+                : `Who's playing? ( ${numeral(
+                    questInfo?.players?.length || 0
+                  ).format("0a")} )`
+            }`}
           </div>
           <div className="relative w-full h-px bg-gray-700"></div>
           {questInfo?.players && questInfo?.players?.length > 0 ? (
@@ -435,8 +444,10 @@ const QuestSocial: FunctionComponent<QuestSocialProps> = ({
               })}
             </div>
           ) : (
-            <div className="realtive w-fit h-fit flex items-center justify-center font-bit text-gray-500 text-sm break-words">
-              No Players yet. Be the first?
+            <div className="realtive w-full text-center h-fit flex items-center justify-center font-bit text-gray-500 text-sm break-words">
+              {videoPlaying
+                ? "No Collects yet. Be the first?"
+                : "No Players yet. Be the first?"}
             </div>
           )}
         </div>

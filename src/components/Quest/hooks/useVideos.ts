@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Video } from "../types/quest.types";
 import { Kinora } from "kinora-sdk";
 
@@ -11,8 +11,22 @@ const useVideos = (videos: Video[]) => {
   const [seek, setSeek] = useState<number>(0);
   const [volumeOpen, setVolumeOpen] = useState<boolean>(false);
   const [duration, setDuration] = useState<number>(0);
+  const [metricsLoading, setMetricsLoading] = useState<boolean>(false);
 
-  // log metrics on chain
+  const handleSendMetrics = () => {
+    setMetricsLoading(true);
+    try {
+    } catch (err: any) {
+      console.error(err.message);
+    }
+    setMetricsLoading(true);
+  };
+
+  useEffect(() => {
+    if (videoPlaying) {
+      setSeek(0);
+    }
+  }, [videoPlaying]);
 
   return {
     videoPlaying,
@@ -27,6 +41,8 @@ const useVideos = (videos: Video[]) => {
     setVolumeOpen,
     duration,
     setDuration,
+    metricsLoading,
+    handleSendMetrics
   };
 };
 

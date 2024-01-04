@@ -66,7 +66,7 @@ const MainVideo: FunctionComponent<MainVideoProps> = ({
         {(setMediaElement: (node: HTMLVideoElement) => void) => (
           <Player
             mediaElementRef={setMediaElement}
-            playbackId={videoPlaying?.playerId}
+            // playbackId={videoPlaying?.playerId}
             src={`${INFURA_GATEWAY}/ipfs/${
               (
                 videoPlaying?.publication?.metadata as VideoMetadataV3
@@ -125,7 +125,7 @@ const MainVideo: FunctionComponent<MainVideoProps> = ({
           }}
         >
           <div
-            className="absolute h-full bg-white/80 rounded-sm"
+            className="absolute left-0 h-full bg-white/80 rounded-sm"
             style={{
               width: `${((seek || 0) / (duration || 0)) * 100}%`,
             }}
@@ -192,7 +192,7 @@ const MainVideo: FunctionComponent<MainVideoProps> = ({
               );
 
               setVideoPlaying(
-                allVideos?.[index < allVideos?.length ? index + 1 : 0]
+                allVideos?.[index < allVideos?.length - 1 ? index + 1 : 0]
               );
             }}
           >

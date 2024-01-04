@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import {  QuestBoxDetailsProps, SocialType } from "../types/quest.types";
+import { QuestBoxDetailsProps, SocialType } from "../types/quest.types";
 import Image from "next/legacy/image";
 import createProfilePicture from "../../../../lib/helpers/createProfilePicture";
 import moment from "moment";
@@ -329,8 +329,7 @@ const QuestBoxDetails: FunctionComponent<QuestBoxDetailsProps> = ({
                       bookmark(
                         questInfo?.publication?.id,
                         questInfo?.publication?.operations?.hasBookmarked!,
-                        0,
-                        true
+                        0
                       ),
                     loader: mainInteractionsLoading?.[0]?.bookmark,
                     otherFunction: () => {},
