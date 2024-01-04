@@ -358,7 +358,7 @@ export type MainVideoProps = {
 export type MetricsProps = {
   milestoneMetrics: Video;
   playerMetricsOnChain: VideoActivity;
-  playerMetricsLive: VideoActivity;
+  playerMetricsLive: VideoActivity | undefined;
 };
 
 export type VideoInfoProps = {
@@ -375,7 +375,7 @@ export type VideoInfoProps = {
     index: number
   ) => Promise<void>;
   simpleCollect: (
-    post: Post | Comment, 
+    post: Post | Comment,
     main?: boolean | undefined
   ) => Promise<void>;
   lensConnected: Profile | undefined;

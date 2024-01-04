@@ -76,8 +76,12 @@ export default function QuestId({ router }: { router: NextRouter }) {
     setDuration,
     metricsLoading,
     handleSendMetrics,
+    playerMetricsLive,
   } = useVideos(
-    mainViewer === 0 ? [] : questInfo?.milestones?.[mainViewer - 1]?.videos!
+    questInfo?.players
+      ?.find((player) => player?.profile?.id == lensConnected?.id)
+      ?.videos?.find((video) => video?.pubId == videoPlaying?.pubId),
+    lensConnected
   );
   const {
     dataLoading,
@@ -471,6 +475,7 @@ export default function QuestId({ router }: { router: NextRouter }) {
                     <div className="relative w-full h-px bg-gray-700"></div>
                   </div>
                   <Metrics
+                    playerMetricsLive={playerMetricsLive}
                     milestoneMetrics={videoPlaying!}
                     playerMetricsOnChain={
                       questInfo?.players
@@ -485,14 +490,16 @@ export default function QuestId({ router }: { router: NextRouter }) {
                 </div>
                 <div
                   className={`relative w-full h-8 px-1.5 py-1 flex flex-row items-center gap-3 justify-center border border-gray-300 mb-0 rounded-md ${
-                    metricsLoading
+                    metricsLoading || !playerMetricsLive
                       ? "opacity-70"
                       : "cursor-pointer active:scale-95"
                   }`}
-                  onClick={() => !metricsLoading && handleSendMetrics()}
+                  onClick={() =>
+                    !metricsLoading && playerMetricsLive && handleSendMetrics()
+                  }
                 >
                   <div
-                    className={`relative w-4 h-4 flex items-center justify-center ${
+                    className={`relative w-4 h-4 flex items-center justify-center  ${
                       metricsLoading && "animate-spin"
                     }`}
                   >
