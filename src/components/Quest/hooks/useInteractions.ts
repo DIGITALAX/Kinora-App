@@ -158,7 +158,6 @@ const useInteractions = (
   };
 
   const simpleCollect = async (post: Post | Comment, main?: boolean) => {
-    console.log(post?.openActionModules?.[0]);
     if (
       (post?.openActionModules?.[0] as SimpleCollectOpenActionSettings)
         ?.amount &&
