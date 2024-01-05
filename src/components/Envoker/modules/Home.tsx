@@ -2,6 +2,7 @@ import { FunctionComponent } from "react";
 import { HomeProps } from "../types/envoker.types";
 import QuestPreview from "@/components/Common/modules/QuestPreview";
 import { Quest } from "@/components/Quest/types/quest.types";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 const Home: FunctionComponent<HomeProps> = ({
   lensConnected,
@@ -12,6 +13,32 @@ const Home: FunctionComponent<HomeProps> = ({
   questsLoading,
   envokedQuests,
   router,
+  mirror,
+  like,
+  bookmark,
+  interactionsLoading,
+  interactionsLoadingCompleted,
+  mirrorChoiceOpenCompleted,
+  setMirrorChoiceOpenCompleted,
+  setProfileHoversCompleted,
+  profileHoversCompleted,
+  interactionsLoadingEnvoked,
+  mirrorChoiceOpenEnvoked,
+  setMirrorChoiceOpenEnvoked,
+  setProfileHoversEnvoked,
+  profileHoversEnvoked,
+  mirrorChoiceOpen,
+  setMirrorChoiceOpen,
+  profileHovers,
+  setProfileHovers,
+  followProfile,
+  unfollowProfile,
+  info,
+  getMorePlayer,
+  getMoreEnvoked,
+  setLiveQuests,
+  setCompletedQuests,
+  setEnvokedQuests,
 }): JSX.Element => {
   return (
     <>
@@ -46,7 +73,13 @@ const Home: FunctionComponent<HomeProps> = ({
                   <div className="relative w-fit h-fit flex w-fit h-fit text-left text-base font-bit text-white">
                     Live Quests
                   </div>
-                  <div className="relative w-full h-fit flex overflow-x-scroll">
+                  <InfiniteScroll
+                    hasMore={info?.hasMorePlayer}
+                    next={getMorePlayer}
+                    loader={<></>}
+                    dataLength={liveQuests?.length}
+                    className="relative w-full h-full flex overflow-x-scroll"
+                  >
                     <div className="relative w-fit h-fit flex flex-row items-start justify-start gap-4">
                       {liveQuests?.map((quest: Quest, index: number) => {
                         return (
@@ -60,17 +93,23 @@ const Home: FunctionComponent<HomeProps> = ({
                             mirror={mirror}
                             mirrorChoiceOpen={mirrorChoiceOpen}
                             setMirrorChoiceOpen={setMirrorChoiceOpen}
-                            simpleCollect={simpleCollect}
                             like={like}
                             index={index}
                             interactionsLoading={interactionsLoading}
                             bookmark={bookmark}
                             router={router}
+                            unfollowProfile={unfollowProfile}
+                            followProfile={followProfile}
+                            setProfileHovers={setProfileHovers}
+                            profileHovers={profileHovers}
+                            type="feed"
+                            itemSetter={setLiveQuests}
+                            feed={liveQuests}
                           />
                         );
                       })}
                     </div>
-                  </div>
+                  </InfiniteScroll>
                 </div>
               )}
               {envokedQuests?.length < 1 ? (
@@ -82,7 +121,13 @@ const Home: FunctionComponent<HomeProps> = ({
                   <div className="relative w-fit h-fit flex w-fit h-fit text-left text-base font-bit text-white">
                     Envoked Quests
                   </div>
-                  <div className="relative w-full h-fit flex overflow-x-scroll">
+                  <InfiniteScroll
+                    hasMore={info?.hasMoreEnvoked}
+                    next={getMoreEnvoked}
+                    loader={<></>}
+                    dataLength={envokedQuests?.length}
+                    className="relative w-full h-full flex overflow-x-scroll"
+                  >
                     <div className="relative w-fit h-fit flex flex-row items-start justify-start gap-4">
                       {envokedQuests?.map((quest: Quest, index: number) => {
                         return (
@@ -94,19 +139,25 @@ const Home: FunctionComponent<HomeProps> = ({
                             lensConnected={lensConnected}
                             dispatch={dispatch}
                             mirror={mirror}
-                            mirrorChoiceOpen={mirrorChoiceOpen}
-                            setMirrorChoiceOpen={setMirrorChoiceOpen}
-                            simpleCollect={simpleCollect}
+                            mirrorChoiceOpen={mirrorChoiceOpenEnvoked}
+                            setMirrorChoiceOpen={setMirrorChoiceOpenEnvoked}
                             like={like}
                             index={index}
-                            interactionsLoading={interactionsLoading}
+                            interactionsLoading={interactionsLoadingEnvoked}
                             bookmark={bookmark}
                             router={router}
+                            unfollowProfile={unfollowProfile}
+                            followProfile={followProfile}
+                            setProfileHovers={setProfileHoversEnvoked}
+                            profileHovers={profileHoversEnvoked}
+                            type="envoked"
+                            itemSetter={setEnvokedQuests}
+                            feed={envokedQuests}
                           />
                         );
                       })}
                     </div>
-                  </div>
+                  </InfiniteScroll>
                 </div>
               )}
             </>
@@ -120,7 +171,13 @@ const Home: FunctionComponent<HomeProps> = ({
               <div className="relative w-fit h-fit flex w-fit h-fit text-left text-base font-bit text-white">
                 Completed Quests
               </div>
-              <div className="relative w-full h-fit flex overflow-y-scroll">
+              <InfiniteScroll
+                hasMore={info?.hasMorePlayer}
+                next={getMorePlayer}
+                loader={<></>}
+                dataLength={completedQuests?.length}
+                className="relative w-full h-full flex overflow-y-scroll"
+              >
                 <div className="relative w-full gap-4 h-fit grid grid-cols-4">
                   {completedQuests?.map((quest: Quest, index: number) => {
                     return (
@@ -132,19 +189,25 @@ const Home: FunctionComponent<HomeProps> = ({
                         lensConnected={lensConnected}
                         dispatch={dispatch}
                         mirror={mirror}
-                        mirrorChoiceOpen={mirrorChoiceOpen}
-                        setMirrorChoiceOpen={setMirrorChoiceOpen}
-                        simpleCollect={simpleCollect}
+                        mirrorChoiceOpen={mirrorChoiceOpenCompleted!}
+                        setMirrorChoiceOpen={setMirrorChoiceOpenCompleted!}
                         like={like}
                         index={index}
-                        interactionsLoading={interactionsLoading}
+                        interactionsLoading={interactionsLoadingCompleted!}
                         bookmark={bookmark}
                         router={router}
+                        unfollowProfile={unfollowProfile}
+                        followProfile={followProfile}
+                        setProfileHovers={setProfileHoversCompleted!}
+                        profileHovers={profileHoversCompleted!}
+                        type="completed"
+                        itemSetter={setCompletedQuests}
+                        feed={completedQuests}
                       />
                     );
                   })}
                 </div>
-              </div>
+              </InfiniteScroll>
             </div>
           )}
         </div>

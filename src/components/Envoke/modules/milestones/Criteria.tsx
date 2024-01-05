@@ -213,6 +213,7 @@ const Criteria: FunctionComponent<CriteriaProps> = ({
                               "relative rounded-md w-full h-full flex"
                             }
                             type="static"
+                            postId={""}
                           />
                         </div>
                         <div className="absolute flex flex-col gap-1 text-xxs items-start justify-start top-2 left-2 z-10">
@@ -342,6 +343,7 @@ const Criteria: FunctionComponent<CriteriaProps> = ({
                         }}
                         type="video"
                         hidden
+                        postId={""}
                       />
                     </div>
                   </div>

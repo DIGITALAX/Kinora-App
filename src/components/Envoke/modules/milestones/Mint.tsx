@@ -650,6 +650,7 @@ const Mint: FunctionComponent<MintProps> = ({
             position: "relative",
             display: "flex",
           }}
+          postId={""}
           classNameAudio="rounded-sm"
           hidden
           type={item?.media}

@@ -82,6 +82,7 @@ const Eligible: FunctionComponent<EligibleProps> = ({
                 zIndex: "0",
               }}
               type="video"
+              postId=""
             />
           )}
         </div>
@@ -140,13 +141,13 @@ const Eligible: FunctionComponent<EligibleProps> = ({
             },
           },
           {
-            title: "Min. Click Through Rate",
+            title: "Min. Total Duration Watched",
             value:
               questInfo?.milestones?.[
                 milestonesOpen.findIndex((item: boolean) => item == true) !== -1
                   ? milestonesOpen.findIndex((item: boolean) => item == true)
                   : 0
-              ]?.eligibility?.[index]?.criteria?.minCtr,
+              ]?.eligibility?.[index]?.criteria?.minDuration,
             input: true,
             function: (e: string) => {
               const milestones = [...questInfo?.milestones];
@@ -164,7 +165,7 @@ const Eligible: FunctionComponent<EligibleProps> = ({
                 ...eligibility[index],
                 criteria: {
                   ...eligibility[index]?.criteria,
-                  minCtr: Number(e),
+                  minDuration: Number(e),
                 },
               };
 
@@ -241,7 +242,516 @@ const Eligible: FunctionComponent<EligibleProps> = ({
               );
             },
           },
+          {
+            title: "Min. Quotes On Quote",
+            value:
+              questInfo?.milestones?.[
+                milestonesOpen.findIndex((item: boolean) => item == true) !== -1
+                  ? milestonesOpen.findIndex((item: boolean) => item == true)
+                  : 0
+              ]?.eligibility?.[index]?.criteria?.minSecondaryQuoteOnQuote,
+            input: true,
+            function: (e: string) => {
+              const milestones = [...questInfo?.milestones];
 
+              const eligibility = [
+                ...(questInfo?.milestones?.[
+                  milestonesOpen.findIndex((item: boolean) => item == true) !==
+                  -1
+                    ? milestonesOpen.findIndex((item: boolean) => item == true)
+                    : 0
+                ]?.eligibility || []),
+              ];
+
+              eligibility[index] = {
+                ...eligibility[index],
+                criteria: {
+                  ...eligibility[index]?.criteria,
+                  minSecondaryQuoteOnQuote: Number(e),
+                },
+              };
+
+              milestones[
+                milestonesOpen.findIndex((item: boolean) => item == true) !== -1
+                  ? milestonesOpen.findIndex((item: boolean) => item == true)
+                  : 0
+              ] = {
+                ...milestones[
+                  milestonesOpen.findIndex((item: boolean) => item == true) !==
+                  -1
+                    ? milestonesOpen.findIndex((item: boolean) => item == true)
+                    : 0
+                ],
+                eligibility,
+              };
+
+              dispatch(
+                setQuestInfo({
+                  actionDetails: questInfo?.details,
+                  actionMilestones: milestones,
+                })
+              );
+            },
+          },
+          {
+            title: "Min. Comments On Quote",
+            value:
+              questInfo?.milestones?.[
+                milestonesOpen.findIndex((item: boolean) => item == true) !== -1
+                  ? milestonesOpen.findIndex((item: boolean) => item == true)
+                  : 0
+              ]?.eligibility?.[index]?.criteria?.minSecondaryCommentOnQuote,
+            input: true,
+            function: (e: string) => {
+              const milestones = [...questInfo?.milestones];
+
+              const eligibility = [
+                ...(questInfo?.milestones?.[
+                  milestonesOpen.findIndex((item: boolean) => item == true) !==
+                  -1
+                    ? milestonesOpen.findIndex((item: boolean) => item == true)
+                    : 0
+                ]?.eligibility || []),
+              ];
+
+              eligibility[index] = {
+                ...eligibility[index],
+                criteria: {
+                  ...eligibility[index]?.criteria,
+                  minSecondaryCommentOnQuote: Number(e),
+                },
+              };
+
+              milestones[
+                milestonesOpen.findIndex((item: boolean) => item == true) !== -1
+                  ? milestonesOpen.findIndex((item: boolean) => item == true)
+                  : 0
+              ] = {
+                ...milestones[
+                  milestonesOpen.findIndex((item: boolean) => item == true) !==
+                  -1
+                    ? milestonesOpen.findIndex((item: boolean) => item == true)
+                    : 0
+                ],
+                eligibility,
+              };
+
+              dispatch(
+                setQuestInfo({
+                  actionDetails: questInfo?.details,
+                  actionMilestones: milestones,
+                })
+              );
+            },
+          },
+          {
+            title: "Min. Mirrors On Quote",
+            value:
+              questInfo?.milestones?.[
+                milestonesOpen.findIndex((item: boolean) => item == true) !== -1
+                  ? milestonesOpen.findIndex((item: boolean) => item == true)
+                  : 0
+              ]?.eligibility?.[index]?.criteria?.minSecondaryMirrorOnQuote,
+            input: true,
+            function: (e: string) => {
+              const milestones = [...questInfo?.milestones];
+
+              const eligibility = [
+                ...(questInfo?.milestones?.[
+                  milestonesOpen.findIndex((item: boolean) => item == true) !==
+                  -1
+                    ? milestonesOpen.findIndex((item: boolean) => item == true)
+                    : 0
+                ]?.eligibility || []),
+              ];
+
+              eligibility[index] = {
+                ...eligibility[index],
+                criteria: {
+                  ...eligibility[index]?.criteria,
+                  minSecondaryMirrorOnQuote: Number(e),
+                },
+              };
+
+              milestones[
+                milestonesOpen.findIndex((item: boolean) => item == true) !== -1
+                  ? milestonesOpen.findIndex((item: boolean) => item == true)
+                  : 0
+              ] = {
+                ...milestones[
+                  milestonesOpen.findIndex((item: boolean) => item == true) !==
+                  -1
+                    ? milestonesOpen.findIndex((item: boolean) => item == true)
+                    : 0
+                ],
+                eligibility,
+              };
+
+              dispatch(
+                setQuestInfo({
+                  actionDetails: questInfo?.details,
+                  actionMilestones: milestones,
+                })
+              );
+            },
+          },
+          {
+            title: "Min. Reacts On Quote",
+            value:
+              questInfo?.milestones?.[
+                milestonesOpen.findIndex((item: boolean) => item == true) !== -1
+                  ? milestonesOpen.findIndex((item: boolean) => item == true)
+                  : 0
+              ]?.eligibility?.[index]?.criteria?.minSecondaryReactOnQuote,
+            input: true,
+            function: (e: string) => {
+              const milestones = [...questInfo?.milestones];
+
+              const eligibility = [
+                ...(questInfo?.milestones?.[
+                  milestonesOpen.findIndex((item: boolean) => item == true) !==
+                  -1
+                    ? milestonesOpen.findIndex((item: boolean) => item == true)
+                    : 0
+                ]?.eligibility || []),
+              ];
+
+              eligibility[index] = {
+                ...eligibility[index],
+                criteria: {
+                  ...eligibility[index]?.criteria,
+                  minSecondaryReactOnQuote: Number(e),
+                },
+              };
+
+              milestones[
+                milestonesOpen.findIndex((item: boolean) => item == true) !== -1
+                  ? milestonesOpen.findIndex((item: boolean) => item == true)
+                  : 0
+              ] = {
+                ...milestones[
+                  milestonesOpen.findIndex((item: boolean) => item == true) !==
+                  -1
+                    ? milestonesOpen.findIndex((item: boolean) => item == true)
+                    : 0
+                ],
+                eligibility,
+              };
+
+              dispatch(
+                setQuestInfo({
+                  actionDetails: questInfo?.details,
+                  actionMilestones: milestones,
+                })
+              );
+            },
+          },
+          {
+            title: "Min. Collects On Quote",
+            value:
+              questInfo?.milestones?.[
+                milestonesOpen.findIndex((item: boolean) => item == true) !== -1
+                  ? milestonesOpen.findIndex((item: boolean) => item == true)
+                  : 0
+              ]?.eligibility?.[index]?.criteria?.minSecondaryCollectOnQuote,
+            input: true,
+            function: (e: string) => {
+              const milestones = [...questInfo?.milestones];
+
+              const eligibility = [
+                ...(questInfo?.milestones?.[
+                  milestonesOpen.findIndex((item: boolean) => item == true) !==
+                  -1
+                    ? milestonesOpen.findIndex((item: boolean) => item == true)
+                    : 0
+                ]?.eligibility || []),
+              ];
+
+              eligibility[index] = {
+                ...eligibility[index],
+                criteria: {
+                  ...eligibility[index]?.criteria,
+                  minSecondaryCollectOnQuote: Number(e),
+                },
+              };
+
+              milestones[
+                milestonesOpen.findIndex((item: boolean) => item == true) !== -1
+                  ? milestonesOpen.findIndex((item: boolean) => item == true)
+                  : 0
+              ] = {
+                ...milestones[
+                  milestonesOpen.findIndex((item: boolean) => item == true) !==
+                  -1
+                    ? milestonesOpen.findIndex((item: boolean) => item == true)
+                    : 0
+                ],
+                eligibility,
+              };
+
+              dispatch(
+                setQuestInfo({
+                  actionDetails: questInfo?.details,
+                  actionMilestones: milestones,
+                })
+              );
+            },
+          },
+          {
+            title: "Min. Quotes On Comment",
+            value:
+              questInfo?.milestones?.[
+                milestonesOpen.findIndex((item: boolean) => item == true) !== -1
+                  ? milestonesOpen.findIndex((item: boolean) => item == true)
+                  : 0
+              ]?.eligibility?.[index]?.criteria?.minSecondaryQuoteOnComment,
+            input: true,
+            function: (e: string) => {
+              const milestones = [...questInfo?.milestones];
+
+              const eligibility = [
+                ...(questInfo?.milestones?.[
+                  milestonesOpen.findIndex((item: boolean) => item == true) !==
+                  -1
+                    ? milestonesOpen.findIndex((item: boolean) => item == true)
+                    : 0
+                ]?.eligibility || []),
+              ];
+
+              eligibility[index] = {
+                ...eligibility[index],
+                criteria: {
+                  ...eligibility[index]?.criteria,
+                  minSecondaryQuoteOnComment: Number(e),
+                },
+              };
+
+              milestones[
+                milestonesOpen.findIndex((item: boolean) => item == true) !== -1
+                  ? milestonesOpen.findIndex((item: boolean) => item == true)
+                  : 0
+              ] = {
+                ...milestones[
+                  milestonesOpen.findIndex((item: boolean) => item == true) !==
+                  -1
+                    ? milestonesOpen.findIndex((item: boolean) => item == true)
+                    : 0
+                ],
+                eligibility,
+              };
+
+              dispatch(
+                setQuestInfo({
+                  actionDetails: questInfo?.details,
+                  actionMilestones: milestones,
+                })
+              );
+            },
+          },
+          {
+            title: "Min. Comments On Comment",
+            value:
+              questInfo?.milestones?.[
+                milestonesOpen.findIndex((item: boolean) => item == true) !== -1
+                  ? milestonesOpen.findIndex((item: boolean) => item == true)
+                  : 0
+              ]?.eligibility?.[index]?.criteria?.minSecondaryCommentOnComment,
+            input: true,
+            function: (e: string) => {
+              const milestones = [...questInfo?.milestones];
+
+              const eligibility = [
+                ...(questInfo?.milestones?.[
+                  milestonesOpen.findIndex((item: boolean) => item == true) !==
+                  -1
+                    ? milestonesOpen.findIndex((item: boolean) => item == true)
+                    : 0
+                ]?.eligibility || []),
+              ];
+
+              eligibility[index] = {
+                ...eligibility[index],
+                criteria: {
+                  ...eligibility[index]?.criteria,
+                  minSecondaryCommentOnComment: Number(e),
+                },
+              };
+
+              milestones[
+                milestonesOpen.findIndex((item: boolean) => item == true) !== -1
+                  ? milestonesOpen.findIndex((item: boolean) => item == true)
+                  : 0
+              ] = {
+                ...milestones[
+                  milestonesOpen.findIndex((item: boolean) => item == true) !==
+                  -1
+                    ? milestonesOpen.findIndex((item: boolean) => item == true)
+                    : 0
+                ],
+                eligibility,
+              };
+
+              dispatch(
+                setQuestInfo({
+                  actionDetails: questInfo?.details,
+                  actionMilestones: milestones,
+                })
+              );
+            },
+          },
+          {
+            title: "Min. Mirrors On Comment",
+            value:
+              questInfo?.milestones?.[
+                milestonesOpen.findIndex((item: boolean) => item == true) !== -1
+                  ? milestonesOpen.findIndex((item: boolean) => item == true)
+                  : 0
+              ]?.eligibility?.[index]?.criteria?.minSecondaryMirrorOnComment,
+            input: true,
+            function: (e: string) => {
+              const milestones = [...questInfo?.milestones];
+
+              const eligibility = [
+                ...(questInfo?.milestones?.[
+                  milestonesOpen.findIndex((item: boolean) => item == true) !==
+                  -1
+                    ? milestonesOpen.findIndex((item: boolean) => item == true)
+                    : 0
+                ]?.eligibility || []),
+              ];
+
+              eligibility[index] = {
+                ...eligibility[index],
+                criteria: {
+                  ...eligibility[index]?.criteria,
+                  minSecondaryMirrorOnComment: Number(e),
+                },
+              };
+
+              milestones[
+                milestonesOpen.findIndex((item: boolean) => item == true) !== -1
+                  ? milestonesOpen.findIndex((item: boolean) => item == true)
+                  : 0
+              ] = {
+                ...milestones[
+                  milestonesOpen.findIndex((item: boolean) => item == true) !==
+                  -1
+                    ? milestonesOpen.findIndex((item: boolean) => item == true)
+                    : 0
+                ],
+                eligibility,
+              };
+
+              dispatch(
+                setQuestInfo({
+                  actionDetails: questInfo?.details,
+                  actionMilestones: milestones,
+                })
+              );
+            },
+          },
+          {
+            title: "Min. Reacts On Comment",
+            value:
+              questInfo?.milestones?.[
+                milestonesOpen.findIndex((item: boolean) => item == true) !== -1
+                  ? milestonesOpen.findIndex((item: boolean) => item == true)
+                  : 0
+              ]?.eligibility?.[index]?.criteria?.minSecondaryReactOnComment,
+            input: true,
+            function: (e: string) => {
+              const milestones = [...questInfo?.milestones];
+
+              const eligibility = [
+                ...(questInfo?.milestones?.[
+                  milestonesOpen.findIndex((item: boolean) => item == true) !==
+                  -1
+                    ? milestonesOpen.findIndex((item: boolean) => item == true)
+                    : 0
+                ]?.eligibility || []),
+              ];
+
+              eligibility[index] = {
+                ...eligibility[index],
+                criteria: {
+                  ...eligibility[index]?.criteria,
+                  minSecondaryReactOnComment: Number(e),
+                },
+              };
+
+              milestones[
+                milestonesOpen.findIndex((item: boolean) => item == true) !== -1
+                  ? milestonesOpen.findIndex((item: boolean) => item == true)
+                  : 0
+              ] = {
+                ...milestones[
+                  milestonesOpen.findIndex((item: boolean) => item == true) !==
+                  -1
+                    ? milestonesOpen.findIndex((item: boolean) => item == true)
+                    : 0
+                ],
+                eligibility,
+              };
+
+              dispatch(
+                setQuestInfo({
+                  actionDetails: questInfo?.details,
+                  actionMilestones: milestones,
+                })
+              );
+            },
+          },
+          {
+            title: "Min. Collects On Comment",
+            value:
+              questInfo?.milestones?.[
+                milestonesOpen.findIndex((item: boolean) => item == true) !== -1
+                  ? milestonesOpen.findIndex((item: boolean) => item == true)
+                  : 0
+              ]?.eligibility?.[index]?.criteria?.minSecondaryCollectOnComment,
+            input: true,
+            function: (e: string) => {
+              const milestones = [...questInfo?.milestones];
+
+              const eligibility = [
+                ...(questInfo?.milestones?.[
+                  milestonesOpen.findIndex((item: boolean) => item == true) !==
+                  -1
+                    ? milestonesOpen.findIndex((item: boolean) => item == true)
+                    : 0
+                ]?.eligibility || []),
+              ];
+
+              eligibility[index] = {
+                ...eligibility[index],
+                criteria: {
+                  ...eligibility[index]?.criteria,
+                  minSecondaryCollectOnComment: Number(e),
+                },
+              };
+
+              milestones[
+                milestonesOpen.findIndex((item: boolean) => item == true) !== -1
+                  ? milestonesOpen.findIndex((item: boolean) => item == true)
+                  : 0
+              ] = {
+                ...milestones[
+                  milestonesOpen.findIndex((item: boolean) => item == true) !==
+                  -1
+                    ? milestonesOpen.findIndex((item: boolean) => item == true)
+                    : 0
+                ],
+                eligibility,
+              };
+
+              dispatch(
+                setQuestInfo({
+                  actionDetails: questInfo?.details,
+                  actionMilestones: milestones,
+                })
+              );
+            },
+          },
           {
             title: "Needs to Quote?",
             value:

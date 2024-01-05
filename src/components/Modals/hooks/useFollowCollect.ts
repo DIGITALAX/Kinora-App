@@ -20,6 +20,8 @@ import { setAvailableCurrencies } from "../../../../redux/reducers/availableCurr
 import { Dispatch } from "redux";
 import { useEffect, useState } from "react";
 import refetchProfile from "../../../../lib/helpers/refetchProfile";
+import findBalance from "../../../../lib/helpers/findBalance";
+import { setSuccess } from "../../../../redux/reducers/successSlice";
 
 const useFollowCollect = (
   dispatch: Dispatch,
@@ -111,15 +113,11 @@ const useFollowCollect = (
         to: data?.generateModuleCurrencyApprovalData?.to as `0x${string}`,
         account: data?.generateModuleCurrencyApprovalData
           ?.from as `0x${string}`,
-        value: data?.generateModuleCurrencyApprovalData?.data,
+        data: data?.generateModuleCurrencyApprovalData?.data,
+        value: BigInt("0"),
       });
-      const tx = await publicClient.waitForTransactionReceipt({ hash: res });
-      await handleIndexCheck(
-        {
-          forTxHash: tx.transactionHash,
-        },
-        dispatch
-      );
+      await publicClient.waitForTransactionReceipt({ hash: res });
+
       setApproved(true);
     } catch (err: any) {
       console.error(err.message);
@@ -128,6 +126,42 @@ const useFollowCollect = (
   };
 
   const handleCollect = async () => {
+    if (
+      followCollect?.type === "collect" &&
+      Number(followCollect?.collect?.item?.collectLimit) ==
+        Number(followCollect?.collect?.stats)
+    )
+      return;
+    if (!lensConnected?.id) return;
+
+    const balance = await findBalance(
+      publicClient,
+      followCollect?.type === "collect"
+        ? followCollect?.collect?.item?.amount?.asset?.contract?.address
+        : (followCollect?.follower?.followModule as FeeFollowModuleSettings)
+            ?.amount?.asset?.contract?.address,
+      address as `0x${string}`
+    );
+
+    if (
+      Number(balance) <
+      Number(
+        followCollect?.type === "collect"
+          ? followCollect?.collect?.item?.amount?.value
+          : (followCollect?.follower?.followModule as FeeFollowModuleSettings)
+              ?.amount?.value
+      )
+    ) {
+      dispatch(
+        setSuccess({
+          open: true,
+          image: "QmPfa1wUYhQEsFCwhwv1MMhps99qL8T8811L9VXCJTfBbz",
+          text: "Pockets Empty. Need to top up?",
+        })
+      );
+      return;
+    }
+
     setTransactionLoading(true);
     try {
       const clientWallet = createWalletClient({
