@@ -27,10 +27,25 @@ export type QuestFeedProps = {
   getMoreQuestFeed: () => Promise<void>;
   lensConnected: Profile | undefined;
   dispatch: Dispatch;
-  mirror: (id: string) => void;
-  like: (id: string, hasReacted: boolean) => Promise<void>;
+  mirror: (
+    id: string,
+    feed: (Quest | Post)[],
+    itemSetter: ((e: SetStateAction<(Quest)[]>) => void) | ((e: SetStateAction<(Post)[]>) => void),
+    type: string
+  ) => Promise<void>;
+  like: (
+    id: string,
+    hasReacted: boolean,
+    feed: (Quest | Post)[],
+    itemSetter: ((e: SetStateAction<(Quest)[]>) => void) | ((e: SetStateAction<(Post)[]>) => void),
+    type: string
+  ) => Promise<void>;
   mirrorChoiceOpen: boolean[];
-  bookmark: (id: string) => Promise<void>;
+  bookmark: (
+    id: string,
+    feed: (Quest | Post)[],
+    itemSetter: ((e: SetStateAction<(Quest)[]>) => void) | ((e: SetStateAction<(Post)[]>) => void)
+  ) => Promise<void>;
   interactionsLoading: {
     mirror: boolean;
     like: boolean;
@@ -40,8 +55,8 @@ export type QuestFeedProps = {
   setMirrorChoiceOpen: (id: SetStateAction<boolean[]>) => void;
   profileHovers: boolean[];
   setProfileHovers: (id: SetStateAction<boolean[]>) => void;
-  unfollowProfile: (id: string, index: number) => void;
-  followProfile: (id: string, index: number) => void;
+  unfollowProfile: (id: string, index: number, type: string) => Promise<void>;
+  followProfile: (id: string, index: number, type: string) => Promise<void>;
 };
 
 export type QuestPreviewProps = {
@@ -49,14 +64,32 @@ export type QuestPreviewProps = {
   router: NextRouter;
   height: string;
   width: string;
+  type: string;
+  feed: (Quest | Post)[];
+  itemSetter?: ((e: SetStateAction<(Quest)[]>) => void) | ((e: SetStateAction<(Post)[]>) => void);
   lensConnected: Profile | undefined;
   dispatch: Dispatch;
   post?: boolean;
   index: number;
-  mirror: (id: string) => void;
-  like: (id: string, hasReacted: boolean) => Promise<void>;
+  mirror: (
+    id: string,
+    feed: (Quest | Post)[],
+    itemSetter: ((e: SetStateAction<(Quest)[]>) => void) | ((e: SetStateAction<(Post)[]>) => void),
+    type: string
+  ) => Promise<void>;
+  bookmark: (
+    id: string,
+    feed: (Quest | Post)[],
+    itemSetter: ((e: SetStateAction<(Quest)[]>) => void) | ((e: SetStateAction<(Post)[]>) => void)
+  ) => Promise<void>;
+  like: (
+    id: string,
+    hasReacted: boolean,
+    feed: (Quest | Post)[],
+    itemSetter: ((e: SetStateAction<(Quest)[]>) => void) | ((e: SetStateAction<(Post)[]>) => void),
+    type: string
+  ) => Promise<void>;
   mirrorChoiceOpen: boolean[];
-  bookmark: (id: string) => Promise<void>;
   interactionsLoading: {
     mirror: boolean;
     like: boolean;
@@ -66,8 +99,8 @@ export type QuestPreviewProps = {
   setMirrorChoiceOpen: (id: SetStateAction<boolean[]>) => void;
   profileHovers: boolean[];
   setProfileHovers: (id: SetStateAction<boolean[]>) => void;
-  unfollowProfile: (id: string, index: number) => void;
-  followProfile: (id: string, index: number) => void;
+  unfollowProfile: (id: string, index: number, type: string) => Promise<void>;
+  followProfile: (id: string, index: number, type: string) => Promise<void>;
   mainFeed?: boolean;
 };
 
@@ -82,20 +115,40 @@ export type InteractBarProps = {
     unfollow: boolean;
   }[];
   publication: Post;
-  mirror?: (id: string, main?: boolean) => void;
-  like?: (id: string, hasReacted: boolean, main?: boolean) => Promise<void>;
+  mirror?: (
+    id: string,
+    feed: (Quest | Post)[],
+    itemSetter: ((e: SetStateAction<(Quest)[]>) => void) | ((e: SetStateAction<(Post)[]>) => void),
+    type: string,
+    main?: boolean
+  ) => Promise<void>;
+  like?: (
+    id: string,
+    hasReacted: boolean,
+    feed: (Quest | Post)[],
+    itemSetter: ((e: SetStateAction<(Quest)[]>) => void) | ((e: SetStateAction<(Post)[]>) => void),
+    type: string,
+    main?: boolean
+  ) => Promise<void>;
   mirrorChoiceOpen?: boolean[];
-  bookmark?: (id: string) => Promise<void>;
+  bookmark?: (
+    id: string,
+    feed: (Quest | Post)[],
+    itemSetter: ((e: SetStateAction<(Quest)[]>) => void) | ((e: SetStateAction<(Post)[]>) => void)
+  ) => Promise<void>;
   setMirrorChoiceOpen?: (id: SetStateAction<boolean[]>) => void;
   profileHovers?: boolean[];
   setProfileHovers?: (id: SetStateAction<boolean[]>) => void;
-  unfollowProfile?: (id: string, index: number) => Promise<void>;
-  followProfile?: (id: string, index: number) => Promise<void>;
+  unfollowProfile?: (id: string, index: number, type: string) => Promise<void>;
+  followProfile?: (id: string, index: number, type: string) => Promise<void>;
   router: NextRouter;
   mainFeed?: boolean;
   simpleCollect?: (post: Post | Comment) => Promise<void>;
   setCommentsOpen?: (e: SetStateAction<boolean[]>) => void;
   main?: boolean;
+  type: string;
+  feed: (Quest | Post)[];
+  itemSetter: ((e: SetStateAction<(Quest)[]>) => void) | ((e: SetStateAction<(Post)[]>) => void);
 };
 
 export type ConnectFirstProps = {
@@ -134,11 +187,12 @@ export type MediaProps = {
   objectFit?: string;
   hidden?: boolean;
   autoPlay?: boolean;
+  postId: string;
 };
 
 export type ProfileHoverProps = {
-  unfollowProfile: (id: string, index: number) => void;
-  followProfile: (id: string, index: number) => void;
+  unfollowProfile: (id: string, index: number, type: string) => Promise<void>;
+  followProfile: (id: string, index: number, type: string) => Promise<void>;
   profile: Profile;
   index: number;
   followLoading: boolean;
@@ -271,6 +325,7 @@ export type MediaImageProps = {
   disabled: boolean | undefined;
   dispatch: Dispatch<Action>;
   metadata: ImageMetadataV3 | VideoMetadataV3 | AudioMetadataV3;
+  postId: string;
 };
 
 export enum ItemType {

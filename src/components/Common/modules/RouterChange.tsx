@@ -13,6 +13,7 @@ const RouterChange: FunctionComponent = (): JSX.Element => {
           <Image
             width={60}
             height={60}
+            priority
             draggable={false}
             src={`${INFURA_GATEWAY}/ipfs/QmbkoC8UbWJS49X6sxyBNfro8guEokUoT74KvaC6DfdmNg`}
           />

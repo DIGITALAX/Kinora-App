@@ -41,6 +41,7 @@ const MainVideo: FunctionComponent<MainVideoProps> = ({
         key={videoPlaying?.pubId + videoPlaying?.profileId}
         customControls={true}
         play={playing}
+        postId={videoPlaying?.publication?.id}
         styles={{
           borderRadius: "0.375rem",
           objectFit: "cover",
@@ -51,6 +52,7 @@ const MainVideo: FunctionComponent<MainVideoProps> = ({
           alignItems: "center",
           display: "flex",
         }}
+        onEnded={() => setPlaying(false)}
         onTimeUpdate={(e) => setSeek((e.target as any)?.currentTime)}
         onCanPlay={(e) => setDuration((e.target as any)?.duration)}
         fillWidthHeight
@@ -142,6 +144,8 @@ const MainVideo: FunctionComponent<MainVideoProps> = ({
               setVideoPlaying(
                 allVideos?.[index > 0 ? index - 1 : allVideos?.length - 1]
               );
+              setSeek(0);
+              setPlaying(false);
             }}
           >
             <Image
@@ -194,6 +198,8 @@ const MainVideo: FunctionComponent<MainVideoProps> = ({
               setVideoPlaying(
                 allVideos?.[index < allVideos?.length - 1 ? index + 1 : 0]
               );
+              setSeek(0);
+              setPlaying(false);
             }}
           >
             <Image

@@ -80,8 +80,9 @@ export default function QuestId({ router }: { router: NextRouter }) {
   } = useVideos(
     questInfo?.players
       ?.find((player) => player?.profile?.id == lensConnected?.id)
-      ?.videos?.find((video) => video?.pubId == videoPlaying?.pubId),
-    lensConnected
+      ?.videos?.find((video) => video?.pubId == Number(videoPlaying?.pubId)),
+    lensConnected,
+    dispatch
   );
   const {
     dataLoading,
@@ -483,7 +484,7 @@ export default function QuestId({ router }: { router: NextRouter }) {
                           (player) => player?.profile?.id == lensConnected?.id
                         )
                         ?.videos?.find(
-                          (video) => video?.pubId == videoPlaying?.pubId
+                          (video) => video?.pubId == Number(videoPlaying?.pubId)
                         )!
                     }
                   />

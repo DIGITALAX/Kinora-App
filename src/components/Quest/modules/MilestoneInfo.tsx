@@ -69,7 +69,11 @@ const MilestoneInfo: FunctionComponent<MilestoneInfoProps> = ({
                             objectFit="cover"
                             className="rounded-sm"
                             src={`${INFURA_GATEWAY}/ipfs/${
-                              reward?.uri?.cover?.split("ipfs://")?.[1]
+                              reward?.uri?.mediaCover
+                                ? reward?.uri?.mediaCover?.split("ipfs://")?.[1]
+                                : reward?.uri?.images?.[0]?.split(
+                                    "ipfs://"
+                                  )?.[1]
                             }`}
                           />
                         </div>

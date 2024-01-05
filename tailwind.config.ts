@@ -23,7 +23,8 @@ const config: Config = {
         verde: "#7CDD00",
         rojo: "#FE0000",
         azul: "#0097FC",
-        girasol: "#FBD201"
+        girasol: "#FBD201",
+        calcetine: "#FBDB86"
       },
       fontSize: {
         xxs: "0.6rem",

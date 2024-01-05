@@ -10,6 +10,7 @@ const Media: FunctionComponent<MediaImageProps> = ({
   dispatch,
   metadata,
   disabled,
+  postId
 }): JSX.Element => {
   return (
     <div className="relative w-full h-fit flex flex-col justify-start items-center gap-3 break-words max-w-full">
@@ -73,6 +74,7 @@ const Media: FunctionComponent<MediaImageProps> = ({
                           position: "absolute",
                           display: "flex",
                         }}
+                        postId={postId}
                         classNameImage={"rounded-sm"}
                         classNameAudio={"rounded-md"}
                       />

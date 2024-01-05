@@ -47,6 +47,8 @@ const QuestFeed: FunctionComponent<QuestFeedProps> = ({
               setProfileHovers={setProfileHovers}
               profileHovers={profileHovers}
               mainFeed={true}
+              type="feed"
+              feed={questFeed}
             />
           );
         })}
@@ -84,6 +86,8 @@ const QuestFeed: FunctionComponent<QuestFeedProps> = ({
                   setProfileHovers={setProfileHovers}
                   profileHovers={profileHovers}
                   mainFeed={true}
+                  type="feed"
+                  feed={questFeed}
                 />
               );
             })}
