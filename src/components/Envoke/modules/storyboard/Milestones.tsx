@@ -224,6 +224,7 @@ const Milestones: FunctionComponent<StoryboardMilestonesProps> = ({
                           justifyContent: "center",
                           alignItems: "center",
                         }}
+                        postId={""}
                         classNameAudio="rounded-sm"
                         hidden
                         type={item?.details?.media}
@@ -274,6 +275,7 @@ const Milestones: FunctionComponent<StoryboardMilestonesProps> = ({
                   >
                     <div className="relative w-full h-full flex items-center justify-center">
                       <MediaSwitch
+                        postId={""}
                         srcUrl={media?.asset!}
                         srcCover={media?.cover!}
                         classNameVideo={{

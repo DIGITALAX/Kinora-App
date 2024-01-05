@@ -16,9 +16,13 @@ const Saves: FunctionComponent<SavesProps> = ({
   mirror,
   mirrorChoiceOpen,
   setMirrorChoiceOpen,
-  simpleCollect,
   interactionsLoading,
   like,
+  unfollowProfile,
+  followProfile,
+  profileHovers,
+  setProfileHovers,
+  setAllSaves
 }): JSX.Element => {
   return (
     <>
@@ -39,7 +43,7 @@ const Saves: FunctionComponent<SavesProps> = ({
           No Saved Quests Yet.
         </div>
       ) : (
-        <div className="relative w-full h-fit flex flex-col items-start justify-center">
+        <div className="relative w-full h-full flex flex-col items-start justify-center">
           <div className="relative w-fit h-fit flex w-fit h-fit text-left text-base font-bit text-white">
             Saved Quests
           </div>
@@ -48,13 +52,18 @@ const Saves: FunctionComponent<SavesProps> = ({
             next={getMoreSaves}
             loader={<></>}
             dataLength={allSaves?.length}
-            className="relative w-full h-fit flex overflow-y-scroll"
+            className="relative w-full h-full flex overflow-y-scroll"
           >
             <div className="relative w-full gap-3 h-fit grid grid-cols-3">
               {allSaves?.map((quest: Post, index: number) => {
                 return (
                   <QuestPreview
+                    unfollowProfile={unfollowProfile}
+                    followProfile={followProfile}
+                    setProfileHovers={setProfileHovers}
+                    profileHovers={profileHovers}
                     quest={quest}
+                    post
                     key={index}
                     width="100%"
                     height="11rem"
@@ -68,11 +77,9 @@ const Saves: FunctionComponent<SavesProps> = ({
                     interactionsLoading={interactionsLoading}
                     bookmark={bookmark}
                     router={router}
-                    post
-                    // unfollowProfile={unfollowProfile}
-                    // followProfile={followProfile}
-                    // setProfileHoversts={setProfileHoversts}
-                    // profileHovers={ProfileHovers}
+                    type="feed"
+                    feed={allSaves}
+                    itemSetter={setAllSaves}
                   />
                 );
               })}

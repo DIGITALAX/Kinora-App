@@ -9,7 +9,7 @@ const Metrics: FunctionComponent<MetricsProps> = ({
   playerMetricsLive,
 }) => {
   return (
-    <div className="relative w-full h-full flex items-start justify-start flex-wrap gap-5 overflow-y-scroll">
+    <div className="relative w-full h-full flex items-start justify-start flex-wrap gap-5 overflow-y-scroll max-h-[32rem]">
       <div className="relative w-full h-fit flex items-center justify-center flex-col gap-1.5">
         <div className="relative w-full h-fit flex items-center justify-center text-girasol font-bit text-xs">
           Milestone Min. Thresholds
@@ -46,7 +46,12 @@ const Metrics: FunctionComponent<MetricsProps> = ({
                       : "QmXD3LnHiiLSqG2TzaNd1Pmhk2nVqDHDqn8k7RtwVspE6n",
                 };
               } else {
-                return { key: key?.split("min")?.[1], value };
+                return {
+                  key: key?.includes("secondary")
+                    ? key?.split("secondary")?.[1]
+                    : key?.split("min")?.[1],
+                  value,
+                };
               }
             })
             ?.map(
@@ -68,9 +73,18 @@ const Metrics: FunctionComponent<MetricsProps> = ({
                     </div>
                     <div className="relative w-fit h-fit flex items-center justify-center">
                       {item?.value !== true ? (
-                        <div className="px-1.5 py-1 relative flex h-5 w-14 break-words  items-center justify-center rounded-sm bg-nave border border-girasol text-xs text-white font-vcr">
+                        <div className="px-1.5 py-1 relative flex h-5 min-w-[3.5rem] w-fit break-words  items-center justify-center rounded-sm bg-nave border border-girasol text-xs text-white font-vcr">
                           <div className="relative w-fit h-fit flex items-center justify-center">
-                            {item?.value}
+                            {!Number.isNaN(Number(item?.value))
+                              ? String(item?.value)?.includes(".")
+                                ? Number(item?.value)?.toFixed(2)
+                                : item?.value
+                              : String(item?.value)
+                                  ?.replaceAll(/00:00:/g, "")
+                                  ?.replace(
+                                    /(\d+):(\d+)(\d+)-(\d+):(\d+)(\d+)/g,
+                                    "$1:$2-$4:$5"
+                                  )}
                           </div>
                         </div>
                       ) : (
@@ -148,9 +162,18 @@ const Metrics: FunctionComponent<MetricsProps> = ({
                         </div>
                         <div className="relative w-fit h-fit flex items-center justify-center">
                           {item?.value !== true ? (
-                            <div className="px-1.5 py-1 relative flex h-5 w-14 break-words  items-center justify-center rounded-sm bg-nave border border-girasol text-xs text-white font-vcr">
+                            <div className="px-1.5 py-1 relative flex h-5 min-w-[3.5rem] w-fit break-words  items-center justify-center rounded-sm bg-nave border border-girasol text-xs text-white font-vcr">
                               <div className="relative w-fit h-fit flex items-center justify-center">
-                                {item?.value}
+                                {!Number.isNaN(Number(item?.value))
+                                  ? String(item?.value)?.includes(".")
+                                    ? Number(item?.value)?.toFixed(2)
+                                    : item?.value
+                                  : String(item?.value)
+                                      ?.replaceAll(/00:00:/g, "")
+                                      ?.replace(
+                                        /(\d+):(\d+)(\d+)-(\d+):(\d+)(\d+)/g,
+                                        "$1:$2-$4:$5"
+                                      )}
                               </div>
                             </div>
                           ) : (
@@ -234,9 +257,18 @@ const Metrics: FunctionComponent<MetricsProps> = ({
                         </div>
                         <div className="relative w-fit h-fit flex items-center justify-center">
                           {item?.value !== true ? (
-                            <div className="px-1.5 py-1 relative flex h-5 w-14 break-words  items-center justify-center rounded-sm bg-nave border border-girasol text-xs text-white font-vcr">
+                            <div className="px-1.5 py-1 relative flex h-5 min-w-[3.5rem] w-fit break-words  items-center justify-center rounded-sm bg-nave border border-girasol text-xs text-white font-vcr">
                               <div className="relative w-fit h-fit flex items-center justify-center">
-                                {item?.value}
+                                {!Number.isNaN(Number(item?.value))
+                                  ? String(item?.value)?.includes(".")
+                                    ? Number(item?.value)?.toFixed(2)
+                                    : item?.value
+                                  : String(item?.value)
+                                      ?.replaceAll(/00:00:/g, "")
+                                      ?.replace(
+                                        /(\d+):(\d+)(\d+)-(\d+):(\d+)(\d+)/g,
+                                        "$1:$2-$4:$5"
+                                      )}
                               </div>
                             </div>
                           ) : (

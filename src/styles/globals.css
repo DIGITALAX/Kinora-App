@@ -18,6 +18,14 @@ html {
   background-repeat: repeat;
 }
 
+#rainbowDo {
+  background: conic-gradient(#fcfcfc, #fd8002);
+  box-shadow: inset 0 0 100px rgba(75, 24, 27, 0.5);
+  outline: 1px solid transparent;
+  outline-offset: -1px;
+  background-clip: padding-box;
+}
+
 #rainbow {
   background: conic-gradient(
     #7cdb01,
@@ -30,6 +38,10 @@ html {
     #0198fd,
     #7cdb01
   );
+  box-shadow: inset 0 0 100px rgba(0, 0, 255, 0.5);
+  outline: 1px solid transparent;
+  outline-offset: -1px;
+  background-clip: padding-box;
 }
 
 #closeSide {

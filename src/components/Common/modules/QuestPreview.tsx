@@ -1,7 +1,10 @@
 import { FunctionComponent } from "react";
 import { QuestPreviewProps } from "../types/common.types";
-import createMedia from "../../../../lib/helpers/createMedia";
-import { Post, VideoMetadataV3 } from "../../../../graphql/generated";
+import {
+  ImageMetadataV3,
+  Post,
+  VideoMetadataV3,
+} from "../../../../graphql/generated";
 import Image from "next/legacy/image";
 import { Quest } from "@/components/Quest/types/quest.types";
 import InteractBar from "./InteractBar";
@@ -27,6 +30,9 @@ const QuestPreview: FunctionComponent<QuestPreviewProps> = ({
   followProfile,
   unfollowProfile,
   mainFeed,
+  itemSetter,
+  type,
+  feed
 }): JSX.Element => {
   return (
     <div className="relative w-full h-fit flex flex-col gap-2 flex items-start justify-start">
@@ -48,7 +54,11 @@ const QuestPreview: FunctionComponent<QuestPreviewProps> = ({
         <div className="relative rounded-sm w-full h-full flex items-center justify-center">
           <Image
             src={`${INFURA_GATEWAY}/ipfs/${
-              (quest as Quest)?.questMetadata?.cover?.includes("ipfs://")
+              post
+                ? (
+                    (quest as Post)?.metadata as ImageMetadataV3
+                  )?.asset?.image?.raw?.uri?.split("ipfs://")?.[1]
+                : (quest as Quest)?.questMetadata?.cover?.includes("ipfs://")
                 ? (quest as Quest)?.questMetadata?.cover?.split("ipfs://")?.[1]
                 : (quest as Quest)?.questMetadata?.cover
             }`}
@@ -76,6 +86,9 @@ const QuestPreview: FunctionComponent<QuestPreviewProps> = ({
         profileHovers={profileHovers}
         router={router}
         mainFeed={mainFeed}
+        type={type}
+        feed={feed}
+        itemSetter={itemSetter!}
       />
       <div className="relative w-fit h-fit flex items-center justify-center text-white font-bit text-sm break-words">
         {(

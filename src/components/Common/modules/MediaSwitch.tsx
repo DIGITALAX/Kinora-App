@@ -16,6 +16,7 @@ const MediaSwitch: FunctionComponent<MediaProps> = ({
   objectFit,
   hidden,
   autoPlay,
+  postId,
 }): JSX.Element => {
   const [videoInfo, setVideoInfo] = useState<{
     loading: boolean;
@@ -41,6 +42,7 @@ const MediaSwitch: FunctionComponent<MediaProps> = ({
               play={videoInfo?.isPlaying}
               styles={classNameVideo}
               fillWidthHeight
+              postId={postId as `0x${string}`}
               seekTo={{
                 id: Math.random() * 0.5,
                 time: videoInfo?.currentTime,

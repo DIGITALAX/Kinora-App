@@ -27,6 +27,9 @@ const InteractBar: FunctionComponent<InteractBarProps> = ({
   simpleCollect,
   setCommentsOpen,
   main,
+  type,
+  itemSetter,
+  feed,
 }): JSX.Element => {
   const pfp = createProfilePicture(publication?.by?.metadata?.picture);
   return (
@@ -38,10 +41,10 @@ const InteractBar: FunctionComponent<InteractBarProps> = ({
       <div className="relative w-full h-fit flex flex-row gap-4 justify-between items-center px-1 py-1.5 bg-nave rounded-sm">
         <div className="relative w-full h-fit flex flex-row gap-2">
           {[
-            mainFeed
+            mainFeed || router.asPath.includes("/envoker/")
               ? {
                   icon: "QmVXkRB4HCd6gkXmj1cweEh4nVV6oBuKCAWfsKUEJae433",
-                  function: () => bookmark!(publication?.id),
+                  function: () => bookmark!(publication?.id, feed, itemSetter),
                   title: "Save Quest",
                   amount: publication?.stats?.bookmarks || 0,
                   reacted: publication?.operations?.hasBookmarked,
@@ -88,7 +91,10 @@ const InteractBar: FunctionComponent<InteractBarProps> = ({
               function: () =>
                 like!(
                   publication?.id,
-                  publication?.operations?.hasReported,
+                  publication?.operations?.hasReacted,
+                  feed,
+                  itemSetter,
+                  type,
                   main!
                 ),
               title: mainFeed ? "Like Quest" : "Like",
@@ -98,7 +104,7 @@ const InteractBar: FunctionComponent<InteractBarProps> = ({
               width: "0.9rem",
               height: "0.9rem",
             },
-            mainFeed
+            mainFeed || router.asPath.includes("/envoker/")
               ? {
                   title: "Players",
                   icon: "QmNomDrWUNrcy2SAVzsKoqd5dPMogeohB8PSuHCg57nyzF",
@@ -224,7 +230,8 @@ const InteractBar: FunctionComponent<InteractBarProps> = ({
             {[
               {
                 icon: "QmPRRRX1S3kxpgJdLC4G425pa7pMS1AGNnyeSedngWmfK3",
-                function: () => mirror!(publication?.id, main)!,
+                function: () =>
+                  mirror!(publication?.id, feed, itemSetter, type, main)!,
                 title: "Mirror Quest",
                 reacted: publication?.operations?.hasMirrored,
                 loader: interactionsLoading?.[index]?.mirror!,

@@ -113,46 +113,54 @@ const Details: FunctionComponent<DetailsProps> = ({
             <div className="relative w-fit h-fit text-sm flex items-start justify-start">
               Quest Title
             </div>
-            <input
-              className="h-10 w-full bg-black border border-white rounded-md p-1 text-xs"
-              placeholder="Give your Quest a name."
-              value={questInfo?.details?.title}
-              onChange={(e) =>
-                dispatch(
-                  setQuestInfo({
-                    actionDetails: {
-                      ...questInfo?.details,
-                      title: e.target.value,
-                    },
-                    actionMilestones: questInfo?.milestones,
-                  })
-                )
-              }
-            />
+            <div
+              className="relative w-full h-fit flex p-px rounded-md"
+            >
+              <input
+                className="h-10 w-full bg-nave border border-calcetine rounded-md p-1 text-xs"
+                placeholder="Give your Quest a name."
+                value={questInfo?.details?.title}
+                onChange={(e) =>
+                  dispatch(
+                    setQuestInfo({
+                      actionDetails: {
+                        ...questInfo?.details,
+                        title: e.target.value,
+                      },
+                      actionMilestones: questInfo?.milestones,
+                    })
+                  )
+                }
+              />
+            </div>
           </div>
           <div className="flex flex-col items-start justify-start w-full h-fit gap-1 relative">
             <div className="relative w-fit h-fit text-sm break-words">
               Discovery Tags
             </div>
-            <input
-              value={questInfo?.details?.tags}
-              onChange={(e) =>
-                dispatch(
-                  setQuestInfo({
-                    actionDetails: {
-                      ...questInfo?.details,
-                      tags: e.target.value,
-                    },
-                    actionMilestones: questInfo?.milestones,
-                  })
-                )
-              }
-              placeholder="Add search tags."
-              className="relative rounded-md p-1 bg-black text-xs border border-white h-10 w-full"
-              style={{
-                resize: "none",
-              }}
-            />
+            <div
+              className="relative w-full h-fit flex p-px rounded-md"
+            >
+              <input
+                value={questInfo?.details?.tags}
+                onChange={(e) =>
+                  dispatch(
+                    setQuestInfo({
+                      actionDetails: {
+                        ...questInfo?.details,
+                        tags: e.target.value,
+                      },
+                      actionMilestones: questInfo?.milestones,
+                    })
+                  )
+                }
+                placeholder="Add search tags."
+                className="relative bg-nave border border-calcetine rounded-md p-1 text-xs bg-nave h-10 w-full"
+                style={{
+                  resize: "none",
+                }}
+              />
+            </div>
             {questInfo?.details?.tags?.split(",").pop()?.trim() &&
               HASHTAG_CONSTANTS?.some((tag) =>
                 tag
@@ -214,27 +222,31 @@ const Details: FunctionComponent<DetailsProps> = ({
             <div className="relative w-fit h-fit text-sm break-words">
               Max Player Count
             </div>
-            <input
-              value={questInfo?.details?.maxPlayerCount}
-              onChange={(e) =>
-                dispatch(
-                  setQuestInfo({
-                    actionDetails: {
-                      ...questInfo?.details,
-                      maxPlayerCount: Number(e.target.value),
-                    },
-                    actionMilestones: questInfo?.milestones,
-                  })
-                )
-              }
-              placeholder="Add Max. Players to Join Quest."
-              className="relative rounded-md p-1 bg-black text-xs border border-white h-10 w-full"
-              style={{
-                resize: "none",
-              }}
-              type="number"
-              min={1}
-            />
+            <div
+              className="relative w-full h-fit flex p-px rounded-md"
+            >
+              <input
+                value={questInfo?.details?.maxPlayerCount}
+                onChange={(e) =>
+                  dispatch(
+                    setQuestInfo({
+                      actionDetails: {
+                        ...questInfo?.details,
+                        maxPlayerCount: Number(e.target.value),
+                      },
+                      actionMilestones: questInfo?.milestones,
+                    })
+                  )
+                }
+                placeholder="Add Max. Players to Join Quest."
+                className="relative border border-calcetine rounded-md p-1 bg-nave text-xs h-10 w-full"
+                style={{
+                  resize: "none",
+                }}
+                type="number"
+                min={1}
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -243,25 +255,29 @@ const Details: FunctionComponent<DetailsProps> = ({
         <div className="relative w-fit h-fit flex items-start justify-start">
           Quest Description
         </div>
-        <textarea
-          className="h-40 w-full bg-black border border-white rounded-md p-2 text-xs"
-          style={{
-            resize: "none",
-          }}
-          placeholder="A short overview of your quest and what it involves."
-          value={questInfo?.details?.description}
-          onChange={(e) =>
-            dispatch(
-              setQuestInfo({
-                actionDetails: {
-                  ...questInfo?.details,
-                  description: e.target.value,
-                },
-                actionMilestones: questInfo?.milestones,
-              })
-            )
-          }
-        ></textarea>
+        <div
+          className="relative w-full h-fit flex p-px rounded-md"
+        >
+          <textarea
+            className="h-40 w-full border-calcetine border bg-nave rounded-md p-2 text-xs"
+            style={{
+              resize: "none",
+            }}
+            placeholder="A short overview of your quest and what it involves."
+            value={questInfo?.details?.description}
+            onChange={(e) =>
+              dispatch(
+                setQuestInfo({
+                  actionDetails: {
+                    ...questInfo?.details,
+                    description: e.target.value,
+                  },
+                  actionMilestones: questInfo?.milestones,
+                })
+              )
+            }
+          ></textarea>
+        </div>
       </div>
       <div className="flex flex-col items-start justify-start w-full h-fit gap-1 relative">
         <div className="relative w-fit h-fit text-sm break-words">

@@ -62,13 +62,15 @@ const Sidebar: FunctionComponent<SidebarProps> = ({
                 title: "Account",
                 image: "QmbRjUquntNwVuSn1GpUpVi7hMygvhShZrA7rHgmFYtzSf",
                 link: () => {
-                  router.push(
-                    `/envoker/${
-                      lensConnected?.handle?.suggestedFormatted?.localName?.split(
-                        "@"
-                      )?.[1]
-                    }`
-                  );
+                  if (!router.asPath?.includes("envoker")) {
+                    router.push(
+                      `/envoker/${
+                        lensConnected?.handle?.suggestedFormatted?.localName?.split(
+                          "@"
+                        )?.[1]
+                      }`
+                    );
+                  }
                   dispatch(setAccountSwitch(AccountType.Home));
                 },
               },
@@ -86,13 +88,15 @@ const Sidebar: FunctionComponent<SidebarProps> = ({
                 title: "Saves",
                 image: "QmS5LARM6UvSAhzGmGGSQiWYfvNguwsfeiXJ62s3KGZ6Z3",
                 link: () => {
-                  router.push(
-                    `/envoker/${
-                      lensConnected?.handle?.suggestedFormatted?.localName?.split(
-                        "@"
-                      )?.[1]
-                    }`
-                  );
+                  if (!router.asPath?.includes("envoker")) {
+                    router.push(
+                      `/envoker/${
+                        lensConnected?.handle?.suggestedFormatted?.localName?.split(
+                          "@"
+                        )?.[1]
+                      }`
+                    );
+                  }
                   dispatch(setAccountSwitch(AccountType.Save));
                 },
               },
@@ -100,13 +104,15 @@ const Sidebar: FunctionComponent<SidebarProps> = ({
                 title: "History",
                 image: "QmZ3mrF2YgwPkoeFpR54mpDKznTg9oFo5Mqk7uGFW8PgY2",
                 link: () => {
-                  router.push(
-                    `/envoker/${
-                      lensConnected?.handle?.suggestedFormatted?.localName?.split(
-                        "@"
-                      )?.[1]
-                    }`
-                  );
+                  if (!router.asPath?.includes("envoker")) {
+                    router.push(
+                      `/envoker/${
+                        lensConnected?.handle?.suggestedFormatted?.localName?.split(
+                          "@"
+                        )?.[1]
+                      }`
+                    );
+                  }
                   dispatch(setAccountSwitch(AccountType.History));
                 },
               },
@@ -114,13 +120,15 @@ const Sidebar: FunctionComponent<SidebarProps> = ({
                 title: "Stats",
                 image: "QmZ1PSKctNt2REihxUmJBK9ZrcbU2pTACE1XSUY4YprK1x",
                 link: () => {
-                  router.push(
-                    `/envoker/${
-                      lensConnected?.handle?.suggestedFormatted?.localName?.split(
-                        "@"
-                      )?.[1]
-                    }`
-                  );
+                  if (!router.asPath?.includes("envoker")) {
+                    router.push(
+                      `/envoker/${
+                        lensConnected?.handle?.suggestedFormatted?.localName?.split(
+                          "@"
+                        )?.[1]
+                      }`
+                    );
+                  }
                   dispatch(setAccountSwitch(AccountType.Stats));
                 },
               },

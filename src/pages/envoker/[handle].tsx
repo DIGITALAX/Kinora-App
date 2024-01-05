@@ -6,9 +6,21 @@ import { NextRouter } from "next/router";
 import AccountSwitch from "@/components/Envoker/modules/AccountSwitch";
 import usePageProfile from "@/components/Envoker/hooks/usePageProfile";
 import useSaves from "@/components/Envoker/hooks/useSaves";
+import useInteractions from "@/components/Common/hooks/useInteractions";
+import { createPublicClient, http } from "viem";
+import { polygonMumbai } from "viem/chains";
+import { AccountType } from "@/components/Envoker/types/envoker.types";
+import { useAccount } from "wagmi";
 
 export default function Handle({ router }: { router: NextRouter }) {
   const { handle } = router.query;
+  const { address } = useAccount();
+  const publicClient = createPublicClient({
+    chain: polygonMumbai,
+    transport: http(
+      `https://polygon-mumbai.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY_MUMBAI}`
+    ),
+  });
   const dispatch = useDispatch();
   const openSidebar = useSelector(
     (state: RootState) => state.app.sideBarOpenReducer.value
@@ -25,15 +37,49 @@ export default function Handle({ router }: { router: NextRouter }) {
     profileLoading,
     pageProfile,
     questsLoading,
-    setCompletedQuests,
-    setLiveQuests,
     completedQuests,
     liveQuests,
     envokedQuests,
+    info,
+    getMorePlayer,
+    getMoreEnvoked,
+    setCompletedQuests,
+    setLiveQuests,
     setEnvokedQuests,
   } = usePageProfile(handle as string, lensConnected);
-  const { savesInfo, savesLoading, getMoreSaves, allSaves, setAllSaves,  } =
+  const { savesInfo, savesLoading, getMoreSaves, allSaves, setAllSaves } =
     useSaves(lensConnected, handle as string, accountType);
+  const {
+    mirror,
+    mirrorChoiceOpen,
+    setMirrorChoiceOpen,
+    like,
+    bookmark,
+    interactionsLoading,
+    unfollowProfile,
+    followProfile,
+    setProfileHovers,
+    profileHovers,
+    setMirrorChoiceOpenEnvoked,
+    mirrorChoiceOpenEnvoked,
+    interactionsLoadingEnvoked,
+    setMirrorChoiceOpenCompleted,
+    mirrorChoiceOpenCompleted,
+    interactionsLoadingCompleted,
+    setProfileHoversCompleted,
+    setProfileHoversEnvoked,
+    profileHoversCompleted,
+    profileHoversEnvoked,
+  } = useInteractions(
+    lensConnected,
+    dispatch,
+    accountType == AccountType.Save ? allSaves : liveQuests,
+    address,
+    publicClient,
+    router,
+    completedQuests,
+    envokedQuests
+  );
   return (
     <div
       className="relative overflow-y-scroll flex min-h-full w-full justify-end"
@@ -85,6 +131,8 @@ export default function Handle({ router }: { router: NextRouter }) {
         </div>
         <div className="relative w-full h-fit flex flex-col gap-3 justify-start items-start">
           <AccountSwitch
+            followProfile={followProfile}
+            unfollowProfile={unfollowProfile}
             lensConnected={lensConnected}
             pageProfile={pageProfile}
             savesInfo={savesInfo}
@@ -98,13 +146,31 @@ export default function Handle({ router }: { router: NextRouter }) {
             completedQuests={completedQuests}
             questsLoading={questsLoading}
             allSaves={allSaves}
-            mirrorSave={mirrorSave}
-            bookmarkSave={bookmarkSave}
-            likeSave={likeSave}
-            simpleCollectSave={simpleCollectSave}
-            setMirrorChoiceOpenSave={setMirrorChoiceOpenSave}
-            mirrorChoiceOpenSave={mirrorChoiceOpenSave}
-            interactionsLoadingSave={interactionsLoadingSave}
+            mirror={mirror}
+            bookmark={bookmark}
+            like={like}
+            setMirrorChoiceOpen={setMirrorChoiceOpen}
+            mirrorChoiceOpen={mirrorChoiceOpen}
+            interactionsLoading={interactionsLoading}
+            setMirrorChoiceOpenEnvoked={setMirrorChoiceOpenEnvoked}
+            mirrorChoiceOpenEnvoked={mirrorChoiceOpenEnvoked}
+            interactionsLoadingEnvoked={interactionsLoadingEnvoked}
+            setMirrorChoiceOpenCompleted={setMirrorChoiceOpenCompleted}
+            mirrorChoiceOpenCompleted={mirrorChoiceOpenCompleted}
+            interactionsLoadingCompleted={interactionsLoadingCompleted}
+            setProfileHovers={setProfileHovers}
+            setProfileHoversCompleted={setProfileHoversCompleted}
+            setProfileHoversEnvoked={setProfileHoversEnvoked}
+            profileHovers={profileHovers}
+            profileHoversCompleted={profileHoversCompleted}
+            profileHoversEnvoked={profileHoversEnvoked}
+            info={info}
+            getMorePlayer={getMorePlayer}
+            getMoreEnvoked={getMoreEnvoked}
+            setAllSaves={setAllSaves}
+            setCompletedQuests={setCompletedQuests}
+            setEnvokedQuests={setEnvokedQuests}
+            setLiveQuests={setLiveQuests}
           />
         </div>
       </div>

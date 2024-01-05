@@ -109,7 +109,7 @@ const useFeed = (
     if (questFeed?.length < 1) {
       getQuestFeed();
     }
-  }, []);
+  }, [lensConnected]);
 
   return {
     feedLoading,

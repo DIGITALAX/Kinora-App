@@ -118,7 +118,7 @@ const useJoin = (
             image: questInfo?.questMetadata?.cover?.includes("ipfs://")
               ? questInfo?.questMetadata?.cover?.split("ipfs://")?.[1]
               : questInfo?.questMetadata?.cover,
-            text: "Quest Joined!",
+            text: "Quest accepted! Keep up with your stats in every video.",
           })
         );
         await getQuestInfo();
@@ -136,6 +136,7 @@ const useJoin = (
         parseInt(questId?.split("-")?.[1], 16)?.toString(),
         parseInt(questId?.split("-")?.[0], 16)?.toString()
       );
+
 
       if (data) {
         const questInstantiateds = data?.data?.questInstantiateds || [];
@@ -249,7 +250,7 @@ const useJoin = (
     if (questId && !questInfo) {
       getQuestInfo();
     }
-  }, [questId]);
+  }, [questId, lensConnected]);
 
   return {
     questInfo,

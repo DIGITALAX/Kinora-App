@@ -32,22 +32,27 @@ export interface Quest {
 }
 
 export interface VideoActivity {
-  pubId: string;
-  profileId: string;
-  playCount: string;
-  mostViewedSegment: string;
-  mostReplayedArea: string;
-  interactionRate: string;
-  impressionCount: string;
+  playCount: number;
+  pubId: number;
+  profileId: number;
+  mostReplayed: string;
+  totalDuration: number;
   hasReacted: boolean;
   hasQuoted: boolean;
   hasMirrored: boolean;
   hasCommented: boolean;
   hasBookmarked: boolean;
-  engagementRate: string;
-  duration: string;
-  ctr: string;
-  avd: string;
+  avd: number;
+  secondaryQuoteOnQuote: number;
+  secondaryMirrorOnQuote: number;
+  secondaryReactOnQuote: number;
+  secondaryCommentOnQuote: number;
+  secondaryCollectOnQuote: number;
+  secondaryQuoteOnComment: number;
+  secondaryMirrorOnComment: number;
+  secondaryReactOnComment: number;
+  secondaryCommentOnComment: number;
+  secondaryCollectOnComment: number;
 }
 
 export interface Milestone {
@@ -91,11 +96,18 @@ export interface Video {
   playerId: string;
   minPlayCount: string;
   mirror: boolean;
-  minImpressionCount: string;
-  minEngagementRate: string;
   minDuration: string;
-  minCTR: string;
   minAVD: string;
+  minSecondaryQuoteOnQuote: string;
+  minSecondaryMirrorOnQuote: string;
+  minSecondaryReactOnQuote: string;
+  minSecondaryCommentOnQuote: string;
+  minSecondaryCollectOnQuote: string;
+  minSecondaryQuoteOnComment: string;
+  minSecondaryMirrorOnComment: string;
+  minSecondaryReactOnComment: string;
+  minSecondaryCommentOnComment: string;
+  minSecondaryCollectOnComment: string;
   comment: boolean;
   bookmark: boolean;
 }
@@ -112,7 +124,11 @@ export interface Reward {
   amount: string;
   tokenAddress: string;
   uri: {
-    cover: string;
+    mediaCover: string;
+    images: string;
+    video: string;
+    mediaType: string;
+    audio: string;
     title: string;
     description: string;
   };

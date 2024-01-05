@@ -16,7 +16,7 @@
     "axios": "^1.6.3",
     "ethers": "^5.7.2",
     "formidable": "^3.5.1",
-    "kinora-sdk": "^0.0.51",
+    "kinora-sdk": "^0.0.52",
     "livepeer": "^3.0.1",
     "lodash": "^4.17.21",
     "next": "13.5.4",

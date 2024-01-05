@@ -8,6 +8,28 @@ export type AccountSwitchProps = {
   pageProfile: Profile | undefined;
   lensConnected: Profile | undefined;
   allSaves: Post[];
+  setLiveQuests: (e: SetStateAction<Quest[]>) => void;
+  setCompletedQuests: (e: SetStateAction<Quest[]>) => void;
+  setEnvokedQuests: (e: SetStateAction<Quest[]>) => void;
+  setAllSaves: (e: SetStateAction<Post[]>) => void;
+  interactionsLoadingEnvoked: {
+    mirror: boolean;
+    like: boolean;
+    follow: boolean;
+    unfollow: boolean;
+  }[];
+  info: {
+    hasMorePlayer: boolean;
+    hasMoreEnvoked: boolean;
+    playerCursor: number;
+    envokedCursor: number;
+  };
+  getMorePlayer: () => Promise<void>;
+  getMoreEnvoked: () => Promise<void>;
+  mirrorChoiceOpenEnvoked: boolean[];
+  setMirrorChoiceOpenEnvoked: (e: SetStateAction<boolean[]>) => void;
+  setProfileHoversEnvoked: (e: SetStateAction<boolean[]>) => void;
+  profileHoversEnvoked: boolean[];
   envokedQuests: Quest[];
   router: NextRouter;
   questsLoading: boolean;
@@ -16,23 +38,58 @@ export type AccountSwitchProps = {
     hasMore: boolean;
     cursor: string | undefined;
   };
+
   liveQuests: Quest[];
   completedQuests: Quest[];
   getMoreSaves: () => Promise<void>;
   savesLoading: boolean;
   dispatch: Dispatch;
-  setMirrorChoiceOpenSave: (e: SetStateAction<boolean[]>) => void;
-  mirrorChoiceOpenSave: boolean[];
-  mirrorSave: (id: string, post?: boolean) => Promise<void>;
-  bookmarkSave: (id: string, post?: boolean) => Promise<void>;
-  likeSave: (id: string, post?: boolean) => Promise<void>;
-  simpleCollectSave: (id: string, post?: boolean) => Promise<void>;
-  interactionsLoadingSave: {
+  setMirrorChoiceOpen: (e: SetStateAction<boolean[]>) => void;
+  mirrorChoiceOpen: boolean[];
+  mirror: (
+    id: string,
+    feed: (Quest | Post)[],
+    itemSetter:
+      | ((e: SetStateAction<Quest[]>) => void)
+      | ((e: SetStateAction<Post[]>) => void),
+    type: string
+  ) => Promise<void>;
+  bookmark: (
+    id: string,
+    feed: (Quest | Post)[],
+    itemSetter:
+      | ((e: SetStateAction<Quest[]>) => void)
+      | ((e: SetStateAction<Post[]>) => void)
+  ) => Promise<void>;
+  like: (
+    id: string,
+    hasReacted: boolean,
+    feed: (Quest | Post)[],
+    itemSetter:
+      | ((e: SetStateAction<Quest[]>) => void)
+      | ((e: SetStateAction<Post[]>) => void),
+    type: string
+  ) => Promise<void>;
+  interactionsLoading: {
     mirror: boolean;
     like: boolean;
     follow: boolean;
     unfollow: boolean;
   }[];
+  followProfile: (id: string, index: number, type: string) => Promise<void>;
+  unfollowProfile: (id: string, index: number, type: string) => Promise<void>;
+  mirrorChoiceOpenCompleted: boolean[];
+  setMirrorChoiceOpenCompleted: (e: SetStateAction<boolean[]>) => void;
+  interactionsLoadingCompleted: {
+    mirror: boolean;
+    like: boolean;
+    follow: boolean;
+    unfollow: boolean;
+  }[];
+  setProfileHoversCompleted: (e: SetStateAction<boolean[]>) => void;
+  profileHoversCompleted: boolean[];
+  setProfileHovers: (e: SetStateAction<boolean[]>) => void;
+  profileHovers: boolean[];
 };
 
 export enum AccountType {
@@ -51,6 +108,73 @@ export type HomeProps = {
   lensConnected: Profile | undefined;
   onlyHistory: boolean;
   router: NextRouter;
+  mirrorChoiceOpenCompleted?: boolean[];
+  setMirrorChoiceOpenCompleted?: (e: SetStateAction<boolean[]>) => void;
+  mirror: (
+    id: string,
+    feed: (Quest | Post)[],
+    itemSetter:
+      | ((e: SetStateAction<Quest[]>) => void)
+      | ((e: SetStateAction<Post[]>) => void),
+    type: string
+  ) => Promise<void>;
+  bookmark: (
+    id: string,
+    feed: (Quest | Post)[],
+    itemSetter:
+      | ((e: SetStateAction<Quest[]>) => void)
+      | ((e: SetStateAction<Post[]>) => void)
+  ) => Promise<void>;
+  like: (
+    id: string,
+    hasReacted: boolean,
+    feed: (Quest | Post)[],
+    itemSetter:
+      | ((e: SetStateAction<Quest[]>) => void)
+      | ((e: SetStateAction<Post[]>) => void),
+    type: string
+  ) => Promise<void>;
+  interactionsLoadingCompleted?: {
+    mirror: boolean;
+    like: boolean;
+    follow: boolean;
+    unfollow: boolean;
+  }[];
+  mirrorChoiceOpen: boolean[];
+  setMirrorChoiceOpen: (e: SetStateAction<boolean[]>) => void;
+  interactionsLoading: {
+    mirror: boolean;
+    like: boolean;
+    follow: boolean;
+    unfollow: boolean;
+  }[];
+  setProfileHoversCompleted?: (e: SetStateAction<boolean[]>) => void;
+  profileHoversCompleted?: boolean[];
+  setProfileHovers: (e: SetStateAction<boolean[]>) => void;
+  profileHovers: boolean[];
+  followProfile: (id: string, index: number, type: string) => Promise<void>;
+  unfollowProfile: (id: string, index: number, type: string) => Promise<void>;
+  interactionsLoadingEnvoked: {
+    mirror: boolean;
+    like: boolean;
+    follow: boolean;
+    unfollow: boolean;
+  }[];
+  info: {
+    hasMorePlayer: boolean;
+    hasMoreEnvoked: boolean;
+    playerCursor: number;
+    envokedCursor: number;
+  };
+  getMorePlayer: () => Promise<void>;
+  getMoreEnvoked: () => Promise<void>;
+  mirrorChoiceOpenEnvoked: boolean[];
+  setMirrorChoiceOpenEnvoked: (e: SetStateAction<boolean[]>) => void;
+  setProfileHoversEnvoked: (e: SetStateAction<boolean[]>) => void;
+  profileHoversEnvoked: boolean[];
+  setLiveQuests: (e: SetStateAction<Quest[]>) => void;
+  setCompletedQuests: (e: SetStateAction<Quest[]>) => void;
+  setEnvokedQuests: (e: SetStateAction<Quest[]>) => void;
 };
 
 export type SavesProps = {
@@ -66,14 +190,39 @@ export type SavesProps = {
   lensConnected: Profile | undefined;
   setMirrorChoiceOpen: (e: SetStateAction<boolean[]>) => void;
   mirrorChoiceOpen: boolean[];
-  mirror: (id: string, post?: boolean) => Promise<void>;
-  bookmark: (id: string, post?: boolean) => Promise<void>;
-  like: (id: string, post?: boolean) => Promise<void>;
-  simpleCollect: (id: string, post?: boolean | undefined) => Promise<void>;
+  mirror: (
+    id: string,
+    feed: (Quest | Post)[],
+    itemSetter:
+      | ((e: SetStateAction<Quest[]>) => void)
+      | ((e: SetStateAction<Post[]>) => void),
+    type: string
+  ) => Promise<void>;
+  bookmark: (
+    id: string,
+    feed: (Quest | Post)[],
+    itemSetter:
+      | ((e: SetStateAction<Quest[]>) => void)
+      | ((e: SetStateAction<Post[]>) => void)
+  ) => Promise<void>;
+  like: (
+    id: string,
+    hasReacted: boolean,
+    feed: (Quest | Post)[],
+    itemSetter:
+      | ((e: SetStateAction<Quest[]>) => void)
+      | ((e: SetStateAction<Post[]>) => void),
+    type: string
+  ) => Promise<void>;
   interactionsLoading: {
     mirror: boolean;
     like: boolean;
     follow: boolean;
     unfollow: boolean;
   }[];
+  followProfile: (id: string, index: number, type: string) => Promise<void>;
+  unfollowProfile: (id: string, index: number, type: string) => Promise<void>;
+  profileHovers: boolean[];
+  setProfileHovers: (e: SetStateAction<boolean[]>) => void;
+  setAllSaves: (e: SetStateAction<Post[]>) => void;
 };
