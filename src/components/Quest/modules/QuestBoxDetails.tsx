@@ -290,6 +290,9 @@ const QuestBoxDetails: FunctionComponent<QuestBoxDetailsProps> = ({
                       like(
                         questInfo?.publication?.id,
                         questInfo?.publication?.operations?.hasReacted!,
+                        undefined,
+                        undefined,
+                        undefined,
                         true
                       ),
                     loader: mainInteractionsLoading?.[0]?.like,
@@ -394,7 +397,9 @@ const QuestBoxDetails: FunctionComponent<QuestBoxDetailsProps> = ({
                       {
                         icon: "QmPRRRX1S3kxpgJdLC4G425pa7pMS1AGNnyeSedngWmfK3",
                         function: () =>
-                          mirror(questInfo?.publication?.id, true),
+                          mirror(questInfo?.publication?.id, undefined,
+                            undefined,
+                            undefined, true),
                         title: "Mirror Quest",
                         reacted:
                           questInfo?.publication?.operations?.hasMirrored ||

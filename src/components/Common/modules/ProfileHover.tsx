@@ -76,7 +76,11 @@ const ProfileHover: FunctionComponent<ProfileHoverProps> = ({
                         actionFollower: profile,
                       })
                     )
-                  : followProfile(profile?.id, index),
+                  : followProfile(
+                      profile?.id,
+                      index,
+                      profile?.followModule?.type!
+                    ),
               title: "Follow Profile",
               loader: followLoading,
               canRun: profile?.operations?.isFollowedByMe?.isFinalisedOnchain
@@ -85,7 +89,12 @@ const ProfileHover: FunctionComponent<ProfileHoverProps> = ({
               icon: "QmadanZQr9dxDXQFG41d2gZrhbKgVvnVnG64qAzMhXyxmG",
             },
             {
-              function: () => unfollowProfile(profile?.id, index),
+              function: () =>
+                unfollowProfile(
+                  profile?.id,
+                  index,
+                  profile?.followModule?.type!
+                ),
               title: "Unfollow Profile",
               loader: unfollowLoading,
               canRun: profile?.operations?.isFollowedByMe?.isFinalisedOnchain

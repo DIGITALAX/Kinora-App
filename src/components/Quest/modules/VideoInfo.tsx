@@ -95,11 +95,7 @@ const VideoInfo: FunctionComponent<VideoInfoProps> = ({
             reacted:
               videoPlaying?.publication?.operations?.hasActed
                 ?.isFinalisedOnchain || false,
-            function: () =>
-              simpleCollect(
-                videoPlaying?.publication!,
-                true
-              ),
+            function: () => simpleCollect(videoPlaying?.publication!, true),
             loader: mainInteractionsLoading?.[0]?.like,
             otherFunction: () => setSocialType(SocialType.Players),
           },
@@ -112,6 +108,9 @@ const VideoInfo: FunctionComponent<VideoInfoProps> = ({
               like(
                 videoPlaying?.publication?.id,
                 videoPlaying?.publication?.operations?.hasReacted!,
+                undefined,
+                undefined,
+                undefined,
                 true
               ),
             loader: mainInteractionsLoading?.[0]?.like,
@@ -214,7 +213,14 @@ const VideoInfo: FunctionComponent<VideoInfoProps> = ({
             {[
               {
                 icon: "QmPRRRX1S3kxpgJdLC4G425pa7pMS1AGNnyeSedngWmfK3",
-                function: () => mirror(videoPlaying?.publication?.id, true),
+                function: () =>
+                  mirror(
+                    videoPlaying?.publication?.id,
+                    undefined,
+                    undefined,
+                    undefined,
+                    true
+                  ),
                 title: "Mirror Quest",
                 reacted:
                   videoPlaying?.publication?.operations?.hasMirrored || false,

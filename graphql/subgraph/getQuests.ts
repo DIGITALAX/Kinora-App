@@ -70,20 +70,29 @@ export const getQuests = async (
             videoLength
             videos {
               videoBytes
-              react
-              quote
-              pubId
-              profileId
-              playerId
-              minPlayCount
-              mirror
-              minImpressionCount
-              minEngagementRate
-              minDuration
-              minCTR
-              minAVD
-              comment
-              bookmark
+                profileId
+                pubId
+                playerId
+                minPlayCount
+                minSecondaryQuoteOnQuote
+                minSecondaryMirrorOnQuote
+                minSecondaryReactOnQuote
+                minSecondaryCommentOnQuote
+                minSecondaryCollectOnQuote
+                minSecondaryQuoteOnComment
+                minSecondaryMirrorOnComment
+                minSecondaryReactOnComment
+                minSecondaryCommentOnComment
+                minSecondaryCollectOnComment
+                minAVD
+                minImpressionCount
+                minEngagementRate
+                minDuration
+                quote
+                mirror
+                comment
+                bookmark
+                react
             }
           }
           maxPlayerCount
@@ -223,20 +232,29 @@ export const getQuestsEnvoker = async (
             videoLength
             videos {
               videoBytes
-              react
-              quote
-              pubId
-              profileId
-              playerId
-              minPlayCount
-              mirror
-              minImpressionCount
-              minEngagementRate
-              minDuration
-              minCTR
-              minAVD
-              comment
-              bookmark
+                profileId
+                pubId
+                playerId
+                minPlayCount
+                minSecondaryQuoteOnQuote
+                minSecondaryMirrorOnQuote
+                minSecondaryReactOnQuote
+                minSecondaryCommentOnQuote
+                minSecondaryCollectOnQuote
+                minSecondaryQuoteOnComment
+                minSecondaryMirrorOnComment
+                minSecondaryReactOnComment
+                minSecondaryCommentOnComment
+                minSecondaryCollectOnComment
+                minAVD
+                minImpressionCount
+                minEngagementRate
+                minDuration
+                quote
+                mirror
+                comment
+                bookmark
+                react
             }
           }
           maxPlayerCount

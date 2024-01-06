@@ -70,20 +70,29 @@ export const getQuest = async (
               videoLength
               videos {
                 videoBytes
-                react
-                quote
-                pubId
                 profileId
+                pubId
                 playerId
                 minPlayCount
-                mirror
+                minSecondaryQuoteOnQuote
+                minSecondaryMirrorOnQuote
+                minSecondaryReactOnQuote
+                minSecondaryCommentOnQuote
+                minSecondaryCollectOnQuote
+                minSecondaryQuoteOnComment
+                minSecondaryMirrorOnComment
+                minSecondaryReactOnComment
+                minSecondaryCommentOnComment
+                minSecondaryCollectOnComment
+                minAVD
                 minImpressionCount
                 minEngagementRate
                 minDuration
-                minCTR
-                minAVD
+                quote
+                mirror
                 comment
                 bookmark
+                react
               }
             }
             maxPlayerCount
@@ -221,20 +230,29 @@ export const getQuestById = async (
               videoLength
               videos {
                 videoBytes
-                react
-                quote
-                pubId
                 profileId
+                pubId
                 playerId
                 minPlayCount
-                mirror
+                minSecondaryQuoteOnQuote
+                minSecondaryMirrorOnQuote
+                minSecondaryReactOnQuote
+                minSecondaryCommentOnQuote
+                minSecondaryCollectOnQuote
+                minSecondaryQuoteOnComment
+                minSecondaryMirrorOnComment
+                minSecondaryReactOnComment
+                minSecondaryCommentOnComment
+                minSecondaryCollectOnComment
+                minAVD
                 minImpressionCount
                 minEngagementRate
                 minDuration
-                minCTR
-                minAVD
+                quote
+                mirror
                 comment
                 bookmark
+                react
               }
             }
             maxPlayerCount

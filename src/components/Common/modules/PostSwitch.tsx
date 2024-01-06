@@ -48,6 +48,11 @@ const PostSwitch: FunctionComponent<PostSwitchProps> = ({
           }
           dispatch={dispatch}
           disabled={disabled}
+          postId={
+            item?.__typename === "Mirror"
+              ? item?.mirrorOn?.id
+              : (item as Post)?.id
+          }
         />
       );
   }
