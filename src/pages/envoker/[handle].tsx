@@ -11,6 +11,9 @@ import { createPublicClient, http } from "viem";
 import { polygonMumbai } from "viem/chains";
 import { AccountType } from "@/components/Envoker/types/envoker.types";
 import { useAccount } from "wagmi";
+import RouterChange from "@/components/Common/modules/RouterChange";
+import useDashboard from "@/components/Envoker/hooks/useDashboard";
+import Bio from "@/components/Envoker/modules/Bio";
 
 export default function Handle({ router }: { router: NextRouter }) {
   const { handle } = router.query;
@@ -31,8 +34,7 @@ export default function Handle({ router }: { router: NextRouter }) {
   const accountType = useSelector(
     (state: RootState) => state.app.accountSwitchReducer.value
   );
-  const cover = createProfilePicture(lensConnected?.metadata?.coverPicture);
-  const pfp = createProfilePicture(lensConnected?.metadata?.picture);
+  const { dashboardLoading } = useDashboard(accountType);
   const {
     profileLoading,
     pageProfile,
@@ -49,6 +51,8 @@ export default function Handle({ router }: { router: NextRouter }) {
   } = usePageProfile(handle as string, lensConnected);
   const { savesInfo, savesLoading, getMoreSaves, allSaves, setAllSaves } =
     useSaves(lensConnected, handle as string, accountType);
+  const cover = createProfilePicture(pageProfile?.metadata?.coverPicture);
+  const pfp = createProfilePicture(pageProfile?.metadata?.picture);
   const {
     mirror,
     mirrorChoiceOpen,
@@ -70,6 +74,7 @@ export default function Handle({ router }: { router: NextRouter }) {
     setProfileHoversEnvoked,
     profileHoversCompleted,
     profileHoversEnvoked,
+    mainInteractionsLoading,
   } = useInteractions(
     lensConnected,
     dispatch,
@@ -80,54 +85,80 @@ export default function Handle({ router }: { router: NextRouter }) {
     completedQuests,
     envokedQuests
   );
+
+  if (
+    ((AccountType.History === accountType ||
+      AccountType.Home === accountType) &&
+      savesLoading) ||
+    (AccountType.Save === accountType && savesLoading) ||
+    (AccountType.Dashboard === accountType && dashboardLoading)
+  ) {
+    return <RouterChange />;
+  }
+
   return (
     <div
-      className="relative overflow-y-scroll flex min-h-full w-full justify-end"
+      className="relative flex overflow-y-scroll min-h-full w-full items-start justify-end pb-5"
       style={{
-        height: "calc(100vh - 5.5rem) pb-5",
+        height: "calc(100vh - 5.5rem)",
       }}
     >
       <div
-        className="h-fit p-2 relative flex flex-col gap-10"
+        className="md:h-full h-fit w-full items-start justify-start px-6 pb-2 pt-6 relative flex flex-col gap-10"
         style={{
           width: openSidebar ? "calc(100vw - 10rem)" : "calc(100vw - 2.5rem)",
         }}
         id={!openSidebar ? "closeSide" : ""}
       >
-        <div
-          className={`relative w-full h-40 rounded-sm flex p-px ${
-            profileLoading && "animate-pulse"
-          }`}
-          id="rainbow"
-        >
-          <div className="relative w-full h-full flex items-center justify-center rounded-sm">
-            {cover && (
-              <Image
-                draggable={false}
-                src={cover}
-                className="rounded-sm"
-                objectFit="cover"
-                layout="fill"
-              />
-            )}
-            <div className="absolute w-full h-full rounded-sm" id="negro"></div>
-          </div>
+        <div className="w-full h-fit flex flex-col gap-3 relative">
           <div
-            className="absolute w-20 h-20 right-4 bottom-4 rounded-full p-px"
+            className={`relative w-full h-fit rounded-sm flex p-px ${
+              profileLoading && "animate-pulse"
+            }`}
             id="rainbow"
           >
-            <div className="relative w-full h-full flex items-center justify-center rounded-full">
-              {pfp && (
+            <div className="relative w-full h-40 flex items-center justify-center rounded-sm">
+              {cover && (
                 <Image
                   draggable={false}
-                  src={pfp}
+                  src={cover}
+                  className="rounded-sm"
                   objectFit="cover"
                   layout="fill"
-                  className="rounded-full"
                 />
               )}
+              <div
+                className="absolute w-full h-full rounded-sm"
+                id="negro"
+              ></div>
+            </div>
+            <div
+              className="absolute w-20 h-20 right-4 bottom-4 rounded-full p-px"
+              id="rainbow"
+            >
+              <div className="relative w-full h-full flex items-center justify-center rounded-full">
+                {pfp && (
+                  <Image
+                    draggable={false}
+                    src={pfp}
+                    objectFit="cover"
+                    layout="fill"
+                    className="rounded-full"
+                  />
+                )}
+              </div>
             </div>
           </div>
+          {accountType !== AccountType.Dashboard &&
+            accountType !== AccountType.Save && (
+              <Bio
+                profile={pageProfile!}
+                dispatch={dispatch}
+                unfollowProfile={unfollowProfile}
+                followProfile={followProfile}
+                mainInteractionsLoading={mainInteractionsLoading}
+              />
+            )}
         </div>
         <div className="relative w-full h-fit flex flex-col gap-3 justify-start items-start">
           <AccountSwitch

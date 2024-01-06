@@ -2,15 +2,13 @@ import { FetchResult, gql } from "@apollo/client";
 import { graphKinoraClient } from "../../lib/graph/client";
 
 export const getPlayerData = async (
-  profileId: number,
-  first: number,
-  skip: number
+  profileId: number
 ): Promise<FetchResult | void> => {
   let timeoutId: NodeJS.Timeout | undefined;
   const queryPromise = graphKinoraClient.query({
     query: gql(`
-    query($profileId: Int, $first: Int, $skip: Int) {
-        players(where: {profileId: $profileId}, first: $first, skip: $skip) {
+    query($profileId: Int) {
+        players(where: {profileId: $profileId}, first: 1) {
             questsCompleted
             questsJoined
         }
@@ -18,8 +16,6 @@ export const getPlayerData = async (
   `),
     variables: {
       profileId,
-      first,
-      skip,
     },
     fetchPolicy: "no-cache",
     errorPolicy: "all",

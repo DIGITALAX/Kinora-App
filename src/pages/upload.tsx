@@ -74,7 +74,7 @@ export default function Upload() {
           }}
         >
           <div
-            className="md:h-full h-fit w-full items-start justify-start px-6 pb-2 pt-6 relative gap-10 flex flex-col font-bit text-white"
+            className="md:h-full h-fit w-full items-start justify-start px-6 pb-2 pt-6 relative flex flex-col"
             style={{
               width: openSidebar
                 ? "calc(100vw - 10rem)"

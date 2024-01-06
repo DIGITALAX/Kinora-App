@@ -51,18 +51,18 @@ export default function Home({ router }: { router: NextRouter }) {
     questFeed,
     address,
     publicClient,
-    router,
+    router
   );
 
   return (
     <div
-      className="relative overflow-y-scroll flex min-h-full w-full justify-end pb-5"
+      className="relative flex overflow-y-scroll min-h-full w-full items-start justify-end pb-5"
       style={{
         height: "calc(100vh - 5.5rem)",
       }}
     >
       <div
-        className="h-fit p-2 relative flex flex-col"
+        className="md:h-full h-fit w-full items-start justify-start px-6 pb-2 pt-6 relative flex flex-col"
         style={{
           width: openSidebar ? "calc(100vw - 10rem)" : "calc(100vw - 2.5rem)",
         }}

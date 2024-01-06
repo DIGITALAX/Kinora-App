@@ -16,6 +16,8 @@ import { useSignMessage } from "wagmi";
 import { setWalletConnected } from "../../../../redux/reducers/walletConnectedSlice";
 import { Asset } from "@livepeer/react";
 import { setAllUploaded } from "../../../../redux/reducers/allUploadedSlice";
+import { getPlayerData } from "../../../../graphql/subgraph/getPlayer";
+import { setisPlayer } from "../../../../redux/reducers/isPlayerSlice";
 
 const useSignIn = (
   lensConnected: Profile | undefined,
@@ -121,11 +123,30 @@ const useSignIn = (
     }
   };
 
+  const checkPlayer = async () => {
+    try {
+      const data = await getPlayerData(parseInt(lensConnected?.id, 16));
+      if (data?.data?.players?.length > 0) {
+        dispatch(setisPlayer(true));
+      } else {
+        dispatch(setisPlayer(false));
+      }
+    } catch (err: any) {
+      console.error(err.message);
+    }
+  };
+
   useEffect(() => {
     if (allUploaded?.length < 1) {
       handleUploadAssets();
     }
   }, []);
+
+  useEffect(() => {
+    if (lensConnected?.id) {
+      checkPlayer();
+    }
+  }, [lensConnected?.id]);
 
   return {
     signLoading,

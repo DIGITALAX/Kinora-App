@@ -12,6 +12,13 @@ const usePageProfile = (handle: string, lensConnected: Profile | undefined) => {
   const [profileLoading, setProfileLoading] = useState<boolean>(false);
   const [questsLoading, setQuestsLoading] = useState<boolean>(false);
   const [pageProfile, setPageProfile] = useState<Profile>();
+  const [allPlayerData, setAllPlayerData] = useState<{
+    questsCompleted: string[];
+    questsJoined: string[];
+  }>({
+    questsCompleted: [],
+    questsJoined: [],
+  });
   const [completedQuests, setCompletedQuests] = useState<Quest[]>([]);
   const [liveQuests, setLiveQuests] = useState<Quest[]>([]);
   const [envokedQuests, setEnvokedQuests] = useState<Quest[]>([]);
@@ -71,17 +78,22 @@ const usePageProfile = (handle: string, lensConnected: Profile | undefined) => {
         }
       );
 
-      const playerQuest = await getPlayerData(
-        parseInt(pageProfile?.id, 16),
-        25,
-        0
-      );
+      const playerQuest = await getPlayerData(parseInt(pageProfile?.id, 16));
+      setAllPlayerData(playerQuest?.data?.players?.[0]);
       let liveQuests: Quest[] = [];
       let completedQuests: Quest[] = [];
 
       const playerPromises = [];
       if (playerQuest?.data?.players?.[0]?.questsJoined) {
-        for (const item of playerQuest.data.players[0].questsJoined) {
+        for (
+          let i = 0;
+          i <
+          (playerQuest.data.players[0].questsJoined?.length < 25
+            ? playerQuest.data.players[0].questsJoined?.length
+            : 25);
+          i++
+        ) {
+          const item = playerQuest.data.players[0].questsJoined?.[i];
           playerPromises.push(
             (async () => {
               const data = await getQuestById(item);
@@ -177,17 +189,23 @@ const usePageProfile = (handle: string, lensConnected: Profile | undefined) => {
   const getMorePlayer = async (): Promise<void> => {
     if (!info.hasMorePlayer) return;
     try {
-      const playerQuest = await getPlayerData(
-        parseInt(pageProfile?.id, 16),
-        25,
-        info.playerCursor
-      );
       let newLiveQuests: Quest[] = [];
       let newCompletedQuests: Quest[] = [];
 
-      const playerPromises =
-        playerQuest?.data?.players?.[0]?.questsJoined?.forEach(
-          async (item: string) => {
+      const playerPromises = [];
+
+      for (
+        let i = 0;
+        i <
+        (allPlayerData?.questsJoined?.slice(0, info?.playerCursor)?.length < 25
+          ? allPlayerData?.questsJoined?.slice(0, info?.playerCursor)?.length
+          : 25);
+        i++
+      ) {
+        const item = allPlayerData?.questsJoined?.[i + info?.playerCursor];
+        if (!item) return;
+        playerPromises.push(
+          (async () => {
             const data = await getQuestById(item);
             const publication = await getPublication(
               {
@@ -205,15 +223,14 @@ const usePageProfile = (handle: string, lensConnected: Profile | undefined) => {
               publication: publication?.data?.publication,
             };
 
-            if (
-              playerQuest?.data?.players?.[0]?.questsCompleted?.includes(item)
-            ) {
-              newCompletedQuests.push(quest);
+            if (allPlayerData?.questsCompleted?.includes(item)) {
+              completedQuests.push(quest);
             } else {
-              newLiveQuests.push(quest);
+              liveQuests.push(quest);
             }
-          }
+          })()
         );
+      }
 
       await Promise.all(playerPromises);
 

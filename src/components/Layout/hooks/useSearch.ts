@@ -50,6 +50,7 @@ const useSearch = (lensConnected: Profile | undefined) => {
             metadata: {
               publishedOn: ["kinora"],
               mainContentFocus: [PublicationMetadataMainFocusType.Video],
+              
             },
           },
         },

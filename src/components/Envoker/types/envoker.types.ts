@@ -1,4 +1,4 @@
-import { Dispatch } from "redux";
+import { Action, Dispatch } from "redux";
 import { Post, Profile } from "../../../../graphql/generated";
 import { SetStateAction } from "react";
 import { NextRouter } from "next/router";
@@ -77,7 +77,7 @@ export type AccountSwitchProps = {
     unfollow: boolean;
   }[];
   followProfile: (id: string, index: number, type: string) => Promise<void>;
-  unfollowProfile: (id: string, index: number, type: string) => Promise<void>;
+  unfollowProfile: (id: string, index: number) => Promise<void>;
   mirrorChoiceOpenCompleted: boolean[];
   setMirrorChoiceOpenCompleted: (e: SetStateAction<boolean[]>) => void;
   interactionsLoadingCompleted: {
@@ -96,7 +96,7 @@ export enum AccountType {
   Home,
   Save,
   History,
-  Stats,
+  Dashboard,
 }
 
 export type HomeProps = {
@@ -225,4 +225,20 @@ export type SavesProps = {
   profileHovers: boolean[];
   setProfileHovers: (e: SetStateAction<boolean[]>) => void;
   setAllSaves: (e: SetStateAction<Post[]>) => void;
+};
+
+export type BioProps = {
+  profile: Profile;
+  dispatch: Dispatch<Action>;
+  unfollowProfile: (id: string, index: number, main?: boolean) => Promise<void>;
+  mainInteractionsLoading: {
+    follow: boolean;
+    unfollow: boolean;
+  };
+  followProfile: (
+    id: string,
+    index: number,
+    type: string,
+    main?: boolean
+  ) => Promise<void>;
 };

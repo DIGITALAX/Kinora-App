@@ -3,7 +3,10 @@ import { Collection, GatedLogicProps } from "../../types/envoke.types";
 import { setQuestInfo } from "../../../../../redux/reducers/questInfoSlice";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Image from "next/legacy/image";
-import { ACCEPTED_TOKENS_MUMBAI, INFURA_GATEWAY } from "../../../../../lib/constants";
+import {
+  ACCEPTED_TOKENS_MUMBAI,
+  INFURA_GATEWAY,
+} from "../../../../../lib/constants";
 import createProfilePicture from "../../../../../lib/helpers/createProfilePicture";
 import { ImCross } from "react-icons/im";
 
@@ -36,7 +39,7 @@ const GatedLogic: FunctionComponent<GatedLogicProps> = ({
         >
           Player must hold all tokens or is just one enough?
         </div>
-        <div className="relative w-fit h-fit flex items-center justify-center rounded-md border border-white flex-row gap-1 text-xxs">
+        <div className="relative w-fit h-fit flex items-center justify-center rounded-md border border-calcetine flex-row gap-1 text-xxs">
           <div
             className={`relative w-16 h-fit flex p-2 items-center justify-center rounded-md cursor-pointer ${
               (
@@ -193,7 +196,11 @@ const GatedLogic: FunctionComponent<GatedLogicProps> = ({
           </div>
         </div>
       </div>
-      <div className="relative w-full h-fit flex flex-col lg:flex-row gap-6 justify-start items-start">
+      <div
+        className={`relative w-full h-fit flex gap-6 justify-start items-start ${
+          join ? "flex-col" : "flex-col lg:flex-row"
+        }`}
+      >
         <div className="relative w-full h-fit flex flex-col items-start justify-start gap-4">
           <div className="relative w-fit h-fit flex items-center justify-center text-sm">
             NFT Conditions
@@ -221,7 +228,6 @@ const GatedLogic: FunctionComponent<GatedLogicProps> = ({
                         : 0
                     ]?.gated?.erc721TokenIds
                 )?.map((item: Collection, index: number) => {
-            
                   return (
                     <div
                       key={index}
@@ -248,7 +254,7 @@ const GatedLogic: FunctionComponent<GatedLogicProps> = ({
                         />
                       </div>
                       <div
-                        className="absolute w-5 h-5 flex cursor-pointer bg-black rounded-full border border-white hover:opacity-80 p-1 items-center justify-center"
+                        className="absolute w-5 h-5 flex cursor-pointer bg-black rounded-full border border-calcetine hover:opacity-80 p-1 items-center justify-center"
                         onClick={() => {
                           if (join) {
                             const tokenIds = [
@@ -334,7 +340,7 @@ const GatedLogic: FunctionComponent<GatedLogicProps> = ({
             </div>
           )}
           <input
-            className="h-10 w-full bg-black border border-white rounded-md p-1 text-xs"
+            className="h-10 w-full bg-black border border-calcetine rounded-md p-1 text-xs"
             placeholder="Search tokens to use as gates."
             value={collectionsSearch || ""}
             onChange={(e) => {
@@ -365,7 +371,6 @@ const GatedLogic: FunctionComponent<GatedLogicProps> = ({
               >
                 <div className="relative w-full flex flex-wrap gap-3 items-start justify-start h-fit max-h-[13rem]">
                   {collections?.map((item: Collection, index: number) => {
-                   
                     const pfp = createProfilePicture(
                       item?.profile?.metadata?.picture
                     );
@@ -389,7 +394,7 @@ const GatedLogic: FunctionComponent<GatedLogicProps> = ({
                               ]?.gated?.erc721TokenIds?.filter(
                                 (value) =>
                                   value?.collectionId == item?.collectionId
-                              )?.[0]) && "border-2 border-white"
+                              )?.[0]) && "border-2 border-calcetine"
                         }`}
                         id="rainbow"
                         onClick={() => {
@@ -801,7 +806,7 @@ const GatedLogic: FunctionComponent<GatedLogicProps> = ({
                         }
                       }}
                       type="number"
-                      className="h-10 w-full bg-black border border-white rounded-md p-1 text-xs"
+                      className="h-10 w-full bg-black border border-calcetine rounded-md p-1 text-xs"
                       placeholder="Enter min amount of token to hold."
                     />
                   </div>

@@ -94,8 +94,9 @@ const QuestBoxDetails: FunctionComponent<QuestBoxDetailsProps> = ({
                   lensConnected?.id &&
                   (questInfo?.publication?.by?.operations?.isFollowedByMe
                     ?.isFinalisedOnchain
-                    ? unfollowProfile(questInfo?.publication?.by?.id)
-                    : followProfile(questInfo?.publication?.by?.id))
+                    ? unfollowProfile(questInfo?.publication?.by?.id, 0)
+                    : followProfile(questInfo?.publication?.by?.id),
+                  0)
                 }
               >
                 {questInfo?.publication?.by?.operations?.isFollowedByMe
@@ -397,9 +398,13 @@ const QuestBoxDetails: FunctionComponent<QuestBoxDetailsProps> = ({
                       {
                         icon: "QmPRRRX1S3kxpgJdLC4G425pa7pMS1AGNnyeSedngWmfK3",
                         function: () =>
-                          mirror(questInfo?.publication?.id, undefined,
+                          mirror(
+                            questInfo?.publication?.id,
                             undefined,
-                            undefined, true),
+                            undefined,
+                            undefined,
+                            true
+                          ),
                         title: "Mirror Quest",
                         reacted:
                           questInfo?.publication?.operations?.hasMirrored ||

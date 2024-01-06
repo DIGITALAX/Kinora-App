@@ -5,6 +5,7 @@ import { SidebarProps } from "../types/modals.types";
 import { setSideBarOpen } from "../../../../redux/reducers/sideBarOpenSlice";
 import { setAccountSwitch } from "../../../../redux/reducers/accountSwitchSlice";
 import { AccountType } from "@/components/Envoker/types/envoker.types";
+import { Quest } from "@/components/Quest/types/quest.types";
 
 const Sidebar: FunctionComponent<SidebarProps> = ({
   openSidebar,
@@ -14,6 +15,7 @@ const Sidebar: FunctionComponent<SidebarProps> = ({
   openConnectModal,
   handleLogIn,
   walletConnected,
+  newQuests,
 }) => {
   return (
     <div
@@ -117,7 +119,7 @@ const Sidebar: FunctionComponent<SidebarProps> = ({
                 },
               },
               {
-                title: "Stats",
+                title: "Dashboard",
                 image: "QmZ1PSKctNt2REihxUmJBK9ZrcbU2pTACE1XSUY4YprK1x",
                 link: () => {
                   if (!router.asPath?.includes("envoker")) {
@@ -129,7 +131,7 @@ const Sidebar: FunctionComponent<SidebarProps> = ({
                       }`
                     );
                   }
-                  dispatch(setAccountSwitch(AccountType.Stats));
+                  dispatch(setAccountSwitch(AccountType.Dashboard));
                 },
               },
             ].map(
@@ -184,45 +186,38 @@ const Sidebar: FunctionComponent<SidebarProps> = ({
             {openSidebar && (
               <>
                 <div className="relative font-bit text-white text-xs flex items-center justify-center w-fit h-fit">
-                  Quests Completed
+                  New Quests
                 </div>
                 <div className="relative w-full h-px flex items-center justify-center bg-white"></div>
                 <div
                   className="relative font-bit text-white opacity-50 text-xs flex items-center justify-center cursor-pointer active:scale-95"
-                  onClick={() =>
-                    router.push(
-                      `/envoker/${
-                        lensConnected?.handle?.suggestedFormatted?.localName?.split(
-                          "@"
-                        )?.[1]
-                      }/quests`
-                    )
-                  }
-                >{`See All >`}</div>
+                  onClick={() => router.push(`/`)}
+                >{`See More >`}</div>
               </>
             )}
             <div className="relative w-full h-fit flex flex-row gap-2 flex-wrap overflow-hidden">
-              {(openSidebar
-                ? Array.from({ length: 2 })
-                : Array.from({ length: 2 })?.slice(0, 1)
-              ).map((_, index: number) => {
-                return (
-                  <div
-                    key={index}
-                    id="rainbow"
-                    className={`relative rounded-sm p-px flex items-center justify-center ${
-                      openSidebar ? "w-14 h-14" : "w-7 h-7"
-                    }`}
-                  >
-                    <Image
-                      layout="fill"
-                      draggable={false}
-                      src={`${INFURA_GATEWAY}/ipfs/`}
-                      objectFit="cover"
-                    />
-                  </div>
-                );
-              })}
+              {(openSidebar ? newQuests : newQuests?.slice(0, 1)).map(
+                (item: Quest, index: number) => {
+                  return (
+                    <div
+                      key={index}
+                      id="rainbow"
+                      className={`relative rounded-sm p-px flex items-center justify-center ${
+                        openSidebar ? "w-14 h-14" : "w-7 h-7"
+                      }`}
+                    >
+                      <Image
+                        layout="fill"
+                        draggable={false}
+                        src={`${INFURA_GATEWAY}/ipfs/${
+                          item?.questMetadata?.cover?.split("ipfs://")?.[1]
+                        }`}
+                        objectFit="cover"
+                      />
+                    </div>
+                  );
+                }
+              )}
             </div>
           </div>
         </div>

@@ -34,6 +34,9 @@ export default function QuestId({ router }: { router: NextRouter }) {
   const openSidebar = useSelector(
     (state: RootState) => state.app.sideBarOpenReducer.value
   );
+  const isPlayer = useSelector(
+    (state: RootState) => state.app.isPlayerReducer.value
+  );
   const postCollectGif = useSelector(
     (state: RootState) => state.app.postCollectGifReducer
   );
@@ -54,6 +57,7 @@ export default function QuestId({ router }: { router: NextRouter }) {
     setSocialType,
     handleCompleteMilestone,
     completeLoading,
+    getQuestInfo,
   } = useJoin(
     questId as string,
     lensConnected,
@@ -77,13 +81,8 @@ export default function QuestId({ router }: { router: NextRouter }) {
     metricsLoading,
     handleSendMetrics,
     playerMetricsLive,
-  } = useVideos(
-    questInfo?.players
-      ?.find((player) => player?.profile?.id == lensConnected?.id)
-      ?.videos?.find((video) => video?.pubId == Number(videoPlaying?.pubId)),
-    lensConnected,
-    dispatch
-  );
+    currentMetricsLoading,
+  } = useVideos(questInfo, lensConnected, dispatch, getQuestInfo);
   const {
     dataLoading,
     reactors,
@@ -163,7 +162,7 @@ export default function QuestId({ router }: { router: NextRouter }) {
       }}
     >
       <div
-        className="h-fit w-full items-start justify-start px-6 pb-2 pt-6 relative flex flex-col gap-4 min-h-fit"
+        className="md:h-full h-fit w-full items-start justify-start px-6 pb-2 pt-6 relative flex flex-col"
         style={{
           width: openSidebar ? "calc(100vw - 10rem)" : "calc(100vw - 2.5rem)",
         }}
@@ -468,7 +467,7 @@ export default function QuestId({ router }: { router: NextRouter }) {
               </div>
             ) : (
               <div className="relative h-full w-60 flex items-between justify-start flex-col gap-6 rounded-md border border-gray-700 p-2">
-                <div className="relative w-full h-full flex flex-col gap-6 items-start justify-start">
+                <div className="relative w-full h-full flex flex-col gap-6 items-start justify-start overflow-y-scroll">
                   <div className="relative w-full h-fit gap-2 flex items-center justify-center flex-col">
                     <div className="relative w-full h-fit flex items-center justify-center text-gray-400 font-bit text-sm">
                       Milestone Video Metrics
@@ -476,6 +475,7 @@ export default function QuestId({ router }: { router: NextRouter }) {
                     <div className="relative w-full h-px bg-gray-700"></div>
                   </div>
                   <Metrics
+                    currentMetricsLoading={currentMetricsLoading}
                     playerMetricsLive={playerMetricsLive}
                     milestoneMetrics={videoPlaying!}
                     playerMetricsOnChain={
@@ -491,12 +491,15 @@ export default function QuestId({ router }: { router: NextRouter }) {
                 </div>
                 <div
                   className={`relative w-full h-8 px-1.5 py-1 flex flex-row items-center gap-3 justify-center border border-gray-300 mb-0 rounded-md ${
-                    metricsLoading || !playerMetricsLive
+                    metricsLoading || !playerMetricsLive || !isPlayer
                       ? "opacity-70"
                       : "cursor-pointer active:scale-95"
                   }`}
                   onClick={() =>
-                    !metricsLoading && playerMetricsLive && handleSendMetrics()
+                    !metricsLoading &&
+                    playerMetricsLive &&
+                    isPlayer &&
+                    handleSendMetrics()
                   }
                 >
                   <div
