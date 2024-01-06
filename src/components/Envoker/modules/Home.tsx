@@ -55,7 +55,10 @@ const Home: FunctionComponent<HomeProps> = ({
             <div className="relative w-full h-fit grid grid-cols-4 items-start justify-start gap-4">
               {quests?.map((quest: Quest & { type: string }, index: number) => {
                 return (
-                  <div className="relative w-full h-fit flex flex-col gap-1.5">
+                  <div
+                    className="relative w-full h-fit flex flex-col gap-1.5"
+                    key={index}
+                  >
                     <div className="rounded-sm relative w-full flex flex-row h-fit">
                       <div
                         className="relative w-5 h-5 flex items-center justify-center mr-0"
@@ -76,7 +79,6 @@ const Home: FunctionComponent<HomeProps> = ({
                     </div>
                     <QuestPreview
                       quest={quest}
-                      key={index}
                       width="100%"
                       height="11rem"
                       lensConnected={lensConnected}

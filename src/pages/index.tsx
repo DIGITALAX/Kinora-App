@@ -25,9 +25,6 @@ export default function Home({ router }: { router: NextRouter }) {
   const openSidebar = useSelector(
     (state: RootState) => state.app.sideBarOpenReducer.value
   );
-  const accountType = useSelector(
-    (state: RootState) => state.app.accountSwitchReducer.value
-  );
   const lensConnected = useSelector(
     (state: RootState) => state.app.lensConnectedReducer.profile
   );

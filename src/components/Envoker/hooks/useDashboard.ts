@@ -6,17 +6,29 @@ import { ethers } from "ethers";
 import { setInteractError } from "../../../../redux/reducers/interactErrorSlice";
 import { Dispatch } from "redux";
 import { setSuccess } from "../../../../redux/reducers/successSlice";
+import { Profile } from "../../../../graphql/generated";
 
-const useDashboard = (envokedQuests: Quest[], dispatch: Dispatch) => {
+const useDashboard = (
+  allQuests: (Quest & { type: string })[],
+  dispatch: Dispatch
+) => {
   const [openQuest, setOpenQuest] = useState<boolean[]>([]);
-  const [terminateLoading, setTerminateLoading] = useState<boolean>(false);
-  const [approvalLoading, setApprovalLoading] = useState<boolean>(false);
+  const [terminateLoading, setTerminateLoading] = useState<boolean[]>([]);
+  const [openPlayerDetails, setOpenPlayerDetails] = useState<
+    (Profile | undefined)[]
+  >([]);
+  const [approvalLoading, setApprovalLoading] = useState<boolean[]>([]);
+  const [claimRewardLoading, setClaimRewardLoading] = useState<boolean[]>([]);
   const questEnvoker = new Envoker({
     authedApolloClient: apolloClient,
   });
 
-  const terminateQuest = async (id: number) => {
-    setTerminateLoading(true);
+  const terminateQuest = async (id: number, index: number) => {
+    setTerminateLoading((prev) => {
+      const arr = [...prev];
+      arr[index] = true;
+      return arr;
+    });
     try {
       await (window as any).ethereum.request({ method: "eth_requestAccounts" });
       const provider = new ethers.providers.Web3Provider(
@@ -45,15 +57,24 @@ const useDashboard = (envokedQuests: Quest[], dispatch: Dispatch) => {
     } catch (err: any) {
       console.error(err.message);
     }
-    setTerminateLoading(false);
+    setTerminateLoading((prev) => {
+      const arr = [...prev];
+      arr[index] = false;
+      return arr;
+    });
   };
 
   const approvePlayerMilestone = async (
     id: number,
     milestone: number,
-    playerProfileId: `0x${string}`
+    playerProfileId: `0x${string}`,
+    index: number
   ) => {
-    setApprovalLoading(true);
+    setApprovalLoading((prev) => {
+      const arr = [...prev];
+      arr[index] = true;
+      return arr;
+    });
     try {
       const { error, errorMessage } =
         await questEnvoker.setPlayerEligibleToClaimMilestone(
@@ -78,14 +99,71 @@ const useDashboard = (envokedQuests: Quest[], dispatch: Dispatch) => {
     } catch (err: any) {
       console.error(err.message);
     }
-    setApprovalLoading(false);
+    setApprovalLoading((prev) => {
+      const arr = [...prev];
+      arr[index] = false;
+      return arr;
+    });
+  };
+
+  const playerClaimMilestoneReward = async (id: string, index: number) => {
+    setClaimRewardLoading((prev) => {
+      const arr = [...prev];
+      arr[index] = true;
+      return arr;
+    });
+    try {
+    } catch (err: any) {
+      console.error(err.message);
+    }
+    setClaimRewardLoading((prev) => {
+      const arr = [...prev];
+      arr[index] = false;
+      return arr;
+    });
   };
 
   useEffect(() => {
-    if (envokedQuests?.length > 0) {
-      setOpenQuest(Array.from({ length: envokedQuests?.length }, () => false));
+    if (allQuests?.length > 0) {
+      setOpenQuest(Array.from({ length: allQuests?.length }, () => false));
+      setApprovalLoading(
+        Array.from(
+          {
+            length: allQuests?.filter((item) => item?.type == "envoked")
+              ?.length,
+          },
+          () => false
+        )
+      );
+      setClaimRewardLoading(
+        Array.from(
+          {
+            length: allQuests?.filter((item) => item?.type !== "envoked")
+              ?.length,
+          },
+          () => false
+        )
+      );
+      setTerminateLoading(
+        Array.from(
+          {
+            length: allQuests?.filter((item) => item?.type == "envoked")
+              ?.length,
+          },
+          () => false
+        )
+      );
+      setOpenPlayerDetails(
+        Array.from(
+          {
+            length: allQuests?.filter((item) => item?.type == "envoked")
+              ?.length,
+          },
+          () => undefined
+        )
+      );
     }
-  }, [envokedQuests]);
+  }, [allQuests]);
 
   return {
     terminateQuest,
@@ -94,6 +172,10 @@ const useDashboard = (envokedQuests: Quest[], dispatch: Dispatch) => {
     setOpenQuest,
     terminateLoading,
     approvalLoading,
+    playerClaimMilestoneReward,
+    claimRewardLoading,
+    openPlayerDetails,
+    setOpenPlayerDetails,
   };
 };
 

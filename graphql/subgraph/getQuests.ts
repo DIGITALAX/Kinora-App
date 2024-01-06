@@ -99,6 +99,7 @@ export const getQuests = async (
           questId
           pubId
           profileId
+          status
           transactionHash
           uri
           milestoneCount
@@ -268,6 +269,7 @@ export const getQuestsEnvoker = async (
           profileId
           transactionHash
           uri
+          status
           milestoneCount
           players {
             milestonesCompleted {

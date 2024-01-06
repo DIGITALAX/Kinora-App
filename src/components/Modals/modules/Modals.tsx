@@ -20,6 +20,7 @@ import PostCollectGif from "./PostCollectGif";
 import QuestGates from "./QuestGates";
 import Followers from "./Followers";
 import useFollowers from "../hooks/useFollowers";
+import useNewQuests from "../hooks/useNewQuests";
 
 const Modals: FunctionComponent<{ router: NextRouter }> = ({
   router,
@@ -63,9 +64,6 @@ const Modals: FunctionComponent<{ router: NextRouter }> = ({
   );
   const allUploaded = useSelector(
     (state: RootState) => state.app.allUploadedReducer.videos
-  );
-  const feed = useSelector(
-    (state: RootState) => state.app.questFeedReducer?.feed
   );
   const indexer = useSelector((state: RootState) => state.app.indexerReducer);
   const interactError = useSelector(
@@ -120,10 +118,11 @@ const Modals: FunctionComponent<{ router: NextRouter }> = ({
     gifInfo,
     setGifInfo,
   } = useQuote(postCollectGif, publicClient, address, dispatch, quote);
+  const { newQuests } = useNewQuests();
   return (
     <>
       <Sidebar
-        newQuests={feed}
+        newQuests={newQuests}
         router={router}
         openSidebar={openSidebar}
         lensConnected={lensConnected}

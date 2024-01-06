@@ -5,6 +5,7 @@ import { RootState } from "../../../redux/store";
 import { NextRouter } from "next/router";
 import useJoin from "@/components/Quest/hooks/useJoin";
 import useInteractions from "@/components/Quest/hooks/useInteractions";
+import useInteractionsSuggested from "@/components/Common/hooks/useInteractions";
 import { useAccount } from "wagmi";
 import Image from "next/legacy/image";
 import { INFURA_GATEWAY } from "../../../lib/constants";
@@ -12,7 +13,7 @@ import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import QuestSocial from "@/components/Quest/modules/QuestSocial";
 import MilestoneBoards from "@/components/Quest/modules/MilestoneBoards";
 import useWho from "@/components/Quest/hooks/useWho";
-import { SocialType } from "@/components/Quest/types/quest.types";
+import { Quest, SocialType } from "@/components/Quest/types/quest.types";
 import QuestBoardSwitch from "@/components/Quest/modules/QuestBoardSwitch";
 import Channels from "@/components/Quest/modules/Channels";
 import useVideos from "@/components/Quest/hooks/useVideos";
@@ -20,6 +21,8 @@ import MainVideo from "@/components/Quest/modules/MainVideo";
 import { AiOutlineLoading } from "react-icons/ai";
 import Metrics from "@/components/Quest/modules/Metrics";
 import VideoInfo from "@/components/Quest/modules/VideoInfo";
+import useSuggested from "@/components/Quest/hooks/useSuggested";
+import QuestFeed from "@/components/Common/modules/QuestFeed";
 
 export default function QuestId({ router }: { router: NextRouter }) {
   const { questId } = router.query;
@@ -153,7 +156,32 @@ export default function QuestId({ router }: { router: NextRouter }) {
     videoPlaying,
     setVideoPlaying
   );
-
+  const {
+    suggestedLoading,
+    suggestedQuests,
+    suggestedInfo,
+    getMoreSuggested,
+    setSuggestedQuests,
+  } = useSuggested(lensConnected);
+  const {
+    mirror: suggestedMirror,
+    like: suggestedLike,
+    bookmark: suggestedBookmark,
+    interactionsLoading: suggestedInteractionsLoading,
+    setMirrorChoiceOpen: suggestedSetMirrorChoiceOpen,
+    mirrorChoiceOpen: suggestedMirrorChoiceOpen,
+    profileHovers: suggestedProfileHovers,
+    setProfileHovers: suggestedSetProfileHovers,
+    followProfile: suggestedFollowerProfile,
+    unfollowProfile: suggestedUnfollowProfile,
+  } = useInteractionsSuggested(
+    lensConnected,
+    dispatch,
+    suggestedQuests,
+    address,
+    publicClient,
+    (newItems) => setSuggestedQuests(newItems as Quest[])
+  );
   return (
     <div
       className="relative flex overflow-y-scroll min-h-full w-full items-start justify-end pb-5"
@@ -162,13 +190,13 @@ export default function QuestId({ router }: { router: NextRouter }) {
       }}
     >
       <div
-        className="md:h-full h-fit w-full items-start justify-start px-6 pb-2 pt-6 relative flex flex-col"
+        className="md:h-full h-fit w-full items-start justify-start px-6 pb-2 pt-6 relative flex flex-col gap-14"
         style={{
           width: openSidebar ? "calc(100vw - 10rem)" : "calc(100vw - 2.5rem)",
         }}
         id={!openSidebar ? "closeSide" : ""}
       >
-        <div className="relative h-[38rem] w-full flex items-center justify-start gap-10">
+        <div className="relative h-[38rem] w-full flex items-center justify-start gap-10 min-h-[38rem]">
           <div className="relative w-fit h-full flex items-start justify-start">
             <div className="relative h-full w-80 flex items-start justify-start flex-col gap-6 rounded-md border border-gray-700 p-3">
               {videoPlaying && (
@@ -525,6 +553,51 @@ export default function QuestId({ router }: { router: NextRouter }) {
             )}
           </div>
         </div>
+        {suggestedLoading || dataLoading ? (
+          <div className="relative w-full h-fit flex flex-col gap-3">
+            <div className="relative w-full h-fit flex flex-row gap-3">
+              {Array.from({ length: 4 })?.map((_, index: number) => {
+                return (
+                  <div
+                    key={index}
+                    className="relative w-full h-96 flex rounded-sm animate-pulse"
+                    id="rainbow"
+                  ></div>
+                );
+              })}
+            </div>
+            <div className="w-full h-fit grid-cols-2 grid gap-3">
+              {Array.from({ length: 10 }).map((_, index: number) => {
+                return (
+                  <div
+                    key={index}
+                    className="relative w-full h-60 flex rounded-sm animate-pulse"
+                    id="rainbow"
+                  ></div>
+                );
+              })}
+            </div>
+          </div>
+        ) : (
+          <QuestFeed
+            router={router}
+            interactionsLoading={suggestedInteractionsLoading}
+            questInfo={suggestedInfo}
+            questFeed={suggestedQuests}
+            mirror={suggestedMirror}
+            like={suggestedLike}
+            setMirrorChoiceOpen={suggestedSetMirrorChoiceOpen}
+            mirrorChoiceOpen={suggestedMirrorChoiceOpen}
+            setProfileHovers={suggestedSetProfileHovers}
+            profileHovers={suggestedProfileHovers}
+            dispatch={dispatch}
+            lensConnected={lensConnected}
+            bookmark={suggestedBookmark}
+            followProfile={suggestedFollowerProfile}
+            unfollowProfile={suggestedUnfollowProfile}
+            getMoreQuestFeed={getMoreSuggested}
+          />
+        )}
       </div>
     </div>
   );

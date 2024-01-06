@@ -6,6 +6,7 @@ import { setSideBarOpen } from "../../../../redux/reducers/sideBarOpenSlice";
 import { setAccountSwitch } from "../../../../redux/reducers/accountSwitchSlice";
 import { AccountType } from "@/components/Envoker/types/envoker.types";
 import { Quest } from "@/components/Quest/types/quest.types";
+import toHexWithLeadingZero from "../../../../lib/helpers/toHexWithLeadingZero";
 
 const Sidebar: FunctionComponent<SidebarProps> = ({
   openSidebar,
@@ -103,20 +104,9 @@ const Sidebar: FunctionComponent<SidebarProps> = ({
                 },
               },
               {
-                title: "History",
+                title: "Activity",
                 image: "QmZ3mrF2YgwPkoeFpR54mpDKznTg9oFo5Mqk7uGFW8PgY2",
-                link: () => {
-                  if (!router.asPath?.includes("envoker")) {
-                    router.push(
-                      `/envoker/${
-                        lensConnected?.handle?.suggestedFormatted?.localName?.split(
-                          "@"
-                        )?.[1]
-                      }`
-                    );
-                  }
-                  dispatch(setAccountSwitch(AccountType.History));
-                },
+                link: () => router.push("/activity"),
               },
               {
                 title: "Dashboard",
@@ -196,15 +186,22 @@ const Sidebar: FunctionComponent<SidebarProps> = ({
               </>
             )}
             <div className="relative w-full h-fit flex flex-row gap-2 flex-wrap overflow-hidden">
-              {(openSidebar ? newQuests : newQuests?.slice(0, 1)).map(
+              {(openSidebar ? newQuests : newQuests?.slice(0, 2)).map(
                 (item: Quest, index: number) => {
                   return (
                     <div
                       key={index}
                       id="rainbow"
-                      className={`relative rounded-sm p-px flex items-center justify-center ${
+                      className={`relative rounded-sm p-px flex items-center justify-center cursor-pointer active:scale-95 ${
                         openSidebar ? "w-14 h-14" : "w-7 h-7"
                       }`}
+                      onClick={() =>
+                        router.push(
+                          `/quest/${toHexWithLeadingZero(
+                            Number(item?.profileId)
+                          )}-${toHexWithLeadingZero(Number(item?.pubId))}`
+                        )
+                      }
                     >
                       <Image
                         layout="fill"

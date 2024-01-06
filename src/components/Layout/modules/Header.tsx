@@ -4,15 +4,16 @@ import { INFURA_GATEWAY } from "../../../../lib/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../redux/store";
 import createProfilePicture from "../../../../lib/helpers/createProfilePicture";
+import toHexWithLeadingZero from "./../../../../lib/helpers/toHexWithLeadingZero";
 import { useAccountModal, useConnectModal } from "@rainbow-me/rainbowkit";
 import useSignIn from "../hooks/useSignIn";
 import { useAccount } from "wagmi";
 import { NextRouter } from "next/router";
 import useSearch from "../hooks/useSearch";
 import { AiOutlineLoading } from "react-icons/ai";
-import { Post, Profile, VideoMetadataV3 } from "../../../../graphql/generated";
-import createMedia from "../../../../lib/helpers/createMedia";
+import { Profile } from "../../../../graphql/generated";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { Quest } from "@/components/Quest/types/quest.types";
 
 const Header: FunctionComponent<{ router: NextRouter }> = ({ router }) => {
   const { openConnectModal } = useConnectModal();
@@ -92,7 +93,7 @@ const Header: FunctionComponent<{ router: NextRouter }> = ({ router }) => {
             <div className="absolute z-10 w-full h-fit max-h-[10rem] overflow-y-scroll flex rounded-md border border-white top-10 bg-nave">
               <InfiniteScroll
                 hasMore={
-                  searchInfo?.hasMoreProfiles || searchInfo?.hasMorePubs
+                  searchInfo?.hasMoreProfiles || searchInfo?.hasMoreQuests
                     ? true
                     : false
                 }
@@ -101,22 +102,29 @@ const Header: FunctionComponent<{ router: NextRouter }> = ({ router }) => {
                 next={handleMoreSearchQuests}
                 className="relative w-full h-fit flex flex-col items-center justify-start"
               >
-                {searchResults?.map((item: Post | Profile, index: number) => {
-                  const image =
-                    item?.__typename === "Post"
-                      ? createMedia(item?.metadata)?.asset
-                      : createProfilePicture(
-                          (item as Profile)?.metadata?.picture
-                        );
+                {searchResults?.map((item: Quest | Profile, index: number) => {
+                  const image = (item as Quest)?.questId
+                    ? `${INFURA_GATEWAY}/ipfs/${
+                        (item as Quest)?.questMetadata?.cover?.split(
+                          "ipfs://"
+                        )?.[1]
+                      }`
+                    : createProfilePicture(
+                        (item as Profile)?.metadata?.picture
+                      );
                   return (
                     <div
                       key={index}
-                      className="relative w-full h-20 border-b border-white cursor-pointer hover:opacity-80 flex flex-row justify-between items-center p-2 gap-6"
+                      className={`relative w-full h-20 cursor-pointer hover:opacity-80 flex flex-row justify-between items-center p-2 gap-6 ${index !== searchResults?.length - 1 && "border-b border-white"}`}
                       onClick={() => {
                         router.push(
                           `/${
-                            item?.__typename === "Post"
-                              ? `quest/${item?.id}`
+                            (item as Quest)?.questId
+                              ? `quest/${toHexWithLeadingZero(
+                                  Number((item as Quest)?.profileId)
+                                )}-${toHexWithLeadingZero(
+                                  Number((item as Quest)?.pubId)
+                                )}`
                               : `envoker/${
                                   (
                                     item as Profile
@@ -145,24 +153,25 @@ const Header: FunctionComponent<{ router: NextRouter }> = ({ router }) => {
                       </div>
                       <div className="relative w-full h-fit flex flex-col gap-1 items-start justify-center">
                         <div className="relative text-base font-bit text-white uppercase text-left flex items-center justify-start">
-                          {item?.__typename === "Post"
-                            ? (item?.metadata as VideoMetadataV3)?.title
-                                ?.length > 40
-                              ? (
-                                  item?.metadata as VideoMetadataV3
-                                )?.title?.slice(0, 40) + "..."
-                              : (item?.metadata as VideoMetadataV3)?.title
+                          {(item as Quest)?.questId
+                            ? (item as Quest)?.questMetadata?.title?.length > 40
+                              ? (item as Quest)?.questMetadata?.title?.slice(
+                                  0,
+                                  40
+                                ) + "..."
+                              : (item as Quest)?.questMetadata?.title
                             : (item as Profile)?.handle?.suggestedFormatted
                                 ?.localName}
                         </div>
                         <div className="relative text-xs font-bit text-white/80 text-left flex items-center justify-start">
-                          {item?.__typename === "Post"
-                            ? (item?.metadata as VideoMetadataV3)?.content
+                          {(item as Quest)?.questId
+                            ? (item as Quest)?.questMetadata?.description
                                 ?.length > 40
                               ? (
-                                  item?.metadata as VideoMetadataV3
-                                )?.content?.slice(0, 40) + "..."
-                              : (item?.metadata as VideoMetadataV3)?.content
+                                  item as Quest
+                                )?.questMetadata?.description?.slice(0, 40) +
+                                "..."
+                              : (item as Quest)?.questMetadata?.description
                             : (item as Profile)?.metadata?.bio?.length > 40
                             ? (item as Profile)?.metadata?.bio?.slice(0, 40) +
                               "..."

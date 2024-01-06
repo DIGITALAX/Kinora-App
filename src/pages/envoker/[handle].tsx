@@ -51,10 +51,11 @@ export default function Handle({ router }: { router: NextRouter }) {
     setOpenQuest,
     approvalLoading,
     terminateLoading,
-  } = useDashboard(
-    quests?.filter((item) => item?.type == "evnoked"),
-    dispatch
-  );
+    playerClaimMilestoneReward,
+    claimRewardLoading,
+    openPlayerDetails,
+    setOpenPlayerDetails,
+  } = useDashboard(quests, dispatch);
   const { savesInfo, savesLoading, getMoreSaves, allSaves, setAllSaves } =
     useSaves(lensConnected, handle as string, accountType);
   const cover = createProfilePicture(pageProfile?.metadata?.coverPicture);
@@ -196,6 +197,10 @@ export default function Handle({ router }: { router: NextRouter }) {
         -3 justify-start items-start"
         >
           <AccountSwitch
+            setOpenPlayerDetails={setOpenPlayerDetails}
+            openPlayerDetails={openPlayerDetails}
+            playerClaimMilestoneReward={playerClaimMilestoneReward}
+            claimRewardLoading={claimRewardLoading}
             approvalLoading={approvalLoading}
             terminateLoading={terminateLoading}
             approvePlayerMilestone={approvePlayerMilestone}
