@@ -174,3 +174,12 @@ export type QuestGatesProps = {
     oneof?: boolean;
   };
 };
+
+export type FollowersProps = {
+  dataLoading: boolean;
+  followers: Profile[];
+  hasMore: boolean;
+  showMore: () => Promise<void>;
+  router: NextRouter;
+  dispatch: Dispatch<Action>;
+};

@@ -9,9 +9,6 @@ import { setFollowBox } from "../../../../redux/reducers/followBoxSlice";
 const Bio: FunctionComponent<BioProps> = ({
   profile,
   dispatch,
-  unfollowProfile,
-  followProfile,
-  mainInteractionsLoading,
 }): JSX.Element => {
   return (
     <div className="relative w-full h-fit flex flex-row items-start justify-start">
@@ -25,24 +22,14 @@ const Bio: FunctionComponent<BioProps> = ({
           <div className="relative w-full h-fit flex flex-row gap-10 justify-start items-center flex-wrap">
             {[
               {
-                title: "Follow",
+                title: "Followers",
                 image: "Qmb6fQG6L2R7Npf1oS55YEB5RS9z7oCyTwxYnTf57DEEjV",
                 amount: profile?.stats?.followers || 0,
-                function: () =>
-                  followProfile(
-                    profile?.id,
-                    0,
-                    profile?.followModule?.type!,
-                    true
-                  ),
-                loader: mainInteractionsLoading.follow,
               },
               {
                 title: "Following",
                 image: "QmP141cw2U9TNsU6AXRoo5X5VCPawUTPkWAUJburJayg7x",
                 amount: profile?.stats?.following || 0,
-                function: () => unfollowProfile(profile?.id, 0, true),
-                loader: mainInteractionsLoading.unfollow,
               },
             ].map(
               (
@@ -50,8 +37,6 @@ const Bio: FunctionComponent<BioProps> = ({
                   title: string;
                   image: string;
                   amount: number;
-                  function: () => void;
-                  loader: boolean;
                 },
                 indexTwo: number
               ) => {
@@ -62,8 +47,7 @@ const Bio: FunctionComponent<BioProps> = ({
                     title={item.title}
                   >
                     <div
-                      className="relative cursor-pointer active:scale-95 w-4 h-4 items-center justify-center flex"
-                      onClick={() => !item.loader && item.function()}
+                      className={`relative w-4 h-4 items-center justify-center flex`}
                     >
                       <Image
                         layout="fill"
@@ -71,6 +55,7 @@ const Bio: FunctionComponent<BioProps> = ({
                         draggable={false}
                       />
                     </div>
+
                     <div
                       className={`relative w-fit h-fit flex ${
                         item.amount > 0 && "cursor-pointer"

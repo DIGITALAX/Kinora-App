@@ -18,6 +18,8 @@ import ImageLarge from "./ImageLarge";
 import Success from "./Success";
 import PostCollectGif from "./PostCollectGif";
 import QuestGates from "./QuestGates";
+import Followers from "./Followers";
+import useFollowers from "../hooks/useFollowers";
 
 const Modals: FunctionComponent<{ router: NextRouter }> = ({
   router,
@@ -48,6 +50,9 @@ const Modals: FunctionComponent<{ router: NextRouter }> = ({
   const image = useSelector((state: RootState) => state.app.imageViewerReducer);
   const availableCurrencies = useSelector(
     (state: RootState) => state.app.availableCurrenciesReducer.currencies
+  );
+  const followBox = useSelector(
+    (state: RootState) => state.app.followBoxReducer
   );
   const success = useSelector((state: RootState) => state.app.successReducer);
   const openSidebar = useSelector(
@@ -87,6 +92,10 @@ const Modals: FunctionComponent<{ router: NextRouter }> = ({
     publicClient,
     address,
     availableCurrencies,
+    lensConnected
+  );
+  const { followData, hasMore, showMore, dataLoading } = useFollowers(
+    followBox,
     lensConnected
   );
   const {
@@ -135,6 +144,16 @@ const Modals: FunctionComponent<{ router: NextRouter }> = ({
           transactionLoading={transactionLoading}
           approved={approved}
           approveSpend={approveSpend}
+        />
+      )}
+      {followBox?.open && (
+        <Followers
+          hasMore={hasMore}
+          showMore={showMore}
+          dataLoading={dataLoading}
+          dispatch={dispatch}
+          router={router}
+          followers={followData}
         />
       )}
       {quote?.open && (

@@ -14,6 +14,7 @@ import { useAccount } from "wagmi";
 import RouterChange from "@/components/Common/modules/RouterChange";
 import useDashboard from "@/components/Envoker/hooks/useDashboard";
 import Bio from "@/components/Envoker/modules/Bio";
+import { AiOutlineLoading } from "react-icons/ai";
 
 export default function Handle({ router }: { router: NextRouter }) {
   const { handle } = router.query;
@@ -141,16 +142,53 @@ export default function Handle({ router }: { router: NextRouter }) {
                 )}
               </div>
             </div>
+            {lensConnected?.id !== pageProfile?.id && (
+              <div
+                className={`absolute left-2 top-2 flex rounded-sm bg-nave/70 border border-white flex items-center justify-center ${
+                  !mainInteractionsLoading?.follow &&
+                  !mainInteractionsLoading?.unfollow &&
+                  "cursor-pointer active:scale-95"
+                }`}
+                onClick={
+                  !pageProfile?.operations?.isFollowedByMe
+                    ? () =>
+                        !mainInteractionsLoading?.follow &&
+                        !mainInteractionsLoading?.unfollow &&
+                        followProfile(
+                          pageProfile?.id,
+                          0,
+                          pageProfile?.followModule?.type!,
+                          true
+                        )
+                    : () =>
+                        !mainInteractionsLoading?.follow &&
+                        !mainInteractionsLoading?.unfollow &&
+                        unfollowProfile(pageProfile?.id, 0, true)
+                }
+              >
+                <div
+                  className={`"relative w-16 h-5 text-xxs font-bit text-white flex items-center justify-center px-1.5 py-1 ${
+                    mainInteractionsLoading?.follow ||
+                    (mainInteractionsLoading?.unfollow
+                      ? "animate-spin"
+                      : "top-px")
+                  }`}
+                >
+                  {mainInteractionsLoading?.follow ||
+                  mainInteractionsLoading?.unfollow ? (
+                    <AiOutlineLoading color="white" size={12} />
+                  ) : pageProfile?.operations?.isFollowedByMe ? (
+                    "Unfollow"
+                  ) : (
+                    "Follow"
+                  )}
+                </div>
+              </div>
+            )}
           </div>
           {accountType !== AccountType.Dashboard &&
             accountType !== AccountType.Save && (
-              <Bio
-                profile={pageProfile!}
-                dispatch={dispatch}
-                unfollowProfile={unfollowProfile}
-                followProfile={followProfile}
-                mainInteractionsLoading={mainInteractionsLoading}
-              />
+              <Bio dispatch={dispatch} profile={pageProfile!} />
             )}
         </div>
         <div
