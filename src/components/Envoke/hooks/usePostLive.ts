@@ -418,17 +418,12 @@ const usePostLive = (
               internalCriteria: await Promise.all(
                 (item?.eligibility || [])?.map(
                   async (playbackCriteria: VideoEligible) => {
-                    let assetWithPlaybackId = allUploaded.find((asset) =>
-                      asset?.hash?.some(
-                        (h) =>
-                          h?.hash?.toLowerCase() ===
-                          (
-                            playbackCriteria?.video?.metadata as VideoMetadataV3
-                          )?.asset?.video?.raw?.uri
-                            ?.split("ipfs://")?.[1]
-                            ?.toLowerCase()
-                      )
-                    )?.playbackId;
+                    let assetWithPlaybackId = allUploaded.find((asset) => {
+                      asset?.name?.toLowerCase() ===
+                        (
+                          playbackCriteria?.video?.metadata as VideoMetadataV3
+                        )?.title?.toLowerCase();
+                    })?.playbackId;
 
                     if (!assetWithPlaybackId) {
                       const formData = new FormData();
@@ -453,6 +448,7 @@ const usePostLive = (
                           )?.asset?.video?.raw?.uri?.split("ipfs://")?.[1]
                         }`
                       );
+
                       const result = await fetch("/api/video", {
                         method: "POST",
                         body: formData,

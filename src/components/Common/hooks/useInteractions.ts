@@ -25,6 +25,13 @@ const useInteractions = (
   envoked?: Quest[]
 ) => {
   const [mirrorChoiceOpen, setMirrorChoiceOpen] = useState<boolean[]>([]);
+  const [mainInteractionsLoading, setMainInteractionsLoading] = useState<{
+    follow: boolean;
+    unfollow: boolean;
+  }>({
+    follow: false,
+    unfollow: false,
+  });
   const [profileHovers, setProfileHovers] = useState<boolean[]>([]);
   const [interactionsLoading, setInteractionsLoading] = useState<
     {
@@ -277,22 +284,34 @@ const useInteractions = (
     });
   };
 
-  const followProfile = async (id: string, index: number, type: string) => {
+  const followProfile = async (
+    id: string,
+    index: number,
+    type: string,
+    main?: boolean
+  ) => {
     if (!lensConnected?.id) return;
 
     if (index == -1) {
       return;
     }
 
-    (type === "completed"
-      ? setInteractionsLoadingCompleted
-      : type == "envoked"
-      ? setInteractionsLoadingEnvoked
-      : setInteractionsLoading)((prev) => {
-      const updatedArray = [...prev];
-      updatedArray[index!] = { ...updatedArray[index!], follow: true };
-      return updatedArray;
-    });
+    if (main) {
+      setMainInteractionsLoading((prev) => ({
+        ...prev,
+        follow: true,
+      }));
+    } else {
+      (type === "completed"
+        ? setInteractionsLoadingCompleted
+        : type == "envoked"
+        ? setInteractionsLoadingEnvoked
+        : setInteractionsLoading)((prev) => {
+        const updatedArray = [...prev];
+        updatedArray[index!] = { ...updatedArray[index!], follow: true };
+        return updatedArray;
+      });
+    }
 
     try {
       const clientWallet = createWalletClient({
@@ -313,29 +332,44 @@ const useInteractions = (
       errorChoice(err, () => {}, dispatch);
     }
 
-    (type === "completed"
-      ? setInteractionsLoadingCompleted
-      : type == "envoked"
-      ? setInteractionsLoadingEnvoked
-      : setInteractionsLoading)((prev) => {
-      const updatedArray = [...prev];
-      updatedArray[index!] = { ...updatedArray[index!], like: false };
-      return updatedArray;
-    });
+    if (main) {
+      setMainInteractionsLoading((prev) => ({
+        ...prev,
+        follow: false,
+      }));
+    } else {
+      (type === "completed"
+        ? setInteractionsLoadingCompleted
+        : type == "envoked"
+        ? setInteractionsLoadingEnvoked
+        : setInteractionsLoading)((prev) => {
+        const updatedArray = [...prev];
+        updatedArray[index!] = { ...updatedArray[index!], like: false };
+        return updatedArray;
+      });
+    }
   };
 
-  const unfollowProfile = async (id: string, index: number) => {
+  const unfollowProfile = async (id: string, index: number, main?: boolean) => {
     if (!lensConnected?.id) return;
 
     if (index == -1) {
       return;
     }
 
-    setInteractionsLoading((prev) => {
-      const updatedArray = [...prev];
-      updatedArray[index!] = { ...updatedArray[index!], unfollow: true };
-      return updatedArray;
-    });
+    if (main) {
+      setMainInteractionsLoading((prev) => ({
+        ...prev,
+        unfollow: true,
+      }));
+    } else {
+      setInteractionsLoading((prev) => {
+        const updatedArray = [...prev];
+        updatedArray[index!] = { ...updatedArray[index!], unfollow: true };
+        return updatedArray;
+      });
+    }
+
     try {
       const clientWallet = createWalletClient({
         chain: polygonMumbai,
@@ -353,11 +387,15 @@ const useInteractions = (
     } catch (err: any) {
       errorChoice(err, () => {}, dispatch);
     }
-    setInteractionsLoading((prev) => {
-      const updatedArray = [...prev];
-      updatedArray[index!] = { ...updatedArray[index!], unfollow: false };
-      return updatedArray;
-    });
+    if (main) {
+      setMainInteractionsLoading((prev) => ({ ...prev, unfollow: false }));
+    } else {
+      setInteractionsLoading((prev) => {
+        const updatedArray = [...prev];
+        updatedArray[index!] = { ...updatedArray[index!], unfollow: false };
+        return updatedArray;
+      });
+    }
   };
 
   const updateInteractions = (
@@ -489,6 +527,7 @@ const useInteractions = (
     setProfileHoversEnvoked,
     profileHoversCompleted,
     profileHoversEnvoked,
+    mainInteractionsLoading,
   };
 };
 

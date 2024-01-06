@@ -59,6 +59,9 @@ const Modals: FunctionComponent<{ router: NextRouter }> = ({
   const allUploaded = useSelector(
     (state: RootState) => state.app.allUploadedReducer.videos
   );
+  const feed = useSelector(
+    (state: RootState) => state.app.questFeedReducer?.feed
+  );
   const indexer = useSelector((state: RootState) => state.app.indexerReducer);
   const interactError = useSelector(
     (state: RootState) => state.app.interactErrorReducer
@@ -111,6 +114,7 @@ const Modals: FunctionComponent<{ router: NextRouter }> = ({
   return (
     <>
       <Sidebar
+        newQuests={feed}
         router={router}
         openSidebar={openSidebar}
         lensConnected={lensConnected}
