@@ -431,11 +431,6 @@ const useInteractions = (
 
   const mirror = async (
     id: string,
-    feed?: (Post | Quest)[],
-    itemSetter?:
-      | ((e: SetStateAction<Quest[]>) => void)
-      | ((e: SetStateAction<Post[]>) => void),
-    type?: string,
     main?: boolean | undefined
   ) => {
     if (!lensConnected?.id) return;
@@ -490,11 +485,6 @@ const useInteractions = (
   const like = async (
     id: string,
     hasReacted: boolean,
-    feed?: (Post | Quest)[],
-    itemSetter?:
-      | ((e: SetStateAction<Quest[]>) => void)
-      | ((e: SetStateAction<Post[]>) => void),
-    type?: string,
     main?: boolean | undefined
   ) => {
     if (!lensConnected?.id) return;
