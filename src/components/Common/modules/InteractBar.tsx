@@ -27,9 +27,6 @@ const InteractBar: FunctionComponent<InteractBarProps> = ({
   simpleCollect,
   setCommentsOpen,
   main,
-  type,
-  itemSetter,
-  feed,
 }): JSX.Element => {
   const pfp = createProfilePicture(publication?.by?.metadata?.picture);
   return (
@@ -44,7 +41,7 @@ const InteractBar: FunctionComponent<InteractBarProps> = ({
             mainFeed || router.asPath.includes("/envoker/")
               ? {
                   icon: "QmVXkRB4HCd6gkXmj1cweEh4nVV6oBuKCAWfsKUEJae433",
-                  function: () => bookmark!(publication?.id, feed, itemSetter!),
+                  function: () => bookmark!(publication?.id),
                   title: "Save Quest",
                   amount: publication?.stats?.bookmarks || 0,
                   reacted: publication?.operations?.hasBookmarked,
@@ -92,9 +89,7 @@ const InteractBar: FunctionComponent<InteractBarProps> = ({
                 like!(
                   publication?.id,
                   publication?.operations?.hasReacted,
-                  feed,
-                  itemSetter!,
-                  type,
+
                   main!
                 ),
               title: mainFeed ? "Like Quest" : "Like",
@@ -230,8 +225,7 @@ const InteractBar: FunctionComponent<InteractBarProps> = ({
             {[
               {
                 icon: "QmPRRRX1S3kxpgJdLC4G425pa7pMS1AGNnyeSedngWmfK3",
-                function: () =>
-                  mirror!(publication?.id, feed, itemSetter!, type, main)!,
+                function: () => mirror!(publication?.id, main)!,
                 title: "Mirror Quest",
                 reacted: publication?.operations?.hasMirrored,
                 loader: interactionsLoading?.[index]?.mirror!,

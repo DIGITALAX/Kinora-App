@@ -30,9 +30,6 @@ const QuestPreview: FunctionComponent<QuestPreviewProps> = ({
   followProfile,
   unfollowProfile,
   mainFeed,
-  itemSetter,
-  type,
-  feed
 }): JSX.Element => {
   return (
     <div className="relative w-full h-fit flex flex-col gap-2 flex items-start justify-start">
@@ -86,9 +83,6 @@ const QuestPreview: FunctionComponent<QuestPreviewProps> = ({
         profileHovers={profileHovers}
         router={router}
         mainFeed={mainFeed}
-        type={type}
-        feed={feed}
-        itemSetter={itemSetter!}
       />
       <div className="relative w-fit h-fit flex items-center justify-center text-white font-bit text-sm break-words">
         {(
