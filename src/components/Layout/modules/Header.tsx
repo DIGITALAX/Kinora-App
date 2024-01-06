@@ -22,6 +22,9 @@ const Header: FunctionComponent<{ router: NextRouter }> = ({ router }) => {
   const lensConnected = useSelector(
     (state: RootState) => state.app.lensConnectedReducer.profile
   );
+  const allUploaded = useSelector(
+    (state: RootState) => state.app.allUploadedReducer.videos
+  );
   const openSidebar = useSelector(
     (state: RootState) => state.app.sideBarOpenReducer.value
   );
@@ -40,7 +43,8 @@ const Header: FunctionComponent<{ router: NextRouter }> = ({ router }) => {
     openAccountModal,
     dispatch,
     isConnected,
-    address
+    address,
+    allUploaded
   );
   const {
     searchLoading,
