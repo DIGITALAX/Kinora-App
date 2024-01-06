@@ -162,8 +162,25 @@ export type QuestBoxDetailsProps = {
     unfollow: boolean;
   }[];
   questInfoLoading: boolean;
-  like: (id: string, hasReacted: boolean, main?: boolean) => Promise<void>;
-  mirror: (id: string, main?: boolean) => Promise<void>;
+  like: (
+    id: string,
+    hasReacted: boolean,
+    feed?: (Quest | Post)[],
+    itemSetter?:
+      | ((e: SetStateAction<Quest[]>) => void)
+      | ((e: SetStateAction<Post[]>) => void),
+    type?: string,
+    main?: boolean | undefined
+  ) => Promise<void>;
+  mirror: (
+    id: string,
+    feed?: (Quest | Post)[],
+    itemSetter?:
+      | ((e: SetStateAction<Quest[]>) => void)
+      | ((e: SetStateAction<Post[]>) => void),
+    type?: string,
+    main?: boolean | undefined
+  ) => Promise<void>;
   bookmark: (
     on: string,
     hasBookmarked: boolean,
@@ -232,10 +249,23 @@ export type QuestSocialProps = {
     >
   ) => void;
   postCollectGif: PostCollectGifState;
-  mirror: (id: string, main?: boolean | undefined) => Promise<void>;
+  mirror: (
+    id: string,
+    feed: (Post | Quest)[],
+    itemSetter:
+      | ((e: SetStateAction<Quest[]>) => void)
+      | ((e: SetStateAction<Post[]>) => void),
+    type: string,
+    main?: boolean | undefined
+  ) => Promise<void>;
   like: (
     id: string,
     hasReacted: boolean,
+    feed: (Post | Quest)[],
+    itemSetter:
+      | ((e: SetStateAction<Quest[]>) => void)
+      | ((e: SetStateAction<Post[]>) => void),
+    type: string,
     main?: boolean | undefined
   ) => Promise<void>;
   simpleCollect: (post: Post | Comment) => Promise<void>;
@@ -327,8 +357,25 @@ export type QuestBoardSwitchProps = {
     unfollow: boolean;
   }[];
   questInfoLoading: boolean;
-  like: (id: string, hasReacted: boolean, main?: boolean) => Promise<void>;
-  mirror: (id: string, main?: boolean) => Promise<void>;
+  like: (
+    id: string,
+    hasReacted: boolean,
+    feed?: (Post | Quest)[],
+    itemSetter?:
+      | ((e: SetStateAction<Quest[]>) => void)
+      | ((e: SetStateAction<Post[]>) => void),
+    type?: string,
+    main?: boolean | undefined
+  ) => Promise<void>;
+  mirror: (
+    id: string,
+    feed?: (Post | Quest)[],
+    itemSetter?:
+      | ((e: SetStateAction<Quest[]>) => void)
+      | ((e: SetStateAction<Post[]>) => void),
+    type?: string,
+    main?: boolean | undefined
+  ) => Promise<void>;
   bookmark: (
     on: string,
     hasBookmarked: boolean,
@@ -379,10 +426,23 @@ export type MetricsProps = {
 
 export type VideoInfoProps = {
   videoPlaying: Video;
-  mirror: (id: string, main?: boolean | undefined) => Promise<void>;
+  mirror: (
+    id: string,
+    feed?: (Post | Quest)[],
+    itemSetter?:
+      | ((e: SetStateAction<Quest[]>) => void)
+      | ((e: SetStateAction<Post[]>) => void),
+    type?: string,
+    main?: boolean | undefined
+  ) => Promise<void>;
   like: (
     id: string,
     hasReacted: boolean,
+    feed?: (Post | Quest)[],
+    itemSetter?:
+      | ((e: SetStateAction<Quest[]>) => void)
+      | ((e: SetStateAction<Post[]>) => void),
+    type?: string,
     main?: boolean | undefined
   ) => Promise<void>;
   bookmark: (

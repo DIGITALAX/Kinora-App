@@ -30,21 +30,27 @@ export type QuestFeedProps = {
   mirror: (
     id: string,
     feed: (Quest | Post)[],
-    itemSetter: ((e: SetStateAction<(Quest)[]>) => void) | ((e: SetStateAction<(Post)[]>) => void),
+    itemSetter:
+      | ((e: SetStateAction<Quest[]>) => void)
+      | ((e: SetStateAction<Post[]>) => void),
     type: string
   ) => Promise<void>;
   like: (
     id: string,
     hasReacted: boolean,
     feed: (Quest | Post)[],
-    itemSetter: ((e: SetStateAction<(Quest)[]>) => void) | ((e: SetStateAction<(Post)[]>) => void),
+    itemSetter:
+      | ((e: SetStateAction<Quest[]>) => void)
+      | ((e: SetStateAction<Post[]>) => void),
     type: string
   ) => Promise<void>;
   mirrorChoiceOpen: boolean[];
   bookmark: (
     id: string,
     feed: (Quest | Post)[],
-    itemSetter: ((e: SetStateAction<(Quest)[]>) => void) | ((e: SetStateAction<(Post)[]>) => void)
+    itemSetter:
+      | ((e: SetStateAction<Quest[]>) => void)
+      | ((e: SetStateAction<Post[]>) => void)
   ) => Promise<void>;
   interactionsLoading: {
     mirror: boolean;
@@ -66,7 +72,9 @@ export type QuestPreviewProps = {
   width: string;
   type: string;
   feed: (Quest | Post)[];
-  itemSetter?: ((e: SetStateAction<(Quest)[]>) => void) | ((e: SetStateAction<(Post)[]>) => void);
+  itemSetter?:
+    | ((e: SetStateAction<Quest[]>) => void)
+    | ((e: SetStateAction<Post[]>) => void);
   lensConnected: Profile | undefined;
   dispatch: Dispatch;
   post?: boolean;
@@ -74,19 +82,25 @@ export type QuestPreviewProps = {
   mirror: (
     id: string,
     feed: (Quest | Post)[],
-    itemSetter: ((e: SetStateAction<(Quest)[]>) => void) | ((e: SetStateAction<(Post)[]>) => void),
+    itemSetter:
+      | ((e: SetStateAction<Quest[]>) => void)
+      | ((e: SetStateAction<Post[]>) => void),
     type: string
   ) => Promise<void>;
   bookmark: (
     id: string,
     feed: (Quest | Post)[],
-    itemSetter: ((e: SetStateAction<(Quest)[]>) => void) | ((e: SetStateAction<(Post)[]>) => void)
+    itemSetter:
+      | ((e: SetStateAction<Quest[]>) => void)
+      | ((e: SetStateAction<Post[]>) => void)
   ) => Promise<void>;
   like: (
     id: string,
     hasReacted: boolean,
     feed: (Quest | Post)[],
-    itemSetter: ((e: SetStateAction<(Quest)[]>) => void) | ((e: SetStateAction<(Post)[]>) => void),
+    itemSetter:
+      | ((e: SetStateAction<Quest[]>) => void)
+      | ((e: SetStateAction<Post[]>) => void),
     type: string
   ) => Promise<void>;
   mirrorChoiceOpen: boolean[];
@@ -118,7 +132,9 @@ export type InteractBarProps = {
   mirror?: (
     id: string,
     feed: (Quest | Post)[],
-    itemSetter: ((e: SetStateAction<(Quest)[]>) => void) | ((e: SetStateAction<(Post)[]>) => void),
+    itemSetter:
+      | ((e: SetStateAction<Quest[]>) => void)
+      | ((e: SetStateAction<Post[]>) => void),
     type: string,
     main?: boolean
   ) => Promise<void>;
@@ -126,7 +142,9 @@ export type InteractBarProps = {
     id: string,
     hasReacted: boolean,
     feed: (Quest | Post)[],
-    itemSetter: ((e: SetStateAction<(Quest)[]>) => void) | ((e: SetStateAction<(Post)[]>) => void),
+    itemSetter:
+      | ((e: SetStateAction<Quest[]>) => void)
+      | ((e: SetStateAction<Post[]>) => void),
     type: string,
     main?: boolean
   ) => Promise<void>;
@@ -134,7 +152,9 @@ export type InteractBarProps = {
   bookmark?: (
     id: string,
     feed: (Quest | Post)[],
-    itemSetter: ((e: SetStateAction<(Quest)[]>) => void) | ((e: SetStateAction<(Post)[]>) => void)
+    itemSetter:
+      | ((e: SetStateAction<Quest[]>) => void)
+      | ((e: SetStateAction<Post[]>) => void)
   ) => Promise<void>;
   setMirrorChoiceOpen?: (id: SetStateAction<boolean[]>) => void;
   profileHovers?: boolean[];
@@ -148,7 +168,9 @@ export type InteractBarProps = {
   main?: boolean;
   type: string;
   feed: (Quest | Post)[];
-  itemSetter: ((e: SetStateAction<(Quest)[]>) => void) | ((e: SetStateAction<(Post)[]>) => void);
+  itemSetter?:
+    | ((e: SetStateAction<Quest[]>) => void)
+    | ((e: SetStateAction<Post[]>) => void);
 };
 
 export type ConnectFirstProps = {
@@ -263,10 +285,23 @@ export type PostQuoteProps = {
     comment: boolean;
   }[];
   main?: boolean;
-  mirror?: (id: string, main?: boolean | undefined) => void;
+  mirror?: (
+    id: string,
+    feed: (Post | Quest)[],
+    itemSetter:
+      | ((e: SetStateAction<Quest[]>) => void)
+      | ((e: SetStateAction<Post[]>) => void),
+    type: string,
+    main?: boolean | undefined
+  ) => Promise<void>;
   like?: (
     id: string,
     hasReacted: boolean,
+    feed: (Post | Quest)[],
+    itemSetter:
+      | ((e: SetStateAction<Quest[]>) => void)
+      | ((e: SetStateAction<Post[]>) => void),
+    type: string,
     main?: boolean | undefined
   ) => Promise<void>;
   mirrorChoiceOpen?: boolean[];

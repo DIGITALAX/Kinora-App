@@ -5,7 +5,7 @@ export const BASE_URL: string = "https://api-v2-mumbai-live.lens.dev";
 export const IPFS_REGEX: RegExp = /\b(Qm[1-9A-Za-z]{44}|ba[A-Za-z2-7]{57})\b/;
 
 export const KINORA_OPEN_ACTION: `0x${string}` =
-  "0x9b83de365593BF5efB754eB581387034D655aEaF";
+  "0x69257Ea75D2Cb2193E805FB8d31F4240B6cBba05";
 export const CHROMADIN_ID: string = "0x01c6a9";
 export const LENS_HUB_PROXY_ADDRESS_MATIC: `0x${string}` =
   "0xDb46d1Dc155634FbC732f92E853b10B288AD5a1d";
@@ -16,7 +16,7 @@ export const NFT_CREATOR: `0x${string}` =
 export const NFT_CREATOR_MUMBAI: `0x${string}` =
   "0x5B714F8eb491453f9cb9D5c4Ba698b34E9b8c0f0";
 export const KINORA_ESCROW_CONTRACT: `0x${string}` =
-  "0x71A584c68d5B61Df0a6FadA8dbfa4382781D9c25";
+  "0x32Dd59AE48B38C4Af8dE119Aee734dd25b82F477";
 
 export const COVER_CONSTANTS: string[] = [
   "QmPW4zahvfhNUUbc27sM2WZE9uQcZ9KYGcXTq64zzuoazi",

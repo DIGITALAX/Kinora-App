@@ -429,7 +429,15 @@ const useInteractions = (
     }
   };
 
-  const mirror = async (id: string, main?: boolean) => {
+  const mirror = async (
+    id: string,
+    feed?: (Post | Quest)[],
+    itemSetter?:
+      | ((e: SetStateAction<Quest[]>) => void)
+      | ((e: SetStateAction<Post[]>) => void),
+    type?: string,
+    main?: boolean | undefined
+  ) => {
     if (!lensConnected?.id) return;
     const index = main
       ? undefined
@@ -479,7 +487,16 @@ const useInteractions = (
     handleLoaders(false, main, index, "mirror");
   };
 
-  const like = async (id: string, hasReacted: boolean, main?: boolean) => {
+  const like = async (
+    id: string,
+    hasReacted: boolean,
+    feed?: (Post | Quest)[],
+    itemSetter?:
+      | ((e: SetStateAction<Quest[]>) => void)
+      | ((e: SetStateAction<Post[]>) => void),
+    type?: string,
+    main?: boolean | undefined
+  ) => {
     if (!lensConnected?.id) return;
     const index = main
       ? undefined
