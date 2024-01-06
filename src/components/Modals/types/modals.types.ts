@@ -9,7 +9,7 @@ import {
 } from "../../../../graphql/generated";
 import { Action, Dispatch } from "redux";
 import { SetStateAction } from "react";
-import { MakePostComment } from "@/components/Quest/types/quest.types";
+import { MakePostComment, Quest } from "@/components/Quest/types/quest.types";
 import { PostCollectGifState } from "../../../../redux/reducers/postCollectGifSlice";
 import { Collection } from "@/components/Envoke/types/envoke.types";
 
@@ -21,6 +21,7 @@ export type SidebarProps = {
   walletConnected: boolean;
   openConnectModal: (() => void) | undefined;
   handleLogIn: () => Promise<void>;
+  newQuests: Quest[];
 };
 
 export type IndexProps = {
@@ -170,6 +171,6 @@ export type QuestGatesProps = {
       amount: string;
     }[];
     erc721?: Collection[];
-    oneof?: boolean
+    oneof?: boolean;
   };
 };

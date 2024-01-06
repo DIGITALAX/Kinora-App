@@ -10,6 +10,8 @@ import indexerReducer from "./reducers/indexerSlice";
 import questStageReducer from "./reducers/questStageSlice";
 import questInfoReducer from "./reducers/questInfoSlice";
 import availableCurrenciesReducer from "./reducers/availableCurrenciesSlice";
+import followBoxReducer from "./reducers/followBoxSlice";
+import isPlayerReducer from "./reducers/isPlayerSlice";
 import questGatesReducer from "./reducers/questGatesSlice";
 import successReducer from "./reducers/successSlice";
 import postCollectGifReducer from "./reducers/postCollectGifSlice";
@@ -36,6 +38,8 @@ const reducer = combineReducers({
   successReducer,
   allUploadedReducer,
   questGatesReducer,
+  isPlayerReducer,
+  followBoxReducer,
 });
 
 export const store = configureStore({

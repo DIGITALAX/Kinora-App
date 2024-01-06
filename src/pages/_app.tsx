@@ -25,6 +25,7 @@ import {
 import { KinoraProvider } from "kinora-sdk";
 import { useEffect, useState } from "react";
 import RouterChange from "@/components/Common/modules/RouterChange";
+import { apolloClient } from "../../lib/lens/client";
 
 const walletTheme = merge(darkTheme(), {
   colors: {
@@ -87,7 +88,7 @@ export default function App({ Component, pageProps }: AppProps) {
     <WagmiConfig config={wagmiConfig}>
       <RainbowKitProvider chains={chains} theme={walletTheme}>
         <LivepeerConfig client={livepeerClient}>
-          <KinoraProvider errorHandlingModeStrict={false}>
+          <KinoraProvider playerAuthedApolloClient={apolloClient}>
             <Provider store={store}>
               <div className="relative w-full h-full flex bg-fuzz flex-col">
                 <Header router={router} />

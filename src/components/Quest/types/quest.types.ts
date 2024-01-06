@@ -422,6 +422,7 @@ export type MetricsProps = {
   milestoneMetrics: Video;
   playerMetricsOnChain: VideoActivity;
   playerMetricsLive: VideoActivity | undefined;
+  currentMetricsLoading: boolean;
 };
 
 export type VideoInfoProps = {

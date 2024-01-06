@@ -7,7 +7,7 @@ import { setQuote } from "../../../../redux/reducers/quoteSlice";
 import { SocialType, VideoInfoProps } from "../types/quest.types";
 import createProfilePicture from "../../../../lib/helpers/createProfilePicture";
 import moment from "moment";
-import { VideoMetadataV3 } from "kinora-sdk/dist/@types/generated";
+import { VideoMetadataV3 } from "../../../../graphql/generated";
 
 const VideoInfo: FunctionComponent<VideoInfoProps> = ({
   videoPlaying,

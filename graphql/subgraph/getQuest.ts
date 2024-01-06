@@ -69,30 +69,30 @@ export const getQuest = async (
               rewardsLength
               videoLength
               videos {
-                videoBytes
-                profileId
-                pubId
-                playerId
-                minPlayCount
-                minSecondaryQuoteOnQuote
-                minSecondaryMirrorOnQuote
-                minSecondaryReactOnQuote
-                minSecondaryCommentOnQuote
-                minSecondaryCollectOnQuote
-                minSecondaryQuoteOnComment
-                minSecondaryMirrorOnComment
-                minSecondaryReactOnComment
-                minSecondaryCommentOnComment
-                minSecondaryCollectOnComment
+                bookmark
+                comment
                 minAVD
+                minDuration
                 minImpressionCount
                 minEngagementRate
-                minDuration
-                quote
+                minPlayCount
+                minSecondaryCollectOnQuote
+                minSecondaryCollectOnComment
+                minSecondaryCommentOnComment
+                minSecondaryCommentOnQuote
+                minSecondaryMirrorOnComment
+                minSecondaryMirrorOnQuote
+                minSecondaryQuoteOnComment
+                minSecondaryQuoteOnQuote
+                minSecondaryReactOnComment
+                minSecondaryReactOnQuote
                 mirror
-                comment
-                bookmark
+                playerId
+                profileId
+                pubId
+                quote
                 react
+                videoBytes
               }
             }
             maxPlayerCount
@@ -116,21 +116,26 @@ export const getQuest = async (
               questsCompleted
               questsJoined
               videos {
+                secondaryReactOnQuote
+                secondaryReactOnComment
+                secondaryQuoteOnQuote
+                secondaryQuoteOnComment
+                secondaryMirrorOnQuote
+                secondaryMirrorOnComment
+                secondaryCommentOnQuote
+                secondaryCommentOnComment
+                secondaryCollectOnQuote
                 pubId
-                profileId
+                secondaryCollectOnComment
                 playCount
-                mostViewedSegment
+                profileId
                 mostReplayedArea
-                interactionRate
-                impressionCount
-                hasReacted
                 hasQuoted
+                hasReacted
                 hasMirrored
                 hasCommented
                 hasBookmarked
-                engagementRate
                 duration
-                ctr
                 avd
               }
             }
@@ -229,30 +234,30 @@ export const getQuestById = async (
               rewardsLength
               videoLength
               videos {
-                videoBytes
-                profileId
-                pubId
-                playerId
-                minPlayCount
-                minSecondaryQuoteOnQuote
-                minSecondaryMirrorOnQuote
-                minSecondaryReactOnQuote
-                minSecondaryCommentOnQuote
-                minSecondaryCollectOnQuote
-                minSecondaryQuoteOnComment
-                minSecondaryMirrorOnComment
-                minSecondaryReactOnComment
-                minSecondaryCommentOnComment
-                minSecondaryCollectOnComment
+                bookmark
+                comment
                 minAVD
+                minDuration
                 minImpressionCount
                 minEngagementRate
-                minDuration
-                quote
+                minPlayCount
+                minSecondaryCollectOnQuote
+                minSecondaryCollectOnComment
+                minSecondaryCommentOnComment
+                minSecondaryCommentOnQuote
+                minSecondaryMirrorOnComment
+                minSecondaryMirrorOnQuote
+                minSecondaryQuoteOnComment
+                minSecondaryQuoteOnQuote
+                minSecondaryReactOnComment
+                minSecondaryReactOnQuote
                 mirror
-                comment
-                bookmark
+                playerId
+                profileId
+                pubId
+                quote
                 react
+                videoBytes
               }
             }
             maxPlayerCount
@@ -276,21 +281,26 @@ export const getQuestById = async (
               questsCompleted
               questsJoined
               videos {
+                secondaryReactOnQuote
+                secondaryReactOnComment
+                secondaryQuoteOnQuote
+                secondaryQuoteOnComment
+                secondaryMirrorOnQuote
+                secondaryMirrorOnComment
+                secondaryCommentOnQuote
+                secondaryCommentOnComment
+                secondaryCollectOnQuote
                 pubId
-                profileId
+                secondaryCollectOnComment
                 playCount
-                mostViewedSegment
+                profileId
                 mostReplayedArea
-                interactionRate
-                impressionCount
-                hasReacted
                 hasQuoted
+                hasReacted
                 hasMirrored
                 hasCommented
                 hasBookmarked
-                engagementRate
                 duration
-                ctr
                 avd
               }
             }

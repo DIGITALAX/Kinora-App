@@ -266,6 +266,7 @@ const useJoin = (
     setSocialType,
     handleCompleteMilestone,
     completeLoading,
+    getQuestInfo
   };
 };
 

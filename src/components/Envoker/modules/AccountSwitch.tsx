@@ -1,6 +1,6 @@
 import { FunctionComponent } from "react";
 import { AccountSwitchProps, AccountType } from "../types/envoker.types";
-import Stats from "./Stats";
+import Dashboard from "./Dashboard";
 import Saves from "./Saves";
 import Home from "./Home";
 
@@ -147,8 +147,8 @@ const AccountSwitch: FunctionComponent<AccountSwitchProps> = ({
           />
         );
 
-      case AccountType.Stats:
-        return <Stats />;
+      case AccountType.Dashboard:
+        return <Dashboard />;
     }
   } else {
     return (

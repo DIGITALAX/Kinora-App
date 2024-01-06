@@ -61,12 +61,17 @@ const Home: FunctionComponent<HomeProps> = ({
           No Active Quest Data Yet.
         </div>
       ) : (
-        <div className="relative w-full h-fit flex flex-col gap-10 items-start justify-start">
+        <div className="relative w-full h-fit flex flex-col gap-10 items-start justify-start pb-10">
           {!onlyHistory && (
             <>
               {liveQuests?.length < 1 ? (
-                <div className="relative text-white font-bit text-base text-center flex items-center justify-center w-full h-fit">
-                  No Live Quests Currently.
+                <div className="relative w-full h-fit flex flex-col items-start justify-center">
+                  <div className="relative w-fit h-fit flex w-fit h-fit text-left text-base font-bit text-white">
+                    Live Quests
+                  </div>
+                  <div className="relative w-fit h-fit flex w-fit h-fit text-left text-xs font-bit text-gray-600">
+                    No Live Quests Yet.
+                  </div>
                 </div>
               ) : (
                 <div className="relative w-full h-fit flex flex-col items-start justify-center">
@@ -113,8 +118,13 @@ const Home: FunctionComponent<HomeProps> = ({
                 </div>
               )}
               {envokedQuests?.length < 1 ? (
-                <div className="relative text-white font-bit text-base text-center flex items-center justify-center w-full h-fit">
-                  No Envoked Quests Yet.
+                <div className="relative w-full h-fit flex flex-col items-start justify-center">
+                  <div className="relative w-fit h-fit flex w-fit h-fit text-left text-base font-bit text-white">
+                    Envoked Quests
+                  </div>
+                  <div className="relative w-fit h-fit flex w-fit h-fit text-left text-xs font-bit text-gray-600">
+                    No Envoked Quests Yet.
+                  </div>
                 </div>
               ) : (
                 <div className="relative w-full h-fit flex flex-col items-start justify-center">
@@ -163,8 +173,13 @@ const Home: FunctionComponent<HomeProps> = ({
             </>
           )}
           {completedQuests?.length < 1 ? (
-            <div className="relative text-white font-bit text-base text-center flex items-center justify-center w-full h-fit">
-              No Completed Quests Yet.
+            <div className="relative w-full h-fit flex flex-col items-start justify-center">
+              <div className="relative w-fit h-fit flex w-fit h-fit text-left text-base font-bit text-white">
+                Completed Quests
+              </div>
+              <div className="relative w-fit h-fit flex w-fit h-fit text-left text-xs font-bit text-gray-600">
+                No Completed Quests Yet.
+              </div>
             </div>
           ) : (
             <div className="relative w-full h-fit flex flex-col items-start justify-center">

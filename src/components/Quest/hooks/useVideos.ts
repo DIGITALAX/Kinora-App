@@ -1,20 +1,25 @@
 import { useEffect, useState } from "react";
-import { Video, VideoActivity } from "../types/quest.types";
+import { Quest, Video, VideoActivity } from "../types/quest.types";
 import { Profile } from "../../../../graphql/generated";
 import getPublications from "../../../../graphql/lens/queries/publications";
 import { Kinora } from "kinora-sdk";
 import { Dispatch } from "redux";
 import { setInteractError } from "../../../../redux/reducers/interactErrorSlice";
 import { ethers } from "ethers";
+import { setSuccess } from "../../../../redux/reducers/successSlice";
+import { apolloClient } from "../../../../lib/lens/client";
 
 const useVideos = (
-  chainMetrics: VideoActivity | undefined,
+  questInfo: Quest | undefined,
   lensConnected: Profile | undefined,
-  dispatch: Dispatch
+  dispatch: Dispatch,
+  getQuestInfo: () => Promise<void>
 ) => {
   const [videoPlaying, setVideoPlaying] = useState<Video | undefined>(
     undefined
   );
+  const [currentMetricsLoading, setCurrentMetricsLoading] =
+    useState<boolean>(false);
   const [playing, setPlaying] = useState<boolean>(false);
   const [volume, setVolume] = useState<number>(0.5);
   const [seek, setSeek] = useState<number>(0);
@@ -24,7 +29,7 @@ const useVideos = (
   const [playerMetricsLive, setPlayerMetricsLive] = useState<
     VideoActivity | undefined
   >();
-  const kinora = Kinora.getInstance();
+  const kinora = Kinora.getInstance(apolloClient);
 
   const handleSendMetrics = async () => {
     setMetricsLoading(true);
@@ -46,11 +51,20 @@ const useVideos = (
         console.error(errorMessage);
         dispatch(setInteractError(true));
       } else {
+        dispatch(
+          setSuccess({
+            open: true,
+            image: "QmWJsCA7cDet9d95TF7SqCwL2yXRQrTwPr897yhsipuaNF",
+            text: "Metrics stored on chain! You're one step closer to completing this Milestone.",
+          })
+        );
+
+        await getQuestInfo();
       }
     } catch (err: any) {
       console.error(err.message);
     }
-    setMetricsLoading(true);
+    setMetricsLoading(false);
   };
 
   const handleCurrentMetrics = async () => {
@@ -58,6 +72,16 @@ const useVideos = (
       setPlayerMetricsLive(undefined);
       return;
     }
+    setCurrentMetricsLoading(true);
+
+    const chainMetrics = questInfo?.players
+      ?.find(
+        (player) => Number(player?.profileId) == parseInt(lensConnected?.id, 16)
+      )
+      ?.videos?.find(
+        (video) => Number(video?.pubId) == Number(videoPlaying?.pubId)
+      );
+
     try {
       let currentActivity = {};
       if (!chainMetrics?.hasCommented) {
@@ -145,6 +169,7 @@ const useVideos = (
     } catch (err: any) {
       console.error(err.message);
     }
+    setCurrentMetricsLoading(false);
   };
 
   const getLogs = () => {
@@ -189,6 +214,7 @@ const useVideos = (
     metricsLoading,
     handleSendMetrics,
     playerMetricsLive,
+    currentMetricsLoading,
   };
 };
 
