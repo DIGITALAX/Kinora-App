@@ -22,7 +22,6 @@ const Saves: FunctionComponent<SavesProps> = ({
   followProfile,
   profileHovers,
   setProfileHovers,
-  setAllSaves
 }): JSX.Element => {
   return (
     <>
@@ -77,9 +76,6 @@ const Saves: FunctionComponent<SavesProps> = ({
                     interactionsLoading={interactionsLoading}
                     bookmark={bookmark}
                     router={router}
-                    type="feed"
-                    feed={allSaves}
-                    itemSetter={setAllSaves}
                   />
                 );
               })}

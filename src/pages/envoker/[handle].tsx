@@ -34,21 +34,26 @@ export default function Handle({ router }: { router: NextRouter }) {
   const accountType = useSelector(
     (state: RootState) => state.app.accountSwitchReducer.value
   );
-  const { dashboardLoading } = useDashboard(accountType);
   const {
     profileLoading,
     pageProfile,
     questsLoading,
-    completedQuests,
-    liveQuests,
-    envokedQuests,
+    quests,
     info,
-    getMorePlayer,
-    getMoreEnvoked,
-    setCompletedQuests,
-    setLiveQuests,
-    setEnvokedQuests,
+    getMore,
+    setQuests,
   } = usePageProfile(handle as string, lensConnected);
+  const {
+    terminateQuest,
+    approvePlayerMilestone,
+    openQuest,
+    setOpenQuest,
+    approvalLoading,
+    terminateLoading,
+  } = useDashboard(
+    quests?.filter((item) => item?.type == "evnoked"),
+    dispatch
+  );
   const { savesInfo, savesLoading, getMoreSaves, allSaves, setAllSaves } =
     useSaves(lensConnected, handle as string, accountType);
   const cover = createProfilePicture(pageProfile?.metadata?.coverPicture);
@@ -64,34 +69,22 @@ export default function Handle({ router }: { router: NextRouter }) {
     followProfile,
     setProfileHovers,
     profileHovers,
-    setMirrorChoiceOpenEnvoked,
-    mirrorChoiceOpenEnvoked,
-    interactionsLoadingEnvoked,
-    setMirrorChoiceOpenCompleted,
-    mirrorChoiceOpenCompleted,
-    interactionsLoadingCompleted,
-    setProfileHoversCompleted,
-    setProfileHoversEnvoked,
-    profileHoversCompleted,
-    profileHoversEnvoked,
     mainInteractionsLoading,
   } = useInteractions(
     lensConnected,
     dispatch,
-    accountType == AccountType.Save ? allSaves : liveQuests,
+    accountType == AccountType.Save ? allSaves : quests,
     address,
     publicClient,
-    router,
-    completedQuests,
-    envokedQuests
+    (newItems) =>
+      (accountType == AccountType.Save ? setAllSaves : setQuests)(
+        newItems as any
+      )
   );
 
   if (
-    ((AccountType.History === accountType ||
-      AccountType.Home === accountType) &&
-      savesLoading) ||
-    (AccountType.Save === accountType && savesLoading) ||
-    (AccountType.Dashboard === accountType && dashboardLoading)
+    (AccountType.Save !== accountType && questsLoading) ||
+    (AccountType.Save === accountType && savesLoading)
   ) {
     return <RouterChange />;
   }
@@ -160,21 +153,27 @@ export default function Handle({ router }: { router: NextRouter }) {
               />
             )}
         </div>
-        <div className="relative w-full h-fit flex flex-col gap-3 justify-start items-start">
+        <div
+          className="relative w-full h-fit flex flex-col gap
+        -3 justify-start items-start"
+        >
           <AccountSwitch
+            approvalLoading={approvalLoading}
+            terminateLoading={terminateLoading}
+            approvePlayerMilestone={approvePlayerMilestone}
+            terminateQuest={terminateQuest}
             followProfile={followProfile}
             unfollowProfile={unfollowProfile}
             lensConnected={lensConnected}
             pageProfile={pageProfile}
             savesInfo={savesInfo}
             router={router}
-            envokedQuests={envokedQuests}
+            openQuest={openQuest}
+            setOpenQuest={setOpenQuest}
             savesLoading={savesLoading}
             getMoreSaves={getMoreSaves}
             accountType={accountType}
             dispatch={dispatch}
-            liveQuests={liveQuests}
-            completedQuests={completedQuests}
             questsLoading={questsLoading}
             allSaves={allSaves}
             mirror={mirror}
@@ -183,25 +182,11 @@ export default function Handle({ router }: { router: NextRouter }) {
             setMirrorChoiceOpen={setMirrorChoiceOpen}
             mirrorChoiceOpen={mirrorChoiceOpen}
             interactionsLoading={interactionsLoading}
-            setMirrorChoiceOpenEnvoked={setMirrorChoiceOpenEnvoked}
-            mirrorChoiceOpenEnvoked={mirrorChoiceOpenEnvoked}
-            interactionsLoadingEnvoked={interactionsLoadingEnvoked}
-            setMirrorChoiceOpenCompleted={setMirrorChoiceOpenCompleted}
-            mirrorChoiceOpenCompleted={mirrorChoiceOpenCompleted}
-            interactionsLoadingCompleted={interactionsLoadingCompleted}
             setProfileHovers={setProfileHovers}
-            setProfileHoversCompleted={setProfileHoversCompleted}
-            setProfileHoversEnvoked={setProfileHoversEnvoked}
             profileHovers={profileHovers}
-            profileHoversCompleted={profileHoversCompleted}
-            profileHoversEnvoked={profileHoversEnvoked}
             info={info}
-            getMorePlayer={getMorePlayer}
-            getMoreEnvoked={getMoreEnvoked}
-            setAllSaves={setAllSaves}
-            setCompletedQuests={setCompletedQuests}
-            setEnvokedQuests={setEnvokedQuests}
-            setLiveQuests={setLiveQuests}
+            getMore={getMore}
+            quests={quests}
           />
         </div>
       </div>

@@ -12,6 +12,7 @@ const usePageProfile = (handle: string, lensConnected: Profile | undefined) => {
   const [profileLoading, setProfileLoading] = useState<boolean>(false);
   const [questsLoading, setQuestsLoading] = useState<boolean>(false);
   const [pageProfile, setPageProfile] = useState<Profile>();
+  const [quests, setQuests] = useState<(Quest & { type: string })[]>([]);
   const [allPlayerData, setAllPlayerData] = useState<{
     questsCompleted: string[];
     questsJoined: string[];
@@ -19,9 +20,6 @@ const usePageProfile = (handle: string, lensConnected: Profile | undefined) => {
     questsCompleted: [],
     questsJoined: [],
   });
-  const [completedQuests, setCompletedQuests] = useState<Quest[]>([]);
-  const [liveQuests, setLiveQuests] = useState<Quest[]>([]);
-  const [envokedQuests, setEnvokedQuests] = useState<Quest[]>([]);
   const [info, setInfo] = useState<{
     hasMorePlayer: boolean;
     hasMoreEnvoked: boolean;
@@ -73,6 +71,7 @@ const usePageProfile = (handle: string, lensConnected: Profile | undefined) => {
 
           return {
             ...item,
+            type: "envoked",
             publication: publication?.data?.publication,
           };
         }
@@ -116,9 +115,15 @@ const usePageProfile = (handle: string, lensConnected: Profile | undefined) => {
               if (
                 playerQuest?.data?.players?.[0]?.questsCompleted?.includes(item)
               ) {
-                completedQuests.push(quest);
+                completedQuests.push({
+                  ...quest,
+                  type: "completed",
+                });
               } else {
-                liveQuests.push(quest);
+                liveQuests.push({
+                  ...quest,
+                  type: "live",
+                });
               }
             })()
           );
@@ -128,10 +133,11 @@ const usePageProfile = (handle: string, lensConnected: Profile | undefined) => {
       const envoked = await Promise.all(envokedPromises);
       await Promise.all(playerPromises);
 
-      setCompletedQuests(completedQuests || []);
-      setLiveQuests(liveQuests || []);
-      setEnvokedQuests(envoked || []);
-
+      setQuests(
+        [...completedQuests, ...liveQuests, ...envoked].sort(
+          () => 0.5 - Math.random()
+        )
+      );
       setInfo({
         hasMorePlayer:
           completedQuests?.length + liveQuests?.length == 25 ? true : false,
@@ -145,50 +151,39 @@ const usePageProfile = (handle: string, lensConnected: Profile | undefined) => {
     setQuestsLoading(false);
   };
 
-  const getMoreEnvoked = async (): Promise<void> => {
-    if (!info.hasMoreEnvoked) return;
+  const getMore = async (): Promise<void> => {
+    if (!info.hasMorePlayer && !info.hasMoreEnvoked) return;
     try {
-      const envokedData = await getQuestsEnvoker(
-        25,
-        info.envokedCursor,
-        parseInt(pageProfile?.id, 16)
-      );
+      let envoked = [];
+      if (info.hasMoreEnvoked) {
+        const envokedData = await getQuestsEnvoker(
+          25,
+          info.envokedCursor,
+          parseInt(pageProfile?.id, 16)
+        );
 
-      const envokedPromises = envokedData?.data?.questInstantiateds?.map(
-        async (item: any) => {
-          const publication = await getPublication(
-            {
-              forId: `${toHexWithLeadingZero(
-                Number(item?.profileId)
-              )}-${toHexWithLeadingZero(Number(item?.pubId))}`,
-            },
-            lensConnected?.id
-          );
+        const envokedPromises = envokedData?.data?.questInstantiateds?.map(
+          async (item: any) => {
+            const publication = await getPublication(
+              {
+                forId: `${toHexWithLeadingZero(
+                  Number(item?.profileId)
+                )}-${toHexWithLeadingZero(Number(item?.pubId))}`,
+              },
+              lensConnected?.id
+            );
 
-          return {
-            ...item,
-            publication: publication?.data?.publication,
-          };
-        }
-      );
+            return {
+              ...item,
+              publication: publication?.data?.publication,
+              type: "envoked",
+            };
+          }
+        );
 
-      const envoked = await Promise.all(envokedPromises);
+        envoked = await Promise.all(envokedPromises);
+      }
 
-      setEnvokedQuests([...envokedQuests, ...envoked]);
-
-      setInfo({
-        ...info,
-        hasMoreEnvoked: envoked?.length == 25 ? true : false,
-        envokedCursor: info.envokedCursor + 25,
-      });
-    } catch (err: any) {
-      console.error(err.message);
-    }
-  };
-
-  const getMorePlayer = async (): Promise<void> => {
-    if (!info.hasMorePlayer) return;
-    try {
       let newLiveQuests: Quest[] = [];
       let newCompletedQuests: Quest[] = [];
 
@@ -224,9 +219,15 @@ const usePageProfile = (handle: string, lensConnected: Profile | undefined) => {
             };
 
             if (allPlayerData?.questsCompleted?.includes(item)) {
-              completedQuests.push(quest);
+              newCompletedQuests.push({
+                ...quest,
+                type: "completed",
+              });
             } else {
-              liveQuests.push(quest);
+              newLiveQuests.push({
+                ...quest,
+                type: "live",
+              });
             }
           })()
         );
@@ -234,11 +235,15 @@ const usePageProfile = (handle: string, lensConnected: Profile | undefined) => {
 
       await Promise.all(playerPromises);
 
-      setCompletedQuests([...completedQuests, ...newCompletedQuests]);
-      setLiveQuests([...liveQuests, ...newLiveQuests]);
+      setQuests(
+        [...newCompletedQuests, ...newLiveQuests, ...envoked].sort(
+          () => 0.5 - Math.random()
+        )
+      );
 
       setInfo({
-        ...info,
+        hasMoreEnvoked: envoked?.length == 25 ? true : false,
+        envokedCursor: info.envokedCursor + 25,
         hasMorePlayer:
           newCompletedQuests?.length + newLiveQuests?.length == 25
             ? true
@@ -260,15 +265,10 @@ const usePageProfile = (handle: string, lensConnected: Profile | undefined) => {
     profileLoading,
     pageProfile,
     questsLoading,
-    completedQuests,
-    liveQuests,
-    envokedQuests,
+    quests,
     info,
-    getMorePlayer,
-    getMoreEnvoked,
-    setCompletedQuests,
-    setLiveQuests,
-    setEnvokedQuests,
+    getMore,
+    setQuests,
   };
 };
 

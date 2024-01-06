@@ -165,20 +165,10 @@ export type QuestBoxDetailsProps = {
   like: (
     id: string,
     hasReacted: boolean,
-    feed?: (Quest | Post)[],
-    itemSetter?:
-      | ((e: SetStateAction<Quest[]>) => void)
-      | ((e: SetStateAction<Post[]>) => void),
-    type?: string,
     main?: boolean | undefined
   ) => Promise<void>;
   mirror: (
     id: string,
-    feed?: (Quest | Post)[],
-    itemSetter?:
-      | ((e: SetStateAction<Quest[]>) => void)
-      | ((e: SetStateAction<Post[]>) => void),
-    type?: string,
     main?: boolean | undefined
   ) => Promise<void>;
   bookmark: (
@@ -249,23 +239,10 @@ export type QuestSocialProps = {
     >
   ) => void;
   postCollectGif: PostCollectGifState;
-  mirror: (
-    id: string,
-    feed: (Post | Quest)[],
-    itemSetter:
-      | ((e: SetStateAction<Quest[]>) => void)
-      | ((e: SetStateAction<Post[]>) => void),
-    type: string,
-    main?: boolean | undefined
-  ) => Promise<void>;
+  mirror: (id: string, main?: boolean | undefined) => Promise<void>;
   like: (
     id: string,
     hasReacted: boolean,
-    feed: (Post | Quest)[],
-    itemSetter:
-      | ((e: SetStateAction<Quest[]>) => void)
-      | ((e: SetStateAction<Post[]>) => void),
-    type: string,
     main?: boolean | undefined
   ) => Promise<void>;
   simpleCollect: (post: Post | Comment) => Promise<void>;
@@ -360,20 +337,10 @@ export type QuestBoardSwitchProps = {
   like: (
     id: string,
     hasReacted: boolean,
-    feed?: (Post | Quest)[],
-    itemSetter?:
-      | ((e: SetStateAction<Quest[]>) => void)
-      | ((e: SetStateAction<Post[]>) => void),
-    type?: string,
     main?: boolean | undefined
   ) => Promise<void>;
   mirror: (
     id: string,
-    feed?: (Post | Quest)[],
-    itemSetter?:
-      | ((e: SetStateAction<Quest[]>) => void)
-      | ((e: SetStateAction<Post[]>) => void),
-    type?: string,
     main?: boolean | undefined
   ) => Promise<void>;
   bookmark: (
@@ -429,21 +396,11 @@ export type VideoInfoProps = {
   videoPlaying: Video;
   mirror: (
     id: string,
-    feed?: (Post | Quest)[],
-    itemSetter?:
-      | ((e: SetStateAction<Quest[]>) => void)
-      | ((e: SetStateAction<Post[]>) => void),
-    type?: string,
     main?: boolean | undefined
   ) => Promise<void>;
   like: (
     id: string,
     hasReacted: boolean,
-    feed?: (Post | Quest)[],
-    itemSetter?:
-      | ((e: SetStateAction<Quest[]>) => void)
-      | ((e: SetStateAction<Post[]>) => void),
-    type?: string,
     main?: boolean | undefined
   ) => Promise<void>;
   bookmark: (

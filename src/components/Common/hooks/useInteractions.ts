@@ -4,7 +4,7 @@ import { Post, Profile, PublicationStats } from "../../../../graphql/generated";
 import { setQuestFeed } from "../../../../redux/reducers/questFeedSlice";
 import { Dispatch } from "redux";
 import lensBookmark from "../../../../lib/helpers/lensBookmark";
-import { SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { PublicClient, createWalletClient, custom } from "viem";
 import { polygon, polygonMumbai } from "viem/chains";
 import lensMirror from "../../../../lib/helpers/lensMirror";
@@ -12,7 +12,6 @@ import lensLike from "../../../../lib/helpers/lensLike";
 import refetchProfile from "../../../../lib/helpers/refetchProfile";
 import lensFollow from "../../../../lib/helpers/lensFollow";
 import lensUnfollow from "../../../../lib/helpers/lensUnfollow";
-import { NextRouter } from "next/router";
 
 const useInteractions = (
   lensConnected: Profile | undefined,
@@ -20,9 +19,7 @@ const useInteractions = (
   feed: (Quest | Post)[],
   address: `0x${string}` | undefined,
   publicClient: PublicClient,
-  router: NextRouter,
-  completed?: Quest[],
-  envoked?: Quest[]
+  itemSetter: (e: Quest[] | (Quest & { type: string }[])) => void
 ) => {
   const [mirrorChoiceOpen, setMirrorChoiceOpen] = useState<boolean[]>([]);
   const [mainInteractionsLoading, setMainInteractionsLoading] = useState<{
@@ -42,45 +39,8 @@ const useInteractions = (
       simpleCollect: boolean;
     }[]
   >([]);
-  const [mirrorChoiceOpenEnvoked, setMirrorChoiceOpenEnvoked] = useState<
-    boolean[]
-  >([]);
-  const [mirrorChoiceOpenCompleted, setMirrorChoiceOpenCompleted] = useState<
-    boolean[]
-  >([]);
-  const [profileHoversCompleted, setProfileHoversCompleted] = useState<
-    boolean[]
-  >([]);
-  const [profileHoversEnvoked, setProfileHoversEnvoked] = useState<boolean[]>(
-    []
-  );
-  const [interactionsLoadingCompleted, setInteractionsLoadingCompleted] =
-    useState<
-      {
-        mirror: boolean;
-        like: boolean;
-        follow: boolean;
-        unfollow: boolean;
-        simpleCollect: boolean;
-      }[]
-    >([]);
-  const [interactionsLoadingEnvoked, setInteractionsLoadingEnvoked] = useState<
-    {
-      mirror: boolean;
-      like: boolean;
-      follow: boolean;
-      unfollow: boolean;
-      simpleCollect: boolean;
-    }[]
-  >([]);
 
-  const bookmark = async (
-    id: string,
-    feed: (Quest | Post)[],
-    itemSetter:
-      | ((e: SetStateAction<Quest[]>) => void)
-      | ((e: SetStateAction<Post[]>) => void)
-  ) => {
+  const bookmark = async (id: string) => {
     if (!lensConnected?.id) return;
 
     const index = feed?.findIndex(
@@ -101,9 +61,7 @@ const useInteractions = (
         {
           hasBookmarked: true,
         },
-        "bookmarks",
-        feed,
-        itemSetter
+        "bookmarks"
       );
     } catch (err: any) {
       errorChoice(
@@ -114,24 +72,14 @@ const useInteractions = (
             {
               hasBookmarked: true,
             },
-            "bookmarks",
-            feed,
-            itemSetter
+            "bookmarks"
           ),
         dispatch
       );
     }
   };
 
-  const mirror = async (
-    id: string,
-    feed: (Quest | Post)[],
-    itemSetter:
-      | ((e: SetStateAction<Quest[]>) => void)
-      | ((e: SetStateAction<Post[]>) => void),
-    type: string,
-    main?: boolean
-  ) => {
+  const mirror = async (id: string, main?: boolean) => {
     if (!lensConnected?.id) return;
 
     let index = 0;
@@ -149,11 +97,7 @@ const useInteractions = (
       }
     }
 
-    (type === "completed"
-      ? setInteractionsLoadingCompleted
-      : type == "envoked"
-      ? setInteractionsLoadingEnvoked
-      : setInteractionsLoading)((prev) => {
+    setInteractionsLoading((prev) => {
       const updatedArray = [...prev];
       updatedArray[index!] = { ...updatedArray[index!], mirror: true };
       return updatedArray;
@@ -176,9 +120,7 @@ const useInteractions = (
         {
           hasMirrored: true,
         },
-        "mirrors",
-        feed,
-        itemSetter
+        "mirrors"
       );
     } catch (err: any) {
       errorChoice(
@@ -189,35 +131,20 @@ const useInteractions = (
             {
               hasMirrored: true,
             },
-            "mirrors",
-            feed,
-            itemSetter
+            "mirrors"
           ),
         dispatch
       );
     }
 
-    (type === "completed"
-      ? setInteractionsLoadingCompleted
-      : type == "envoked"
-      ? setInteractionsLoadingEnvoked
-      : setInteractionsLoading)((prev) => {
+    setInteractionsLoading((prev) => {
       const updatedArray = [...prev];
       updatedArray[index!] = { ...updatedArray[index!], mirror: false };
       return updatedArray;
     });
   };
 
-  const like = async (
-    id: string,
-    hasReacted: boolean,
-    feed: (Quest | Post)[],
-    itemSetter:
-      | ((e: SetStateAction<Quest[]>) => void)
-      | ((e: SetStateAction<Post[]>) => void),
-    type: string,
-    main?: boolean
-  ) => {
+  const like = async (id: string, hasReacted: boolean, main?: boolean) => {
     if (!lensConnected?.id) return;
 
     let index = 0;
@@ -235,11 +162,7 @@ const useInteractions = (
       }
     }
 
-    (type === "completed"
-      ? setInteractionsLoadingCompleted
-      : type == "envoked"
-      ? setInteractionsLoadingEnvoked
-      : setInteractionsLoading)((prev) => {
+    setInteractionsLoading((prev) => {
       const updatedArray = [...prev];
       updatedArray[index!] = { ...updatedArray[index!], like: true };
       return updatedArray;
@@ -252,9 +175,7 @@ const useInteractions = (
         {
           hasReacted: hasReacted ? false : true,
         },
-        "reactions",
-        feed,
-        itemSetter
+        "reactions"
       );
     } catch (err: any) {
       errorChoice(
@@ -265,19 +186,13 @@ const useInteractions = (
             {
               hasReacted: hasReacted ? false : true,
             },
-            "reactions",
-            feed,
-            itemSetter
+            "reactions"
           ),
         dispatch
       );
     }
 
-    (type === "completed"
-      ? setInteractionsLoadingCompleted
-      : type == "envoked"
-      ? setInteractionsLoadingEnvoked
-      : setInteractionsLoading)((prev) => {
+    setInteractionsLoading((prev) => {
       const updatedArray = [...prev];
       updatedArray[index!] = { ...updatedArray[index!], like: false };
       return updatedArray;
@@ -302,11 +217,7 @@ const useInteractions = (
         follow: true,
       }));
     } else {
-      (type === "completed"
-        ? setInteractionsLoadingCompleted
-        : type == "envoked"
-        ? setInteractionsLoadingEnvoked
-        : setInteractionsLoading)((prev) => {
+      setInteractionsLoading((prev) => {
         const updatedArray = [...prev];
         updatedArray[index!] = { ...updatedArray[index!], follow: true };
         return updatedArray;
@@ -338,11 +249,7 @@ const useInteractions = (
         follow: false,
       }));
     } else {
-      (type === "completed"
-        ? setInteractionsLoadingCompleted
-        : type == "envoked"
-        ? setInteractionsLoadingEnvoked
-        : setInteractionsLoading)((prev) => {
+      setInteractionsLoading((prev) => {
         const updatedArray = [...prev];
         updatedArray[index!] = { ...updatedArray[index!], like: false };
         return updatedArray;
@@ -398,15 +305,7 @@ const useInteractions = (
     }
   };
 
-  const updateInteractions = (
-    index: number,
-    value: Object,
-    type: string,
-    feed: (Quest | Post)[],
-    itemSetter?:
-      | ((e: SetStateAction<Quest[]>) => void)
-      | ((e: SetStateAction<Post[]>) => void)
-  ) => {
+  const updateInteractions = (index: number, value: Object, type: string) => {
     const newItems = [...feed];
 
     if (index !== -1 && (newItems[index] as Quest)?.publication) {
@@ -443,54 +342,10 @@ const useInteractions = (
       } as Post;
     }
 
-    if (router.asPath.includes("/envoker/")) {
-      itemSetter!(newItems as any[]);
-    } else {
-      dispatch(setQuestFeed(newItems as Quest[]));
-    }
+    itemSetter!(newItems as any[]);
   };
 
   useEffect(() => {
-    setMirrorChoiceOpenEnvoked(
-      Array.from({ length: feed?.length }, () => false)
-    );
-
-    if (completed) {
-      setMirrorChoiceOpenCompleted(
-        Array.from({ length: completed?.length }, () => false)
-      );
-      setProfileHoversCompleted(
-        Array.from({ length: completed?.length }, () => false)
-      );
-      setInteractionsLoadingCompleted(
-        Array.from({ length: completed?.length }, () => ({
-          mirror: false,
-          simpleCollect: false,
-          like: false,
-          follow: false,
-          unfollow: false,
-        }))
-      );
-    }
-
-    if (envoked) {
-      setMirrorChoiceOpenEnvoked(
-        Array.from({ length: envoked?.length }, () => false)
-      );
-      setProfileHoversEnvoked(
-        Array.from({ length: envoked?.length }, () => false)
-      );
-      setInteractionsLoadingEnvoked(
-        Array.from({ length: envoked?.length }, () => ({
-          mirror: false,
-          simpleCollect: false,
-          like: false,
-          follow: false,
-          unfollow: false,
-        }))
-      );
-    }
-
     if (feed) {
       setInteractionsLoading(
         Array.from({ length: feed?.length }, () => ({
@@ -504,7 +359,7 @@ const useInteractions = (
       setMirrorChoiceOpen(Array.from({ length: feed?.length }, () => false));
       setProfileHovers(Array.from({ length: feed?.length }, () => false));
     }
-  }, [feed, completed, envoked]);
+  }, [feed]);
 
   return {
     mirror,
@@ -517,16 +372,6 @@ const useInteractions = (
     setProfileHovers,
     followProfile,
     unfollowProfile,
-    setMirrorChoiceOpenEnvoked,
-    mirrorChoiceOpenEnvoked,
-    interactionsLoadingEnvoked,
-    setMirrorChoiceOpenCompleted,
-    mirrorChoiceOpenCompleted,
-    interactionsLoadingCompleted,
-    setProfileHoversCompleted,
-    setProfileHoversEnvoked,
-    profileHoversCompleted,
-    profileHoversEnvoked,
     mainInteractionsLoading,
   };
 };

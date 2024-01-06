@@ -7,6 +7,8 @@ import useInteractions from "@/components/Common/hooks/useInteractions";
 import { useAccount } from "wagmi";
 import { createPublicClient, http } from "viem";
 import { polygon, polygonMumbai } from "viem/chains";
+import { setQuestFeed } from "../../redux/reducers/questFeedSlice";
+import { Quest } from "@/components/Quest/types/quest.types";
 
 export default function Home({ router }: { router: NextRouter }) {
   const dispatch = useDispatch();
@@ -51,7 +53,7 @@ export default function Home({ router }: { router: NextRouter }) {
     questFeed,
     address,
     publicClient,
-    router
+    (newItems) => dispatch(setQuestFeed(newItems as Quest[]))
   );
 
   return (
