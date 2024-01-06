@@ -177,7 +177,7 @@ const QuestBoxDetails: FunctionComponent<QuestBoxDetailsProps> = ({
                             return (
                               <div
                                 key={index}
-                                className="relative w-12 h-12 flex items-center justify-center gap-1 cursor-pointer active:scale-95 border border-girasol rounded-sm"
+                                className="relative w-12 h-12 flex items-center justify-center gap-1 cursor-pointer active:scale-95 p-px rounded-sm"
                                 onClick={() =>
                                   window.open(
                                     `https://cypher.digitalax.xyz/item/${
@@ -190,7 +190,7 @@ const QuestBoxDetails: FunctionComponent<QuestBoxDetailsProps> = ({
                                     )}`
                                   )
                                 }
-                                // id="rainbow"
+                                id="rainbow"
                               >
                                 <div className="relative w-full h-full flex items-center justify-center rounded-sm">
                                   <Image
@@ -291,9 +291,7 @@ const QuestBoxDetails: FunctionComponent<QuestBoxDetailsProps> = ({
                       like(
                         questInfo?.publication?.id,
                         questInfo?.publication?.operations?.hasReacted!,
-                        undefined,
-                        undefined,
-                        undefined,
+
                         true
                       ),
                     loader: mainInteractionsLoading?.[0]?.like,
@@ -400,9 +398,7 @@ const QuestBoxDetails: FunctionComponent<QuestBoxDetailsProps> = ({
                         function: () =>
                           mirror(
                             questInfo?.publication?.id,
-                            undefined,
-                            undefined,
-                            undefined,
+
                             true
                           ),
                         title: "Mirror Quest",

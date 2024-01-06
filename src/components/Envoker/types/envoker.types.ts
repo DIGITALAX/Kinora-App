@@ -2,19 +2,26 @@ import { Action, Dispatch } from "redux";
 import { Post, Profile } from "../../../../graphql/generated";
 import { SetStateAction } from "react";
 import { NextRouter } from "next/router";
-import { Quest } from "@/components/Quest/types/quest.types";
+import { Player, Quest } from "@/components/Quest/types/quest.types";
 
 export type AccountSwitchProps = {
   pageProfile: Profile | undefined;
   lensConnected: Profile | undefined;
   allSaves: Post[];
   getMore: () => Promise<void>;
-  terminateQuest: (id: number) => Promise<void>;
+  terminateQuest: (id: number, index: number) => Promise<void>;
   approvePlayerMilestone: (
     id: number,
     milestone: number,
-    playerProfileId: `0x${string}`
+    playerProfileId: `0x${string}`,
+    index: number
   ) => Promise<void>;
+  claimRewardLoading: boolean[];
+  terminateLoading: boolean[];
+  approvalLoading: boolean[];
+  playerClaimMilestoneReward: (id: string, index: number) => Promise<void>;
+  openPlayerDetails: boolean[][];
+  setOpenPlayerDetails: (e: SetStateAction<boolean[][]>) => void;
   info: {
     hasMorePlayer: boolean;
     hasMoreEnvoked: boolean;
@@ -31,8 +38,6 @@ export type AccountSwitchProps = {
     hasMore: boolean;
     cursor: string | undefined;
   };
-  terminateLoading: boolean;
-  approvalLoading: boolean;
   getMoreSaves: () => Promise<void>;
   savesLoading: boolean;
   dispatch: Dispatch;
@@ -40,10 +45,7 @@ export type AccountSwitchProps = {
   mirrorChoiceOpen: boolean[];
   mirror: (id: string) => Promise<void>;
   bookmark: (id: string) => Promise<void>;
-  like: (
-    id: string,
-    hasReacted: boolean,
-  ) => Promise<void>;
+  like: (id: string, hasReacted: boolean) => Promise<void>;
   interactionsLoading: {
     mirror: boolean;
     like: boolean;
@@ -59,7 +61,6 @@ export type AccountSwitchProps = {
 export enum AccountType {
   Home,
   Save,
-  History,
   Dashboard,
 }
 
@@ -71,10 +72,7 @@ export type HomeProps = {
   router: NextRouter;
   mirror: (id: string) => Promise<void>;
   bookmark: (id: string) => Promise<void>;
-  like: (
-    id: string,
-    hasReacted: boolean,
-  ) => Promise<void>;
+  like: (id: string, hasReacted: boolean) => Promise<void>;
   mirrorChoiceOpen: boolean[];
   setMirrorChoiceOpen: (e: SetStateAction<boolean[]>) => void;
   interactionsLoading: {
@@ -109,12 +107,9 @@ export type SavesProps = {
   lensConnected: Profile | undefined;
   setMirrorChoiceOpen: (e: SetStateAction<boolean[]>) => void;
   mirrorChoiceOpen: boolean[];
-  mirror: (id: string, ) => Promise<void>;
+  mirror: (id: string) => Promise<void>;
   bookmark: (id: string) => Promise<void>;
-  like: (
-    id: string,
-    hasReacted: boolean,
-  ) => Promise<void>;
+  like: (id: string, hasReacted: boolean) => Promise<void>;
   interactionsLoading: {
     mirror: boolean;
     like: boolean;
@@ -133,15 +128,42 @@ export type BioProps = {
 };
 
 export type DashboardProps = {
-  envokedQuests: Quest[];
-  terminateQuest: (id: number) => Promise<void>;
+  allQuests: (Quest & { type: string })[];
+  terminateQuest: (id: number, index: number) => Promise<void>;
   approvePlayerMilestone: (
     id: number,
     milestone: number,
-    playerProfileId: `0x${string}`
+    playerProfileId: `0x${string}`,
+    index: number
   ) => Promise<void>;
+  claimRewardLoading: boolean[];
+  terminateLoading: boolean[];
+  approvalLoading: boolean[];
+  playerClaimMilestoneReward: (id: string, index: number) => Promise<void>;
   openQuest: boolean[];
   setOpenQuest: (e: SetStateAction<boolean[]>) => void;
-  terminateLoading: boolean;
-  approvalLoading: boolean;
+  getMore: () => Promise<void>;
+  info: {
+    hasMorePlayer: boolean;
+    hasMoreEnvoked: boolean;
+    playerCursor: number;
+    envokedCursor: number;
+  };
+  router: NextRouter;
+  openPlayerDetails: (Player | undefined)[];
+  setOpenPlayerDetails: (e: SetStateAction<(Player | undefined)[]>) => void;
+};
+
+export type PlayerMilestoneProps = {
+  index: number;
+  quest: Quest;
+  openPlayerDetails: (Player | undefined)[];
+  setOpenPlayerDetails: (e: SetStateAction<(Player | undefined)[]>) => void;
+  approvePlayerMilestone: (
+    id: number,
+    milestone: number,
+    playerProfileId: `0x${string}`,
+    index: number
+  ) => Promise<void>;
+  approvalLoading: boolean[];
 };

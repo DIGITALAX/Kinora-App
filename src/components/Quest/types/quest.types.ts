@@ -20,6 +20,7 @@ export interface Quest {
     description: string;
     cover: string;
   };
+  status: boolean;
   pubId: string;
   profileId: string;
   milestones: Milestone[];
@@ -73,12 +74,12 @@ export interface Player {
   milestonesCompleted: {
     questId: string;
     milestonesCompleted: String;
-  };
+  }[];
   eligibile: {
     milestone: string;
     questId: string;
     status: boolean;
-  };
+  }[];
   profileId: string;
   questsCompleted: string[];
   questsJoined: string[];
@@ -167,10 +168,7 @@ export type QuestBoxDetailsProps = {
     hasReacted: boolean,
     main?: boolean | undefined
   ) => Promise<void>;
-  mirror: (
-    id: string,
-    main?: boolean | undefined
-  ) => Promise<void>;
+  mirror: (id: string, main?: boolean | undefined) => Promise<void>;
   bookmark: (
     on: string,
     hasBookmarked: boolean,
@@ -339,10 +337,7 @@ export type QuestBoardSwitchProps = {
     hasReacted: boolean,
     main?: boolean | undefined
   ) => Promise<void>;
-  mirror: (
-    id: string,
-    main?: boolean | undefined
-  ) => Promise<void>;
+  mirror: (id: string, main?: boolean | undefined) => Promise<void>;
   bookmark: (
     on: string,
     hasBookmarked: boolean,
@@ -360,7 +355,7 @@ export type MilestoneInfoProps = {
   handleCompleteMilestone: () => Promise<void>;
   milestone: Milestone;
   player: Player;
-  videoMetrics: boolean;
+  questId: string;
 };
 
 export type ChannelsProps = {
@@ -394,10 +389,7 @@ export type MetricsProps = {
 
 export type VideoInfoProps = {
   videoPlaying: Video;
-  mirror: (
-    id: string,
-    main?: boolean | undefined
-  ) => Promise<void>;
+  mirror: (id: string, main?: boolean | undefined) => Promise<void>;
   like: (
     id: string,
     hasReacted: boolean,
@@ -426,4 +418,9 @@ export type VideoInfoProps = {
   setMirrorChoiceOpen: (e: boolean) => void;
   dispatch: Dispatch<Action>;
   router: NextRouter;
+};
+
+export type PlayerValuesProps = {
+  metrics: VideoActivity;
+  text: string;
 };
