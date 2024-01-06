@@ -1,13 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 export interface FollowBoxState {
-  value: boolean;
+  open: boolean;
   id: string;
   type: string;
 }
 
 const initialFollowBoxState: FollowBoxState = {
-  value: false,
+  open: false,
   id: "",
   type: "",
 };
@@ -18,10 +18,10 @@ export const followBoxSlice = createSlice({
   reducers: {
     setFollowBox: (
       state: FollowBoxState,
-      { payload: { actionValue, actionImage, actionType } }
+      { payload: { actionOpen, actionId, actionType } }
     ) => {
-      state.value = actionValue;
-      state.id = actionImage;
+      state.open = actionOpen;
+      state.id = actionId;
       state.type = actionType;
     },
   },

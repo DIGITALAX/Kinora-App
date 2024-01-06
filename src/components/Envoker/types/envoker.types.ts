@@ -130,17 +130,6 @@ export type SavesProps = {
 export type BioProps = {
   profile: Profile;
   dispatch: Dispatch<Action>;
-  unfollowProfile: (id: string, index: number, main?: boolean) => Promise<void>;
-  mainInteractionsLoading: {
-    follow: boolean;
-    unfollow: boolean;
-  };
-  followProfile: (
-    id: string,
-    index: number,
-    type: string,
-    main?: boolean
-  ) => Promise<void>;
 };
 
 export type DashboardProps = {
