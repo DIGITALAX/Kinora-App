@@ -14,7 +14,7 @@ const MilestoneInfo: FunctionComponent<MilestoneInfoProps> = ({
   handleCompleteMilestone,
   milestone,
   player,
-  videoMetrics,
+  questId,
 }): JSX.Element => {
   return (
     <div className="relative rounded-md border border-gray-700 w-full h-full flex flex-col gap-3 p-2 items-start justify-between">
@@ -151,7 +151,7 @@ const MilestoneInfo: FunctionComponent<MilestoneInfoProps> = ({
                         return (
                           <div
                             key={index}
-                            className="relative w-12 h-12 flex items-center justify-center gap-1 cursor-pointer active:scale-95 border border-girasol rounded-sm"
+                            className="relative w-12 h-12 flex items-center p-px justify-center gap-1 cursor-pointer active:scale-95 rounded-sm"
                             onClick={() =>
                               window.open(
                                 `https://cypher.digitalax.xyz/item/${
@@ -162,7 +162,7 @@ const MilestoneInfo: FunctionComponent<MilestoneInfoProps> = ({
                                 )}`
                               )
                             }
-                            // id="rainbow"
+                            id="rainbow"
                           >
                             <div className="relative w-full h-full flex items-center justify-center rounded-sm">
                               <Image
@@ -194,19 +194,55 @@ const MilestoneInfo: FunctionComponent<MilestoneInfoProps> = ({
       <div
         className={`relative w-full h-8 px-1.5 py-1 flex flex-row items-center gap-3 justify-center border border-gray-300 rounded-md ${
           completeLoading ||
-          Number(player?.milestonesCompleted.milestonesCompleted) + 1 !==
+          Number(
+            player?.milestonesCompleted?.[
+              player?.milestonesCompleted?.findIndex(
+                (value) => value?.questId == questId
+              ) == -1
+                ? 0
+                : player?.milestonesCompleted?.findIndex(
+                    (value) => value?.questId == questId
+                  )
+            ]?.milestonesCompleted
+          ) +
+            1 !==
             Number(milestone?.milestoneId) ||
-          !player?.eligibile?.status ||
-          !videoMetrics
+          !player?.eligibile?.[
+            player?.milestonesCompleted?.findIndex(
+              (value) => value?.questId == questId
+            ) == -1
+              ? 0
+              : player?.milestonesCompleted?.findIndex(
+                  (value) => value?.questId == questId
+                )
+          ]?.status
             ? "opacity-70"
             : "cursor-pointer active:scale-95"
         }`}
         onClick={() =>
           !completeLoading &&
-          Number(player?.milestonesCompleted.milestonesCompleted) + 1 ===
+          Number(
+            player?.milestonesCompleted?.[
+              player?.milestonesCompleted?.findIndex(
+                (value) => value?.questId == questId
+              ) == -1
+                ? 0
+                : player?.milestonesCompleted?.findIndex(
+                    (value) => value?.questId == questId
+                  )
+            ]?.milestonesCompleted
+          ) +
+            1 ===
             Number(milestone?.milestoneId) &&
-          player?.eligibile?.status &&
-          videoMetrics &&
+          player?.eligibile?.[
+            player?.milestonesCompleted?.findIndex(
+              (value) => value?.questId == questId
+            ) == -1
+              ? 0
+              : player?.milestonesCompleted?.findIndex(
+                  (value) => value?.questId == questId
+                )
+          ]?.status &&
           handleCompleteMilestone()
         }
       >
@@ -226,13 +262,24 @@ const MilestoneInfo: FunctionComponent<MilestoneInfoProps> = ({
           )}
         </div>
         <div className="relative w-fit h-fit text-sm font-vcr text-gray-300">
-          {Number(player?.milestonesCompleted.milestonesCompleted) >=
-          Number(milestone?.milestoneId)
+          {Number(
+            player?.milestonesCompleted?.[
+              player?.milestonesCompleted?.findIndex(
+                (value) => value?.questId == questId
+              )
+            ]?.milestonesCompleted
+          ) >= Number(milestone?.milestoneId)
             ? "Milestone Completed"
-            : player?.eligibile?.status
+            : player?.eligibile?.[
+                player?.milestonesCompleted?.findIndex(
+                  (value) => value?.questId == questId
+                ) == -1
+                  ? 0
+                  : player?.milestonesCompleted?.findIndex(
+                      (value) => value?.questId == questId
+                    )
+              ]?.status
             ? "Claim Reward"
-            : videoMetrics
-            ? "Envoker To Verify"
             : "Not Eligible Yet"}
         </div>
       </div>

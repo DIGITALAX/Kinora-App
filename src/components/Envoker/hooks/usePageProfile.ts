@@ -69,9 +69,28 @@ const usePageProfile = (handle: string, lensConnected: Profile | undefined) => {
             lensConnected?.id
           );
 
+          const playerPromises = item?.players?.map(async (player) => {
+            const data = await getProfile(
+              {
+                forProfileId: `${toHexWithLeadingZero(
+                  Number(player?.profileId)
+                )}`,
+              },
+              lensConnected?.id
+            );
+
+            return {
+              ...player,
+              profile: data?.data?.profile,
+            };
+          });
+
+          const players = await Promise.all(playerPromises);
+
           return {
             ...item,
             type: "envoked",
+            players,
             publication: publication?.data?.publication,
           };
         }

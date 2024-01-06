@@ -28,13 +28,16 @@ const AccountSwitch: FunctionComponent<AccountSwitchProps> = ({
   quests,
   getMore,
   info,
-  setAllSaves,
   approvePlayerMilestone,
   terminateQuest,
   openQuest,
   setOpenQuest,
   terminateLoading,
   approvalLoading,
+  playerClaimMilestoneReward,
+  claimRewardLoading,
+  setOpenPlayerDetails,
+  openPlayerDetails,
 }): JSX.Element => {
   if (pageProfile?.handle?.fullHandle === lensConnected?.handle?.fullHandle) {
     switch (accountType) {
@@ -81,25 +84,26 @@ const AccountSwitch: FunctionComponent<AccountSwitchProps> = ({
             bookmark={bookmark}
             like={like}
             interactionsLoading={interactionsLoading}
-            setAllSaves={setAllSaves}
           />
-        );
-
-      case AccountType.History:
-        return (
-         <div></div>
         );
 
       case AccountType.Dashboard:
         return (
           <Dashboard
+            router={router}
+            setOpenPlayerDetails={setOpenPlayerDetails}
+            openPlayerDetails={openPlayerDetails}
             openQuest={openQuest}
             setOpenQuest={setOpenQuest}
             terminateLoading={terminateLoading}
             approvalLoading={approvalLoading}
-            envokedQuests={quests?.filter((item) => item?.type == "envoked")}
+            allQuests={quests}
+            playerClaimMilestoneReward={playerClaimMilestoneReward}
             terminateQuest={terminateQuest}
             approvePlayerMilestone={approvePlayerMilestone}
+            claimRewardLoading={claimRewardLoading}
+            info={info}
+            getMore={getMore}
           />
         );
     }

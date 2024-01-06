@@ -98,6 +98,7 @@ export const getQuest = async (
             maxPlayerCount
             questId
             pubId
+            status
             profileId
             transactionHash
             uri
@@ -263,6 +264,7 @@ export const getQuestById = async (
             maxPlayerCount
             questId
             pubId
+            status
             profileId
             transactionHash
             uri
