@@ -45,7 +45,7 @@ const Criteria: FunctionComponent<CriteriaProps> = ({
           </div>
           <div className="relative w-full h-fit flex">
             <input
-              className={`h-10 w-full bg-black border border-white rounded-md p-1 text-xs ${
+              className={`h-10 w-full bg-black border border-acei rounded-md p-1 text-xs ${
                 videoSearchLoading && "opacity-70"
               }`}
               placeholder="Search video library."
@@ -124,9 +124,9 @@ const Criteria: FunctionComponent<CriteriaProps> = ({
                             : []
                           ).filter(
                             (value) => value?.video?.id === item?.id
-                          )?.[0] && "border-2 border-white opacity-50"
+                          )?.[0] && "border-2 border-acei opacity-50"
                         }`}
-                        id="rainbow"
+                        id="northern"
                         onClick={() => {
                           const milestones = [...questInfo?.milestones];
 
@@ -223,7 +223,7 @@ const Criteria: FunctionComponent<CriteriaProps> = ({
                           <div className="relative w-full h-fit flex flex-row items-center justify-start gap-1">
                             <div
                               className="rounded-full w-4 h-4 p-px flex items-center justify-center"
-                              id="rainbow"
+                              id="northern"
                             >
                               <div className="relative w-full h-full flex items-center justify-center">
                                 {pfp && (
@@ -327,7 +327,7 @@ const Criteria: FunctionComponent<CriteriaProps> = ({
                 >
                   <div
                     className="relative w-16 h-10 p-px rounded-md flex items-center justify-center"
-                    id="rainbow"
+                    id="northern"
                   >
                     <div className="relative w-full h-full flex items-center justify-center bg-black rounded-md">
                       <MediaSwitch

@@ -39,7 +39,7 @@ const GatedLogic: FunctionComponent<GatedLogicProps> = ({
         >
           Player must hold all tokens or is just one enough?
         </div>
-        <div className="relative w-fit h-fit flex items-center justify-center rounded-md border border-calcetine flex-row gap-1 text-xxs">
+        <div className="relative w-fit h-fit flex items-center justify-center rounded-md border border-acei flex-row gap-1 text-xxs">
           <div
             className={`relative w-16 h-fit flex p-2 items-center justify-center rounded-md cursor-pointer ${
               (
@@ -197,370 +197,11 @@ const GatedLogic: FunctionComponent<GatedLogicProps> = ({
         </div>
       </div>
       <div
-        className={`relative w-full h-fit flex gap-6 justify-start items-start ${
-          join ? "flex-col" : "flex-col lg:flex-row"
+        className={`relative w-full h-fit flex gap-10 justify-start items-start ${
+          join ? "flex-row" : "flex-col lg:flex-row"
         }`}
       >
-        <div className="relative w-full h-fit flex flex-col items-start justify-start gap-4">
-          <div className="relative w-fit h-fit flex items-center justify-center text-sm">
-            NFT Conditions
-          </div>
-          {(join
-            ? questInfo?.details?.gated?.erc721TokenIds || []
-            : questInfo?.milestones?.[
-                milestonesOpen!?.findIndex((item: boolean) => item == true) !==
-                -1
-                  ? milestonesOpen!?.findIndex((item: boolean) => item == true)
-                  : 0
-              ]?.gated?.erc721TokenIds || []
-          )?.length > 0 && (
-            <div className="relative w-full h-fit flex overflow-x-scroll max-w-[20rem]">
-              <div className="relative w-fit h-fit flex flex-row gap-2 items-start justify-start">
-                {(join
-                  ? questInfo?.details?.gated?.erc721TokenIds
-                  : questInfo?.milestones?.[
-                      milestonesOpen!?.findIndex(
-                        (item: boolean) => item == true
-                      ) !== -1
-                        ? milestonesOpen!?.findIndex(
-                            (item: boolean) => item == true
-                          )
-                        : 0
-                    ]?.gated?.erc721TokenIds
-                )?.map((item: Collection, index: number) => {
-                  return (
-                    <div
-                      key={index}
-                      className={`relative w-10 h-10 flex items-center cursor-pointer hover:opacity-80 justify-center p-px rounded-md`}
-                      id="rainbow"
-                    >
-                      <div className="relative w-full h-full relative rounded-md">
-                        <Image
-                          className={"rounded-md"}
-                          draggable={false}
-                          src={`${INFURA_GATEWAY}/ipfs/${
-                            item?.collectionMetadata?.mediaCover?.split(
-                              "ipfs://"
-                            )?.[1]
-                              ? item?.collectionMetadata?.mediaCover?.split(
-                                  "ipfs://"
-                                )?.[1]
-                              : item?.collectionMetadata?.images?.[0]?.split(
-                                  "ipfs://"
-                                )?.[1]
-                          }`}
-                          objectFit="cover"
-                          layout="fill"
-                        />
-                      </div>
-                      <div
-                        className="absolute w-5 h-5 flex cursor-pointer bg-black rounded-full border border-calcetine hover:opacity-80 p-1 items-center justify-center"
-                        onClick={() => {
-                          if (join) {
-                            const tokenIds = [
-                              ...questInfo?.details?.gated?.erc721TokenIds,
-                            ];
-
-                            dispatch(
-                              setQuestInfo({
-                                actionDetails: {
-                                  ...questInfo?.details,
-                                  gated: {
-                                    ...questInfo?.details?.gated,
-                                    erc721TokenIds: tokenIds?.filter(
-                                      (token: Collection) =>
-                                        token?.collectionId !==
-                                        item?.collectionId
-                                    ),
-                                  },
-                                },
-                                actionMilestones: questInfo?.milestones,
-                              })
-                            );
-                          } else {
-                            const milestones = [...questInfo?.milestones];
-                            milestones[
-                              milestonesOpen!?.findIndex(
-                                (item: boolean) => item == true
-                              ) !== -1
-                                ? milestonesOpen!?.findIndex(
-                                    (item: boolean) => item == true
-                                  )
-                                : 0
-                            ] = {
-                              ...milestones[
-                                milestonesOpen!?.findIndex(
-                                  (item: boolean) => item == true
-                                ) !== -1
-                                  ? milestonesOpen!?.findIndex(
-                                      (item: boolean) => item == true
-                                    )
-                                  : 0
-                              ],
-                              gated: {
-                                ...milestones[
-                                  milestonesOpen!?.findIndex(
-                                    (item: boolean) => item == true
-                                  ) !== -1
-                                    ? milestonesOpen!?.findIndex(
-                                        (item: boolean) => item == true
-                                      )
-                                    : 0
-                                ]?.gated,
-                                erc721TokenIds: milestones[
-                                  milestonesOpen!?.findIndex(
-                                    (item: boolean) => item == true
-                                  ) !== -1
-                                    ? milestonesOpen!?.findIndex(
-                                        (item: boolean) => item == true
-                                      )
-                                    : 0
-                                ]?.gated?.erc721TokenIds?.filter(
-                                  (token: Collection) =>
-                                    token?.collectionId !== item?.collectionId
-                                ),
-                              },
-                            };
-
-                            dispatch(
-                              setQuestInfo({
-                                actionDetails: questInfo?.details,
-                                actionMilestones: milestones,
-                              })
-                            );
-                          }
-                        }}
-                      >
-                        <ImCross color="white" size={15} />
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-          <input
-            className="h-10 w-full bg-black border border-calcetine rounded-md p-1 text-xs"
-            placeholder="Search tokens to use as gates."
-            value={collectionsSearch || ""}
-            onChange={(e) => {
-              setCollectionsSearch(e.target.value);
-            }}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" && collectionsSearch?.trim() !== "") {
-                getCollectionsSearch();
-                setCollectionsInfo({
-                  hasMore: true,
-                  cursor: 0,
-                });
-              }
-            }}
-          />
-          {collections?.length > 0 && (
-            <div className="relative flex w-full h-fit items-start justify-start">
-              <InfiniteScroll
-                dataLength={collections?.length}
-                hasMore={collectionsInfo?.hasMore}
-                next={
-                  collectionsSearch?.trim() !== ""
-                    ? getMoreCollectionsSearch
-                    : getMoreCollectionsSample
-                }
-                loader={<></>}
-                className="relative w-full h-fit flex overflow-y-scroll"
-              >
-                <div className="relative w-full flex flex-wrap gap-3 items-start justify-start h-fit max-h-[13rem]">
-                  {collections?.map((item: Collection, index: number) => {
-                    const pfp = createProfilePicture(
-                      item?.profile?.metadata?.picture
-                    );
-                    return (
-                      <div
-                        key={index}
-                        className={`relative w-40 md:w-full lg:w-40 h-40 flex items-center cursor-pointer hover:opacity-80 justify-center p-px rounded-md ${
-                          (join
-                            ? questInfo?.details?.gated?.erc721TokenIds?.filter(
-                                (value) =>
-                                  value?.collectionId == item?.collectionId
-                              )?.[0]
-                            : questInfo?.milestones?.[
-                                milestonesOpen!?.findIndex(
-                                  (item: boolean) => item == true
-                                ) !== -1
-                                  ? milestonesOpen!?.findIndex(
-                                      (item: boolean) => item == true
-                                    )
-                                  : 0
-                              ]?.gated?.erc721TokenIds?.filter(
-                                (value) =>
-                                  value?.collectionId == item?.collectionId
-                              )?.[0]) && "border-2 border-calcetine"
-                        }`}
-                        id="rainbow"
-                        onClick={() => {
-                          if (join) {
-                            dispatch(
-                              setQuestInfo({
-                                actionDetails: {
-                                  ...questInfo?.details,
-                                  gated: {
-                                    ...questInfo?.details?.gated,
-                                    erc721TokenIds: (
-                                      questInfo?.details?.gated
-                                        ?.erc721TokenIds || []
-                                    )?.filter(
-                                      (value) =>
-                                        value?.collectionId ==
-                                        item?.collectionId
-                                    )?.[0]
-                                      ? questInfo?.details?.gated?.erc721TokenIds?.filter(
-                                          (token: Collection) =>
-                                            token?.collectionId !==
-                                            item?.collectionId
-                                        )
-                                      : [
-                                          ...(questInfo?.details?.gated
-                                            ?.erc721TokenIds || []),
-                                          item,
-                                        ],
-                                  },
-                                },
-                                actionMilestones: questInfo?.milestones,
-                              })
-                            );
-                          } else {
-                            const milestones = [...questInfo?.milestones];
-                            milestones[
-                              milestonesOpen!?.findIndex(
-                                (item: boolean) => item == true
-                              ) !== -1
-                                ? milestonesOpen!?.findIndex(
-                                    (item: boolean) => item == true
-                                  )
-                                : 0
-                            ] = {
-                              ...milestones[
-                                milestonesOpen!?.findIndex(
-                                  (item: boolean) => item == true
-                                ) !== -1
-                                  ? milestonesOpen!?.findIndex(
-                                      (item: boolean) => item == true
-                                    )
-                                  : 0
-                              ],
-                              gated: {
-                                ...milestones[
-                                  milestonesOpen!?.findIndex(
-                                    (item: boolean) => item == true
-                                  ) !== -1
-                                    ? milestonesOpen!?.findIndex(
-                                        (item: boolean) => item == true
-                                      )
-                                    : 0
-                                ]?.gated,
-                                erc721TokenIds: (
-                                  milestones[
-                                    milestonesOpen!?.findIndex(
-                                      (item: boolean) => item == true
-                                    ) !== -1
-                                      ? milestonesOpen!?.findIndex(
-                                          (item: boolean) => item == true
-                                        )
-                                      : 0
-                                  ]?.gated?.erc721TokenIds || []
-                                )?.filter(
-                                  (value) =>
-                                    value?.collectionId == item?.collectionId
-                                )?.[0]
-                                  ? milestones[
-                                      milestonesOpen!?.findIndex(
-                                        (item: boolean) => item == true
-                                      ) !== -1
-                                        ? milestonesOpen!?.findIndex(
-                                            (item: boolean) => item == true
-                                          )
-                                        : 0
-                                    ]?.gated?.erc721TokenIds?.filter(
-                                      (token: Collection) =>
-                                        token?.collectionId !==
-                                        item?.collectionId
-                                    )
-                                  : [
-                                      ...(milestones[
-                                        milestonesOpen!?.findIndex(
-                                          (item: boolean) => item == true
-                                        ) !== -1
-                                          ? milestonesOpen!?.findIndex(
-                                              (item: boolean) => item == true
-                                            )
-                                          : 0
-                                      ]?.gated?.erc721TokenIds || []),
-                                      item,
-                                    ],
-                              },
-                            };
-
-                            dispatch(
-                              setQuestInfo({
-                                actionDetails: questInfo?.details,
-                                actionMilestones: milestones,
-                              })
-                            );
-                          }
-                        }}
-                      >
-                        <div className="relative w-full h-full relative rounded-md">
-                          <Image
-                            className={"rounded-md"}
-                            draggable={false}
-                            src={`${INFURA_GATEWAY}/ipfs/${
-                              item?.collectionMetadata?.mediaCover?.split(
-                                "ipfs://"
-                              )?.[1]
-                                ? item?.collectionMetadata?.mediaCover?.split(
-                                    "ipfs://"
-                                  )?.[1]
-                                : item?.collectionMetadata?.images?.[0]?.split(
-                                    "ipfs://"
-                                  )?.[1]
-                            }`}
-                            objectFit="cover"
-                            layout="fill"
-                          />
-                        </div>
-                        <div className="absolute flex flex-row gap-1 text-xxs items-center justify-center top-2 left-2">
-                          <div
-                            className="rounded-full w-6 h-6 p-px flex items-center justify-center"
-                            id="rainbow"
-                          >
-                            <div className="relative w-full h-full flex items-center justify-center">
-                              {pfp && (
-                                <Image
-                                  src={pfp}
-                                  draggable={false}
-                                  className="rounded-full"
-                                  objectFit="cover"
-                                  layout="fill"
-                                />
-                              )}
-                            </div>
-                          </div>
-                          <div className="relative w-fit h-fit flex items-center justify-center">
-                            {
-                              item?.profile?.handle?.suggestedFormatted
-                                ?.localName
-                            }
-                          </div>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </InfiniteScroll>
-            </div>
-          )}
-        </div>
-        <div className="relative w-full h-fit flex flex-col items-start justify-start gap-4">
+        <div className="relative w-fit min-w-[20rem] h-fit flex flex-col items-start justify-start gap-4">
           <div className="relative w-fit h-fit flex items-center justify-center text-sm">
             Token Conditions
           </div>
@@ -806,7 +447,7 @@ const GatedLogic: FunctionComponent<GatedLogicProps> = ({
                         }
                       }}
                       type="number"
-                      className="h-10 w-full bg-black border border-calcetine rounded-md p-1 text-xs"
+                      className="h-10 w-full bg-black border border-acei rounded-md p-1 text-xs"
                       placeholder="Enter min amount of token to hold."
                     />
                   </div>
@@ -814,6 +455,365 @@ const GatedLogic: FunctionComponent<GatedLogicProps> = ({
               );
             })}
           </div>
+        </div>
+        <div className="relative w-full h-fit flex flex-col items-start justify-start gap-4">
+          <div className="relative w-fit h-fit flex items-center justify-center text-sm">
+            NFT Conditions
+          </div>
+          {(join
+            ? questInfo?.details?.gated?.erc721TokenIds || []
+            : questInfo?.milestones?.[
+                milestonesOpen!?.findIndex((item: boolean) => item == true) !==
+                -1
+                  ? milestonesOpen!?.findIndex((item: boolean) => item == true)
+                  : 0
+              ]?.gated?.erc721TokenIds || []
+          )?.length > 0 && (
+            <div className="relative w-full h-fit flex overflow-x-scroll max-w-[20rem]">
+              <div className="relative w-fit h-fit flex flex-row gap-2 items-start justify-start">
+                {(join
+                  ? questInfo?.details?.gated?.erc721TokenIds
+                  : questInfo?.milestones?.[
+                      milestonesOpen!?.findIndex(
+                        (item: boolean) => item == true
+                      ) !== -1
+                        ? milestonesOpen!?.findIndex(
+                            (item: boolean) => item == true
+                          )
+                        : 0
+                    ]?.gated?.erc721TokenIds
+                )?.map((item: Collection, index: number) => {
+                  return (
+                    <div
+                      key={index}
+                      className={`relative w-10 h-10 flex items-center cursor-pointer hover:opacity-80 justify-center p-px rounded-md`}
+                      id="northern"
+                    >
+                      <div className="relative w-full h-full relative rounded-md">
+                        <Image
+                          className={"rounded-md"}
+                          draggable={false}
+                          src={`${INFURA_GATEWAY}/ipfs/${
+                            item?.collectionMetadata?.mediaCover?.split(
+                              "ipfs://"
+                            )?.[1]
+                              ? item?.collectionMetadata?.mediaCover?.split(
+                                  "ipfs://"
+                                )?.[1]
+                              : item?.collectionMetadata?.images?.[0]?.split(
+                                  "ipfs://"
+                                )?.[1]
+                          }`}
+                          objectFit="cover"
+                          layout="fill"
+                        />
+                      </div>
+                      <div
+                        className="absolute w-5 h-5 flex cursor-pointer bg-black rounded-full border border-acei hover:opacity-80 p-1 items-center justify-center"
+                        onClick={() => {
+                          if (join) {
+                            const tokenIds = [
+                              ...questInfo?.details?.gated?.erc721TokenIds,
+                            ];
+
+                            dispatch(
+                              setQuestInfo({
+                                actionDetails: {
+                                  ...questInfo?.details,
+                                  gated: {
+                                    ...questInfo?.details?.gated,
+                                    erc721TokenIds: tokenIds?.filter(
+                                      (token: Collection) =>
+                                        token?.collectionId !==
+                                        item?.collectionId
+                                    ),
+                                  },
+                                },
+                                actionMilestones: questInfo?.milestones,
+                              })
+                            );
+                          } else {
+                            const milestones = [...questInfo?.milestones];
+                            milestones[
+                              milestonesOpen!?.findIndex(
+                                (item: boolean) => item == true
+                              ) !== -1
+                                ? milestonesOpen!?.findIndex(
+                                    (item: boolean) => item == true
+                                  )
+                                : 0
+                            ] = {
+                              ...milestones[
+                                milestonesOpen!?.findIndex(
+                                  (item: boolean) => item == true
+                                ) !== -1
+                                  ? milestonesOpen!?.findIndex(
+                                      (item: boolean) => item == true
+                                    )
+                                  : 0
+                              ],
+                              gated: {
+                                ...milestones[
+                                  milestonesOpen!?.findIndex(
+                                    (item: boolean) => item == true
+                                  ) !== -1
+                                    ? milestonesOpen!?.findIndex(
+                                        (item: boolean) => item == true
+                                      )
+                                    : 0
+                                ]?.gated,
+                                erc721TokenIds: milestones[
+                                  milestonesOpen!?.findIndex(
+                                    (item: boolean) => item == true
+                                  ) !== -1
+                                    ? milestonesOpen!?.findIndex(
+                                        (item: boolean) => item == true
+                                      )
+                                    : 0
+                                ]?.gated?.erc721TokenIds?.filter(
+                                  (token: Collection) =>
+                                    token?.collectionId !== item?.collectionId
+                                ),
+                              },
+                            };
+
+                            dispatch(
+                              setQuestInfo({
+                                actionDetails: questInfo?.details,
+                                actionMilestones: milestones,
+                              })
+                            );
+                          }
+                        }}
+                      >
+                        <ImCross color="white" size={15} />
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+          <input
+            className="h-10 w-full bg-black border border-acei rounded-md p-1 text-xs"
+            placeholder="Search tokens to use as gates."
+            value={collectionsSearch || ""}
+            onChange={(e) => {
+              setCollectionsSearch(e.target.value);
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && collectionsSearch?.trim() !== "") {
+                getCollectionsSearch();
+                setCollectionsInfo({
+                  hasMore: true,
+                  cursor: 0,
+                });
+              }
+            }}
+          />
+          {collections?.length > 0 && (
+            <div className="relative flex w-full h-fit items-start justify-start">
+              <InfiniteScroll
+                dataLength={collections?.length}
+                hasMore={collectionsInfo?.hasMore}
+                next={
+                  collectionsSearch?.trim() !== ""
+                    ? getMoreCollectionsSearch
+                    : getMoreCollectionsSample
+                }
+                loader={<></>}
+                className="relative w-full h-fit flex overflow-y-scroll"
+              >
+                <div className="relative w-full grid grid-cols-4 gap-3 items-start justify-start h-fit max-h-[20rem]">
+                  {collections?.map((item: Collection, index: number) => {
+                    const pfp = createProfilePicture(
+                      item?.profile?.metadata?.picture
+                    );
+                    return (
+                      <div
+                        key={index}
+                        className={`relative w-full h-40 flex items-center cursor-pointer hover:opacity-80 justify-center p-px rounded-md ${
+                          (join
+                            ? questInfo?.details?.gated?.erc721TokenIds?.filter(
+                                (value) =>
+                                  value?.collectionId == item?.collectionId
+                              )?.[0]
+                            : questInfo?.milestones?.[
+                                milestonesOpen!?.findIndex(
+                                  (item: boolean) => item == true
+                                ) !== -1
+                                  ? milestonesOpen!?.findIndex(
+                                      (item: boolean) => item == true
+                                    )
+                                  : 0
+                              ]?.gated?.erc721TokenIds?.filter(
+                                (value) =>
+                                  value?.collectionId == item?.collectionId
+                              )?.[0]) && "border-2 border-acei"
+                        }`}
+                        id="northern"
+                        onClick={() => {
+                          if (join) {
+                            dispatch(
+                              setQuestInfo({
+                                actionDetails: {
+                                  ...questInfo?.details,
+                                  gated: {
+                                    ...questInfo?.details?.gated,
+                                    erc721TokenIds: (
+                                      questInfo?.details?.gated
+                                        ?.erc721TokenIds || []
+                                    )?.filter(
+                                      (value) =>
+                                        value?.collectionId ==
+                                        item?.collectionId
+                                    )?.[0]
+                                      ? questInfo?.details?.gated?.erc721TokenIds?.filter(
+                                          (token: Collection) =>
+                                            token?.collectionId !==
+                                            item?.collectionId
+                                        )
+                                      : [
+                                          ...(questInfo?.details?.gated
+                                            ?.erc721TokenIds || []),
+                                          item,
+                                        ],
+                                  },
+                                },
+                                actionMilestones: questInfo?.milestones,
+                              })
+                            );
+                          } else {
+                            const milestones = [...questInfo?.milestones];
+                            milestones[
+                              milestonesOpen!?.findIndex(
+                                (item: boolean) => item == true
+                              ) !== -1
+                                ? milestonesOpen!?.findIndex(
+                                    (item: boolean) => item == true
+                                  )
+                                : 0
+                            ] = {
+                              ...milestones[
+                                milestonesOpen!?.findIndex(
+                                  (item: boolean) => item == true
+                                ) !== -1
+                                  ? milestonesOpen!?.findIndex(
+                                      (item: boolean) => item == true
+                                    )
+                                  : 0
+                              ],
+                              gated: {
+                                ...milestones[
+                                  milestonesOpen!?.findIndex(
+                                    (item: boolean) => item == true
+                                  ) !== -1
+                                    ? milestonesOpen!?.findIndex(
+                                        (item: boolean) => item == true
+                                      )
+                                    : 0
+                                ]?.gated,
+                                erc721TokenIds: (
+                                  milestones[
+                                    milestonesOpen!?.findIndex(
+                                      (item: boolean) => item == true
+                                    ) !== -1
+                                      ? milestonesOpen!?.findIndex(
+                                          (item: boolean) => item == true
+                                        )
+                                      : 0
+                                  ]?.gated?.erc721TokenIds || []
+                                )?.filter(
+                                  (value) =>
+                                    value?.collectionId == item?.collectionId
+                                )?.[0]
+                                  ? milestones[
+                                      milestonesOpen!?.findIndex(
+                                        (item: boolean) => item == true
+                                      ) !== -1
+                                        ? milestonesOpen!?.findIndex(
+                                            (item: boolean) => item == true
+                                          )
+                                        : 0
+                                    ]?.gated?.erc721TokenIds?.filter(
+                                      (token: Collection) =>
+                                        token?.collectionId !==
+                                        item?.collectionId
+                                    )
+                                  : [
+                                      ...(milestones[
+                                        milestonesOpen!?.findIndex(
+                                          (item: boolean) => item == true
+                                        ) !== -1
+                                          ? milestonesOpen!?.findIndex(
+                                              (item: boolean) => item == true
+                                            )
+                                          : 0
+                                      ]?.gated?.erc721TokenIds || []),
+                                      item,
+                                    ],
+                              },
+                            };
+
+                            dispatch(
+                              setQuestInfo({
+                                actionDetails: questInfo?.details,
+                                actionMilestones: milestones,
+                              })
+                            );
+                          }
+                        }}
+                      >
+                        <div className="relative w-full h-full relative rounded-md">
+                          <Image
+                            className={"rounded-md"}
+                            draggable={false}
+                            src={`${INFURA_GATEWAY}/ipfs/${
+                              item?.collectionMetadata?.mediaCover?.split(
+                                "ipfs://"
+                              )?.[1]
+                                ? item?.collectionMetadata?.mediaCover?.split(
+                                    "ipfs://"
+                                  )?.[1]
+                                : item?.collectionMetadata?.images?.[0]?.split(
+                                    "ipfs://"
+                                  )?.[1]
+                            }`}
+                            objectFit="cover"
+                            layout="fill"
+                          />
+                        </div>
+                        <div className="absolute flex flex-row gap-1 text-xxs items-center justify-center top-2 left-2">
+                          <div
+                            className="rounded-full w-6 h-6 p-px flex items-center justify-center"
+                            id="northern"
+                          >
+                            <div className="relative w-full h-full flex items-center justify-center">
+                              {pfp && (
+                                <Image
+                                  src={pfp}
+                                  draggable={false}
+                                  className="rounded-full"
+                                  objectFit="cover"
+                                  layout="fill"
+                                />
+                              )}
+                            </div>
+                          </div>
+                          <div className="relative w-fit h-fit flex items-center justify-center">
+                            {
+                              item?.profile?.handle?.suggestedFormatted
+                                ?.localName
+                            }
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </InfiniteScroll>
+            </div>
+          )}
         </div>
       </div>
     </div>
