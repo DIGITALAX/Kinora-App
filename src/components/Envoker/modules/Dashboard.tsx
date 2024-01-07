@@ -56,7 +56,7 @@ const Dashboard: FunctionComponent<DashboardProps> = ({
                       <div
                         key={index}
                         className={`relative w-full p-px rounded-sm flex`}
-                        id="rainbow"
+                        id="northern"
                       >
                         <div className="relative w-full h-fit flex flex-col items-start justify-start rounded-sm bg-nave gap-7">
                           <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center z-0">
@@ -232,7 +232,7 @@ const Dashboard: FunctionComponent<DashboardProps> = ({
                                   Close Quest & Withdraw escrowed rewards?
                                 </div>
                                 <div
-                                  className={`relative w-20 h-7 flex items-center bg-azul justify-center font-bit text-white text-xxs border border-white rounded-sm px-1.5 py-1 ${
+                                  className={`relative w-20 h-7 flex items-center justify-center font-bit text-white text-xxs border border-white rounded-sm px-1.5 py-1 ${
                                     !item?.status || terminateLoading[index]
                                       ? "opacity-70"
                                       : "cursor-pointer active:scale-95 hover:opacity-70"
@@ -305,7 +305,7 @@ const Dashboard: FunctionComponent<DashboardProps> = ({
                                               <div
                                                 key={playerIndex}
                                                 className="relative rounded-full p-px w-8 h-8"
-                                                id="rainbow"
+                                                id="northern"
                                               >
                                                 <div className="relative w-full h-full rounded-full flex">
                                                   {pfp && (
@@ -362,7 +362,7 @@ const Dashboard: FunctionComponent<DashboardProps> = ({
                       <div
                         key={index}
                         className={`relative w-full p-px rounded-sm flex flex-col items-start justify-start h-fit`}
-                        id="rainbow"
+                        id="northern"
                       >
                         <div
                           className={`relative w-full flex items-center justify-start px-2 py-1 flex-row justify-between bg-nave rounded-sm cursor-pointer h-16`}

@@ -18,6 +18,7 @@ const useActivity = (lensConnected: Profile | undefined) => {
   const [activityFeed, setActivityFeed] = useState<
     (Quest & {
       type: string;
+      profile: Profile | undefined;
     })[]
   >([]);
   const [activityInfo, setActivityInfo] = useState<{
@@ -53,14 +54,6 @@ const useActivity = (lensConnected: Profile | undefined) => {
       const milestoneData = await getCompletedMilestones(10, 0);
       const completionData = await getCompletedQuest(10, 0);
       const metricsData = await getMetricsAdded(10, 0);
-
-      console.log({
-        questData,
-        milestoneData,
-        completionData,
-        metricsData,
-        newPlayerData,
-      });
 
       const cache = {
         profiles: {} as Record<string, any>,
@@ -152,7 +145,6 @@ const useActivity = (lensConnected: Profile | undefined) => {
               Number(item?.playerProfileId)
             )}`;
 
-          console.log({ profileId });
           if (!cache.profiles[profileId]) {
             const data = await getProfile(
               {
@@ -205,7 +197,6 @@ const useActivity = (lensConnected: Profile | undefined) => {
               Number(item?.playerProfileId)
             )}`;
 
-          console.log({ profileId });
           if (!cache.profiles[profileId]) {
             const data = await getProfile(
               {
@@ -259,7 +250,6 @@ const useActivity = (lensConnected: Profile | undefined) => {
               Number(item?.playerProfileId)
             )}`;
 
-          console.log({ profileId });
           if (!cache.profiles[profileId]) {
             const data = await getProfile(
               {
@@ -271,20 +261,11 @@ const useActivity = (lensConnected: Profile | undefined) => {
           }
 
           profile = cache.profiles[profileId];
-          let quest: Quest;
-
-          if (!cache.quests[item?.questId]) {
-            const data = await getQuestById(item?.questId);
-            quest = data?.data?.questInstantiateds;
-            cache.quests[item?.questId] = data?.data?.questInstantiateds;
-          }
-
-          quest = cache.quests[item?.questId];
 
           let publication: Post,
             postId = `${toHexWithLeadingZero(
-              Number(quest?.profileId)
-            )}-${toHexWithLeadingZero(Number(quest?.pubId))}`;
+              Number(item?.videoProfileId)
+            )}-${toHexWithLeadingZero(Number(item?.videoPubId))}`;
 
           if (!cache.publications[postId]) {
             const data = await getPublication(
@@ -298,9 +279,8 @@ const useActivity = (lensConnected: Profile | undefined) => {
           publication = cache.publications[postId];
 
           return {
-            ...quest,
             profile,
-            publication,
+            publication: publication,
           };
         }
       );
@@ -357,7 +337,7 @@ const useActivity = (lensConnected: Profile | undefined) => {
       );
       setAllCacheState(cache);
     } catch (err: any) {
-      console.log(err.message);
+      console.error(err.message);
     }
     setActivityLoading(false);
   };
@@ -537,7 +517,6 @@ const useActivity = (lensConnected: Profile | undefined) => {
         let profile: Profile,
           profileId = `${toHexWithLeadingZero(Number(item?.playerProfileId))}`;
 
-        console.log({ profileId });
         if (!cache.profiles[profileId]) {
           const data = await getProfile(
             {
@@ -588,7 +567,6 @@ const useActivity = (lensConnected: Profile | undefined) => {
         let profile: Profile,
           profileId = `${toHexWithLeadingZero(Number(item?.playerProfileId))}`;
 
-        console.log({ profileId });
         if (!cache.profiles[profileId]) {
           const data = await getProfile(
             {
@@ -601,20 +579,10 @@ const useActivity = (lensConnected: Profile | undefined) => {
 
         profile = cache.profiles[profileId];
 
-        let quest: Quest;
-
-        if (!cache.quests[item?.questId]) {
-          const data = await getQuestById(item?.questId);
-          quest = data?.data?.questInstantiateds;
-          cache.quests[item?.questId] = data?.data?.questInstantiateds;
-        }
-
-        quest = cache.quests[item?.questId];
-
         let publication: Post,
           postId = `${toHexWithLeadingZero(
-            Number(quest?.profileId)
-          )}-${toHexWithLeadingZero(Number(quest?.pubId))}`;
+            Number(item?.videoProfileId)
+          )}-${toHexWithLeadingZero(Number(item?.videoPubId))}`;
 
         if (!cache.publications[postId]) {
           const data = await getPublication(
@@ -628,9 +596,8 @@ const useActivity = (lensConnected: Profile | undefined) => {
         publication = cache.publications[postId];
 
         return {
-          ...quest,
           profile,
-          publication,
+          publication: publication,
         };
       });
 
@@ -686,7 +653,7 @@ const useActivity = (lensConnected: Profile | undefined) => {
         ]?.sort(() => 0.5 - Math.random()),
       ]);
     } catch (err: any) {
-      console.log(err.message);
+      console.error(err.message);
     }
   };
 

@@ -24,7 +24,9 @@ const config: Config = {
         rojo: "#FE0000",
         azul: "#0097FC",
         girasol: "#FBD201",
-        calcetine: "#FBDB86"
+        calcetine: "#FBDB86",
+        acei: "#819463",
+        suave: "#C27AA0"
       },
       fontSize: {
         xxs: "0.6rem",
