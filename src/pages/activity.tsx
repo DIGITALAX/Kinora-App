@@ -30,7 +30,7 @@ export default function Envoke({ router }: { router: NextRouter }) {
     getMoreActivityFeed,
     activityInfo,
     activityFeed,
-  } = useActivity();
+  } = useActivity(lensConnected);
   const {
     mirror,
     like,
@@ -48,7 +48,7 @@ export default function Envoke({ router }: { router: NextRouter }) {
     activityFeed,
     address,
     publicClient,
-    (newItems) => setActivityFeed(newItems as Quest[])
+    (newItems) => setActivityFeed(newItems as (Quest & { type: string })[])
   );
 
   return (
