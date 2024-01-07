@@ -52,11 +52,13 @@ const InteractBar: FunctionComponent<InteractBarProps> = ({
               : {
                   icon: "QmXD3LnHiiLSqG2TzaNd1Pmhk2nVqDHDqn8k7RtwVspE6n",
                   function: () =>
-                    setCommentsOpen!((prev) => {
-                      const current = [...prev];
-                      current[index] = !current[index];
-                      return current;
-                    }),
+                    router.asPath.includes("/activity")
+                      ? router.push(`/video/${publication?.id}`)
+                      : setCommentsOpen!((prev) => {
+                          const current = [...prev];
+                          current[index] = !current[index];
+                          return current;
+                        }),
                   title: "Comment",
                   amount: publication?.stats?.comments || 0,
                   reacted: false,
