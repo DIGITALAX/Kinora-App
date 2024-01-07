@@ -26,7 +26,8 @@ const config: Config = {
         girasol: "#FBD201",
         calcetine: "#FBDB86",
         acei: "#819463",
-        suave: "#C27AA0"
+        suave: "#C27AA0",
+        cost: "#847FF2"
       },
       fontSize: {
         xxs: "0.6rem",

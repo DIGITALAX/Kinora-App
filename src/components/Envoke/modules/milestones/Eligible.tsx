@@ -20,11 +20,11 @@ const Eligible: FunctionComponent<EligibleProps> = ({
       </div>
       <div
         className="relative w-full h-72 p-px rounded-md flex items-center justify-center"
-        id="rainbow"
+        id="northern"
       >
         <div className="absolute top-2 right-2 flex items-center justify-center w-fit h-fit">
           <div
-            className="relative w-5 h-5 border border-white flex items-center justify-center rounded-full p-1 bg-black cursor-pointer active:scale-95 z-20"
+            className="relative w-5 h-5 border border-acei flex items-center justify-center rounded-full p-1 bg-black cursor-pointer active:scale-95 z-20"
             onClick={() => {
               let milestones = [...questInfo?.milestones];
 
@@ -1041,12 +1041,12 @@ const Eligible: FunctionComponent<EligibleProps> = ({
                   {item?.input ? (
                     <input
                       onChange={(e) => item?.function!(e.target.value)}
-                      className="bg-black border border-white rounded-md px-1.5 py-1 h-8 w-full"
+                      className="bg-black border border-acei rounded-md px-1.5 py-1 h-8 w-full"
                       value={String(item?.value) || ""}
                       type="number"
                     />
                   ) : (
-                    <div className="relative w-fit h-8 flex items-center justify-center rounded-md border border-white flex-row gap-1 text-xxs bg-black">
+                    <div className="relative w-fit h-8 flex items-center justify-center rounded-md border border-acei flex-row gap-1 text-xxs bg-black">
                       <div
                         className={`relative w-12 h-fit flex p-2 items-center justify-center rounded-md cursor-pointer ${
                           item?.value === true

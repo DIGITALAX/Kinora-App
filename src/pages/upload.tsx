@@ -156,7 +156,7 @@ export default function Upload() {
                     <p className="pl-2 flex text-sm text-calcetine">{">"}</p>
                   </div>
                   <input
-                    className="h-10 w-full bg-nave border border-acei rounded-md p-1 text-xs"
+                    className="h-10 w-full bg-black border border-acei rounded-md p-1 text-xs"
                     value={postDetails?.title}
                     onChange={(e) =>
                       setPostDetails((prev) => ({
@@ -179,7 +179,7 @@ export default function Upload() {
                         tags: e.target.value,
                       }))
                     }
-                    className="relative rounded-md bg-nave p-1 text-xs border border-acei h-10 w-full"
+                    className="relative rounded-md bg-black p-1 text-xs border border-acei h-10 w-full"
                     style={{
                       resize: "none",
                     }}
@@ -196,7 +196,7 @@ export default function Upload() {
                             ?.toLowerCase()!
                         )
                     ) && (
-                      <div className="absolute top-16 z-10 w-full max-h-[6rem] h-fit flex bg-nave border border-sol rounded-md overflow-y-scroll">
+                      <div className="absolute top-16 z-10 w-full max-h-[6rem] h-fit flex bg-black border border-sol rounded-md overflow-y-scroll">
                         <div className="relative w-full h-fit flex flex-col items-center justify-start">
                           {HASHTAG_CONSTANTS?.filter((tag) =>
                             tag.toLowerCase().includes(
@@ -242,7 +242,7 @@ export default function Upload() {
                     <p className="pl-2 flex text-sm text-calcetine">{">"}</p>
                   </div>
                   <textarea
-                    className="h-28 w-full bg-nave border border-acei rounded-md p-2 text-xs"
+                    className="h-28 w-full bg-black border border-acei rounded-md p-2 text-xs"
                     style={{
                       resize: "none",
                     }}

@@ -115,8 +115,8 @@ export default function Envoke({ router }: { router: NextRouter }) {
             }}
             id={!openSidebar ? "closeSide" : ""}
           >
-            <div className="relative w-fit h-fit flex items-start justify-start font-bit text-white text-xl pb-10">
-              Envoke A New Quest
+            <div className="relative w-fit h-fit flex items-start justify-start text-2xl pb-10 font-bit text-white">
+              Envoke New Quest
             </div>
             <div
               className={`relative w-full h-full flex flex-col md:flex-row gap-8 pb-2 items-start  ${

@@ -26,7 +26,7 @@ const Mint: FunctionComponent<MintProps> = ({
       <div className="relative w-fit h-fit flex items-center justify-center">
         <label
           className="relative w-52 h-52 rounded-sm cursor-pointer p-px"
-          id="rainbow"
+          id="northern"
         >
           <div className="relative w-full h-full flex items-center justify-center rounded-sm">
             {item?.images?.[0] || item?.media === "static" ? (
@@ -263,7 +263,7 @@ const Mint: FunctionComponent<MintProps> = ({
               return (
                 <div
                   key={indexTwo}
-                  className={`relative bg-black rounded-full w-5 p-1 flex items-center justify-center h-5 border border-white cursor-pointer active:scale-95 ${
+                  className={`relative bg-black rounded-full w-5 p-1 flex items-center justify-center h-5 border border-acei cursor-pointer active:scale-95 ${
                     item?.media != value?.type && "opacity-50"
                   }`}
                   onClick={(e) => {
@@ -451,7 +451,7 @@ const Mint: FunctionComponent<MintProps> = ({
       </div>
       <div className="relative w-full h-fit flex items-center justify-center gap-2 flex-col">
         <input
-          className="h-10 w-full bg-black border border-white rounded-md p-1 text-xs"
+          className="h-10 w-full bg-black border border-acei rounded-md p-1 text-xs"
           placeholder="Title."
           value={item?.title}
           onChange={(e) => {
@@ -509,7 +509,7 @@ const Mint: FunctionComponent<MintProps> = ({
           }}
         />
         <textarea
-          className="h-40 w-full bg-black border border-white rounded-md p-2 text-xs"
+          className="h-40 w-full bg-black border border-acei rounded-md p-2 text-xs"
           style={{
             resize: "none",
           }}
@@ -638,7 +638,7 @@ const Mint: FunctionComponent<MintProps> = ({
     >
       <div
         className="relative w-8 h-8 flex items-center justify-center rounded-sm p-px"
-        id="rainbow"
+        id="northern"
       >
         <MediaSwitch
           classNameImage="rounded-sm"

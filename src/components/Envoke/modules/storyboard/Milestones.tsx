@@ -15,7 +15,6 @@ import {
 import { VideoMetadataV3 } from "../../../../../graphql/generated";
 import createMedia from "../../../../../lib/helpers/createMedia";
 import MediaSwitch from "@/components/Common/modules/MediaSwitch";
-import createProfilePicture from "../../../../../lib/helpers/createProfilePicture";
 
 const Milestones: FunctionComponent<StoryboardMilestonesProps> = ({
   milestone,
@@ -28,7 +27,7 @@ const Milestones: FunctionComponent<StoryboardMilestonesProps> = ({
       <div className="relative w-full h-fit flex flex-col gap-6 items-center justify-center">
         <div
           className={`relative flex items-center w-full h-28 rounded-md justify-center p-px`}
-          id="rainbow"
+          id="northern"
         >
           <div className="relative w-full h-full flex items-center justify-center rounded-md">
             <Image
@@ -64,12 +63,11 @@ const Milestones: FunctionComponent<StoryboardMilestonesProps> = ({
             <div className="relative w-full h-fit items-start justify-start flex flex-wrap gap-5">
               {milestone?.gated?.erc721TokenIds?.map(
                 (item: Collection, index: number) => {
-                  const pfp = createProfilePicture(item?.profile?.id);
                   return (
                     <div
                       key={index}
                       className={`relative w-14 h-14 flex items-center hover:opacity-80 justify-center p-px rounded-md`}
-                      id="rainbow"
+                      id="northern"
                     >
                       <div className="relative w-full h-full relative rounded-md">
                         {(item?.collectionMetadata?.mediaCover ||
@@ -211,7 +209,7 @@ const Milestones: FunctionComponent<StoryboardMilestonesProps> = ({
                   >
                     <div
                       className="relative w-16 h-16 flex items-center justify-center rounded-sm p-px"
-                      id="rainbow"
+                      id="northern"
                     >
                       <MediaSwitch
                         classNameImage="rounded-sm"
@@ -271,7 +269,7 @@ const Milestones: FunctionComponent<StoryboardMilestonesProps> = ({
                   </div>
                   <div
                     className="relative w-60 h-44 p-px rounded-md flex items-center justify-center"
-                    id="rainbow"
+                    id="northern"
                   >
                     <div className="relative w-full h-full flex items-center justify-center">
                       <MediaSwitch

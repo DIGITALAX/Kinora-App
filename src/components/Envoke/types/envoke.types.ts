@@ -361,8 +361,6 @@ export type StoryboardMilestonesProps = {
 };
 
 export type PostLiveProps = {
-  postLoading: boolean;
-  handlePostLive: () => Promise<void>;
   tokensToApprove: {
     address: string;
     amount: string;
