@@ -1,6 +1,5 @@
 import { FunctionComponent } from "react";
 import { PostLiveProps } from "../types/envoke.types";
-import { AiOutlineLoading } from "react-icons/ai";
 import Image from "next/legacy/image";
 import {
   ACCEPTED_TOKENS_MUMBAI,
@@ -8,15 +7,14 @@ import {
 } from "../../../../lib/constants";
 
 const PostLive: FunctionComponent<PostLiveProps> = ({
-  postLoading,
-  handlePostLive,
   tokensToApprove,
   handleApprove,
 }): JSX.Element => {
   return (
-    <div className="relative w-full h-fit flex items-center justify-start flex-col text-sm font-bit text-white gap-8">
-      <div className="relative w-fit hit flex items-center justify-center text-center break-words">
-        Only one step left. <br /> <br /> Ready to post your Quest live?
+    <div className="relative w-full h-full flex items-center justify-start flex-col bg-black  text-lg font-bit text-white gap-8 px-4 py-6">
+      <div className="relative w-fit hit flex items-center justify-center text-center break-words leading-5">
+        Just one step left. <br /> <br /> Are you ready for your <br /> <br />
+        Quest to be live?
       </div>
       {tokensToApprove?.filter((item) => !item.approved)?.length > 0 && (
         <div className="relative w-full h-fit flex items-center justify-center flex-col gap-3">
@@ -41,7 +39,7 @@ const PostLive: FunctionComponent<PostLiveProps> = ({
                       className="relative w-fit h-fit flex flex-col gap-2 items-center justify-center"
                     >
                       <div className="relative flex flex-col gap-1 w-fit h-fit items-center justify-center font-bit">
-                        <div className="relative w-fit h-fit flex items-center justify-center text-xs text-white" >{`${
+                        <div className="relative w-fit h-fit flex items-center justify-center text-xs text-white">{`${
                           ACCEPTED_TOKENS_MUMBAI?.find(
                             (value) =>
                               value[2]?.toLowerCase() ===
@@ -78,31 +76,6 @@ const PostLive: FunctionComponent<PostLiveProps> = ({
           </div>
         </div>
       )}
-
-      <div
-        className={`relative w-32 bg-black h-8 p-1 rounded-md border border-white hover:opacity-80 flex items-center justify-center ${
-          tokensToApprove?.filter((item) => !item.approved)?.length > 0
-            ? "opacity-70"
-            : "cursor-pointer active:scale-95"
-        }`}
-        onClick={() =>
-          tokensToApprove?.filter((item) => !item.approved)?.length == 0 &&
-          !postLoading &&
-          handlePostLive()
-        }
-      >
-        <div
-          className={`${
-            postLoading ? "animate-spin" : "top-px"
-          } flex items-center justify-center `}
-        >
-          {postLoading ? (
-            <AiOutlineLoading color="white" size={15} />
-          ) : (
-            "Post Quest"
-          )}
-        </div>
-      </div>
     </div>
   );
 };

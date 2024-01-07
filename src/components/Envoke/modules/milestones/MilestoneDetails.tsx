@@ -25,7 +25,7 @@ const MilestoneDetails: FunctionComponent<MilestoneDetailsProps> = ({
       </div>
       <div className="relative w-fit h-fit flex items-center justify-center flex flex-row gap-2">
         <div
-          className="relative w-6 h-6 flex items-center justify-center cursor-pointer rounded-full p-1 bg-black border border-white active:scale-95"
+          className="relative w-6 h-6 flex items-center justify-center cursor-pointer rounded-full p-1 bg-black border border-acei active:scale-95"
           onClick={() => {
             const milestones = [...questInfo?.milestones];
             milestones[
@@ -68,7 +68,7 @@ const MilestoneDetails: FunctionComponent<MilestoneDetailsProps> = ({
       </div>
       <label
         className={`relative flex items-center w-full h-44 rounded-md justify-center cursor-pointer p-px`}
-        id="rainbow"
+        id="northern"
       >
         <div className="relative w-full h-full flex items-center justify-center rounded-md">
           {milestoneCoversLoading?.[
@@ -213,7 +213,7 @@ const MilestoneDetails: FunctionComponent<MilestoneDetailsProps> = ({
           Milestone Title
         </div>
         <input
-          className="h-10 w-full bg-black border border-white rounded-md p-1 text-xs"
+          className="h-10 w-full bg-black border border-acei rounded-md p-1 text-xs"
           placeholder="Give your Milestone a title."
           value={
             questInfo?.milestones[
@@ -260,7 +260,7 @@ const MilestoneDetails: FunctionComponent<MilestoneDetailsProps> = ({
           Milestone Description
         </div>
         <textarea
-          className="h-32 w-full bg-black border border-white rounded-md p-2 text-xs"
+          className="h-32 w-full bg-black border border-acei rounded-md p-2 text-xs"
           style={{
             resize: "none",
           }}

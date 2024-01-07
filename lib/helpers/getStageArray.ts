@@ -17,7 +17,12 @@ const getStageArray = (
       return [
         "Details",
         ...Array.from(
-          { length: questInfo?.milestones?.length },
+          {
+            length: questInfo?.milestones?.filter(
+              (item) =>
+                item?.details?.title?.trim() !== "" && item?.details?.title
+            )?.length,
+          },
           (_, index) => `Milestone ${index + 1}`
         ),
       ].filter(Boolean);

@@ -14,7 +14,7 @@ const Details: FunctionComponent<StoryboardDetailsProps> = ({
       <div className="relative w-full h-fit flex flex-col gap-3 items-center justify-center">
         <div
           className={`relative flex items-center w-full h-44 rounded-md justify-center cursor-pointer p-px`}
-          id="rainbow"
+          id="northern"
         >
           <div className="relative w-full h-full flex items-center justify-center rounded-md">
             <Image

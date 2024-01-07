@@ -392,11 +392,11 @@ const Reward: FunctionComponent<RewardProps> = ({
                         );
                       }}
                       type="number"
-                      className="h-10 w-full bg-black border border-white rounded-md p-1 text-xs"
+                      className="h-10 w-full bg-black border border-acei rounded-md p-1 text-xs"
                       placeholder="Enter token reward amount."
                     />
                     <div
-                      className="absolute w-14 bg-black px-1.5 py-1 h-7 font-bit text-white hover:opacity-70 flex items-center justify-center right-2 cursor-pointer border border-white text-xxs rounded-md active:scale-95 bottom-1.5"
+                      className="absolute w-14 bg-black px-1.5 py-1 h-7 font-bit text-white hover:opacity-70 flex items-center justify-center right-2 cursor-pointer border border-acei text-xxs rounded-md active:scale-95 bottom-1.5"
                       onClick={() =>
                         handleBalance(
                           milestonesOpen.findIndex(

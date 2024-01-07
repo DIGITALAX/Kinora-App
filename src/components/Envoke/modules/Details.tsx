@@ -36,7 +36,7 @@ const Details: FunctionComponent<DetailsProps> = ({
           </div>
           <div className="relative w-fit h-fit flex items-center justify-center flex flex-row gap-2">
             <div
-              className="relative w-6 h-6 flex items-center justify-center cursor-pointer rounded-full p-1 bg-black border border-white active:scale-95"
+              className="relative w-6 h-6 flex items-center justify-center cursor-pointer rounded-full p-1 bg-black border border-acei active:scale-95"
               onClick={() =>
                 dispatch(
                   setQuestInfo({
@@ -59,7 +59,7 @@ const Details: FunctionComponent<DetailsProps> = ({
           </div>
           <label
             className={`relative flex items-center w-full h-60 rounded-md justify-center cursor-pointer p-px`}
-            id="rainbow"
+            id="northern"
           >
             <div className="relative w-full h-full flex items-center justify-center rounded-md">
               {coverLoading ? (
@@ -110,14 +110,12 @@ const Details: FunctionComponent<DetailsProps> = ({
         </div>
         <div className="relative w-full h-fit flex items-start justify-start flex-col gap-6 font-bit text-white lg:top-16">
           <div className="relative w-full h-fit flex items-start justify-start gap-2 flex-col">
-            <div className="relative w-fit h-fit text-sm flex items-start justify-start">
-              Quest Title
+            <div className="relative w-fit h-fit text-xs break-words flex items-start justify-start">
+              Title <p className="pl-2 flex text-sm text-calcetine">{">"}</p>
             </div>
-            <div
-              className="relative w-full h-fit flex p-px rounded-md"
-            >
+            <div className="relative w-full h-fit flex p-px rounded-md">
               <input
-                className="h-10 w-full bg-nave border border-calcetine rounded-md p-1 text-xs"
+                className="h-10 w-full bg-black border border-acei rounded-md p-1 text-xs"
                 placeholder="Give your Quest a name."
                 value={questInfo?.details?.title}
                 onChange={(e) =>
@@ -135,12 +133,11 @@ const Details: FunctionComponent<DetailsProps> = ({
             </div>
           </div>
           <div className="flex flex-col items-start justify-start w-full h-fit gap-1 relative">
-            <div className="relative w-fit h-fit text-sm break-words">
-              Discovery Tags
+            <div className="relative w-fit h-fit text-xs break-words flex items-start justify-start">
+              Discovery Tags{" "}
+              <p className="pl-2 flex text-sm text-calcetine">{">"}</p>
             </div>
-            <div
-              className="relative w-full h-fit flex p-px rounded-md"
-            >
+            <div className="relative w-full h-fit flex p-px rounded-md">
               <input
                 value={questInfo?.details?.tags}
                 onChange={(e) =>
@@ -155,7 +152,7 @@ const Details: FunctionComponent<DetailsProps> = ({
                   )
                 }
                 placeholder="Add search tags."
-                className="relative bg-nave border border-calcetine rounded-md p-1 text-xs bg-nave h-10 w-full"
+                className="relative bg-black border border-acei rounded-md p-1 text-xs h-10 w-full"
                 style={{
                   resize: "none",
                 }}
@@ -219,12 +216,11 @@ const Details: FunctionComponent<DetailsProps> = ({
               )}
           </div>
           <div className="flex flex-col items-start justify-start w-full h-fit gap-1 relative">
-            <div className="relative w-fit h-fit text-sm break-words">
-              Max Player Count
+            <div className="relative w-fit h-fit text-xs break-words flex items-start justify-start">
+              Max Player Count{" "}
+              <p className="pl-2 flex text-sm text-calcetine">{">"}</p>
             </div>
-            <div
-              className="relative w-full h-fit flex p-px rounded-md"
-            >
+            <div className="relative w-full h-fit flex p-px rounded-md">
               <input
                 value={questInfo?.details?.maxPlayerCount}
                 onChange={(e) =>
@@ -239,7 +235,7 @@ const Details: FunctionComponent<DetailsProps> = ({
                   )
                 }
                 placeholder="Add Max. Players to Join Quest."
-                className="relative border border-calcetine rounded-md p-1 bg-nave text-xs h-10 w-full"
+                className="relative border border-acei rounded-md p-1 bg-black text-xs h-10 w-full"
                 style={{
                   resize: "none",
                 }}
@@ -252,14 +248,12 @@ const Details: FunctionComponent<DetailsProps> = ({
       </div>
 
       <div className="relative w-full h-fit flex items-start justify-start gap-2 flex-col">
-        <div className="relative w-fit h-fit flex items-start justify-start">
-          Quest Description
+        <div className="relative w-fit h-fit text-xs break-words flex items-start justify-start">
+          Description <p className="pl-2 flex text-sm text-calcetine">{">"}</p>
         </div>
-        <div
-          className="relative w-full h-fit flex p-px rounded-md"
-        >
+        <div className="relative w-full h-fit flex p-px rounded-md">
           <textarea
-            className="h-40 w-full border-calcetine border bg-nave rounded-md p-2 text-xs"
+            className="h-40 w-full border-acei border bg-black rounded-md p-2 text-xs"
             style={{
               resize: "none",
             }}
