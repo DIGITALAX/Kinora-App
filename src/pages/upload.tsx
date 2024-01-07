@@ -14,7 +14,7 @@ import {
 import CollectOptions from "@/components/Upload/modules/CollectOptions";
 import { AiOutlineLoading } from "react-icons/ai";
 import { createPublicClient, http } from "viem";
-import { polygon, polygonMumbai } from "viem/chains";
+import { polygonMumbai } from "viem/chains";
 
 export default function Upload() {
   const publicClient = createPublicClient({
@@ -68,7 +68,7 @@ export default function Upload() {
     <>
       {walletConnected && lensConnected ? (
         <div
-          className="relative flex overflow-y-scroll min-h-full w-full items-start justify-end pb-5"
+          className="relative flex overflow-y-scroll min-h-full w-full items-start justify-end pb-5 font-bit text-white"
           style={{
             height: "calc(100vh - 5.5rem)",
           }}
@@ -82,60 +82,81 @@ export default function Upload() {
             }}
             id={!openSidebar ? "closeSide" : ""}
           >
-            <div className="relative w-fit h-fit flex items-start justify-start text-xl">
+            <div className="relative w-fit h-fit flex items-start justify-start text-2xl pb-10">
               Upload A New Video
             </div>
             <div className="relative w-full h-fit flex items-start justify-start flex-row text-xs gap-4">
-              <label
-                className={`relative flex items-center w-full h-80 rounded-md justify-center z-0 cursor-pointer p-px`}
-                id="rainbow"
-              >
-                <div className="relative w-full h-full flex items-center justify-center rounded-md">
-                  {postDetails?.video && (
-                    <video
-                      className="rounded-md object-cover w-full h-full relative flex items-center justify-center"
-                      draggable={false}
-                      muted
-                      autoPlay
+              <div className="relative w-full h-fit flex items-start justify-start flex-col gap-5">
+                <label
+                  className={`relative flex items-center w-full h-80 rounded-md justify-center z-0 cursor-pointer p-px`}
+                  id="northern"
+                >
+                  <div className="relative w-full h-full flex items-center justify-center rounded-md">
+                    {postDetails?.video && (
+                      <video
+                        className="rounded-md object-cover w-full h-full relative flex items-center justify-center"
+                        draggable={false}
+                        muted
+                        autoPlay
+                      >
+                        <source
+                          src={
+                            IPFS_REGEX.test(postDetails?.video)
+                              ? `${INFURA_GATEWAY}/ipfs/${postDetails?.video}`
+                              : postDetails?.video
+                          }
+                        />
+                      </video>
+                    )}
+                    <input
+                      hidden
+                      className="z-0"
+                      type="file"
+                      accept={"video/mp4"}
+                      multiple={true}
+                      onChange={(e) => {
+                        e?.target?.files?.[0] &&
+                          handleMediaUpload(
+                            e,
+                            () => {},
+                            () => {},
+                            (video: string) =>
+                              setPostDetails((prev) => ({
+                                ...prev,
+                                video,
+                              }))
+                          );
+                      }}
+                    />
+                  </div>
+                </label>
+                <div className="relative w-full h-full items-end justify-end flex">
+                  <div
+                    className="relative w-32 h-9 flex items-center justify-center border border-white cursor-pointer active:scale-95"
+                    onClick={() => !uploadLoading && handleVideoPost()}
+                  >
+                    <div
+                      className={`relative w-fit h-fit flex items-center justify-center text-sm ${
+                        uploadLoading && "animate-spin"
+                      }`}
                     >
-                      <source
-                        src={
-                          IPFS_REGEX.test(postDetails?.video)
-                            ? `${INFURA_GATEWAY}/ipfs/${postDetails?.video}`
-                            : postDetails?.video
-                        }
-                      />
-                    </video>
-                  )}
-                  <input
-                    hidden
-                    className="z-0"
-                    type="file"
-                    accept={"video/mp4"}
-                    multiple={true}
-                    onChange={(e) => {
-                      e?.target?.files?.[0] &&
-                        handleMediaUpload(
-                          e,
-                          () => {},
-                          () => {},
-                          (video: string) =>
-                            setPostDetails((prev) => ({
-                              ...prev,
-                              video,
-                            }))
-                        );
-                    }}
-                  />
+                      {uploadLoading ? (
+                        <AiOutlineLoading size={15} color={"white"} />
+                      ) : (
+                        "post video"
+                      )}
+                    </div>
+                  </div>
                 </div>
-              </label>
+              </div>
               <div className="relative w-full h-fit flex flex-col gap-8 items-center justify-center">
-                <div className="relative w-full h-fit flex items-start justify-start gap-1 flex-col">
-                  <div className="relative w-fit h-fit flex items-start justify-start">
-                    Title
+                <div className="relative w-full h-fit flex items-center justify-center gap-3 flex-row">
+                  <div className="relative w-fit h-fit text-xs break-words flex items-center justify-center">
+                    Title{" "}
+                    <p className="pl-2 flex text-sm text-calcetine">{">"}</p>
                   </div>
                   <input
-                    className="h-10 w-full bg-nave border border-white rounded-md p-1 text-xs"
+                    className="h-10 w-full bg-nave border border-acei rounded-md p-1 text-xs"
                     value={postDetails?.title}
                     onChange={(e) =>
                       setPostDetails((prev) => ({
@@ -145,9 +166,10 @@ export default function Upload() {
                     }
                   />
                 </div>
-                <div className="flex flex-col items-start justify-start w-full h-fit gap-1 relative">
-                  <div className="relative w-fit h-fit text-xs break-words">
-                    Discovery Tags
+                <div className="flex flex-col items-start justify-start w-full h-fit gap-3 relative">
+                  <div className="relative w-fit h-fit text-xs break-words flex items-center justify-center">
+                    Discovery Tags{" "}
+                    <p className="pl-2 flex text-sm text-calcetine">{">"}</p>
                   </div>
                   <input
                     value={postDetails?.tags}
@@ -157,7 +179,7 @@ export default function Upload() {
                         tags: e.target.value,
                       }))
                     }
-                    className="relative rounded-md bg-nave p-1 text-xs border border-white h-10 w-full"
+                    className="relative rounded-md bg-nave p-1 text-xs border border-acei h-10 w-full"
                     style={{
                       resize: "none",
                     }}
@@ -214,12 +236,13 @@ export default function Upload() {
                       </div>
                     )}
                 </div>
-                <div className="relative w-full h-fit flex items-start justify-start gap-1 flex-col">
-                  <div className="relative w-fit h-fit flex items-start justify-start">
-                    Quest Description
+                <div className="flex flex-col items-start justify-start w-full h-fit gap-3 relative">
+                  <div className="relative w-fit h-fit text-xs break-words flex items-center justify-center">
+                    Description{" "}
+                    <p className="pl-2 flex text-sm text-calcetine">{">"}</p>
                   </div>
                   <textarea
-                    className="h-28 w-full bg-nave border border-white rounded-md p-2 text-xs"
+                    className="h-28 w-full bg-nave border border-acei rounded-md p-2 text-xs"
                     style={{
                       resize: "none",
                     }}
@@ -235,9 +258,9 @@ export default function Upload() {
               </div>
             </div>
 
-            <div className="relative w-full h-fit flex flex-col gap-3 items-start justify-start pb-7">
+            <div className="relative w-full h-fit flex flex-col gap-3 items-start justify-start py-7">
               <div className="flex flex-col items-start justify-start w-full h-fit gap-1 relative">
-                <div className="relative w-fit h-fit text-sm break-words">
+                <div className="relative w-fit h-fit text-md break-words">
                   Collect Options
                 </div>
                 <CollectOptions
@@ -247,24 +270,6 @@ export default function Upload() {
                   openMeasure={openMeasure}
                   setOpenMeasure={setOpenMeasure}
                 />
-              </div>
-              <div className="relative w-full h-full items-end justify-end flex">
-                <div
-                  className="relative w-32 h-9 flex items-center justify-center border border-white cursor-pointer active:scale-95"
-                  onClick={() => !uploadLoading && handleVideoPost()}
-                >
-                  <div
-                    className={`relative w-fit h-fit flex items-center justify-center text-xs ${
-                      uploadLoading && "animate-spin"
-                    }`}
-                  >
-                    {uploadLoading ? (
-                      <AiOutlineLoading size={15} color={"white"} />
-                    ) : (
-                      "post video"
-                    )}
-                  </div>
-                </div>
               </div>
             </div>
           </div>
