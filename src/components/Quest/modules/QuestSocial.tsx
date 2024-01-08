@@ -97,7 +97,7 @@ const QuestSocial: FunctionComponent<QuestSocialProps> = ({
           </div>
           <div className="relative w-full h-px bg-gray-700"></div>
           {reactors?.length > 0 ? (
-            <div className="relative w-full h-full flex flex-col overflow-y-scroll">
+            <div className="relative w-full h-full flex flex-col overflow-y-scroll min-h-[30rem]">
               <InfiniteScroll
                 hasMore={hasMore}
                 dataLength={reactors?.length}
@@ -283,7 +283,7 @@ const QuestSocial: FunctionComponent<QuestSocialProps> = ({
                         <div className="relative w-fit h-fit flex flex-row gap-3 items-center justify-center">
                           <div
                             className="relative w-8 h-8 rounded-full p-px items-center justify-center"
-                            id="rainbow"
+                            id="northern"
                           >
                             <div className="relative w-full h-full flex items-center justify-center">
                               {profileImage && (
@@ -359,7 +359,7 @@ const QuestSocial: FunctionComponent<QuestSocialProps> = ({
                       <div className="relative w-fit h-fit flex flex-row gap-3 items-center justify-center">
                         <div
                           className="relative w-8 h-8 rounded-full p-px items-center justify-center"
-                          id="rainbow"
+                          id="northern"
                         >
                           <div className="relative w-full h-full flex items-center justify-center">
                             {profileImage && (
@@ -407,41 +407,46 @@ const QuestSocial: FunctionComponent<QuestSocialProps> = ({
             }`}
           </div>
           <div className="relative w-full h-px bg-gray-700"></div>
-          {questInfo?.players && questInfo?.players?.length > 0 ? (
+          {videoPlaying &&
+          Number(videoPlaying?.publication?.stats?.countOpenActions || 0) > 0 &&
+          questInfo?.players &&
+          questInfo?.players?.length > 0 ? (
             <div className="relative w-full h-fit flex items-start justify-start flex-wrap gap-3 overflow-y-scroll">
-              {questInfo?.players?.map((player: Player, index: number) => {
-                const playerPfp = createProfilePicture(
-                  player?.profile?.metadata?.picture
-                );
-                return (
-                  <div
-                    key={index}
-                    className="relative w-12 h-12 rounded-full flex items-center justify-center cursor-pointer active:scale-95 p-px"
-                    onClick={() =>
-                      router.push(
-                        `/envoker/${
-                          player?.profile?.handle?.suggestedFormatted?.localName?.split(
-                            "@"
-                          )?.[1]
-                        }`
-                      )
-                    }
-                    id="rainbow"
-                  >
-                    <div className="relative w-full h-full flex items-center justify-center">
-                      {playerPfp && (
-                        <Image
-                          layout="fill"
-                          src={playerPfp}
-                          objectFit="cover"
-                          className="rounded-full"
-                          draggable={false}
-                        />
-                      )}
+              {(videoPlaying ? reactors : questInfo?.players)?.map(
+                (player: Player, index: number) => {
+                  const playerPfp = createProfilePicture(
+                    player?.profile?.metadata?.picture
+                  );
+                  return (
+                    <div
+                      key={index}
+                      className="relative w-12 h-12 rounded-full flex items-center justify-center cursor-pointer active:scale-95 p-px"
+                      onClick={() =>
+                        router.push(
+                          `/envoker/${
+                            player?.profile?.handle?.suggestedFormatted?.localName?.split(
+                              "@"
+                            )?.[1]
+                          }`
+                        )
+                      }
+                      id="northern"
+                    >
+                      <div className="relative w-full h-full flex items-center justify-center">
+                        {playerPfp && (
+                          <Image
+                            layout="fill"
+                            src={playerPfp}
+                            objectFit="cover"
+                            className="rounded-full"
+                            draggable={false}
+                          />
+                        )}
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                }
+              )}
             </div>
           ) : (
             <div className="realtive w-full text-center h-fit flex items-center justify-center font-bit text-gray-500 text-sm break-words">

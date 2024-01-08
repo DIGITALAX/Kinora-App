@@ -20,8 +20,8 @@ export type AccountSwitchProps = {
   terminateLoading: boolean[];
   approvalLoading: boolean[];
   playerClaimMilestoneReward: (id: string, index: number) => Promise<void>;
-  openPlayerDetails: boolean[][];
-  setOpenPlayerDetails: (e: SetStateAction<boolean[][]>) => void;
+  openPlayerDetails: (Profile | undefined)[];
+  setOpenPlayerDetails: (e: SetStateAction<(Profile | undefined)[]>) => void;
   info: {
     hasMorePlayer: boolean;
     hasMoreEnvoked: boolean;
@@ -52,7 +52,7 @@ export type AccountSwitchProps = {
     follow: boolean;
     unfollow: boolean;
   }[];
-  followProfile: (id: string, index: number, type: string) => Promise<void>;
+  followProfile: (id: string, index: number, main?: boolean) => Promise<void>;
   unfollowProfile: (id: string, index: number) => Promise<void>;
   setProfileHovers: (e: SetStateAction<boolean[]>) => void;
   profileHovers: boolean[];
@@ -83,8 +83,8 @@ export type HomeProps = {
   }[];
   setProfileHovers: (e: SetStateAction<boolean[]>) => void;
   profileHovers: boolean[];
-  followProfile: (id: string, index: number, type: string) => Promise<void>;
-  unfollowProfile: (id: string, index: number, type: string) => Promise<void>;
+  followProfile: (id: string, index: number, main?: boolean) => Promise<void>;
+  unfollowProfile: (id: string, index: number) => Promise<void>;
   info: {
     hasMorePlayer: boolean;
     hasMoreEnvoked: boolean;
@@ -116,8 +116,8 @@ export type SavesProps = {
     follow: boolean;
     unfollow: boolean;
   }[];
-  followProfile: (id: string, index: number, type: string) => Promise<void>;
-  unfollowProfile: (id: string, index: number, type: string) => Promise<void>;
+  followProfile: (id: string, index: number, main?: boolean) => Promise<void>;
+  unfollowProfile: (id: string, index: number) => Promise<void>;
   profileHovers: boolean[];
   setProfileHovers: (e: SetStateAction<boolean[]>) => void;
 };
@@ -150,15 +150,15 @@ export type DashboardProps = {
     envokedCursor: number;
   };
   router: NextRouter;
-  openPlayerDetails: (Player | undefined)[];
-  setOpenPlayerDetails: (e: SetStateAction<(Player | undefined)[]>) => void;
+  openPlayerDetails: (Profile | undefined)[];
+  setOpenPlayerDetails: (e: SetStateAction<(Profile | undefined)[]>) => void;
 };
 
 export type PlayerMilestoneProps = {
   index: number;
   quest: Quest;
-  openPlayerDetails: (Player | undefined)[];
-  setOpenPlayerDetails: (e: SetStateAction<(Player | undefined)[]>) => void;
+  openPlayerDetails: (Profile | undefined)[];
+  setOpenPlayerDetails: (e: SetStateAction<(Profile | undefined)[]>) => void;
   approvePlayerMilestone: (
     id: number,
     milestone: number,

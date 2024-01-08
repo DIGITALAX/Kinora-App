@@ -25,13 +25,14 @@ const lensQuote = async (
 ): Promise<void> => {
   if (
     openActionModules &&
-    openActionModules?.hasOwnProperty("collectOpenAction") &&
+    openActionModules?.[0]?.hasOwnProperty("collectOpenAction") &&
     openActionModules?.[0]?.collectOpenAction?.hasOwnProperty(
       "simpleCollectOpenAction"
-    )
+    ) &&
+    openActionModules?.[0]?.collectOpenAction?.simpleCollectOpenAction
   ) {
     openActionModules = cleanCollect(openActionModules);
-  } else {
+  } else  {
     openActionModules = [
       {
         collectOpenAction: {
@@ -42,7 +43,6 @@ const lensQuote = async (
       },
     ];
   }
-
   const metadata = await validateMetadata({
     rawURI: contentURI,
   });

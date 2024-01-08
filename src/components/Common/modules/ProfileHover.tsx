@@ -16,11 +16,12 @@ const ProfileHover: FunctionComponent<ProfileHoverProps> = ({
   setProfileHovers,
   router,
   dispatch,
+  main
 }) => {
   return (
     <div
       className="absolute bottom-4 right-4 rounded-md w-28 z-20 h-fit flex p-px"
-      id="rainbow"
+      id="northern"
       onMouseLeave={() =>
         setProfileHovers((prev) => {
           const arr = [...(prev || [])];
@@ -42,7 +43,7 @@ const ProfileHover: FunctionComponent<ProfileHoverProps> = ({
                 }`
               )
             }
-            id="rainbow"
+            id="northern"
           >
             <div className="relative w-full h-full flex items-center justify-center">
               {pfp && (
@@ -79,7 +80,7 @@ const ProfileHover: FunctionComponent<ProfileHoverProps> = ({
                   : followProfile(
                       profile?.id,
                       index,
-                      profile?.followModule?.type!
+                      main
                     ),
               title: "Follow Profile",
               loader: followLoading,
@@ -93,7 +94,7 @@ const ProfileHover: FunctionComponent<ProfileHoverProps> = ({
                 unfollowProfile(
                   profile?.id,
                   index,
-                  profile?.followModule?.type!
+                  main
                 ),
               title: "Unfollow Profile",
               loader: unfollowLoading,

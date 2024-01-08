@@ -32,6 +32,8 @@ const createMedia = (
           ?.split("ar://")?.[1]
           ?.replace(/"/g, "")
           ?.trim()}`;
+      } else if (metadata?.asset?.image?.raw?.uri?.includes("https://")) {
+        asset = metadata?.asset?.image?.raw?.uri;
       }
     } else if (metadata?.asset?.image?.optimized?.uri) {
       if (
@@ -68,6 +70,8 @@ const createMedia = (
           ?.split("ar://")?.[1]
           ?.replace(/"/g, "")
           ?.trim()}`;
+      } else if (metadata?.asset?.video?.raw?.uri?.includes("https://")) {
+        asset = metadata?.asset?.video?.raw?.uri;
       }
     } else if (metadata?.asset?.video?.optimized?.uri) {
       if (
@@ -102,7 +106,7 @@ const createMedia = (
           ?.split("ar://")?.[1]
           ?.replace(/"/g, "")
           ?.trim()}`;
-      }
+      } 
     } else if (metadata?.asset?.cover?.optimized?.uri) {
       if (
         metadata?.asset?.cover?.optimized?.uri?.includes("ipfs://") &&

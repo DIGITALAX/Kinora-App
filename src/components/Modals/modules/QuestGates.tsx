@@ -113,7 +113,7 @@ const QuestGates: FunctionComponent<QuestGatesProps> = ({
                                   )}`
                                 )
                               }
-                              // id="rainbow"
+                              // id="northern"
                             >
                               <div className="relative w-full h-full flex items-center justify-center rounded-sm">
                                 <Image

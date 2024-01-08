@@ -47,7 +47,7 @@ const Media: FunctionComponent<MediaImageProps> = ({
                   className={`w-44 rounded-sm h-44 flex items-center justify-center p-px ${
                     media?.url && !disabled && "cursor-pointer"
                   }`}
-                  id="rainbow"
+                  id="northern"
                   onClick={() =>
                     media?.type === "Image" &&
                     !disabled &&

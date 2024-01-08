@@ -7,6 +7,7 @@ import QuestCompleted from "./QuestCompleted";
 import MilestoneCompleted from "./MilestoneCompleted";
 import MetricsAdded from "./MetricsAdded";
 import { Quest } from "@/components/Quest/types/quest.types";
+import { Profile } from "../../../../graphql/generated";
 
 const Activity: FunctionComponent<ActivityProps> = ({
   activityFeed,
@@ -35,11 +36,12 @@ const Activity: FunctionComponent<ActivityProps> = ({
       next={getMoreActivityFeed}
       className="relative w-full h-fit flex-col items-center justify-start"
     >
-      <div className="w-full h-fit grid grid-cols-2 justify-center items-start gap-3">
+      <div className="w-full h-fit grid grid-cols-3 justify-center items-start gap-3">
         {activityFeed?.map(
           (
             item: Quest & {
-              type: string;
+              type: string
+              profile: Profile | undefined
             },
             index: number
           ) => {
@@ -165,6 +167,7 @@ const Activity: FunctionComponent<ActivityProps> = ({
                     setProfileHovers={setProfileHovers}
                     profileHovers={profileHovers}
                     mainFeed={true}
+                    border
                   />
                 );
             }

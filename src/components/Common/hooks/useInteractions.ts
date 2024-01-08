@@ -1,7 +1,12 @@
 import { Quest } from "@/components/Quest/types/quest.types";
 import errorChoice from "../../../../lib/helpers/errorChoice";
-import { Post, Profile, PublicationStats } from "../../../../graphql/generated";
-import { setQuestFeed } from "../../../../redux/reducers/questFeedSlice";
+import {
+  Comment,
+  Post,
+  Profile,
+  PublicationStats,
+  SimpleCollectOpenActionSettings,
+} from "../../../../graphql/generated";
 import { Dispatch } from "redux";
 import lensBookmark from "../../../../lib/helpers/lensBookmark";
 import { useEffect, useState } from "react";
@@ -12,6 +17,8 @@ import lensLike from "../../../../lib/helpers/lensLike";
 import refetchProfile from "../../../../lib/helpers/refetchProfile";
 import lensFollow from "../../../../lib/helpers/lensFollow";
 import lensUnfollow from "../../../../lib/helpers/lensUnfollow";
+import { setFollowCollect } from "../../../../redux/reducers/followCollectSlice";
+import lensCollect from "../../../../lib/helpers/lensCollect";
 
 const useInteractions = (
   lensConnected: Profile | undefined,
@@ -144,6 +151,98 @@ const useInteractions = (
     });
   };
 
+  const simpleCollect = async (post: Post | Comment) => {
+    if (!lensConnected?.id) return;
+
+    if (
+      (post?.openActionModules?.[0] as SimpleCollectOpenActionSettings)
+        ?.amount &&
+      Number(
+        (post?.openActionModules?.[0] as SimpleCollectOpenActionSettings)
+          ?.amount?.value
+      ) > 0
+    ) {
+      dispatch(
+        setFollowCollect({
+          actionType: "collect",
+          actionCollect: {
+            id: post?.id,
+            stats: post?.stats?.countOpenActions,
+            item: post?.openActionModules?.[0],
+          },
+        })
+      );
+      return;
+    }
+
+    const index = feed?.findIndex(
+      (pub) =>
+        (!(pub as Quest)?.publication
+          ? (pub as Post)?.id
+          : (pub as Quest)?.publication?.id) === post?.id
+    );
+
+    if (index == -1) {
+      return;
+    }
+
+    setInteractionsLoading((prev) => {
+      const updatedArray = [...prev];
+      updatedArray[index!] = { ...updatedArray[index!], simpleCollect: true };
+      return updatedArray;
+    });
+
+    try {
+      const clientWallet = createWalletClient({
+        chain: polygonMumbai,
+        transport: custom((window as any).ethereum),
+      });
+
+      await lensCollect(
+        post?.id,
+        post?.openActionModules?.[0]?.type!,
+        dispatch,
+        address as `0x${string}`,
+        clientWallet,
+        publicClient
+      );
+      updateInteractions(
+        index!,
+        {
+          hasActed: {
+            __typename: "OptimisticStatusResult",
+            isFinalisedOnchain: true,
+            value: true,
+          },
+        },
+        "countOpenActions"
+      );
+    } catch (err: any) {
+      errorChoice(
+        err,
+        () =>
+          updateInteractions(
+            index!,
+            {
+              hasActed: {
+                __typename: "OptimisticStatusResult",
+                isFinalisedOnchain: true,
+                value: true,
+              },
+            },
+            "countOpenActions"
+          ),
+        dispatch
+      );
+    }
+
+    setInteractionsLoading((prev) => {
+      const updatedArray = [...prev];
+      updatedArray[index!] = { ...updatedArray[index!], simpleCollect: false };
+      return updatedArray;
+    });
+  };
+
   const like = async (id: string, hasReacted: boolean, main?: boolean) => {
     if (!lensConnected?.id) return;
 
@@ -199,12 +298,7 @@ const useInteractions = (
     });
   };
 
-  const followProfile = async (
-    id: string,
-    index: number,
-    type: string,
-    main?: boolean
-  ) => {
+  const followProfile = async (id: string, index: number, main?: boolean) => {
     if (!lensConnected?.id) return;
 
     if (index == -1) {
@@ -373,6 +467,7 @@ const useInteractions = (
     followProfile,
     unfollowProfile,
     mainInteractionsLoading,
+    simpleCollect,
   };
 };
 

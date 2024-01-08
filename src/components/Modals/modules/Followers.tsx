@@ -72,7 +72,7 @@ const Followers: FunctionComponent<FollowersProps> = ({
                           <div className="relative w-fit h-fit flex flex-row gap-3 items-center justify-center">
                             <div
                               className="relative w-8 h-8 rounded-full items-center justify-center p-px"
-                              id="rainbow"
+                              id="northern"
                             >
                               <div className="relative w-full h-full rounded-full items-center justify-center">
                                 {profileImage && (

@@ -18,47 +18,43 @@ const PlayerMilestone: FunctionComponent<PlayerMilestoneProps> = ({
     <div className="relative w-full h-fit flex flex-col gap-3">
       <div className="relative w-full h-fit flex overflow-x-scroll">
         <div className="relative w-fit h-fit flex flex-row gap-2">
-          {
-            // item?.players
-            //   ?.filter(
-            //     (player) =>
-            //       !player?.questsCompleted?.includes(
-            //         item?.questId
-            //       )
-            //   )
-            Array.from({ length: 100 }, () => quest?.players?.[0])?.map(
-              (player: Player, playerIndex: number) => {
-                const pfp = createProfilePicture(
-                  player?.profile?.metadata?.picture
-                );
-                return (
-                  <div
-                    key={playerIndex}
-                    className="relative rounded-full cursor-pointer p-px w-8 h-8"
-                    id="rainbow"
-                    onClick={() =>
-                      setOpenPlayerDetails((prev) => {
-                        const arr = [...prev];
-                        arr[index] = arr?.[index] ? undefined : player;
-                        return arr;
-                      })
-                    }
-                  >
-                    <div className="relative w-full h-full rounded-full flex">
-                      {pfp && (
-                        <Image
-                          src={pfp}
-                          draggable={false}
-                          layout="fill"
-                          className="rounded-full"
-                        />
-                      )}
-                    </div>
+          {quest?.players
+            ?.filter(
+              (player) => !player?.questsCompleted?.includes(quest?.questId)
+            )?.length > 0 ?
+            quest?.players
+            ?.filter(
+              (player) => !player?.questsCompleted?.includes(quest?.questId)
+            )?.map((player: Player, playerIndex: number) => {
+              const pfp = createProfilePicture(
+                player?.profile?.metadata?.picture
+              );
+              return (
+                <div
+                  key={playerIndex}
+                  className="relative rounded-full cursor-pointer p-px w-8 h-8"
+                  id="northern"
+                  onClick={() =>
+                    setOpenPlayerDetails((prev) => {
+                      const arr = [...prev];
+                      arr[index] = arr?.[index] ? undefined : player;
+                      return arr;
+                    })
+                  }
+                >
+                  <div className="relative w-full h-full rounded-full flex">
+                    {pfp && (
+                      <Image
+                        src={pfp}
+                        draggable={false}
+                        layout="fill"
+                        className="rounded-full"
+                      />
+                    )}
                   </div>
-                );
-              }
-            )
-          }
+                </div>
+              )
+            }) :  <div className="relative w-full h-fit flex items-center justify-center text-center text-gray-500 font-bit text-xxs">No Active Players Yet.</div>}
         </div>
       </div>
       {openPlayerDetails?.[index] && (

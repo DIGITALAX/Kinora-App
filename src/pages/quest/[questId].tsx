@@ -85,7 +85,7 @@ export default function QuestId({ router }: { router: NextRouter }) {
     handleSendMetrics,
     playerMetricsLive,
     currentMetricsLoading,
-  } = useVideos(questInfo, lensConnected, dispatch, getQuestInfo);
+  } = useVideos(lensConnected, dispatch, getQuestInfo, questInfo);
   const {
     dataLoading,
     reactors,
@@ -141,7 +141,6 @@ export default function QuestId({ router }: { router: NextRouter }) {
     address,
     publicClient,
     postCollectGif,
-    setQuestInfo,
     socialType == SocialType.Comments
       ? reactors
       : socialType == SocialType.Mirrors
@@ -154,7 +153,8 @@ export default function QuestId({ router }: { router: NextRouter }) {
       : undefined,
     showComments,
     videoPlaying,
-    setVideoPlaying
+    setVideoPlaying,
+    setQuestInfo
   );
   const {
     suggestedLoading,
@@ -221,7 +221,7 @@ export default function QuestId({ router }: { router: NextRouter }) {
                     {Array.from({ length: 30 })?.map((_, index: number) => {
                       return (
                         <div
-                          id="rainbow"
+                          id="northern"
                           key={index}
                           className="relative h-20 rounded-md w-full flex"
                         ></div>
@@ -299,7 +299,7 @@ export default function QuestId({ router }: { router: NextRouter }) {
               className={`relative w-full h-full flex p-px rounded-md ${
                 questInfoLoading && "animate-pulse"
               }`}
-              id="rainbow"
+              id="northern"
             >
               <div className="relative w-full h-full flex items-center justify-center rounded-md">
                 {!questInfoLoading &&
@@ -329,6 +329,7 @@ export default function QuestId({ router }: { router: NextRouter }) {
                   ) : (
                     <MainVideo
                       allVideos={questInfo?.milestones[mainViewer - 1]?.videos!}
+                      height="25.8rem"
                       setVideoPlaying={setVideoPlaying}
                       videoPlaying={videoPlaying}
                       playing={playing}
@@ -561,7 +562,7 @@ export default function QuestId({ router }: { router: NextRouter }) {
                   <div
                     key={index}
                     className="relative w-full h-96 flex rounded-sm animate-pulse"
-                    id="rainbow"
+                    id="northern"
                   ></div>
                 );
               })}
@@ -572,7 +573,7 @@ export default function QuestId({ router }: { router: NextRouter }) {
                   <div
                     key={index}
                     className="relative w-full h-60 flex rounded-sm animate-pulse"
-                    id="rainbow"
+                    id="northern"
                   ></div>
                 );
               })}

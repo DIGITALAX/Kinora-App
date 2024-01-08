@@ -32,7 +32,7 @@ const VideoInfo: FunctionComponent<VideoInfoProps> = ({
         <div className="relative w-fit ml-0 h-fit flex flex-row gap-2">
           <div
             className="relative w-fit h-fit flex items-center justify-center ml-auto p-px rounded-full"
-            id="rainbow"
+            id="northern"
           >
             <div
               className="relative flex items-center justify-center rounded-full  w-6 h-6 cursor-pointer"
@@ -204,7 +204,7 @@ const VideoInfo: FunctionComponent<VideoInfoProps> = ({
       {mirrorChoiceOpen && (
         <div
           className="absolute w-fit h-fit rounded-md bottom-3 left-24 flex bg-nave p-px"
-          id="rainbow"
+          id="northern"
         >
           <div className="relative w-fit h-fit flex flex-row gap-1.5 p-1 bg-nave rounded-md">
             {[

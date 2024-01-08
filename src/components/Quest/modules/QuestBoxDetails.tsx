@@ -43,7 +43,7 @@ const QuestBoxDetails: FunctionComponent<QuestBoxDetailsProps> = ({
             <div className="relative w-full h-fit flex items-center justify-start flex-row gap-2">
               <div
                 className="relative w-7 h-7 flex items-center justify-center rounded-full p-px cursor-pointer"
-                id="rainbow"
+                id="northern"
                 onClick={() =>
                   router.push(
                     `/envoker/${
@@ -190,7 +190,7 @@ const QuestBoxDetails: FunctionComponent<QuestBoxDetailsProps> = ({
                                     )}`
                                   )
                                 }
-                                id="rainbow"
+                                id="northern"
                               >
                                 <div className="relative w-full h-full flex items-center justify-center rounded-sm">
                                   <Image
@@ -389,7 +389,7 @@ const QuestBoxDetails: FunctionComponent<QuestBoxDetailsProps> = ({
               {mirrorChoiceOpen && (
                 <div
                   className="absolute w-fit h-fit rounded-md bottom-7 left-24 flex bg-nave p-px"
-                  id="rainbow"
+                  id="northern"
                 >
                   <div className="relative w-fit h-fit flex flex-row gap-1.5 p-1 bg-nave rounded-md">
                     {[

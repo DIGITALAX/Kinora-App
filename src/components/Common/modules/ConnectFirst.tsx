@@ -20,7 +20,7 @@ const ConnectFirst: FunctionComponent<ConnectFirstProps> = ({
         className={`relative w-12 h-12 flex items-center justify-center rounded-full p-px cursor-pointer ${
           signLoading && "animate-spin"
         }`}
-        id="rainbow"
+        id="northern"
         onClick={!walletConnected ? openConnectModal : () => handleLogIn()}
       >
         <div className="relative w-full h-full rounded-full flex items-center justify-center">

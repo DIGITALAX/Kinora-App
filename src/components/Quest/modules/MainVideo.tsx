@@ -1,5 +1,5 @@
-import { FunctionComponent } from "react";
-import { MainVideoProps } from "../types/quest.types";
+import { FunctionComponent, SetStateAction } from "react";
+import { MainVideoProps, Video } from "../types/quest.types";
 import { KinoraPlayerWrapper } from "kinora-sdk";
 import { Player } from "@livepeer/react";
 import { INFURA_GATEWAY } from "../../../../lib/constants";
@@ -21,15 +21,18 @@ const MainVideo: FunctionComponent<MainVideoProps> = ({
   setSeek,
   setVideoPlaying,
   allVideos,
+  height,
 }): JSX.Element => {
   return (
     <div
-      id={videoPlaying?.pubId + videoPlaying?.profileId}
+      id={(
+        Number(videoPlaying?.pubId) + Number(videoPlaying?.profileId)
+      ).toString()}
       style={{
         borderRadius: "0.375rem",
         objectFit: "cover",
         width: "100%",
-        height: "25.8rem",
+        height,
         position: "relative",
         justifyContent: "center",
         alignItems: "center",
@@ -37,8 +40,12 @@ const MainVideo: FunctionComponent<MainVideoProps> = ({
       }}
     >
       <KinoraPlayerWrapper
-        parentId={videoPlaying?.pubId + videoPlaying?.profileId}
-        key={videoPlaying?.pubId + videoPlaying?.profileId}
+        parentId={(
+          Number(videoPlaying?.pubId) + Number(videoPlaying?.profileId)
+        ).toString()}
+        key={(
+          Number(videoPlaying?.pubId) + Number(videoPlaying?.profileId)
+        ).toString()}
         customControls={true}
         play={playing}
         postId={videoPlaying?.publication?.id}
@@ -134,26 +141,28 @@ const MainVideo: FunctionComponent<MainVideoProps> = ({
           ></div>
         </div>
         <div className="flex flex-row gap-2 items-center justify-center mr-0">
-          <div
-            className="relative w-5 h-5 flex items-center justify-center cursor-pointer active:scale-95"
-            onClick={() => {
-              const index = allVideos?.findIndex(
-                (video) => video?.pubId == videoPlaying?.pubId
-              );
+          {allVideos && (
+            <div
+              className="relative w-5 h-5 flex items-center justify-center cursor-pointer active:scale-95"
+              onClick={() => {
+                const index = allVideos?.findIndex(
+                  (video) => video?.pubId == videoPlaying?.pubId
+                );
 
-              setVideoPlaying(
-                allVideos?.[index > 0 ? index - 1 : allVideos?.length - 1]
-              );
-              setSeek(0);
-              setPlaying(false);
-            }}
-          >
-            <Image
-              draggable={false}
-              src={`${INFURA_GATEWAY}/ipfs/QmXHiztRHRPx8rhBvyFtVhSwTktvA6BE394yd9jCSgXiDT`}
-              layout="fill"
-            />
-          </div>
+                (setVideoPlaying as (e: SetStateAction<Video>) => void)(
+                  allVideos?.[index > 0 ? index - 1 : allVideos?.length - 1]
+                );
+                setSeek(0);
+                setPlaying(false);
+              }}
+            >
+              <Image
+                draggable={false}
+                src={`${INFURA_GATEWAY}/ipfs/QmXHiztRHRPx8rhBvyFtVhSwTktvA6BE394yd9jCSgXiDT`}
+                layout="fill"
+              />
+            </div>
+          )}
           <div
             className="relative w-5 h-5 flex items-center justify-center cursor-pointer active:scale-95"
             onClick={() => {
@@ -188,26 +197,28 @@ const MainVideo: FunctionComponent<MainVideoProps> = ({
               layout="fill"
             />
           </div>
-          <div
-            className="relative w-5 h-5 flex items-center justify-center cursor-pointer active:scale-95"
-            onClick={() => {
-              const index = allVideos?.findIndex(
-                (video) => video?.pubId == videoPlaying?.pubId
-              );
+          {allVideos && (
+            <div
+              className="relative w-5 h-5 flex items-center justify-center cursor-pointer active:scale-95"
+              onClick={() => {
+                const index = allVideos?.findIndex(
+                  (video) => video?.pubId == videoPlaying?.pubId
+                );
 
-              setVideoPlaying(
-                allVideos?.[index < allVideos?.length - 1 ? index + 1 : 0]
-              );
-              setSeek(0);
-              setPlaying(false);
-            }}
-          >
-            <Image
-              draggable={false}
-              src={`${INFURA_GATEWAY}/ipfs/QmQVzZhwASAspnT9xfGGrB3tybQrzgDAggUjmz6Ti6v1vn`}
-              layout="fill"
-            />
-          </div>
+                (setVideoPlaying as (e: SetStateAction<Video>) => void)(
+                  allVideos?.[index < allVideos?.length - 1 ? index + 1 : 0]
+                );
+                setSeek(0);
+                setPlaying(false);
+              }}
+            >
+              <Image
+                draggable={false}
+                src={`${INFURA_GATEWAY}/ipfs/QmQVzZhwASAspnT9xfGGrB3tybQrzgDAggUjmz6Ti6v1vn`}
+                layout="fill"
+              />
+            </div>
+          )}
         </div>
       </div>
     </div>

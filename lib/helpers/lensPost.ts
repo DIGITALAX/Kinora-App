@@ -20,7 +20,7 @@ const lensPost = async (
   address: `0x${string}`,
   clientWallet: WalletClient,
   publicClient: PublicClient,
-  closeBox?: () => void
+  closeBox?: () => void,
 ): Promise<void> => {
   if (
     openActionModules &&
@@ -31,7 +31,7 @@ const lensPost = async (
     openActionModules?.[0]?.collectOpenAction?.simpleCollectOpenAction
   ) {
     openActionModules = cleanCollect(openActionModules);
-  } else {
+  } else  {
     openActionModules = [
       {
         collectOpenAction: {

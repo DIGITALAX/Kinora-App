@@ -32,7 +32,7 @@ const Saves: FunctionComponent<SavesProps> = ({
               <div
                 key={index}
                 className="relative w-full h-80 flex rounded-sm animate-pulse"
-                id="rainbow"
+                id="northern"
               ></div>
             );
           })}
