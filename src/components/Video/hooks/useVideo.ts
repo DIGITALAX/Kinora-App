@@ -129,7 +129,11 @@ const useVideo = (videoId: string, lensConnected: Profile | undefined) => {
         parseInt(videoId?.split("-")?.[0], 16)
       );
       setVideoData({
-        ...video?.data?.videoActivities[0],
+        ...video?.data?.videoActivities[0]?.map((video: VideoActivity) => ({
+          ...video,
+          avd: Number(video?.avd) / 10 ** 18,
+          totalDuration: Number(video?.totalDuration) / 10 ** 18,
+        })),
         publication: data?.data?.publication,
       });
       await getRelatedQuests(data?.data?.publication?.id);
