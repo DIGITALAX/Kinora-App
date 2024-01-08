@@ -269,6 +269,7 @@ export default function Upload() {
                   setPostDetails={setPostDetails}
                   openMeasure={openMeasure}
                   setOpenMeasure={setOpenMeasure}
+                  border
                 />
               </div>
             </div>

@@ -40,7 +40,7 @@ const PostCollectGif: FunctionComponent<PostCollectGifProps> = ({
           </div>
           {type === "gif" ? (
             <div
-              className={`relative rounded-md flex flex-col gap-5 w-5/6 p-2 items-center justify-center max-h-[15rem]`}
+              className={`relative rounded-md flex flex-col gap-5 w-5/6 p-2 items-center justify-center overflow-y-scroll max-h-[15rem]`}
             >
               <div className="relative w-full h-fit flex flex-row items-center font-aust text-white justify-between text-xs rounded-md gap-2">
                 <input
@@ -81,7 +81,7 @@ const PostCollectGif: FunctionComponent<PostCollectGifProps> = ({
                   </div>
                 </div>
               </div>
-              <div className="relative flex items-start justify-center overflow-y-scroll w-full h-fit">
+              <div className="relative flex items-start justify-center overflow-y-scroll w-full h-full">
                 <div className="flex flex-wrap items-start justify-center gap-3 w-fit h-fit">
                   {gifInfo.searchedGifs?.map((gif: any, index: number) => {
                     return (
@@ -117,6 +117,7 @@ const PostCollectGif: FunctionComponent<PostCollectGifProps> = ({
               </div>
             </div>
           ) : (
+            <div className="relative w-full h-fit flex items-start justify-start overflow-x-scroll">
             <CollectOptions
               openMeasure={openMeasure}
               setOpenMeasure={setOpenMeasure}
@@ -128,6 +129,7 @@ const PostCollectGif: FunctionComponent<PostCollectGifProps> = ({
               type={type!}
               collect
             />
+             </div>
           )}
         </div>
       </div>

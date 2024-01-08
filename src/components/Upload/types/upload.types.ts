@@ -58,6 +58,7 @@ export type CollectOptionsProps = {
   dispatch?: Dispatch<Action>;
   collect?: boolean;
   type?: string;
+  border?: boolean;
   gifs?:
     | {
         [key: string]: string[];

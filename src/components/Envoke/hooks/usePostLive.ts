@@ -454,6 +454,7 @@ const usePostLive = (
                         body: formData,
                       });
 
+
                       assetWithPlaybackId = (await result.json())?.assetId;
                     }
 

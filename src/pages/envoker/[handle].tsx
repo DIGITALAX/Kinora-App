@@ -110,7 +110,7 @@ export default function Handle({ router }: { router: NextRouter }) {
             className={`relative w-full h-fit rounded-sm flex p-px ${
               profileLoading && "animate-pulse"
             }`}
-            id="rainbow"
+            id="northern"
           >
             <div className="relative w-full h-40 flex items-center justify-center rounded-sm">
               {cover && (
@@ -129,7 +129,7 @@ export default function Handle({ router }: { router: NextRouter }) {
             </div>
             <div
               className="absolute w-20 h-20 right-4 bottom-4 rounded-full p-px"
-              id="rainbow"
+              id="northern"
             >
               <div className="relative w-full h-full flex items-center justify-center rounded-full">
                 {pfp && (
@@ -158,7 +158,6 @@ export default function Handle({ router }: { router: NextRouter }) {
                         followProfile(
                           pageProfile?.id,
                           0,
-                          pageProfile?.followModule?.type!,
                           true
                         )
                     : () =>

@@ -2,14 +2,15 @@ import { useEffect, useState } from "react";
 import whoReactedPublication from "../../../../graphql/lens/queries/whoReacted";
 import { LimitType, Profile, Quote } from "../../../../graphql/generated";
 import getPublications from "../../../../graphql/lens/queries/publications";
-import { SocialType, Video } from "../types/quest.types";
+import { SocialType, Video, VideoActivity } from "../types/quest.types";
 import toHexWithLeadingZero from "../../../../lib/helpers/toHexWithLeadingZero";
+import whoActedPublication from "../../../../graphql/lens/queries/whoActed";
 
 const useWho = (
   lensConnected: Profile | undefined,
   questId: string,
   socialType: SocialType,
-  videoPlaying: Video | undefined
+  videoPlaying: Video | VideoActivity | undefined
 ) => {
   const [dataLoading, setDataLoading] = useState<boolean>(false);
   const [reactors, setReactors] = useState<any[]>([]);
@@ -287,7 +288,7 @@ const useWho = (
             },
           },
           limit: LimitType.Ten,
-          cursor: hasMore,
+          cursor: pageInfo,
         },
         lensConnected?.id
       );
@@ -308,6 +309,76 @@ const useWho = (
     }
   };
 
+  const showCollects = async () => {
+    setDataLoading(true);
+    try {
+      const data = await whoActedPublication(
+        {
+          on: videoPlaying
+            ? `${toHexWithLeadingZero(
+                Number(videoPlaying?.profileId)
+              )}-${toHexWithLeadingZero(Number(videoPlaying?.pubId))}`
+            : questId,
+          limit: LimitType.Ten,
+        },
+        lensConnected?.id
+      );
+
+      setReactors(data?.data?.whoActedOnPublication?.items || []);
+      setPageInfo(data?.data?.whoActedOnPublication.pageInfo.next);
+
+      if (
+        !data?.data?.whoActedOnPublication?.items ||
+        data?.data?.whoActedOnPublication?.items?.length < 10
+      ) {
+        setHasMore(false);
+        setDataLoading(false);
+        return;
+      } else if (data?.data?.whoActedOnPublication?.items?.length === 10) {
+        setHasMore(true);
+      }
+    } catch (err: any) {
+      console.error(err.message);
+    }
+    setDataLoading(false);
+  };
+
+  const showMoreCollects = async () => {
+    if (!pageInfo || !hasMore) return;
+
+    try {
+      const data = await whoActedPublication(
+        {
+          on: videoPlaying
+            ? `${toHexWithLeadingZero(
+                Number(videoPlaying?.profileId)
+              )}-${toHexWithLeadingZero(Number(videoPlaying?.pubId))}`
+            : questId,
+          limit: LimitType.Ten,
+          cursor: pageInfo,
+        },
+        lensConnected?.id
+      );
+      setReactors([
+        ...reactors,
+        ...(data?.data?.whoActedOnPublication?.items || []),
+      ]);
+      setPageInfo(data?.data?.whoActedOnPublication.pageInfo.next);
+
+      if (
+        !data?.data?.whoActedOnPublication?.items ||
+        data?.data?.whoActedOnPublication?.items?.length < 10
+      ) {
+        setHasMore(false);
+        return;
+      } else if (data?.data?.whoActedOnPublication?.items?.length === 10) {
+        setHasMore(true);
+      }
+    } catch (err: any) {
+      console.error(err.message);
+    }
+  };
+
   const showMore = () => {
     switch (socialType) {
       case SocialType.Reacts:
@@ -320,6 +391,10 @@ const useWho = (
 
       case SocialType.Mirrors:
         showMoreQuoteMirrors();
+        break;
+
+      case SocialType.Players:
+        showMoreCollects();
         break;
     }
   };
@@ -336,6 +411,13 @@ const useWho = (
 
       case SocialType.Comments:
         showComments();
+        break;
+
+      case SocialType.Players:
+        if (videoPlaying) {
+          showCollects();
+        }
+
         break;
     }
   }, [socialType, videoPlaying]);

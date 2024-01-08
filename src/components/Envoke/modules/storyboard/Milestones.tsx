@@ -153,8 +153,9 @@ const Milestones: FunctionComponent<StoryboardMilestonesProps> = ({
             ERC20 Token Rewards
           </div>
           <div className="relative w-full h-fit items-start justify-start flex flex-wrap gap-5">
-            {milestone?.rewards?.rewards20?.map(
-              (item: ERC20Reward, index: number) => {
+            {milestone?.rewards?.rewards20
+              // ?.filter((item) => Number(item?.amount) > 0 && item?.amount)
+              ?.map((item: ERC20Reward, index: number) => {
                 return (
                   <div
                     key={index}
@@ -191,8 +192,7 @@ const Milestones: FunctionComponent<StoryboardMilestonesProps> = ({
                     </div>
                   </div>
                 );
-              }
-            )}
+              })}
           </div>
         </div>
         <div className="relative w-full h-fit flex flex-col gap-2">
@@ -208,33 +208,35 @@ const Milestones: FunctionComponent<StoryboardMilestonesProps> = ({
                     className="relative w-full h-fit flex flex-row items-center justify-start gap-6 cursor-pointer hover:opacity-80 font-bit text-white text-sm"
                   >
                     <div
-                      className="relative w-16 h-16 flex items-center justify-center rounded-sm p-px"
+                      className="relative w-fit h-fit flex items-center justify-center p-px rounded-sm"
                       id="northern"
                     >
-                      <MediaSwitch
-                        classNameImage="rounded-sm"
-                        classNameVideo={{
-                          borderRadius: "0.125rem",
-                          objectFit: "cover",
-                          width: "100%",
-                          height: "100%",
-                          position: "relative",
-                          justifyContent: "center",
-                          alignItems: "center",
-                        }}
-                        postId={""}
-                        classNameAudio="rounded-sm"
-                        hidden
-                        type={item?.details?.media}
-                        srcUrl={
-                          item?.details?.media == "video"
-                            ? item?.details?.video
-                            : item?.details?.media == "audio"
-                            ? item?.details?.audio
-                            : item?.details?.images?.[0]
-                        }
-                        srcCover={item?.details?.mediaCover}
-                      />
+                      <div className="relative w-16 h-16 flex items-center justify-center rounded-sm">
+                        <MediaSwitch
+                          classNameImage="rounded-sm"
+                          classNameVideo={{
+                            borderRadius: "0.125rem",
+                            objectFit: "cover",
+                            width: "100%",
+                            height: "100%",
+                            position: "relative",
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                          postId={""}
+                          classNameAudio="rounded-sm"
+                          hidden
+                          type={item?.details?.media}
+                          srcUrl={
+                            item?.details?.media == "video"
+                              ? item?.details?.video
+                              : item?.details?.media == "audio"
+                              ? item?.details?.audio
+                              : item?.details?.images?.[0]
+                          }
+                          srcCover={item?.details?.mediaCover}
+                        />
+                      </div>
                     </div>
                     <div className="relative w-fit h-fit flex items-center justify-center">
                       {item?.details?.title}
@@ -291,7 +293,7 @@ const Milestones: FunctionComponent<StoryboardMilestonesProps> = ({
                     </div>
                   </div>
                 </div>
-                <div className="relative w-fit h-fit flex flex-wrap gap-1.5 items-start justify-start">
+                <div className="relative w-fit h-fit flex flex-wrap gap-4 items-start justify-start">
                   {Object.entries(item.criteria)
                     .map(([key, value]) => ({ key, value }))
                     .map((item, index: number) => {

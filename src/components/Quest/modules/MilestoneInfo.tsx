@@ -60,7 +60,7 @@ const MilestoneInfo: FunctionComponent<MilestoneInfoProps> = ({
                       <div
                         key={index}
                         className="relative w-10 h-10 flex items-center justify-center gap-1 rounded-sm"
-                        id="rainbow"
+                        id="northern"
                       >
                         <div className="relative w-full p-px h-full flex items-center justify-center rounded-sm">
                           <Image
@@ -162,7 +162,7 @@ const MilestoneInfo: FunctionComponent<MilestoneInfoProps> = ({
                                 )}`
                               )
                             }
-                            id="rainbow"
+                            id="northern"
                           >
                             <div className="relative w-full h-full flex items-center justify-center rounded-sm">
                               <Image

@@ -204,7 +204,7 @@ const useQuote = (
         body: search,
       });
       const allGifs = await response.json();
-      setOpenMeasure((prev) => ({
+      setGifInfo((prev) => ({
         ...prev,
         searchedGifs: allGifs?.json?.results,
       }));

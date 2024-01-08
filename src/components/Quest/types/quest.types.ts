@@ -54,6 +54,7 @@ export interface VideoActivity {
   secondaryReactOnComment: number;
   secondaryCommentOnComment: number;
   secondaryCollectOnComment: number;
+  publication?: Post;
 }
 
 export interface Milestone {
@@ -195,9 +196,9 @@ export enum SocialType {
 
 export type QuestSocialProps = {
   socialType: SocialType;
-  questInfo: Quest | undefined;
+  questInfo?: Quest | undefined;
   router: NextRouter;
-  videoPlaying: Video | undefined;
+  videoPlaying: Video | VideoActivity | undefined;
   quoteMirrorSwitch: boolean;
   setQuoteMirrorSwitch: (e: boolean) => void;
   reactors: any[];
@@ -365,7 +366,7 @@ export type ChannelsProps = {
 };
 
 export type MainVideoProps = {
-  videoPlaying: Video;
+  videoPlaying: Video | VideoActivity;
   playing: boolean;
   setPlaying: (e: boolean) => void;
   setVolume: (e: number) => void;
@@ -376,19 +377,22 @@ export type MainVideoProps = {
   duration: number;
   setDuration: (e: number) => void;
   setSeek: (e: number) => void;
-  setVideoPlaying: (e: SetStateAction<Video | undefined>) => void;
-  allVideos: Video[];
+  setVideoPlaying:
+    | ((e: SetStateAction<Video | undefined>) => void)
+    | ((e: SetStateAction<VideoActivity | undefined>) => void);
+  allVideos?: Video[];
+  height: string;
 };
 
 export type MetricsProps = {
-  milestoneMetrics: Video;
+  milestoneMetrics?: Video;
   playerMetricsOnChain: VideoActivity;
   playerMetricsLive: VideoActivity | undefined;
   currentMetricsLoading: boolean;
 };
 
 export type VideoInfoProps = {
-  videoPlaying: Video;
+  videoPlaying: Video | VideoActivity;
   mirror: (id: string, main?: boolean | undefined) => Promise<void>;
   like: (
     id: string,

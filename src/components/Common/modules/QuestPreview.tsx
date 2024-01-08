@@ -30,12 +30,13 @@ const QuestPreview: FunctionComponent<QuestPreviewProps> = ({
   followProfile,
   unfollowProfile,
   mainFeed,
+  border,
 }): JSX.Element => {
   return (
     <div className="relative w-full h-fit flex flex-col gap-2 flex items-start justify-start">
       <div
         className="relative w-full p-px cursor-pointer hover:opacity-80 flex rounded-sm"
-        id="rainbow"
+        id="northern"
         style={{
           width,
           height,
@@ -83,21 +84,24 @@ const QuestPreview: FunctionComponent<QuestPreviewProps> = ({
         profileHovers={profileHovers}
         router={router}
         mainFeed={mainFeed}
+        border={border}
       />
-      <div className="relative w-fit h-fit flex items-center justify-center text-white font-bit text-sm break-words">
-        {(
-          (post ? (quest as Post) : (quest as Quest)?.publication)
-            ?.metadata as VideoMetadataV3
-        )?.title?.length > 20
-          ? (
-              (post ? (quest as Post) : (quest as Quest)?.publication)
-                ?.metadata as VideoMetadataV3
-            )?.title?.slice(0, 20) + "..."
-          : (
-              (post ? (quest as Post) : (quest as Quest)?.publication)
-                ?.metadata as VideoMetadataV3
-            )?.title}
-      </div>
+      {!border && (
+        <div className="relative w-fit h-fit flex items-center justify-center text-white font-bit text-sm break-words">
+          {(
+            (post ? (quest as Post) : (quest as Quest)?.publication)
+              ?.metadata as VideoMetadataV3
+          )?.title?.length > 20
+            ? (
+                (post ? (quest as Post) : (quest as Quest)?.publication)
+                  ?.metadata as VideoMetadataV3
+              )?.title?.slice(0, 20) + "..."
+            : (
+                (post ? (quest as Post) : (quest as Quest)?.publication)
+                  ?.metadata as VideoMetadataV3
+              )?.title}
+        </div>
+      )}
     </div>
   );
 };

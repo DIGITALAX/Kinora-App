@@ -86,13 +86,6 @@ const Dashboard: FunctionComponent<DashboardProps> = ({
                             }
                           >
                             <div className="relative ml-0 flex items-center justify-center gap-3">
-                              <div className="relative w-10 h-10 flex items-center justify-center">
-                                <Image
-                                  src={`${INFURA_GATEWAY}/ipfs/QmVrCzvYyFbgaDq1FSSJE5y8p7p6YcBx5R6GQVgR3ypVFM`}
-                                  layout="fill"
-                                  draggable={false}
-                                />
-                              </div>
                               <div className="relative w-fit h-fit flex items-center justify-center font-bit text-white text-sm">
                                 {item?.questMetadata?.title?.length > 15
                                   ? item?.questMetadata?.title?.slice(0, 15)
@@ -347,7 +340,7 @@ const Dashboard: FunctionComponent<DashboardProps> = ({
             </div>
             <InfiniteScroll
               dataLength={
-                allQuests?.filter((item) => item?.type != "envoked")?.length
+                allQuests?.filter((item) => item?.type !== "envoked")?.length
               }
               hasMore={info?.hasMorePlayer}
               next={getMore}
@@ -356,7 +349,7 @@ const Dashboard: FunctionComponent<DashboardProps> = ({
             >
               <div className="relative w-full h-fit flex flex-col gap-3 items-start justify-start">
                 {allQuests
-                  ?.filter((item) => item?.type == "envoked")
+                  ?.filter((item) => item?.type !== "envoked")
                   ?.map((item: Quest & { type: string }, index: number) => {
                     return (
                       <div
@@ -385,17 +378,6 @@ const Dashboard: FunctionComponent<DashboardProps> = ({
                             })
                           }
                         >
-                          <div className="relative w-10 h-10 flex items-center justify-center">
-                            <Image
-                              src={`${INFURA_GATEWAY}/ipfs/${
-                                item?.type == "live"
-                                  ? "Qmchi9tnWKKA8jCPJxc48hX4pJ7zVgQU8tvrdXyEmbWmsQ"
-                                  : "QmZnrqwbHbzo7kXh65ojh7YipX4VdqDDZ1NiH4fCq7MZNg"
-                              }`}
-                              layout="fill"
-                              draggable={false}
-                            />
-                          </div>
                           <div className="relative w-fit h-fit flex items-center justify-center mr-0"></div>
                         </div>
                         {openQuest[

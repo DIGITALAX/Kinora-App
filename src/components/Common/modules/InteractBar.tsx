@@ -27,15 +27,18 @@ const InteractBar: FunctionComponent<InteractBarProps> = ({
   simpleCollect,
   setCommentsOpen,
   main,
+  border
 }): JSX.Element => {
   const pfp = createProfilePicture(publication?.by?.metadata?.picture);
   return (
     <div
       className="relative w-full h-fit flex cursor-default p-px rounded-sm"
       onClick={(e) => e.stopPropagation()}
-      id="rainbow"
+      id={!border ? "northern" : ""}
     >
-      <div className="relative w-full h-fit flex flex-row gap-4 justify-between items-center px-1 py-1.5 bg-nave rounded-sm">
+      <div className={`relative w-full h-fit flex flex-row gap-4 justify-between items-center py-1.5 rounded-sm ${
+        !border && "bg-nave px-1"
+      }`}>
         <div className="relative w-full h-fit flex flex-row gap-2">
           {[
             mainFeed || router.asPath.includes("/envoker/")
@@ -193,7 +196,7 @@ const InteractBar: FunctionComponent<InteractBarProps> = ({
         </div>
         <div
           className="relative w-fit h-fit flex items-center justify-center ml-auto p-px rounded-full"
-          id="rainbow"
+          id="northern"
         >
           <div
             className="relative flex items-center justify-center rounded-full  w-6 h-6 cursor-pointer"
@@ -221,7 +224,7 @@ const InteractBar: FunctionComponent<InteractBarProps> = ({
       {mirrorChoiceOpen?.[index] && (
         <div
           className="absolute w-fit h-fit rounded-md bottom-10 flex bg-nave p-px"
-          id="rainbow"
+          id="northern"
         >
           <div className="relative w-fit h-fit flex flex-row gap-1.5 p-1 bg-nave rounded-md">
             {[
@@ -317,6 +320,7 @@ const InteractBar: FunctionComponent<InteractBarProps> = ({
           setProfileHovers={setProfileHovers!}
           dispatch={dispatch}
           router={router}
+          main={main!}
         />
       )}
     </div>

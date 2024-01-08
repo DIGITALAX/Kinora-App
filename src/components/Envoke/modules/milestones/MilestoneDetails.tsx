@@ -53,7 +53,6 @@ const MilestoneDetails: FunctionComponent<MilestoneDetailsProps> = ({
               setQuestInfo({
                 actionDetails: questInfo?.details,
                 actionMilestones: milestones,
-                
               })
             );
           }}
@@ -199,7 +198,6 @@ const MilestoneDetails: FunctionComponent<MilestoneDetailsProps> = ({
                     setQuestInfo({
                       actionDetails: questInfo?.details,
                       actionMilestones: milestones,
-                      
                     })
                   );
                 }
@@ -208,9 +206,9 @@ const MilestoneDetails: FunctionComponent<MilestoneDetailsProps> = ({
           />
         </div>
       </label>
-      <div className="relative w-full h-fit flex items-start justify-start gap-2 flex-col">
-        <div className="relative w-fit h-fit flex items-start justify-start">
-          Milestone Title
+      <div className="relative w-full h-fit flex items-start justify-start gap-2 flex-col pt-6">
+        <div className="relative w-fit h-fit text-xs break-words flex items-start justify-start">
+          Title <p className="pl-2 flex text-sm text-calcetine">{">"}</p>
         </div>
         <input
           className="h-10 w-full bg-black border border-acei rounded-md p-1 text-xs"
@@ -249,15 +247,14 @@ const MilestoneDetails: FunctionComponent<MilestoneDetailsProps> = ({
               setQuestInfo({
                 actionDetails: questInfo?.details,
                 actionMilestones: milestones,
-                
               })
             );
           }}
         />
       </div>
-      <div className="relative w-full h-fit flex items-start justify-start gap-2 flex-col">
-        <div className="relative w-fit h-fit flex items-start justify-start">
-          Milestone Description
+      <div className="relative w-full h-fit flex items-start justify-start gap-2 flex-col pt-4">
+        <div className="relative w-fit h-fit text-xs break-words flex items-start justify-start">
+          Description <p className="pl-2 flex text-sm text-calcetine">{">"}</p>
         </div>
         <textarea
           className="h-32 w-full bg-black border border-acei rounded-md p-2 text-xs"
@@ -299,7 +296,6 @@ const MilestoneDetails: FunctionComponent<MilestoneDetailsProps> = ({
               setQuestInfo({
                 actionDetails: questInfo?.details,
                 actionMilestones: milestones,
-                
               })
             );
           }}
