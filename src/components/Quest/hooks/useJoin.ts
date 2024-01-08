@@ -137,7 +137,6 @@ const useJoin = (
         parseInt(questId?.split("-")?.[0], 16)?.toString()
       );
 
-
       if (data) {
         const questInstantiateds = data?.data?.questInstantiateds || [];
         const promises = questInstantiateds.map(async (item: any) => {
@@ -173,7 +172,12 @@ const useJoin = (
               const erc721Logic = await Promise.all(erc721LogicPromises);
 
               const videoPromises = milestone?.videos?.map(
-                async (video: { pubId: string; profileId: string }) => {
+                async (video: {
+                  pubId: string;
+                  profileId: string;
+                  minAVD: string;
+                  minDuration: string;
+                }) => {
                   const publication = await getPublication(
                     {
                       forId: `${toHexWithLeadingZero(
@@ -185,6 +189,8 @@ const useJoin = (
 
                   return {
                     ...video,
+                    minAVD: Number(video?.minAVD) / 10 ** 18,
+                    minDuration: Number(video?.minDuration) / 10 ** 18,
                     publication: publication?.data?.publication,
                   };
                 }
@@ -266,7 +272,7 @@ const useJoin = (
     setSocialType,
     handleCompleteMilestone,
     completeLoading,
-    getQuestInfo
+    getQuestInfo,
   };
 };
 

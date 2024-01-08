@@ -54,7 +54,7 @@ const useQuote = (
   }>({
     collectibleOpen: false,
     collectible: "Yes",
-    award: "",
+    award: "No",
     whoCollectsOpen: false,
     creatorAwardOpen: false,
     currencyOpen: false,
