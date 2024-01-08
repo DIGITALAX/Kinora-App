@@ -8,6 +8,7 @@ import { Post } from "kinora-sdk/dist/@types/generated";
 export type ActivityProps = {
   activityFeed: (Quest & {
     type: string;
+    profile: Profile | undefined;
   })[];
   router: NextRouter;
   activityInfo: {
@@ -36,7 +37,7 @@ export type ActivityProps = {
   profileHovers: boolean[];
   setProfileHovers: (id: SetStateAction<boolean[]>) => void;
   unfollowProfile: (id: string, index: number) => Promise<void>;
-  followProfile: (id: string, index: number, type: string) => Promise<void>;
+  followProfile: (id: string, index: number) => Promise<void>;
   simpleCollect: (
     post: Post | Comment,
     main?: boolean | undefined
@@ -70,7 +71,7 @@ export type MetricsAddedProps = {
     unfollow: boolean;
     simpleCollect: boolean;
   }[];
-  followProfile: (id: string, index: number, type: string) => Promise<void>;
+  followProfile: (id: string, index: number, main?: boolean) => Promise<void>;
   unfollowProfile: (id: string, index: number) => Promise<void>;
   lensConnected: Profile | undefined;
 };

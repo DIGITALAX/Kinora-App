@@ -139,7 +139,7 @@ const Header: FunctionComponent<{ router: NextRouter }> = ({ router }) => {
                     >
                       <div
                         className="relative w-14 h-14 border border-white rounded-md flex items-center justify-center p-px"
-                        id="rainbow"
+                        id="northern"
                       >
                         {(image as string) && (
                           <Image
@@ -204,7 +204,7 @@ const Header: FunctionComponent<{ router: NextRouter }> = ({ router }) => {
             className={`relative w-7 h-7 flex items-center justify-center rounded-full p-px cursor-pointer ${
               signLoading && "animate-spin"
             }`}
-            id="rainbow"
+            id="northern"
             onClick={
               !walletConnected && !lensConnected?.id
                 ? openConnectModal

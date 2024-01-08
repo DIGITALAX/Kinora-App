@@ -8,6 +8,7 @@ import { useAccount } from "wagmi";
 import { createPublicClient, http } from "viem";
 import { polygonMumbai } from "viem/chains";
 import { Quest } from "@/components/Quest/types/quest.types";
+import { Profile } from "../../graphql/generated";
 
 export default function Envoke({ router }: { router: NextRouter }) {
   const publicClient = createPublicClient({
@@ -42,13 +43,17 @@ export default function Envoke({ router }: { router: NextRouter }) {
     setProfileHovers,
     followProfile,
     unfollowProfile,
+    simpleCollect
   } = useInteractions(
     lensConnected,
     dispatch,
     activityFeed,
     address,
     publicClient,
-    (newItems) => setActivityFeed(newItems as (Quest & { type: string })[])
+    (newItems) =>
+      setActivityFeed(
+        newItems as (Quest & { type: string; profile: Profile | undefined })[]
+      )
   );
 
   return (
@@ -73,7 +78,7 @@ export default function Envoke({ router }: { router: NextRouter }) {
                   <div
                     key={index}
                     className="relative w-full h-96 flex rounded-sm animate-pulse"
-                    id="rainbow"
+                    id="northern"
                   ></div>
                 );
               })}
@@ -84,7 +89,7 @@ export default function Envoke({ router }: { router: NextRouter }) {
                   <div
                     key={index}
                     className="relative w-full h-60 flex rounded-sm animate-pulse"
-                    id="rainbow"
+                    id="northern"
                   ></div>
                 );
               })}
@@ -92,6 +97,7 @@ export default function Envoke({ router }: { router: NextRouter }) {
           </div>
         ) : (
           <Activity
+            simpleCollect={simpleCollect}
             activityFeed={activityFeed}
             getMoreActivityFeed={getMoreActivityFeed}
             activityInfo={activityInfo}

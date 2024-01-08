@@ -41,7 +41,7 @@ export type QuestFeedProps = {
   profileHovers: boolean[];
   setProfileHovers: (id: SetStateAction<boolean[]>) => void;
   unfollowProfile: (id: string, index: number) => Promise<void>;
-  followProfile: (id: string, index: number, type: string) => Promise<void>;
+  followProfile: (id: string, index: number, main?: boolean) => Promise<void>;
 };
 
 export type QuestPreviewProps = {
@@ -66,9 +66,10 @@ export type QuestPreviewProps = {
   setMirrorChoiceOpen: (id: SetStateAction<boolean[]>) => void;
   profileHovers: boolean[];
   setProfileHovers: (id: SetStateAction<boolean[]>) => void;
-  unfollowProfile: (id: string, index: number, type: string) => Promise<void>;
-  followProfile: (id: string, index: number, type: string) => Promise<void>;
+  unfollowProfile: (id: string, index: number) => Promise<void>;
+  followProfile: (id: string, index: number, main?: boolean) => Promise<void>;
   mainFeed?: boolean;
+  border?: boolean
 };
 
 export type InteractBarProps = {
@@ -84,13 +85,14 @@ export type InteractBarProps = {
   publication: Post;
   mirror?: (id: string, main?: boolean) => Promise<void>;
   like?: (id: string, hasReacted: boolean, main?: boolean) => Promise<void>;
+  border?: boolean
   mirrorChoiceOpen?: boolean[];
   bookmark?: (id: string) => Promise<void>;
   setMirrorChoiceOpen?: (id: SetStateAction<boolean[]>) => void;
   profileHovers?: boolean[];
   setProfileHovers?: (id: SetStateAction<boolean[]>) => void;
-  unfollowProfile?: (id: string, index: number, type: string) => Promise<void>;
-  followProfile?: (id: string, index: number, type: string) => Promise<void>;
+  unfollowProfile?: (id: string, index: number) => Promise<void>;
+  followProfile?: (id: string, index: number, main?: boolean) => Promise<void>;
   router: NextRouter;
   mainFeed?: boolean;
   simpleCollect?: (post: Post | Comment) => Promise<void>;
@@ -138,8 +140,8 @@ export type MediaProps = {
 };
 
 export type ProfileHoverProps = {
-  unfollowProfile: (id: string, index: number, type: string) => Promise<void>;
-  followProfile: (id: string, index: number, type: string) => Promise<void>;
+  unfollowProfile: (id: string, index: number, main?: boolean) => Promise<void>;
+  followProfile: (id: string, index: number, main?: boolean) => Promise<void>;
   profile: Profile;
   index: number;
   followLoading: boolean;
@@ -148,6 +150,7 @@ export type ProfileHoverProps = {
   setProfileHovers: (id: SetStateAction<boolean[]>) => void;
   router: NextRouter;
   dispatch: Dispatch;
+  main: boolean
 };
 
 export type PostCommentProps = {

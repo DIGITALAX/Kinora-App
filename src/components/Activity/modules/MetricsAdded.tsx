@@ -30,14 +30,15 @@ const MetricsAdded: FunctionComponent<MetricsAddedProps> = ({
   return (
     <div className="relative w-full h-fit flex flex-col gap-2 flex items-start justify-start">
       <div
-        className="relative w-full p-px flex rounded-sm"
+        className="relative w-full p-px flex rounded-lg cursor-pointer"
         id="rainbow"
         style={{
           width,
           height,
         }}
+        onClick={() => router.push(`/video/${quest?.publication?.id}`)}
       >
-        <div className="relative rounded-sm w-full h-full flex items-center justify-center">
+        <div className="relative rounded-lg w-full h-full flex items-center justify-center">
           <Image
             src={`${INFURA_GATEWAY}/ipfs/${
               (
@@ -51,53 +52,43 @@ const MetricsAdded: FunctionComponent<MetricsAddedProps> = ({
             }`}
             objectFit="cover"
             draggable={false}
-            className="rounded-sm"
+            className="rounded-lg"
             layout="fill"
           />
         </div>
-        <div className="absolute top-4 right-4 px-2 py-1 rounded-md flex flex-col font-bit gap-2">
-          <div className="relative w-fit h-fit flex items-center justify-center top-px text-xxs text-gray-200">
-            Video Activity Metrics
+      </div>
+      <div className="relative w-full h-fit flex items-center justify-between font-bit text-sm break-words gap-3">
+        <div className="relative flex flex-row gap-1.5 items-center justify-center">
+          <div className="relative w-3 h-3 flex items-center justify-center">
+            <Image
+              draggable={false}
+              layout="fill"
+              src={`${INFURA_GATEWAY}/ipfs/QmS6GgvqEKRjvXtYfiXWTQZMz7nt2ucuKFaWv8sTgUDGNq`}
+            />
           </div>
-
-          <div
-            className="relative w-full h-fit flex flex-row items-end justify-end gap-1 cursor-pointer"
-            onClick={() =>
-              router.push(
-                `envoker/${
-                  quest?.profile?.handle?.suggestedFormatted?.localName?.split(
-                    "@"
-                  )?.[1]
-                }`
-              )
-            }
-          >
-            <div className="relative w-6 h-6 flex items-center justify-center">
-              <Image
-                src={`${INFURA_GATEWAY}/ipfs/QmXU6eCV833e916n8PbJhNLhg4h44rhfro1c7gP18kunkF`}
-                draggable={false}
-                className="rounded-full"
-                objectFit="cover"
-                layout="fill"
-              />
-            </div>
-            <div
-              className="rounded-full w-6 h-6 p-px flex items-center justify-center"
-              id="rainbow"
-            >
-              <div className="relative w-full h-full flex items-center justify-center">
-                {pfp && (
-                  <Image
-                    src={pfp}
-                    draggable={false}
-                    className="rounded-full"
-                    objectFit="cover"
-                    layout="fill"
-                  />
-                )}
-              </div>
-            </div>
+          <div className="text-gris relative flex items-center justify-center">
+            Video Metric Activity Updated
           </div>
+        </div>
+        <div className="relative w-fit h-fit flex items-center justify-center text-white">
+          {(quest?.publication?.metadata as VideoMetadataV3)?.title?.length > 20
+            ? (quest?.publication?.metadata as VideoMetadataV3)?.title?.slice(
+                0,
+                20
+              ) + "..."
+            : (quest?.publication?.metadata as VideoMetadataV3)?.title}
+        </div>
+      </div>
+      <div className="relative w-full mr-0 h-fit flex items-center justify-end text-suave text-xxs font-bit flex-row gap-1">
+        <div className="flex items-center justify-center top-px relative">
+          New Activity Detected
+        </div>
+        <div className="relative w-3 h-3 flex items-center justify-center">
+          <Image
+            draggable={false}
+            layout="fill"
+            src={`${INFURA_GATEWAY}/ipfs/QmNoZzuUVsCDT5pYS7TNp1YkUmU5vDav7AwaoYZ8Jeuhrx`}
+          />
         </div>
       </div>
       <InteractBar
@@ -108,6 +99,7 @@ const MetricsAdded: FunctionComponent<MetricsAddedProps> = ({
         mirrorChoiceOpen={mirrorChoiceOpen}
         setMirrorChoiceOpen={setMirrorChoiceOpen}
         like={like}
+        border
         simpleCollect={simpleCollect}
         index={index}
         interactionsLoading={interactionsLoading}
@@ -117,14 +109,6 @@ const MetricsAdded: FunctionComponent<MetricsAddedProps> = ({
         profileHovers={profileHovers}
         router={router}
       />
-      <div className="relative w-fit h-fit flex items-center justify-center text-white font-bit text-sm break-words">
-        {(quest?.publication?.metadata as VideoMetadataV3)?.title?.length > 20
-          ? (quest?.publication?.metadata as VideoMetadataV3)?.title?.slice(
-              0,
-              20
-            ) + "..."
-          : (quest?.publication?.metadata as VideoMetadataV3)?.title}
-      </div>
     </div>
   );
 };

@@ -10,10 +10,11 @@ import { setSuccess } from "../../../../redux/reducers/successSlice";
 import { apolloClient } from "../../../../lib/lens/client";
 
 const useVideos = (
-  questInfo: Quest | undefined,
   lensConnected: Profile | undefined,
   dispatch: Dispatch,
-  getQuestInfo: () => Promise<void>
+  getQuestInfo: () => Promise<void>,
+  questInfo?: Quest | undefined,
+  videoInfo?: VideoActivity | undefined
 ) => {
   const [videoPlaying, setVideoPlaying] = useState<Video | undefined>(
     undefined
@@ -42,7 +43,7 @@ const useVideos = (
       const signer = provider.getSigner();
 
       const { error, errorMessage } = await kinora.sendPlayerMetricsOnChain(
-        videoPlaying?.publication?.id,
+        (videoInfo ? videoInfo : videoPlaying)?.publication?.id,
         lensConnected?.id,
         signer as unknown as ethers.Wallet
       );
@@ -68,19 +69,24 @@ const useVideos = (
   };
 
   const handleCurrentMetrics = async () => {
-    if (!videoPlaying?.publication?.id) {
+    if (!videoPlaying?.publication?.id && !videoInfo?.publication?.id) {
       setPlayerMetricsLive(undefined);
       return;
     }
     setCurrentMetricsLoading(true);
 
-    const chainMetrics = questInfo?.players
-      ?.find(
-        (player) => Number(player?.profileId) == parseInt(lensConnected?.id, 16)
-      )
-      ?.videos?.find(
-        (video) => Number(video?.pubId) == Number(videoPlaying?.pubId)
-      );
+    const chainMetrics = videoInfo
+      ? videoInfo
+      : questInfo?.players
+          ?.find(
+            (player) =>
+              Number(player?.profileId) == parseInt(lensConnected?.id, 16)
+          )
+          ?.videos?.find(
+            (video) =>
+              Number(video?.pubId) ==
+              Number((videoInfo ? videoInfo : videoPlaying)?.pubId)
+          );
 
     try {
       let currentActivity = {};
@@ -89,7 +95,7 @@ const useVideos = (
           {
             where: {
               commentOn: {
-                id: videoPlaying?.publication?.id,
+                id: (videoInfo ? videoInfo : videoPlaying)?.publication?.id,
               },
               from: [lensConnected?.id],
             },
@@ -108,28 +114,32 @@ const useVideos = (
       if (!chainMetrics?.hasQuoted) {
         currentActivity = {
           ...currentActivity,
-          hasQuoted: videoPlaying?.publication?.operations?.hasQuoted,
+          hasQuoted: (videoInfo ? videoInfo : videoPlaying)?.publication
+            ?.operations?.hasQuoted,
         };
       }
 
       if (!chainMetrics?.hasMirrored) {
         currentActivity = {
           ...currentActivity,
-          hasMirrored: videoPlaying?.publication?.operations?.hasMirrored,
+          hasMirrored: (videoInfo ? videoInfo : videoPlaying)?.publication
+            ?.operations?.hasMirrored,
         };
       }
 
       if (!chainMetrics?.hasBookmarked) {
         currentActivity = {
           ...currentActivity,
-          hasBookmarked: videoPlaying?.publication?.operations?.hasBookmarked,
+          hasBookmarked: (videoInfo ? videoInfo : videoPlaying)?.publication
+            ?.operations?.hasBookmarked,
         };
       }
 
       if (!chainMetrics?.hasReacted) {
         currentActivity = {
           ...currentActivity,
-          hasReacted: videoPlaying?.publication?.operations?.hasReacted,
+          hasReacted: (videoInfo ? videoInfo : videoPlaying)?.publication
+            ?.operations?.hasReacted,
         };
       }
 
@@ -147,7 +157,7 @@ const useVideos = (
         secondaryCollectOnComment,
       } = await kinora.getPlayerVideoSecondaryData(
         lensConnected?.id,
-        videoPlaying?.publication?.id
+        videoInfo ? videoInfo?.publication?.id : videoPlaying?.publication?.id
       );
 
       if (!error) {
@@ -173,7 +183,9 @@ const useVideos = (
   };
 
   const getLogs = () => {
-    const logs = kinora.getLiveVideoMetrics(videoPlaying?.publication?.id);
+    const logs = kinora.getLiveVideoMetrics(
+      videoInfo ? videoInfo?.publication?.id : videoPlaying?.publication?.id
+    );
 
     setPlayerMetricsLive({
       ...(playerMetricsLive || {}),
@@ -186,14 +198,17 @@ const useVideos = (
   };
 
   useEffect(() => {
-    if (videoPlaying) {
+    if (videoPlaying || videoInfo) {
       setSeek(0);
       handleCurrentMetrics();
     }
-  }, [videoPlaying]);
+  }, [videoPlaying || videoInfo]);
 
   useEffect(() => {
-    if (videoPlaying?.publication?.id && playerMetricsLive !== undefined) {
+    if (
+      (videoPlaying?.publication?.id || videoInfo?.publication?.id) &&
+      playerMetricsLive !== undefined
+    ) {
       getLogs();
     }
   });

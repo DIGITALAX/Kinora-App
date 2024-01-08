@@ -36,7 +36,7 @@ const Stages: FunctionComponent<StagesProps> = ({
 }): JSX.Element => {
   return (
     <div
-      className={`relative w-full h-fit p-px flex lg:top-20 ${
+      className={`relative w-full h-fit p-px flex lg:top-20  ${
         questStage !== QuestStage.Post ? "lg:max-w-[20rem]" : "lg:max-w-[30rem]"
       }`}
     >
@@ -48,10 +48,10 @@ const Stages: FunctionComponent<StagesProps> = ({
                 {questStage}
               </div>
               <div
-                className={`relative w-full flex flex-col p-4 gap-4 ${
+                className={`relative w-full max-h-[24rem] overflow-y-scroll flex flex-col p-4 gap-4 ${
                   questStage == QuestStage.Details
                     ? "justify-between items-center h-fit"
-                    : "items-start justify-start h-full overflow-y-scroll"
+                    : "items-start justify-start h-full"
                 }`}
               >
                 {getStageArray(
@@ -471,7 +471,8 @@ const Stages: FunctionComponent<StagesProps> = ({
                           (item) =>
                             item?.details?.title?.trim() !== "" &&
                             item?.details?.title
-                        )?.length - 1) ||
+                        )?.length -
+                          1) ||
                       (questStage === QuestStage.Storyboard &&
                         storyboardStage !== StoryboardStage.Milestones)) &&
                     questInfo?.milestones?.filter(
@@ -501,15 +502,25 @@ const Stages: FunctionComponent<StagesProps> = ({
                             Object.values(QuestStage).length
                         ] == QuestStage.Storyboard
                       ) {
-                        dispatch(
+                       dispatch(
                           setQuestInfo({
-                            actionDetails: questInfo?.details,
-                            actionMilestones: questInfo?.milestones?.filter(
-                              (item) =>
-                                item?.details?.title?.trim() !== "" &&
-                                item?.details?.title
-                            )?.map(
-                              (value: Milestone) => ({
+                            actionDetails: {
+                              ...questInfo?.details,
+                              gated: {
+                                ...(questInfo?.details?.gated || {}),
+                                erc20Thresholds:
+                                  questInfo?.details?.gated?.erc20Thresholds?.filter(
+                                    (item) => Number(item || 0) > 0
+                                  ),
+                              },
+                            },
+                            actionMilestones: questInfo?.milestones
+                              ?.filter(
+                                (item) =>
+                                  item?.details?.title?.trim() !== "" &&
+                                  item?.details?.title
+                              )
+                              ?.map((value: Milestone) => ({
                                 ...value,
                                 gated: {
                                   ...(value?.gated || {}),
@@ -519,8 +530,9 @@ const Stages: FunctionComponent<StagesProps> = ({
                                     ),
                                 },
                                 rewards: {
-                                  rewards721:
-                                    value?.rewards?.rewards721?.filter(
+                                  rewards721: value?.rewards?.rewards721
+                                    ?.filter(Boolean)
+                                    ?.filter(
                                       (reward) =>
                                         reward.details.title?.trim() !== "" &&
                                         reward.details.description?.trim() !==
@@ -532,28 +544,18 @@ const Stages: FunctionComponent<StagesProps> = ({
                                             "" ||
                                           reward?.details?.video?.trim() !== "")
                                     ),
-                                  rewards20: value?.rewards?.rewards20?.filter(
-                                    (reward) => Number(reward?.amount || 0) > 0
-                                  ),
+                                  rewards20: value?.rewards?.rewards20
+                                    ?.filter(Boolean)
+                                    ?.filter(
+                                      (reward) =>
+                                        Number(reward?.amount || 0) > 0
+                                    ),
                                 },
-                              })
-                            ),
+                              })),
                           })
                         );
                       }
 
-                      if (questStage == QuestStage.Milestones) {
-                        dispatch(
-                          setQuestInfo({
-                            actionDetails: questInfo?.details,
-                            actionMilestones: questInfo?.milestones?.filter(
-                              (item) =>
-                                item?.details?.title?.trim() !== "" &&
-                                item?.details?.title
-                            ),
-                          })
-                        );
-                      }
 
                       dispatch(
                         setQuestStage(

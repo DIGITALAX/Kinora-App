@@ -75,7 +75,7 @@ export default function Home({ router }: { router: NextRouter }) {
                   <div
                     key={index}
                     className="relative w-full h-96 flex rounded-sm animate-pulse"
-                    id="rainbow"
+                    id="northern"
                   ></div>
                 );
               })}
@@ -86,7 +86,7 @@ export default function Home({ router }: { router: NextRouter }) {
                   <div
                     key={index}
                     className="relative w-full h-60 flex rounded-sm animate-pulse"
-                    id="rainbow"
+                    id="northern"
                   ></div>
                 );
               })}

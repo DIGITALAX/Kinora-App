@@ -28,10 +28,11 @@ const lensComment = async (
     openActionModules?.[0]?.hasOwnProperty("collectOpenAction") &&
     openActionModules?.[0]?.collectOpenAction?.hasOwnProperty(
       "simpleCollectOpenAction"
-    )
+    ) &&
+    openActionModules?.[0]?.collectOpenAction?.simpleCollectOpenAction
   ) {
     openActionModules = cleanCollect(openActionModules);
-  } else {
+  } else  {
     openActionModules = [
       {
         collectOpenAction: {
@@ -42,7 +43,6 @@ const lensComment = async (
       },
     ];
   }
-
   const metadata = await validateMetadata({
     rawURI: contentURI,
   });

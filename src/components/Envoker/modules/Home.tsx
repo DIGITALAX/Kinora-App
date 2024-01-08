@@ -34,7 +34,7 @@ const Home: FunctionComponent<HomeProps> = ({
               <div
                 key={index}
                 className="relative w-full h-80 flex rounded-sm animate-pulse"
-                id="rainbow"
+                id="northern"
               ></div>
             );
           })}
@@ -69,10 +69,10 @@ const Home: FunctionComponent<HomeProps> = ({
                           layout="fill"
                           src={`${INFURA_GATEWAY}/ipfs/${
                             quest?.type == "envoked"
-                              ? "QmVrCzvYyFbgaDq1FSSJE5y8p7p6YcBx5R6GQVgR3ypVFM"
+                              ? "QmVXYGkuXmZt4ebnezGoUukDhwkKAsLWoUKR6XLpoQPTyn"
                               : quest?.type == "live"
-                              ? "Qmchi9tnWKKA8jCPJxc48hX4pJ7zVgQU8tvrdXyEmbWmsQ"
-                              : "QmZnrqwbHbzo7kXh65ojh7YipX4VdqDDZ1NiH4fCq7MZNg"
+                              ? "QmXbN1QTu4t6pt6LZCLsHuPsnh9FD2DK2tDoERSEfFPz66"
+                              : "QmdF7g97oEJXZrSeXtRwwuwYRoCgiDbt514C2Buj1zCgCB"
                           }`}
                         />
                       </div>

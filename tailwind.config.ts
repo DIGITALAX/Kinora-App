@@ -27,7 +27,8 @@ const config: Config = {
         calcetine: "#FBDB86",
         acei: "#819463",
         suave: "#C27AA0",
-        cost: "#847FF2"
+        cost: "#847FF2",
+        gris: "#C2C0B5"
       },
       fontSize: {
         xxs: "0.6rem",

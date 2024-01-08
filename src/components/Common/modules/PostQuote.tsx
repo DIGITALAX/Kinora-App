@@ -51,7 +51,7 @@ const PostQuote: FunctionComponent<PostQuoteProps> = ({
     >
       <div
         className={`relative rounded-sm w-full h-full p-px flex items-center justify-start`}
-        id="rainbow"
+        id="northern"
       >
         <div className="relative w-full h-full p-2 flex items-center justify-start flex-col gap-5 bg-nave">
           <div className="relative w-full h-fit flex flex-row items-center justify-center gap-2 px-1">
@@ -67,7 +67,7 @@ const PostQuote: FunctionComponent<PostQuoteProps> = ({
                     }`
                   )
                 }
-                id="rainbow"
+                id="northern"
               >
                 <div className="relative flex items-center justify-center rounded-full w-full h-full">
                   {profilePicture && (

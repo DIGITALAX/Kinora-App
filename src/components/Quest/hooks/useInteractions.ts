@@ -11,7 +11,12 @@ import errorChoice from "../../../../lib/helpers/errorChoice";
 import { Dispatch } from "redux";
 import { polygon, polygonMumbai } from "viem/chains";
 import { PublicClient, createWalletClient, custom } from "viem";
-import { MakePostComment, Quest, Video } from "../types/quest.types";
+import {
+  MakePostComment,
+  Quest,
+  Video,
+  VideoActivity,
+} from "../types/quest.types";
 import uploadPostContent from "../../../../lib/helpers/uploadPostContent";
 import { setIndexer } from "../../../../redux/reducers/indexerSlice";
 import { setInteractError } from "../../../../redux/reducers/interactErrorSlice";
@@ -35,12 +40,14 @@ const useInteractions = (
   address: `0x${string}` | undefined,
   publicClient: PublicClient,
   postCollectGif: PostCollectGifState,
-  setQuestInfo: (e: SetStateAction<Quest | undefined>) => void,
   allComments: (Comment | Quote)[],
   setAllComments: ((e: SetStateAction<any[]>) => void) | undefined,
   showComments: () => Promise<void>,
-  videoPlaying: Video | undefined,
-  setVideoPlaying: (e: SetStateAction<Video | undefined>) => void
+  videoPlaying: Video | VideoActivity | undefined,
+  setVideoPlaying:
+    | ((e: SetStateAction<Video | undefined>) => void)
+    | ((e: SetStateAction<VideoActivity | undefined>) => void),
+  setQuestInfo?: (e: SetStateAction<Quest | undefined>) => void
 ) => {
   const [makeComment, setMakeComment] = useState<MakePostComment[]>([]);
   const [profilesOpen, setProfilesOpen] = useState<boolean[]>([]);
@@ -171,7 +178,7 @@ const useInteractions = (
           actionType: "collect",
           actionCollect: {
             id: post?.id,
-            stats: post?.stats,
+            stats: post?.stats?.countOpenActions,
             item: post?.openActionModules?.[0],
           },
         })
@@ -429,10 +436,7 @@ const useInteractions = (
     }
   };
 
-  const mirror = async (
-    id: string,
-    main?: boolean | undefined
-  ) => {
+  const mirror = async (id: string, main?: boolean | undefined) => {
     if (!lensConnected?.id) return;
     const index = main
       ? undefined
@@ -534,7 +538,7 @@ const useInteractions = (
     if (main) {
       if (videoPlaying) {
         setVideoPlaying!(
-          (prev) =>
+          (prev: any) =>
             ({
               ...(prev || {}),
               publication: {
@@ -551,10 +555,10 @@ const useInteractions = (
                     ] + (increase ? 1 : -1),
                 },
               } as Post,
-            } as Video)
+            } as any)
         );
       } else {
-        setQuestInfo(
+        setQuestInfo!(
           (prev) =>
             ({
               ...(prev || {}),

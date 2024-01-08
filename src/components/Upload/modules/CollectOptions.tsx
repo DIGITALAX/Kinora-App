@@ -16,9 +16,14 @@ const CollectOptions: FunctionComponent<CollectOptionsProps> = ({
   id,
   type,
   gifs,
+  border,
 }): JSX.Element => {
   return (
-    <div className="relative w-fit h-fit flex flex-row gap-8 items-start justify-between border border-suave p-2">
+    <div
+      className={`relative w-fit h-fit flex flex-row gap-8 items-start justify-between p-2 ${
+        border && "border border-suave"
+      }`}
+    >
       <div className="relative h-fit w-fit flex flex-col gap-6 items-end justify-between">
         {[
           {
@@ -91,7 +96,7 @@ const CollectOptions: FunctionComponent<CollectOptionsProps> = ({
             title: "Creator award?",
             dropValues: ["Yes", "No"],
             dropOpen: openMeasure.creatorAwardOpen,
-            chosenValue: openMeasure.award,
+            chosenValue: openMeasure.award || "No",
             showObject: openMeasure.collectible === "Yes" ? true : false,
             openDropdown: () =>
               setOpenMeasure((prev) => ({
@@ -209,6 +214,18 @@ const CollectOptions: FunctionComponent<CollectOptionsProps> = ({
                       amount: {
                         ...(newCTs[id!]?.amount || {}),
                         value: item,
+                        currency:
+                          availableCurrencies?.find((value) => {
+                            if (
+                              value.contract.address ===
+                              (collect
+                                ? collectTypes?.[id!]?.amount?.currency
+                                : postDetails?.collectDetails?.amount?.currency)
+                            ) {
+                              return value;
+                            }
+                          })?.contract?.address! ||
+                          availableCurrencies?.[0]?.contract?.address,
                       },
                     } as any;
 
@@ -227,8 +244,16 @@ const CollectOptions: FunctionComponent<CollectOptionsProps> = ({
                       collectDetails: {
                         ...prev?.collectDetails,
                         amount: {
-                          currency: prev?.collectDetails?.amount
-                            ?.currency as string,
+                          currency:
+                            availableCurrencies?.find((value) => {
+                              if (
+                                value.contract.address ===
+                                prev?.collectDetails?.amount?.currency
+                              ) {
+                                return value;
+                              }
+                            })?.contract?.address! ||
+                            availableCurrencies?.[0]?.contract?.address,
                           value: item,
                         },
                       },
@@ -271,7 +296,11 @@ const CollectOptions: FunctionComponent<CollectOptionsProps> = ({
                       ...(newCTs[id!] || {}),
                       amount: {
                         ...(newCTs[id!]?.amount || {}),
-                        currency: item,
+                        currency: availableCurrencies?.find((value) => {
+                          if (value.symbol === item) {
+                            return item;
+                          }
+                        })?.contract?.address,
                       },
                     } as any;
 
@@ -292,7 +321,11 @@ const CollectOptions: FunctionComponent<CollectOptionsProps> = ({
                         ...prev?.collectDetails,
                         amount: {
                           value: prev?.collectDetails?.amount?.value as string,
-                          currency: item,
+                          currency: availableCurrencies?.find((value) => {
+                            if (value.symbol === item) {
+                              return item;
+                            }
+                          })?.contract?.address,
                         },
                       },
                     }));

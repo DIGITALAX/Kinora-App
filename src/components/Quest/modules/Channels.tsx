@@ -24,7 +24,7 @@ const Channels: FunctionComponent<ChannelsProps> = ({
                 videoPlaying == video && "opacity-30"
               }`}
               onClick={() => setVideoPlaying(video)}
-              id="rainbow"
+              id="northern"
             >
               <div className="relative w-full h-full flex items-center justify-center rounded-md">
                 <Image
