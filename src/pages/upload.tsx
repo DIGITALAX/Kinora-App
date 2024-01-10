@@ -15,6 +15,7 @@ import CollectOptions from "@/components/Upload/modules/CollectOptions";
 import { AiOutlineLoading } from "react-icons/ai";
 import { createPublicClient, http } from "viem";
 import { polygonMumbai } from "viem/chains";
+import Head from "next/head";
 
 export default function Upload() {
   const publicClient = createPublicClient({
@@ -73,6 +74,55 @@ export default function Upload() {
             height: "calc(100vh - 5.5rem)",
           }}
         >
+          <Head>
+            <title>Upload</title>
+            <meta
+              name="og:url"
+              content={`https://kinora.irrevocable.dev/upload`}
+            />
+            <meta name="og:title" content={"Upload"} />
+            <meta name="og:description" content={"Video Upload."} />
+            <meta
+              name="og:image"
+              content={"https://kinora.irrevocable.dev/card.png/"}
+            />
+            <meta name="twitter:card" content="summary" />
+            <meta name="twitter:card" content="summary_large_image" />
+            <meta name="twitter:site" content="@digitalax" />
+            <meta name="twitter:creator" content="@digitalax" />
+            <meta
+              name="twitter:image"
+              content={"https://kinora.irrevocable.dev/card.png/"}
+            />
+            <meta
+              name="twitter:url"
+              content={`https://kinora.irrevocable.dev/upload`}
+            />
+            <link rel="preconnect" href="https://fonts.googleapis.com" />
+            <link
+              rel="canonical"
+              content={"https://kinora.irrevocable.dev/card.png/"}
+            />
+            <link
+              rel="preconnect"
+              href="https://fonts.gstatic.com"
+              crossOrigin="anonymous"
+            />
+            <link
+              rel="preload"
+              href="https://kinora.irrevocable.dev/fonts/Bitblox.otf"
+              as="font"
+              crossOrigin="anonymous"
+              type="font/otf"
+            />
+            <link
+              rel="preload"
+              href="https://kinora.irrevocable.dev/fonts/Vcr.ttf"
+              as="font"
+              crossOrigin="anonymous"
+              type="font/ttf"
+            />
+          </Head>
           <div
             className="md:h-full h-fit w-full items-start justify-start px-6 pb-2 pt-6 relative flex flex-col"
             style={{
