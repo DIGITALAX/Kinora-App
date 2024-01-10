@@ -10,6 +10,7 @@ import { getQuestById } from "../../../../graphql/subgraph/getQuest";
 import { getVideos } from "../../../../graphql/subgraph/getVideos";
 import toHexWithLeadingZero from "../../../../lib/helpers/toHexWithLeadingZero";
 import { getVideoActivity } from "../../../../graphql/subgraph/getVideoActivity";
+import fetchIPFSJSON from "../../../../lib/helpers/fetchIPFSJSON";
 
 const useVideo = (videoId: string, lensConnected: Profile | undefined) => {
   const [videoDataLoading, setVideoDataLoading] = useState<boolean>(false);
@@ -26,7 +27,8 @@ const useVideo = (videoId: string, lensConnected: Profile | undefined) => {
     cursor: 0,
   });
 
-  const getRelatedQuests = async (id: string) => {
+  const getRelatedQuests = async () => {
+    if (!videoId) return;
     setRelatedQuestsLoading(true);
     try {
       const videos = await getVideos(
@@ -36,9 +38,28 @@ const useVideo = (videoId: string, lensConnected: Profile | undefined) => {
         parseInt(videoId?.split("-")?.[0], 16)
       );
 
-      const videoPromises = videos?.data?.videos?.map(
-        async (video: { questId: string }) => {
+      const videoPromises = videos?.data?.videos
+        .filter(
+          (v: { questId: string }, i: number, arr: { questId: string }[]) =>
+            arr.findIndex(
+              (t: { questId: string }) => t.questId === v.questId
+            ) === i
+        )
+        ?.map(async (video: { questId: string }) => {
           const data = await getQuestById(video?.questId);
+
+          if (
+            data?.data?.questInstantiateds?.[0] &&
+            !data?.data?.questInstantiateds?.[0]?.questMetadata
+          ) {
+            const fetched = await fetchIPFSJSON(
+              data?.data?.questInstantiateds?.[0]?.uri
+            );
+            data.data.questInstantiateds[0] = {
+              ...data?.data?.questInstantiateds?.[0],
+              questMetadata: fetched,
+            };
+          }
           const publication = await getPublication(
             {
               forId: `${toHexWithLeadingZero(
@@ -52,10 +73,9 @@ const useVideo = (videoId: string, lensConnected: Profile | undefined) => {
 
           return {
             ...data?.data?.questInstantiateds?.[0],
-            publication: publication?.data,
+            publication: publication?.data?.publication,
           };
-        }
-      );
+        });
 
       const allQuests = await Promise.all(videoPromises);
 
@@ -79,9 +99,29 @@ const useVideo = (videoId: string, lensConnected: Profile | undefined) => {
         parseInt(videoId?.split("-")?.[0], 16)
       );
 
-      const videoPromises = videos?.data?.videos?.map(
-        async (video: { questId: string }) => {
+      const videoPromises = videos?.data?.videos
+        ?.filter(
+          (v: { questId: string }, i: number, arr: { questId: string }[]) =>
+            arr.findIndex(
+              (t: { questId: string }) => t.questId === v.questId
+            ) === i
+        )
+        ?.map(async (video: { questId: string }) => {
           const data = await getQuestById(video?.questId);
+
+          if (
+            data?.data?.questInstantiateds?.[0] &&
+            !data?.data?.questInstantiateds?.[0]?.questMetadata
+          ) {
+            const fetched = await fetchIPFSJSON(
+              data?.data?.questInstantiateds?.[0]?.uri
+            );
+            data.data.questInstantiateds[0] = {
+              ...data?.data?.questInstantiateds?.[0],
+              questMetadata: fetched,
+            };
+          }
+
           const publication = await getPublication(
             {
               forId: `${toHexWithLeadingZero(
@@ -95,10 +135,9 @@ const useVideo = (videoId: string, lensConnected: Profile | undefined) => {
 
           return {
             ...data?.data?.questInstantiateds?.[0],
-            publication: publication?.data,
+            publication: publication?.data?.publication,
           };
-        }
-      );
+        });
 
       const allQuests = await Promise.all(videoPromises);
 
@@ -139,7 +178,6 @@ const useVideo = (videoId: string, lensConnected: Profile | undefined) => {
           Number(video?.data?.videoActivities[0]?.duration) / 10 ** 18,
         publication: data?.data?.publication,
       });
-      await getRelatedQuests(data?.data?.publication?.id);
     } catch (err: any) {
       console.error(err.message);
     }
@@ -152,7 +190,11 @@ const useVideo = (videoId: string, lensConnected: Profile | undefined) => {
     }
   }, [lensConnected?.id, videoId]);
 
-
+  useEffect(() => {
+    if (videoId && relatedQuests?.length < 1) {
+      getRelatedQuests();
+    }
+  }, [videoId]);
   return {
     videoDataLoading,
     videoData,
