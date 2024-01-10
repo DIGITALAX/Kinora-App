@@ -200,7 +200,7 @@ const Header: FunctionComponent<{ router: NextRouter }> = ({ router }) => {
             </div>
           )}
         </div>
-        <div className="relative flex items-center justify-center gap-5">
+        <div className="relative flex items-center justify-center gap-5 w-fit h-fit">
           <div
             className="relative w-4 h-6 flex items-center justify-center cursor-pointer active:scale-95"
             onClick={() => setOpenActivitySample(!openActivitySample)}
@@ -219,6 +219,16 @@ const Header: FunctionComponent<{ router: NextRouter }> = ({ router }) => {
               draggable={false}
               layout="fill"
               src={`${INFURA_GATEWAY}/ipfs/QmcvuX3d75RQC8zxFbmuaJJjhB6ZYiKfoXR7f74n6Ro2EJ`}
+            />
+          </div>
+          <div
+            className="relative w-8 h-5 flex items-center justify-center cursor-pointer active:scale-95"
+            onClick={() => router.push("/storefront")}
+          >
+            <Image
+              draggable={false}
+              layout="fill"
+              src={`${INFURA_GATEWAY}/ipfs/QmXXiuiSjoUsaVy8Xr9aWjeQPYsmkpnMtazeULcvzhvZPv`}
             />
           </div>
           <div
