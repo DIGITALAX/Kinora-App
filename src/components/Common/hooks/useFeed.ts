@@ -6,6 +6,7 @@ import { getQuests } from "../../../../graphql/subgraph/getQuests";
 import { Quest } from "@/components/Quest/types/quest.types";
 import toHexWithLeadingZero from "../../../../lib/helpers/toHexWithLeadingZero";
 import getPublication from "../../../../graphql/lens/queries/publication";
+import fetchIPFSJSON from "../../../../lib/helpers/fetchIPFSJSON";
 
 const useFeed = (
   dispatch: Dispatch,
@@ -38,21 +39,31 @@ const useFeed = (
         });
       }
 
-      const promises = (data?.data?.questInstantiateds || [])?.map(async (item: any) => {
-        const publication = await getPublication(
-          {
-            forId: `${toHexWithLeadingZero(
-              Number(item?.profileId)
-            )}-${toHexWithLeadingZero(Number(item?.pubId))}`,
-          },
-          lensConnected?.id
-        );
+      const promises = (data?.data?.questInstantiateds || [])?.map(
+        async (item: any) => {
+          const publication = await getPublication(
+            {
+              forId: `${toHexWithLeadingZero(
+                Number(item?.profileId)
+              )}-${toHexWithLeadingZero(Number(item?.pubId))}`,
+            },
+            lensConnected?.id
+          );
 
-        return {
-          ...item,
-          publication: publication?.data?.publication,
-        };
-      });
+          if (!item?.questMetadata) {
+            let data = await fetchIPFSJSON(item?.uri);
+            item = {
+              ...item,
+              questMetadata: data,
+            };
+          }
+
+          return {
+            ...item,
+            publication: publication?.data?.publication,
+          };
+        }
+      );
 
       dispatch(setQuestFeed(((await Promise.all(promises)) || []) as Quest[]));
     } catch (err: any) {
@@ -78,21 +89,31 @@ const useFeed = (
         });
       }
 
-      const promises = data?.data?.questInstantiateds?.map(async (item: any) => {
-        const publication = await getPublication(
-          {
-            forId: `${toHexWithLeadingZero(
-              Number(item?.profileId)
-            )}-${toHexWithLeadingZero(Number(item?.pubId))}`,
-          },
-          lensConnected?.id
-        );
+      const promises = data?.data?.questInstantiateds?.map(
+        async (item: any) => {
+          const publication = await getPublication(
+            {
+              forId: `${toHexWithLeadingZero(
+                Number(item?.profileId)
+              )}-${toHexWithLeadingZero(Number(item?.pubId))}`,
+            },
+            lensConnected?.id
+          );
 
-        return {
-          ...item,
-          publication: publication?.data?.publication,
-        };
-      });
+          if (!item?.questMetadata) {
+            let data = await fetchIPFSJSON(item?.uri);
+            item = {
+              ...item,
+              questMetadata: data,
+            };
+          }
+
+          return {
+            ...item,
+            publication: publication?.data?.publication,
+          };
+        }
+      );
 
       dispatch(
         setQuestFeed([

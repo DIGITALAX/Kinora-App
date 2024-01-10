@@ -14,6 +14,7 @@ import { ethers } from "ethers";
 import { setInteractError } from "../../../../redux/reducers/interactErrorSlice";
 import { setSuccess } from "../../../../redux/reducers/successSlice";
 import getProfile from "../../../../graphql/lens/queries/profile";
+import fetchIPFSJSON from "../../../../lib/helpers/fetchIPFSJSON";
 
 const useJoin = (
   questId: string,
@@ -148,6 +149,14 @@ const useJoin = (
             lensConnected?.id
           );
 
+          if (!item?.questMetadata) {
+            let data = await fetchIPFSJSON(item?.uri);
+            item = {
+              ...item,
+              questMetadata: data,
+            };
+          }
+
           const uris = item?.gate?.erc721Logic?.[0]?.uris || [];
           const updated721sPromises = uris?.map(async (erc721: any) => {
             const collection = await getCollectionURI(erc721);
@@ -167,6 +176,14 @@ const useJoin = (
                   return collection?.data?.collectionCreateds?.[0];
                 });
               });
+
+              if (!milestone?.milestoneMetadata) {
+                let data = await fetchIPFSJSON(milestone?.uri);
+                milestone = {
+                  ...milestone,
+                  milestoneMetadata: data,
+                };
+              }
 
               const erc721Logic = await Promise.all(erc721LogicPromises);
 

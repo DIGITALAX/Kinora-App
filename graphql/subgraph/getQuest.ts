@@ -73,8 +73,6 @@ export const getQuest = async (
                 comment
                 minAVD
                 minDuration
-                minImpressionCount
-                minEngagementRate
                 minPlayCount
                 minSecondaryCollectOnQuote
                 minSecondaryCollectOnComment
@@ -240,8 +238,6 @@ export const getQuestById = async (
                 comment
                 minAVD
                 minDuration
-                minImpressionCount
-                minEngagementRate
                 minPlayCount
                 minSecondaryCollectOnQuote
                 minSecondaryCollectOnComment

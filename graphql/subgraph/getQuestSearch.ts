@@ -20,6 +20,7 @@ export const getQuestSearch = async (
             description
             cover
           }
+          uri
           questId
           pubId
           profileId
