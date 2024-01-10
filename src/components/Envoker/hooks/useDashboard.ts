@@ -1,26 +1,37 @@
-import { Quest } from "@/components/Quest/types/quest.types";
-import { Envoker } from "kinora-sdk";
+import {
+  Player,
+  Quest,
+  VideoActivity,
+} from "@/components/Quest/types/quest.types";
+import { Dispatch as KinoraDispatch, Envoker } from "kinora-sdk";
 import { useEffect, useState } from "react";
 import { apolloClient } from "../../../../lib/lens/client";
 import { ethers } from "ethers";
 import { setInteractError } from "../../../../redux/reducers/interactErrorSlice";
 import { Dispatch } from "redux";
 import { setSuccess } from "../../../../redux/reducers/successSlice";
-import { Profile } from "../../../../graphql/generated";
 
 const useDashboard = (
   allQuests: (Quest & { type: string })[],
   dispatch: Dispatch
 ) => {
-  const [openQuest, setOpenQuest] = useState<boolean[]>([]);
+  const [openQuest, setOpenQuest] = useState<Quest | undefined>();
   const [terminateLoading, setTerminateLoading] = useState<boolean[]>([]);
   const [openPlayerDetails, setOpenPlayerDetails] = useState<
-    (Profile | undefined)[]
-  >([]);
+    Player | undefined
+  >();
   const [approvalLoading, setApprovalLoading] = useState<boolean[]>([]);
   const [claimRewardLoading, setClaimRewardLoading] = useState<boolean[]>([]);
+  const [playerEligible, setPlayerEligible] = useState<{
+    eligible: boolean;
+    completed: VideoActivity[];
+    toComplete: VideoActivity[];
+  }>();
   const questEnvoker = new Envoker({
     authedApolloClient: apolloClient,
+  });
+  const kinoraDispatch = new KinoraDispatch({
+    playerAuthedApolloClient: apolloClient,
   });
 
   const terminateQuest = async (id: number, index: number) => {
@@ -64,24 +75,62 @@ const useDashboard = (
     });
   };
 
+  const playerEligibleToClaim = async () => {
+    try {
+      const { error, eligible, completed, toComplete } =
+        await kinoraDispatch.playerMilestoneEligibilityCheck(
+          openPlayerDetails?.profile?.id,
+          Number(openQuest?.questId),
+          openPlayerDetails?.milestonesCompleted?.findIndex(
+            (value) => Number(value?.questId) == Number(openQuest?.questId)
+          ) == -1 ||
+            !openPlayerDetails?.milestonesCompleted?.findIndex(
+              (value) => Number(value?.questId) == Number(openQuest?.questId)
+            )
+            ? 1
+            : openPlayerDetails!?.milestonesCompleted?.findIndex(
+                (value) => value?.questId == openQuest?.questId
+              )
+        );
+
+      if (!error) {
+        setPlayerEligible({
+          eligible: eligible!,
+          completed: completed! as VideoActivity[],
+          toComplete: toComplete! as VideoActivity[],
+        });
+      }
+    } catch (err: any) {
+      console.error(err.message);
+    }
+  };
+
   const approvePlayerMilestone = async (
     id: number,
     milestone: number,
     playerProfileId: `0x${string}`,
     index: number
   ) => {
+    if (!playerEligible) return;
     setApprovalLoading((prev) => {
       const arr = [...prev];
       arr[index] = true;
       return arr;
     });
     try {
+      await (window as any).ethereum.request({ method: "eth_requestAccounts" });
+      const provider = new ethers.providers.Web3Provider(
+        (window as any).ethereum,
+        80001
+      );
+      const signer = provider.getSigner();
       const { error, errorMessage } =
         await questEnvoker.setPlayerEligibleToClaimMilestone(
           id,
-          milestone,
+          milestone + 1,
           playerProfileId,
-          true
+          true,
+          signer as unknown as ethers.Wallet
         );
 
       if (error) {
@@ -106,13 +155,44 @@ const useDashboard = (
     });
   };
 
-  const playerClaimMilestoneReward = async (id: string, index: number) => {
+  const playerClaimMilestoneReward = async (
+    postId: string,
+    index: number,
+    questCompleted: boolean
+  ) => {
     setClaimRewardLoading((prev) => {
       const arr = [...prev];
       arr[index] = true;
       return arr;
     });
     try {
+      await (window as any).ethereum.request({ method: "eth_requestAccounts" });
+      const provider = new ethers.providers.Web3Provider(
+        (window as any).ethereum,
+        80001
+      );
+      const signer = provider.getSigner();
+
+      const { error, errorMessage } =
+        await kinoraDispatch.playerCompleteQuestMilestone(
+          postId as `0x${string}`,
+          signer as unknown as ethers.Wallet
+        );
+
+      if (error) {
+        console.error(errorMessage);
+        dispatch(setInteractError(true));
+      } else {
+        dispatch(
+          setSuccess({
+            open: true,
+            image: "QmZJT774gb65twy6TKjZrE3gythGCVDdTLdn8X7u1g1k77",
+            text: questCompleted
+              ? "Quest Completed! You've leveled up. Ready for the next one?"
+              : "Milestone Completed! See all your rewards in the dashboard.",
+          })
+        );
+      }
     } catch (err: any) {
       console.error(err.message);
     }
@@ -125,7 +205,6 @@ const useDashboard = (
 
   useEffect(() => {
     if (allQuests?.length > 0) {
-      setOpenQuest(Array.from({ length: allQuests?.length }, () => false));
       setApprovalLoading(
         Array.from(
           {
@@ -153,17 +232,14 @@ const useDashboard = (
           () => false
         )
       );
-      setOpenPlayerDetails(
-        Array.from(
-          {
-            length: allQuests?.filter((item) => item?.type == "envoked")
-              ?.length,
-          },
-          () => undefined
-        )
-      );
     }
   }, [allQuests]);
+
+  useEffect(() => {
+    if (openPlayerDetails) {
+      playerEligibleToClaim();
+    }
+  }, [openPlayerDetails]);
 
   return {
     terminateQuest,
@@ -176,6 +252,7 @@ const useDashboard = (
     claimRewardLoading,
     openPlayerDetails,
     setOpenPlayerDetails,
+    playerEligible,
   };
 };
 

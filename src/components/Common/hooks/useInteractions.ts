@@ -43,7 +43,7 @@ const useInteractions = (
       like: boolean;
       follow: boolean;
       unfollow: boolean;
-      simpleCollect: boolean;
+      collect: boolean;
     }[]
   >([]);
 
@@ -188,7 +188,7 @@ const useInteractions = (
 
     setInteractionsLoading((prev) => {
       const updatedArray = [...prev];
-      updatedArray[index!] = { ...updatedArray[index!], simpleCollect: true };
+      updatedArray[index!] = { ...updatedArray[index!], collect: true };
       return updatedArray;
     });
 
@@ -238,7 +238,7 @@ const useInteractions = (
 
     setInteractionsLoading((prev) => {
       const updatedArray = [...prev];
-      updatedArray[index!] = { ...updatedArray[index!], simpleCollect: false };
+      updatedArray[index!] = { ...updatedArray[index!], collect: false };
       return updatedArray;
     });
   };
@@ -444,7 +444,7 @@ const useInteractions = (
       setInteractionsLoading(
         Array.from({ length: feed?.length }, () => ({
           mirror: false,
-          simpleCollect: false,
+          collect: false,
           like: false,
           follow: false,
           unfollow: false,

@@ -28,7 +28,8 @@ const config: Config = {
         acei: "#819463",
         suave: "#C27AA0",
         cost: "#847FF2",
-        gris: "#C2C0B5"
+        gris: "#C2C0B5",
+        olive: "#DCEBB3"
       },
       fontSize: {
         xxs: "0.6rem",

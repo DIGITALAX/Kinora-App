@@ -96,7 +96,7 @@ const VideoInfo: FunctionComponent<VideoInfoProps> = ({
               videoPlaying?.publication?.operations?.hasActed
                 ?.isFinalisedOnchain || false,
             function: () => simpleCollect(videoPlaying?.publication!, true),
-            loader: mainInteractionsLoading?.[0]?.like,
+            loader: mainInteractionsLoading?.[0]?.collect,
             otherFunction: () => setSocialType(SocialType.Players),
           },
           {

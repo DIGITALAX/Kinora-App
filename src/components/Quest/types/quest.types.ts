@@ -30,6 +30,7 @@ export interface Quest {
   milestoneCount: string;
   players: Player[];
   maxPlayerCount: string;
+  blockTimestamp: string;
 }
 
 export interface VideoActivity {
@@ -37,7 +38,7 @@ export interface VideoActivity {
   pubId: number;
   profileId: number;
   mostReplayed: string;
-  totalDuration: number;
+  duration: number;
   hasReacted: boolean;
   hasQuoted: boolean;
   hasMirrored: boolean;
@@ -251,6 +252,7 @@ export type QuestSocialProps = {
     comment: boolean;
     follow: boolean;
     unfollow: boolean;
+    collect: boolean;
   }[];
   mainInteractionsLoading: {
     like: boolean;
@@ -258,6 +260,7 @@ export type QuestSocialProps = {
     comment: boolean;
     follow: boolean;
     unfollow: boolean;
+    collect: boolean;
   }[];
   setMirrorChoiceOpen: (e: SetStateAction<boolean[]>) => void;
   mirrorChoiceOpen: boolean[];
@@ -347,16 +350,18 @@ export type QuestBoardSwitchProps = {
   ) => Promise<void>;
   mirrorChoiceOpen: boolean;
   setMirrorChoiceOpen: (e: boolean) => void;
-  handleCompleteMilestone: () => Promise<void>;
+  handleCompleteMilestone: (questCompleted: boolean) => Promise<void>;
   completeLoading: boolean;
+  milestoneEligible: boolean;
 };
 
 export type MilestoneInfoProps = {
   completeLoading: boolean;
-  handleCompleteMilestone: () => Promise<void>;
+  handleCompleteMilestone: (questCompleted: boolean) => Promise<void>;
   milestone: Milestone;
   player: Player;
-  questId: string;
+  questInfo: Quest;
+  milestoneEligible: boolean;
 };
 
 export type ChannelsProps = {
@@ -416,6 +421,7 @@ export type VideoInfoProps = {
     bookmark: boolean;
     follow: boolean;
     unfollow: boolean;
+    collect: boolean;
   }[];
   setSocialType: (e: SocialType) => void;
   mirrorChoiceOpen: boolean;

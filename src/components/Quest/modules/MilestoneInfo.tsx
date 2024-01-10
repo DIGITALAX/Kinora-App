@@ -6,15 +6,17 @@ import {
   numberToItemTypeMap,
 } from "../../../../lib/constants";
 import { AiOutlineLoading } from "react-icons/ai";
-import { MilestoneInfoProps, Reward } from "../types/quest.types";
+import { MilestoneInfoProps } from "../types/quest.types";
 import { Collection } from "@/components/Envoke/types/envoke.types";
+import Rewards from "@/components/Envoker/modules/Rewards";
 
 const MilestoneInfo: FunctionComponent<MilestoneInfoProps> = ({
   completeLoading,
   handleCompleteMilestone,
   milestone,
   player,
-  questId,
+  questInfo,
+  milestoneEligible,
 }): JSX.Element => {
   return (
     <div className="relative rounded-md border border-gray-700 w-full h-full flex flex-col gap-3 p-2 items-start justify-between">
@@ -24,65 +26,7 @@ const MilestoneInfo: FunctionComponent<MilestoneInfoProps> = ({
             Milestone Rewards
           </div>
           {milestone?.rewards && milestone?.rewards?.length > 0 && (
-            <div className="relative w-fit h-fit justify-start items-center gap-4 flex flex-row flex-wrap">
-              {milestone?.rewards?.map((reward: Reward, index: number) => {
-                return (
-                  <div
-                    key={index}
-                    className="relative w-fit h-fit flex items-center justify-center gap-1"
-                  >
-                    {reward?.type === "0" ? (
-                      <>
-                        <div className="relative w-5 h-6 flex items-center justify-center">
-                          <Image
-                            draggable={false}
-                            layout="fill"
-                            src={`${INFURA_GATEWAY}/ipfs/${
-                              ACCEPTED_TOKENS_MUMBAI?.filter(
-                                (token) =>
-                                  reward?.tokenAddress?.toLowerCase() ==
-                                  token[2]?.toLowerCase()
-                              )?.[0]?.[0]
-                            }`}
-                          />
-                        </div>
-                        <div className="relative w-fit h-fit flex items-center justify-center font-vcr text-azul/70 text-xxs">
-                          {`${Number(reward?.amount) / 10 ** 18} ${
-                            ACCEPTED_TOKENS_MUMBAI?.filter(
-                              (token) =>
-                                reward?.tokenAddress?.toLowerCase() ==
-                                token[2]?.toLowerCase()
-                            )?.[0]?.[1]
-                          }`}
-                        </div>
-                      </>
-                    ) : (
-                      <div
-                        key={index}
-                        className="relative w-10 h-10 flex items-center justify-center gap-1 rounded-sm"
-                        id="northern"
-                      >
-                        <div className="relative w-full p-px h-full flex items-center justify-center rounded-sm">
-                          <Image
-                            draggable={false}
-                            layout="fill"
-                            objectFit="cover"
-                            className="rounded-sm"
-                            src={`${INFURA_GATEWAY}/ipfs/${
-                              reward?.uri?.mediaCover
-                                ? reward?.uri?.mediaCover?.split("ipfs://")?.[1]
-                                : reward?.uri?.images?.[0]?.split(
-                                    "ipfs://"
-                                  )?.[1]
-                            }`}
-                          />
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
+            <Rewards rewards={milestone?.rewards} />
           )}
         </div>
         <div className="relative w-full h-fit flex flex-col items-start justify-start gap-2 font-vcr text-white text-xs">
@@ -194,56 +138,51 @@ const MilestoneInfo: FunctionComponent<MilestoneInfoProps> = ({
       <div
         className={`relative w-full h-8 px-1.5 py-1 flex flex-row items-center gap-3 justify-center border border-gray-300 rounded-md ${
           completeLoading ||
-          Number(
-            player?.milestonesCompleted?.[
-              player?.milestonesCompleted?.findIndex(
-                (value) => value?.questId == questId
-              ) == -1
-                ? 0
-                : player?.milestonesCompleted?.findIndex(
-                    (value) => value?.questId == questId
-                  )
-            ]?.milestonesCompleted
-          ) +
-            1 !==
-            Number(milestone?.milestoneId) ||
           !player?.eligibile?.[
             player?.milestonesCompleted?.findIndex(
-              (value) => value?.questId == questId
-            ) == -1
-              ? 0
+              (value) => Number(value?.questId) == Number(questInfo?.questId)
+            ) == -1 ||
+            !player?.milestonesCompleted?.findIndex(
+              (value) => Number(value?.questId) == Number(questInfo?.questId)
+            )
+              ? 1
               : player?.milestonesCompleted?.findIndex(
-                  (value) => value?.questId == questId
+                  (value) =>
+                    Number(value?.questId) == Number(questInfo?.questId)
                 )
-          ]?.status
+          ]?.status ||
+          !questInfo?.status
             ? "opacity-70"
             : "cursor-pointer active:scale-95"
         }`}
         onClick={() =>
           !completeLoading &&
-          Number(
-            player?.milestonesCompleted?.[
-              player?.milestonesCompleted?.findIndex(
-                (value) => value?.questId == questId
-              ) == -1
-                ? 0
-                : player?.milestonesCompleted?.findIndex(
-                    (value) => value?.questId == questId
-                  )
-            ]?.milestonesCompleted
-          ) +
-            1 ===
-            Number(milestone?.milestoneId) &&
           player?.eligibile?.[
             player?.milestonesCompleted?.findIndex(
-              (value) => value?.questId == questId
-            ) == -1
-              ? 0
+              (value) => Number(value?.questId) == Number(questInfo?.questId)
+            ) == -1 ||
+            !player?.milestonesCompleted?.findIndex(
+              (value) => Number(value?.questId) == Number(questInfo?.questId)
+            )
+              ? 1
               : player?.milestonesCompleted?.findIndex(
-                  (value) => value?.questId == questId
+                  (value) =>
+                    Number(value?.questId) == Number(questInfo?.questId)
                 )
           ]?.status &&
-          handleCompleteMilestone()
+          questInfo?.status &&
+          handleCompleteMilestone(
+            Number(
+              player?.milestonesCompleted?.[
+                player?.milestonesCompleted?.findIndex(
+                  (value) =>
+                    Number(value?.questId) == Number(questInfo?.questId)
+                )
+              ]?.milestonesCompleted
+            ) -
+              1 ==
+              Number(questInfo?.milestoneCount)
+          )
         }
       >
         <div
@@ -262,25 +201,47 @@ const MilestoneInfo: FunctionComponent<MilestoneInfoProps> = ({
           )}
         </div>
         <div className="relative w-fit h-fit text-sm font-vcr text-gray-300">
-          {Number(
-            player?.milestonesCompleted?.[
-              player?.milestonesCompleted?.findIndex(
-                (value) => value?.questId == questId
-              )
-            ]?.milestonesCompleted
-          ) >= Number(milestone?.milestoneId)
+          {!questInfo?.status
+            ? "Quest Closed"
+            : Number(
+                player?.milestonesCompleted?.[
+                  player?.milestonesCompleted?.findIndex(
+                    (value) =>
+                      Number(value?.questId) == Number(questInfo?.questId)
+                  )
+                ]?.milestonesCompleted
+              ) >= Number(milestone?.milestoneId)
             ? "Milestone Completed"
+            : !milestoneEligible
+            ? "Not Eligible Yet"
             : player?.eligibile?.[
                 player?.milestonesCompleted?.findIndex(
-                  (value) => value?.questId == questId
-                ) == -1
-                  ? 0
+                  (value) =>
+                    Number(value?.questId) == Number(questInfo?.questId)
+                ) == -1 ||
+                !player?.milestonesCompleted?.findIndex(
+                  (value) =>
+                    Number(value?.questId) == Number(questInfo?.questId)
+                )
+                  ? 1
                   : player?.milestonesCompleted?.findIndex(
-                      (value) => value?.questId == questId
+                      (value) =>
+                        Number(value?.questId) == Number(questInfo?.questId)
                     )
               ]?.status
-            ? "Claim Reward"
-            : "Not Eligible Yet"}
+            ? Number(
+                player?.milestonesCompleted?.[
+                  player?.milestonesCompleted?.findIndex(
+                    (value) =>
+                      Number(value?.questId) == Number(questInfo?.questId)
+                  )
+                ]?.milestonesCompleted
+              ) -
+                1 ==
+              Number(questInfo?.milestoneCount)
+              ? "Complete Quest"
+              : "Claim Reward"
+            : "Envoker To Verify"}
         </div>
       </div>
     </div>

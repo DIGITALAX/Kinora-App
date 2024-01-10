@@ -5,6 +5,7 @@ import { RootState } from "../../../redux/store";
 import { NextRouter } from "next/router";
 import useInteractions from "@/components/Quest/hooks/useInteractions";
 import useInteractionsSuggested from "@/components/Common/hooks/useInteractions";
+import { Dispatch as KinoraDispatch } from "kinora-sdk";
 import { useAccount } from "wagmi";
 import Image from "next/legacy/image";
 import { INFURA_GATEWAY } from "../../../lib/constants";
@@ -14,11 +15,11 @@ import { Quest, SocialType } from "@/components/Quest/types/quest.types";
 import MainVideo from "@/components/Quest/modules/MainVideo";
 import { AiOutlineLoading } from "react-icons/ai";
 import VideoInfo from "@/components/Quest/modules/VideoInfo";
-import useSuggested from "@/components/Quest/hooks/useSuggested";
 import QuestFeed from "@/components/Common/modules/QuestFeed";
 import useVideo from "@/components/Video/hooks/useVideo";
 import useVideos from "@/components/Quest/hooks/useVideos";
 import Metrics from "@/components/Quest/modules/Metrics";
+import { apolloClient } from "../../../lib/lens/client";
 
 export default function VideoId({ router }: { router: NextRouter }) {
   const { videoId } = router.query;
@@ -29,6 +30,9 @@ export default function VideoId({ router }: { router: NextRouter }) {
     transport: http(
       `https://polygon-mumbai.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY_MUMBAI}`
     ),
+  });
+  const kinoraDispatch = new KinoraDispatch({
+    playerAuthedApolloClient: apolloClient,
   });
   const openSidebar = useSelector(
     (state: RootState) => state.app.sideBarOpenReducer.value
@@ -70,7 +74,13 @@ export default function VideoId({ router }: { router: NextRouter }) {
     handleSendMetrics,
     playerMetricsLive,
     currentMetricsLoading,
-  } = useVideos(lensConnected, dispatch, getVideoDetails, undefined, videoData);
+  } = useVideos(
+    lensConnected,
+    dispatch,
+    getVideoDetails,
+    kinoraDispatch,
+    videoData
+  );
   const {
     dataLoading,
     reactors,

@@ -106,8 +106,6 @@ const PostQuote: FunctionComponent<PostQuoteProps> = ({
             <PostSwitch item={quote} dispatch={dispatch} disabled={disabled} />
           </div>
           <InteractBar
-            type={"feed"}
-            feed={[]}
             publication={quote as Post}
             lensConnected={lensConnected!}
             mirror={mirror!}

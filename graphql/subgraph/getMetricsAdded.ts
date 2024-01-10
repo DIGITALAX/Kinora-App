@@ -9,10 +9,11 @@ export const getMetricsAdded = async (
     const queryPromise = graphKinoraClient.query({
       query: gql(`
       query($first: Int, $skip: Int) {
-        playerMetricsUpdateds(first: $first, skip: $skip) {
+        playerMetricsUpdateds(first: $first, skip: $skip, orderBy: blockTimestamp) {
             videoPubId
             videoProfileId
             playerProfileId
+            blockTimestamp
           }
       }
     `),

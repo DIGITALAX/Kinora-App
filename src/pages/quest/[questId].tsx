@@ -14,6 +14,7 @@ import QuestSocial from "@/components/Quest/modules/QuestSocial";
 import MilestoneBoards from "@/components/Quest/modules/MilestoneBoards";
 import useWho from "@/components/Quest/hooks/useWho";
 import { Quest, SocialType } from "@/components/Quest/types/quest.types";
+import { Dispatch as KinoraDispatch } from "kinora-sdk";
 import QuestBoardSwitch from "@/components/Quest/modules/QuestBoardSwitch";
 import Channels from "@/components/Quest/modules/Channels";
 import useVideos from "@/components/Quest/hooks/useVideos";
@@ -23,6 +24,7 @@ import Metrics from "@/components/Quest/modules/Metrics";
 import VideoInfo from "@/components/Quest/modules/VideoInfo";
 import useSuggested from "@/components/Quest/hooks/useSuggested";
 import QuestFeed from "@/components/Common/modules/QuestFeed";
+import { apolloClient } from "../../../lib/lens/client";
 
 export default function QuestId({ router }: { router: NextRouter }) {
   const { questId } = router.query;
@@ -33,6 +35,9 @@ export default function QuestId({ router }: { router: NextRouter }) {
     transport: http(
       `https://polygon-mumbai.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY_MUMBAI}`
     ),
+  });
+  const kinoraDispatch = new KinoraDispatch({
+    playerAuthedApolloClient: apolloClient,
   });
   const openSidebar = useSelector(
     (state: RootState) => state.app.sideBarOpenReducer.value
@@ -66,7 +71,8 @@ export default function QuestId({ router }: { router: NextRouter }) {
     lensConnected,
     dispatch,
     address,
-    publicClient
+    publicClient,
+    kinoraDispatch
   );
   const {
     videoPlaying,
@@ -85,7 +91,17 @@ export default function QuestId({ router }: { router: NextRouter }) {
     handleSendMetrics,
     playerMetricsLive,
     currentMetricsLoading,
-  } = useVideos(lensConnected, dispatch, getQuestInfo, questInfo);
+    chainMetrics,
+    milestoneEligible,
+  } = useVideos(
+    lensConnected,
+    dispatch,
+    getQuestInfo,
+    kinoraDispatch,
+    undefined,
+    questInfo,
+    mainViewer
+  );
   const {
     dataLoading,
     reactors,
@@ -473,6 +489,7 @@ export default function QuestId({ router }: { router: NextRouter }) {
                   </div>
                 )}
                 <QuestBoardSwitch
+                  milestoneEligible={milestoneEligible}
                   handleCompleteMilestone={handleCompleteMilestone}
                   completeLoading={completeLoading}
                   lensConnected={lensConnected}
@@ -507,15 +524,7 @@ export default function QuestId({ router }: { router: NextRouter }) {
                     currentMetricsLoading={currentMetricsLoading}
                     playerMetricsLive={playerMetricsLive}
                     milestoneMetrics={videoPlaying!}
-                    playerMetricsOnChain={
-                      questInfo?.players
-                        ?.find(
-                          (player) => player?.profile?.id == lensConnected?.id
-                        )
-                        ?.videos?.find(
-                          (video) => video?.pubId == Number(videoPlaying?.pubId)
-                        )!
-                    }
+                    playerMetricsOnChain={chainMetrics!}
                   />
                 </div>
                 <div

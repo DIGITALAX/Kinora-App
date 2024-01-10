@@ -10,6 +10,7 @@ import indexerReducer from "./reducers/indexerSlice";
 import questStageReducer from "./reducers/questStageSlice";
 import questInfoReducer from "./reducers/questInfoSlice";
 import availableCurrenciesReducer from "./reducers/availableCurrenciesSlice";
+import activityFeedReducer from "./reducers/activityFeedSlice";
 import followBoxReducer from "./reducers/followBoxSlice";
 import isPlayerReducer from "./reducers/isPlayerSlice";
 import questGatesReducer from "./reducers/questGatesSlice";
@@ -40,6 +41,7 @@ const reducer = combineReducers({
   questGatesReducer,
   isPlayerReducer,
   followBoxReducer,
+  activityFeedReducer
 });
 
 export const store = configureStore({

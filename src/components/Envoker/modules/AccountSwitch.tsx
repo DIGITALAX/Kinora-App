@@ -38,6 +38,8 @@ const AccountSwitch: FunctionComponent<AccountSwitchProps> = ({
   claimRewardLoading,
   setOpenPlayerDetails,
   openPlayerDetails,
+  playerEligible,
+  globalLoading,
 }): JSX.Element => {
   if (pageProfile?.handle?.fullHandle === lensConnected?.handle?.fullHandle) {
     switch (accountType) {
@@ -61,6 +63,7 @@ const AccountSwitch: FunctionComponent<AccountSwitchProps> = ({
             getMore={getMore}
             quests={quests}
             info={info}
+            globalLoading={globalLoading}
           />
         );
 
@@ -76,6 +79,7 @@ const AccountSwitch: FunctionComponent<AccountSwitchProps> = ({
             savesLoading={savesLoading}
             allSaves={allSaves}
             dispatch={dispatch}
+            globalLoading={globalLoading}
             lensConnected={lensConnected}
             router={router}
             mirror={mirror}
@@ -91,6 +95,7 @@ const AccountSwitch: FunctionComponent<AccountSwitchProps> = ({
         return (
           <Dashboard
             router={router}
+            lensConnected={lensConnected}
             setOpenPlayerDetails={setOpenPlayerDetails}
             openPlayerDetails={openPlayerDetails}
             openQuest={openQuest}
@@ -104,6 +109,7 @@ const AccountSwitch: FunctionComponent<AccountSwitchProps> = ({
             claimRewardLoading={claimRewardLoading}
             info={info}
             getMore={getMore}
+            playerEligible={playerEligible}
           />
         );
     }
@@ -127,6 +133,7 @@ const AccountSwitch: FunctionComponent<AccountSwitchProps> = ({
         bookmark={bookmark}
         like={like}
         mirror={mirror}
+        globalLoading={globalLoading}
       />
     );
   }

@@ -1,13 +1,12 @@
 import { FunctionComponent } from "react";
 import { ActivityProps } from "../types/activity.types";
 import InfiniteScroll from "react-infinite-scroll-component";
-import QuestPreview from "@/components/Common/modules/QuestPreview";
-import Player from "./Player";
 import QuestCompleted from "./QuestCompleted";
-import MilestoneCompleted from "./MilestoneCompleted";
 import MetricsAdded from "./MetricsAdded";
 import { Quest } from "@/components/Quest/types/quest.types";
 import { Profile } from "../../../../graphql/generated";
+import Player from "./Player";
+import QuestPreview from "@/components/Common/modules/QuestPreview";
 
 const Activity: FunctionComponent<ActivityProps> = ({
   activityFeed,
@@ -26,22 +25,27 @@ const Activity: FunctionComponent<ActivityProps> = ({
   router,
   bookmark,
   interactionsLoading,
-  simpleCollect
+  simpleCollect,
+  disabled,
 }): JSX.Element => {
   return (
     <InfiniteScroll
       loader={<></>}
-      hasMore={activityInfo.hasMore}
+      hasMore={activityInfo?.hasMore}
       dataLength={activityFeed?.length}
       next={getMoreActivityFeed}
-      className="relative w-full h-fit flex-col items-center justify-start"
+      className="relative w-full h-fit flex-col items-start justify-start"
     >
-      <div className="w-full h-fit grid grid-cols-3 justify-center items-start gap-3">
+      <div
+        className={`w-full h-fit justify-start items-start gap-8 ${
+          disabled ? "flex flex-col" : "grid grid-cols-3"
+        }`}
+      >
         {activityFeed?.map(
           (
             item: Quest & {
-              type: string
-              profile: Profile | undefined
+              type: string;
+              profile: Profile | undefined;
             },
             index: number
           ) => {
@@ -55,68 +59,39 @@ const Activity: FunctionComponent<ActivityProps> = ({
                     dispatch={dispatch}
                     lensConnected={lensConnected}
                     quest={item}
-                    mirror={mirror}
-                    mirrorChoiceOpen={mirrorChoiceOpen}
-                    setMirrorChoiceOpen={setMirrorChoiceOpen}
-                    like={like}
+                    mirror={mirror!}
+                    mirrorChoiceOpen={mirrorChoiceOpen!}
+                    setMirrorChoiceOpen={setMirrorChoiceOpen!}
+                    like={like!}
                     index={index}
-                    interactionsLoading={interactionsLoading}
-                    simpleCollect={simpleCollect}
+                    interactionsLoading={interactionsLoading!}
+                    simpleCollect={simpleCollect!}
                     router={router}
-                    followProfile={followProfile}
-                    unfollowProfile={unfollowProfile}
-                    setProfileHovers={setProfileHovers}
-                    profileHovers={profileHovers}
-                  />
-                );
-
-              case "completed":
-                return (
-                  <QuestCompleted
-                    key={index}
-                    width="100%"
-                    height="16rem"
-                    dispatch={dispatch}
-                    lensConnected={lensConnected}
-                    quest={item}
-                    mirror={mirror}
-                    mirrorChoiceOpen={mirrorChoiceOpen}
-                    setMirrorChoiceOpen={setMirrorChoiceOpen}
-                    like={like}
-                    index={index}
-                    interactionsLoading={interactionsLoading}
-                    bookmark={bookmark}
-                    router={router}
-                    followProfile={followProfile}
-                    unfollowProfile={unfollowProfile}
-                    setProfileHovers={setProfileHovers}
-                    profileHovers={profileHovers}
-                    mainFeed={true}
+                    followProfile={followProfile!}
+                    unfollowProfile={unfollowProfile!}
+                    setProfileHovers={setProfileHovers!}
+                    profileHovers={profileHovers!}
+                    disabled={disabled}
                   />
                 );
 
               case "milestone":
+              case "completed":
                 return (
-                  <MilestoneCompleted
+                  <QuestCompleted
+                    interactionsLoading={interactionsLoading!}
                     key={index}
                     width="100%"
-                    height="16rem"
+                    height="9rem"
                     dispatch={dispatch}
-                    lensConnected={lensConnected}
                     quest={item}
-                    mirror={mirror}
-                    mirrorChoiceOpen={mirrorChoiceOpen}
-                    setMirrorChoiceOpen={setMirrorChoiceOpen}
-                    like={like}
                     index={index}
-                    interactionsLoading={interactionsLoading}
-                    bookmark={bookmark}
                     router={router}
-                    followProfile={followProfile}
-                    unfollowProfile={unfollowProfile}
-                    setProfileHovers={setProfileHovers}
-                    profileHovers={profileHovers}
-                    mainFeed={true}
+                    followProfile={followProfile!}
+                    unfollowProfile={unfollowProfile!}
+                    setProfileHovers={setProfileHovers!}
+                    profileHovers={profileHovers!}
+                    disabled={disabled}
                   />
                 );
 
@@ -124,24 +99,18 @@ const Activity: FunctionComponent<ActivityProps> = ({
                 return (
                   <Player
                     key={index}
-                    width="10rem"
+                    width="100%"
                     height="16rem"
                     dispatch={dispatch}
-                    lensConnected={lensConnected}
+                    interactionsLoading={interactionsLoading!}
                     quest={item}
-                    mirror={mirror}
-                    mirrorChoiceOpen={mirrorChoiceOpen}
-                    setMirrorChoiceOpen={setMirrorChoiceOpen}
-                    like={like}
                     index={index}
-                    interactionsLoading={interactionsLoading}
-                    bookmark={bookmark}
                     router={router}
-                    followProfile={followProfile}
-                    unfollowProfile={unfollowProfile}
-                    setProfileHovers={setProfileHovers}
-                    profileHovers={profileHovers}
-                    mainFeed={true}
+                    followProfile={followProfile!}
+                    unfollowProfile={unfollowProfile!}
+                    setProfileHovers={setProfileHovers!}
+                    profileHovers={profileHovers!}
+                    disabled={disabled}
                   />
                 );
 
@@ -154,20 +123,21 @@ const Activity: FunctionComponent<ActivityProps> = ({
                     dispatch={dispatch}
                     lensConnected={lensConnected}
                     quest={item}
-                    mirror={mirror}
-                    mirrorChoiceOpen={mirrorChoiceOpen}
-                    setMirrorChoiceOpen={setMirrorChoiceOpen}
-                    like={like}
+                    mirror={mirror!}
+                    mirrorChoiceOpen={mirrorChoiceOpen!}
+                    setMirrorChoiceOpen={setMirrorChoiceOpen!}
+                    like={like!}
                     index={index}
-                    interactionsLoading={interactionsLoading}
-                    bookmark={bookmark}
+                    interactionsLoading={interactionsLoading!}
+                    bookmark={bookmark!}
                     router={router}
-                    followProfile={followProfile}
-                    unfollowProfile={unfollowProfile}
-                    setProfileHovers={setProfileHovers}
-                    profileHovers={profileHovers}
+                    followProfile={followProfile!}
+                    unfollowProfile={unfollowProfile!}
+                    setProfileHovers={setProfileHovers!}
+                    profileHovers={profileHovers!}
                     mainFeed={true}
                     border
+                    disabled={disabled}
                   />
                 );
             }

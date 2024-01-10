@@ -31,6 +31,7 @@ const QuestPreview: FunctionComponent<QuestPreviewProps> = ({
   unfollowProfile,
   mainFeed,
   border,
+  disabled,
 }): JSX.Element => {
   return (
     <div className="relative w-full h-fit flex flex-col gap-2 flex items-start justify-start">
@@ -67,25 +68,27 @@ const QuestPreview: FunctionComponent<QuestPreviewProps> = ({
           />
         </div>
       </div>
-      <InteractBar
-        dispatch={dispatch}
-        lensConnected={lensConnected}
-        publication={post ? (quest as Post) : (quest as Quest)?.publication}
-        mirror={mirror}
-        mirrorChoiceOpen={mirrorChoiceOpen}
-        setMirrorChoiceOpen={setMirrorChoiceOpen}
-        like={like}
-        bookmark={bookmark}
-        index={index}
-        interactionsLoading={interactionsLoading}
-        followProfile={followProfile}
-        unfollowProfile={unfollowProfile}
-        setProfileHovers={setProfileHovers}
-        profileHovers={profileHovers}
-        router={router}
-        mainFeed={mainFeed}
-        border={border}
-      />
+      {!disabled && (
+        <InteractBar
+          dispatch={dispatch}
+          lensConnected={lensConnected}
+          publication={post ? (quest as Post) : (quest as Quest)?.publication}
+          mirror={mirror}
+          mirrorChoiceOpen={mirrorChoiceOpen}
+          setMirrorChoiceOpen={setMirrorChoiceOpen}
+          like={like}
+          bookmark={bookmark}
+          index={index}
+          interactionsLoading={interactionsLoading}
+          followProfile={followProfile}
+          unfollowProfile={unfollowProfile}
+          setProfileHovers={setProfileHovers}
+          profileHovers={profileHovers}
+          router={router}
+          mainFeed={mainFeed}
+          border={border}
+        />
+      )}
       {!border && (
         <div className="relative w-fit h-fit flex items-center justify-center text-white font-bit text-sm break-words">
           {(

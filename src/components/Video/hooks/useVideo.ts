@@ -128,12 +128,15 @@ const useVideo = (videoId: string, lensConnected: Profile | undefined) => {
         parseInt(videoId?.split("-")?.[1], 16),
         parseInt(videoId?.split("-")?.[0], 16)
       );
+
       setVideoData({
-        ...video?.data?.videoActivities[0]?.map((video: VideoActivity) => ({
-          ...video,
-          avd: Number(video?.avd) / 10 ** 18,
-          totalDuration: Number(video?.totalDuration) / 10 ** 18,
-        })),
+        ...video?.data?.videoActivities[0],
+        avd:
+          video?.data?.videoActivities[0]?.avd &&
+          Number(video?.data?.videoActivities[0]?.avd) / 10 ** 18,
+        duration:
+          video?.data?.videoActivities[0]?.duration &&
+          Number(video?.data?.videoActivities[0]?.duration) / 10 ** 18,
         publication: data?.data?.publication,
       });
       await getRelatedQuests(data?.data?.publication?.id);
@@ -144,10 +147,11 @@ const useVideo = (videoId: string, lensConnected: Profile | undefined) => {
   };
 
   useEffect(() => {
-    if (!videoData && videoId) {
+    if (!videoData && videoId && lensConnected?.id) {
       getVideoDetails();
     }
-  }, [lensConnected, videoId]);
+  }, [lensConnected?.id, videoId]);
+
 
   return {
     videoDataLoading,

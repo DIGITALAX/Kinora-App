@@ -24,10 +24,11 @@ const Home: FunctionComponent<HomeProps> = ({
   info,
   getMore,
   quests,
+  globalLoading
 }): JSX.Element => {
   return (
     <>
-      {questsLoading ? (
+      {questsLoading || globalLoading ? (
         <div className="w-full h-fit grid-cols-2 grid gap-3">
           {Array.from({ length: 10 }).map((_, index: number) => {
             return (

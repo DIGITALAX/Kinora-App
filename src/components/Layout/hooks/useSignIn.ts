@@ -30,6 +30,7 @@ const useSignIn = (
   const { signMessageAsync } = useSignMessage();
   const [signLoading, setSignLoading] = useState<boolean>(false);
   const [accountOpen, setAccountOpen] = useState<boolean>(false);
+  const [openActivitySample, setOpenActivitySample] = useState<boolean>(false);
 
   const handleLogIn = async () => {
     setSignLoading(true);
@@ -154,6 +155,8 @@ const useSignIn = (
     setAccountOpen,
     handleLogIn,
     handleLogOut,
+    openActivitySample,
+    setOpenActivitySample,
   };
 };
 

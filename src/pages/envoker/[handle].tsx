@@ -15,10 +15,12 @@ import RouterChange from "@/components/Common/modules/RouterChange";
 import useDashboard from "@/components/Envoker/hooks/useDashboard";
 import Bio from "@/components/Envoker/modules/Bio";
 import { AiOutlineLoading } from "react-icons/ai";
+import { useEffect, useState } from "react";
 
 export default function Handle({ router }: { router: NextRouter }) {
   const { handle } = router.query;
   const { address } = useAccount();
+  const [globalLoading, setGlobalLoading] = useState<boolean>(true);
   const publicClient = createPublicClient({
     chain: polygonMumbai,
     transport: http(
@@ -55,6 +57,7 @@ export default function Handle({ router }: { router: NextRouter }) {
     claimRewardLoading,
     openPlayerDetails,
     setOpenPlayerDetails,
+    playerEligible,
   } = useDashboard(quests, dispatch);
   const { savesInfo, savesLoading, getMoreSaves, allSaves, setAllSaves } =
     useSaves(lensConnected, handle as string, accountType);
@@ -84,9 +87,16 @@ export default function Handle({ router }: { router: NextRouter }) {
       )
   );
 
+  useEffect(() => {
+    if (!questsLoading && !savesLoading) {
+      setGlobalLoading(false);
+    }
+  }, [questsLoading, savesLoading]);
+
   if (
-    (AccountType.Save !== accountType && questsLoading) ||
-    (AccountType.Save === accountType && savesLoading)
+    ((AccountType.Save !== accountType && questsLoading) ||
+      (AccountType.Save === accountType && savesLoading)) &&
+    globalLoading
   ) {
     return <RouterChange />;
   }
@@ -155,11 +165,7 @@ export default function Handle({ router }: { router: NextRouter }) {
                     ? () =>
                         !mainInteractionsLoading?.follow &&
                         !mainInteractionsLoading?.unfollow &&
-                        followProfile(
-                          pageProfile?.id,
-                          0,
-                          true
-                        )
+                        followProfile(pageProfile?.id, 0, true)
                     : () =>
                         !mainInteractionsLoading?.follow &&
                         !mainInteractionsLoading?.unfollow &&
@@ -216,6 +222,7 @@ export default function Handle({ router }: { router: NextRouter }) {
             getMoreSaves={getMoreSaves}
             accountType={accountType}
             dispatch={dispatch}
+            globalLoading={globalLoading}
             questsLoading={questsLoading}
             allSaves={allSaves}
             mirror={mirror}
@@ -229,6 +236,7 @@ export default function Handle({ router }: { router: NextRouter }) {
             info={info}
             getMore={getMore}
             quests={quests}
+            playerEligible={playerEligible}
           />
         </div>
       </div>

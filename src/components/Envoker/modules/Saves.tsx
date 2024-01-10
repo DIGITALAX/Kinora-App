@@ -22,10 +22,11 @@ const Saves: FunctionComponent<SavesProps> = ({
   followProfile,
   profileHovers,
   setProfileHovers,
+  globalLoading
 }): JSX.Element => {
   return (
     <>
-      {savesLoading ? (
+      {savesLoading || globalLoading ? (
         <div className="w-full h-fit grid-cols-3 grid gap-3">
           {Array.from({ length: 10 }).map((_, index: number) => {
             return (

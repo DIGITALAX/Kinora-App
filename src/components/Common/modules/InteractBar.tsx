@@ -27,7 +27,7 @@ const InteractBar: FunctionComponent<InteractBarProps> = ({
   simpleCollect,
   setCommentsOpen,
   main,
-  border
+  border,
 }): JSX.Element => {
   const pfp = createProfilePicture(publication?.by?.metadata?.picture);
   return (
@@ -36,9 +36,11 @@ const InteractBar: FunctionComponent<InteractBarProps> = ({
       onClick={(e) => e.stopPropagation()}
       id={!border ? "northern" : ""}
     >
-      <div className={`relative w-full h-fit flex flex-row gap-4 justify-between items-center py-1.5 rounded-sm ${
-        !border && "bg-nave px-1"
-      }`}>
+      <div
+        className={`relative w-full h-fit flex flex-row gap-4 justify-between items-center py-1.5 rounded-sm ${
+          !border && "bg-nave px-1"
+        }`}
+      >
         <div className="relative w-full h-fit flex flex-row gap-2">
           {[
             mainFeed || router.asPath.includes("/envoker/")
@@ -126,7 +128,7 @@ const InteractBar: FunctionComponent<InteractBarProps> = ({
                   amount: publication?.stats?.countOpenActions || 0,
                   reacted:
                     publication?.operations?.hasActed?.isFinalisedOnchain,
-                  loader: false,
+                  loader: interactionsLoading?.[index]?.collect!,
                   width: "0.9rem",
                   height: "0.9rem",
                 },

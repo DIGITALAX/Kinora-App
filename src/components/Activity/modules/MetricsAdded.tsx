@@ -4,7 +4,6 @@ import { INFURA_GATEWAY } from "../../../../lib/constants";
 import InteractBar from "@/components/Common/modules/InteractBar";
 import { VideoMetadataV3 } from "../../../../graphql/generated";
 import { MetricsAddedProps } from "../types/activity.types";
-import createProfilePicture from "../../../../lib/helpers/createProfilePicture";
 
 const MetricsAdded: FunctionComponent<MetricsAddedProps> = ({
   width,
@@ -24,9 +23,8 @@ const MetricsAdded: FunctionComponent<MetricsAddedProps> = ({
   followProfile,
   unfollowProfile,
   lensConnected,
+  disabled,
 }): JSX.Element => {
-  const pfp = createProfilePicture(quest?.profile?.metadata?.picture);
-
   return (
     <div className="relative w-full h-fit flex flex-col gap-2 flex items-start justify-start">
       <div
@@ -57,7 +55,7 @@ const MetricsAdded: FunctionComponent<MetricsAddedProps> = ({
           />
         </div>
       </div>
-      <div className="relative w-full h-fit flex items-center justify-between font-bit text-sm break-words gap-3">
+      <div className="relative w-full h-fit flex items-center justify-between font-bit break-words gap-3">
         <div className="relative flex flex-row gap-1.5 items-center justify-center">
           <div className="relative w-3 h-3 flex items-center justify-center">
             <Image
@@ -66,8 +64,8 @@ const MetricsAdded: FunctionComponent<MetricsAddedProps> = ({
               src={`${INFURA_GATEWAY}/ipfs/QmS6GgvqEKRjvXtYfiXWTQZMz7nt2ucuKFaWv8sTgUDGNq`}
             />
           </div>
-          <div className="text-gris relative flex items-center justify-center">
-            Video Metric Activity Updated
+          <div className="text-gris relative flex items-center justify-center text-xxs">
+            Video Metric <br /> Activity Updated
           </div>
         </div>
         <div className="relative w-fit h-fit flex items-center justify-center text-white">
@@ -91,24 +89,26 @@ const MetricsAdded: FunctionComponent<MetricsAddedProps> = ({
           />
         </div>
       </div>
-      <InteractBar
-        dispatch={dispatch}
-        lensConnected={lensConnected}
-        publication={quest?.publication!}
-        mirror={mirror}
-        mirrorChoiceOpen={mirrorChoiceOpen}
-        setMirrorChoiceOpen={setMirrorChoiceOpen}
-        like={like}
-        border
-        simpleCollect={simpleCollect}
-        index={index}
-        interactionsLoading={interactionsLoading}
-        followProfile={followProfile}
-        unfollowProfile={unfollowProfile}
-        setProfileHovers={setProfileHovers}
-        profileHovers={profileHovers}
-        router={router}
-      />
+      {!disabled && (
+        <InteractBar
+          dispatch={dispatch}
+          lensConnected={lensConnected}
+          publication={quest?.publication!}
+          mirror={mirror}
+          mirrorChoiceOpen={mirrorChoiceOpen}
+          setMirrorChoiceOpen={setMirrorChoiceOpen}
+          like={like}
+          border
+          simpleCollect={simpleCollect}
+          index={index}
+          interactionsLoading={interactionsLoading}
+          followProfile={followProfile}
+          unfollowProfile={unfollowProfile}
+          setProfileHovers={setProfileHovers}
+          profileHovers={profileHovers}
+          router={router}
+        />
+      )}
     </div>
   );
 };

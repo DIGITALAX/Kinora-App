@@ -89,7 +89,7 @@ const useInteractions = (
       like: boolean;
       mirror: boolean;
       comment: boolean;
-      simpleCollect: boolean;
+      collect: boolean;
       bookmark: boolean;
       hide: boolean;
       follow: boolean;
@@ -112,6 +112,7 @@ const useInteractions = (
       bookmark: boolean;
       follow: boolean;
       unfollow: boolean;
+      collect: boolean;
     }[]
   >([
     {
@@ -121,6 +122,7 @@ const useInteractions = (
       bookmark: false,
       follow: false,
       unfollow: false,
+      collect: false
     },
   ]);
 
@@ -195,7 +197,7 @@ const useInteractions = (
         return;
       }
     }
-    handleLoaders(true, main, index, "simpleCollect");
+    handleLoaders(true, main, index, "collect");
 
     try {
       const clientWallet = createWalletClient({
@@ -245,7 +247,7 @@ const useInteractions = (
       );
     }
 
-    handleLoaders(false, main, index, "simpleCollect");
+    handleLoaders(false, main, index, "collect");
   };
 
   const comment = async (id: string, main?: boolean | undefined) => {
@@ -707,7 +709,7 @@ const useInteractions = (
           like: false,
           mirror: false,
           comment: false,
-          simpleCollect: false,
+          collect: false,
           bookmark: false,
           hide: false,
           unfollow: false,
