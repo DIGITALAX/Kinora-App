@@ -153,112 +153,115 @@ const useVideos = (
             ?.operations?.hasReacted,
         };
       }
-      const {
-        secondaryQuoteOnQuote,
-        secondaryMirrorOnQuote,
-        secondaryReactOnQuote,
-        secondaryCommentOnQuote,
-        secondaryCollectOnQuote,
-        secondaryQuoteOnComment,
-        secondaryMirrorOnComment,
-        secondaryReactOnComment,
-        secondaryCommentOnComment,
-        secondaryCollectOnComment,
-      } = await kinora.getPlayerVideoSecondaryData(
-        lensConnected?.id,
-        videoInfo ? videoInfo?.publication?.id : videoPlaying?.publication?.id
-      );
 
-      if (
-        !chainMetrics?.secondaryQuoteOnQuote ||
-        Number(chainMetrics?.secondaryQuoteOnQuote) == 0
-      ) {
-        currentActivity = {
-          ...currentActivity,
+      if (lensConnected?.id) {
+        const {
           secondaryQuoteOnQuote,
-        };
-      }
-      if (
-        !chainMetrics?.secondaryMirrorOnQuote ||
-        Number(chainMetrics?.secondaryMirrorOnQuote) == 0
-      ) {
-        currentActivity = {
-          ...currentActivity,
           secondaryMirrorOnQuote,
-        };
-      }
-      if (
-        !chainMetrics?.secondaryReactOnQuote ||
-        Number(chainMetrics?.secondaryReactOnQuote) == 0
-      ) {
-        currentActivity = {
-          ...currentActivity,
           secondaryReactOnQuote,
-        };
-      }
-      if (
-        !chainMetrics?.secondaryCommentOnQuote ||
-        Number(chainMetrics?.secondaryCommentOnQuote) == 0
-      ) {
-        currentActivity = {
-          ...currentActivity,
           secondaryCommentOnQuote,
-        };
-      }
-
-      if (
-        !chainMetrics?.secondaryCollectOnQuote ||
-        Number(chainMetrics?.secondaryCollectOnQuote) == 0
-      ) {
-        currentActivity = {
-          ...currentActivity,
           secondaryCollectOnQuote,
-        };
-      }
-      if (
-        !chainMetrics?.secondaryQuoteOnComment ||
-        Number(chainMetrics?.secondaryQuoteOnComment) == 0
-      ) {
-        currentActivity = {
-          ...currentActivity,
           secondaryQuoteOnComment,
-        };
-      }
-      if (
-        !chainMetrics?.secondaryMirrorOnComment ||
-        Number(chainMetrics?.secondaryMirrorOnComment) == 0
-      ) {
-        currentActivity = {
-          ...currentActivity,
           secondaryMirrorOnComment,
-        };
-      }
-      if (
-        !chainMetrics?.secondaryReactOnComment ||
-        Number(chainMetrics?.secondaryReactOnComment) == 0
-      ) {
-        currentActivity = {
-          ...currentActivity,
           secondaryReactOnComment,
-        };
-      }
-      if (
-        !chainMetrics?.secondaryCommentOnComment ||
-        Number(chainMetrics?.secondaryCommentOnComment) == 0
-      ) {
-        currentActivity = {
-          ...currentActivity,
           secondaryCommentOnComment,
-        };
-      }
-      if (
-        !chainMetrics?.secondaryCollectOnComment ||
-        Number(chainMetrics?.secondaryCollectOnComment) == 0
-      ) {
-        currentActivity = {
-          ...currentActivity,
           secondaryCollectOnComment,
-        };
+        } = await kinora.getPlayerVideoSecondaryData(
+          lensConnected?.id,
+          videoInfo ? videoInfo?.publication?.id : videoPlaying?.publication?.id
+        );
+
+        if (
+          !chainMetrics?.secondaryQuoteOnQuote ||
+          Number(chainMetrics?.secondaryQuoteOnQuote) == 0
+        ) {
+          currentActivity = {
+            ...currentActivity,
+            secondaryQuoteOnQuote,
+          };
+        }
+        if (
+          !chainMetrics?.secondaryMirrorOnQuote ||
+          Number(chainMetrics?.secondaryMirrorOnQuote) == 0
+        ) {
+          currentActivity = {
+            ...currentActivity,
+            secondaryMirrorOnQuote,
+          };
+        }
+        if (
+          !chainMetrics?.secondaryReactOnQuote ||
+          Number(chainMetrics?.secondaryReactOnQuote) == 0
+        ) {
+          currentActivity = {
+            ...currentActivity,
+            secondaryReactOnQuote,
+          };
+        }
+        if (
+          !chainMetrics?.secondaryCommentOnQuote ||
+          Number(chainMetrics?.secondaryCommentOnQuote) == 0
+        ) {
+          currentActivity = {
+            ...currentActivity,
+            secondaryCommentOnQuote,
+          };
+        }
+
+        if (
+          !chainMetrics?.secondaryCollectOnQuote ||
+          Number(chainMetrics?.secondaryCollectOnQuote) == 0
+        ) {
+          currentActivity = {
+            ...currentActivity,
+            secondaryCollectOnQuote,
+          };
+        }
+        if (
+          !chainMetrics?.secondaryQuoteOnComment ||
+          Number(chainMetrics?.secondaryQuoteOnComment) == 0
+        ) {
+          currentActivity = {
+            ...currentActivity,
+            secondaryQuoteOnComment,
+          };
+        }
+        if (
+          !chainMetrics?.secondaryMirrorOnComment ||
+          Number(chainMetrics?.secondaryMirrorOnComment) == 0
+        ) {
+          currentActivity = {
+            ...currentActivity,
+            secondaryMirrorOnComment,
+          };
+        }
+        if (
+          !chainMetrics?.secondaryReactOnComment ||
+          Number(chainMetrics?.secondaryReactOnComment) == 0
+        ) {
+          currentActivity = {
+            ...currentActivity,
+            secondaryReactOnComment,
+          };
+        }
+        if (
+          !chainMetrics?.secondaryCommentOnComment ||
+          Number(chainMetrics?.secondaryCommentOnComment) == 0
+        ) {
+          currentActivity = {
+            ...currentActivity,
+            secondaryCommentOnComment,
+          };
+        }
+        if (
+          !chainMetrics?.secondaryCollectOnComment ||
+          Number(chainMetrics?.secondaryCollectOnComment) == 0
+        ) {
+          currentActivity = {
+            ...currentActivity,
+            secondaryCollectOnComment,
+          };
+        }
       }
 
       setPlayerMetricsLive(currentActivity as VideoActivity);
