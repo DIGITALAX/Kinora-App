@@ -10,6 +10,7 @@ import { polygonMumbai } from "viem/chains";
 import { Quest } from "@/components/Quest/types/quest.types";
 import { Profile } from "../../graphql/generated";
 import { setActivityFeed } from "../../redux/reducers/activityFeedSlice";
+import Head from "next/head";
 
 export default function Envoke({ router }: { router: NextRouter }) {
   const publicClient = createPublicClient({
@@ -67,6 +68,55 @@ export default function Envoke({ router }: { router: NextRouter }) {
         height: "calc(100vh - 5.5rem)",
       }}
     >
+      <Head>
+        <title>Kinora Activity Feed</title>
+        <meta
+          name="og:url"
+          content={`https://kinora.irrevocable.dev/activity`}
+        />
+        <meta name="og:title" content={"Kinora Activity Feed"} />
+        <meta name="og:description" content={"On-Chain Video Social Quests."} />
+        <meta
+          name="og:image"
+          content={"https://kinora.irrevocable.dev/card.png/"}
+        />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content="@digitalax" />
+        <meta name="twitter:creator" content="@digitalax" />
+        <meta
+          name="twitter:image"
+          content={"https://kinora.irrevocable.dev/card.png/"}
+        />
+        <meta
+          name="twitter:url"
+          content={`https://kinora.irrevocable.dev/activity`}
+        />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="canonical"
+          content={"https://kinora.irrevocable.dev/card.png/"}
+        />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="https://kinora.irrevocable.dev/fonts/Bitblox.otf"
+          as="font"
+          crossOrigin="anonymous"
+          type="font/otf"
+        />
+        <link
+          rel="preload"
+          href="https://kinora.irrevocable.dev/fonts/Vcr.ttf"
+          as="font"
+          crossOrigin="anonymous"
+          type="font/ttf"
+        />
+      </Head>
       <div
         className="md:h-full h-fit w-full items-start justify-start px-6 pb-2 pt-6 relative flex flex-col"
         style={{

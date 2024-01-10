@@ -13,6 +13,7 @@ import useCriteria from "@/components/Envoke/hooks/useCriteria";
 import { NextRouter } from "next/router";
 import usePostLive from "@/components/Envoke/hooks/usePostLive";
 import { QuestStage } from "@/components/Envoke/types/envoke.types";
+import Head from "next/head";
 
 export default function Envoke({ router }: { router: NextRouter }) {
   const dispatch = useDispatch();
@@ -99,6 +100,52 @@ export default function Envoke({ router }: { router: NextRouter }) {
     );
   return (
     <>
+      <Head>
+        <title>Envoke New Quest</title>
+        <meta name="og:url" content={`https://kinora.irrevocable.dev/envoke`} />
+        <meta name="og:title" content={"Envoke New Quest"} />
+        <meta name="og:description" content={"On-Chain Video Social Quests."} />
+        <meta
+          name="og:image"
+          content={"https://kinora.irrevocable.dev/card.png/"}
+        />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content="@digitalax" />
+        <meta name="twitter:creator" content="@digitalax" />
+        <meta
+          name="twitter:image"
+          content={"https://kinora.irrevocable.dev/card.png/"}
+        />
+        <meta
+          name="twitter:url"
+          content={`https://kinora.irrevocable.dev/envoke`}
+        />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="canonical"
+          content={"https://kinora.irrevocable.dev/card.png/"}
+        />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="https://kinora.irrevocable.dev/fonts/Bitblox.otf"
+          as="font"
+          crossOrigin="anonymous"
+          type="font/otf"
+        />
+        <link
+          rel="preload"
+          href="https://kinora.irrevocable.dev/fonts/Vcr.ttf"
+          as="font"
+          crossOrigin="anonymous"
+          type="font/ttf"
+        />
+      </Head>
       {walletConnected && lensConnected ? (
         <div
           className="relative flex overflow-y-scroll min-h-full w-full items-start justify-end pb-5"
