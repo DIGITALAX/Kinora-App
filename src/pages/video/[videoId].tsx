@@ -410,7 +410,7 @@ export default function VideoId({ router }: { router: NextRouter }) {
             </div>
           </div>
         </div>
-        {relatedQuestsLoading || dataLoading ? (
+        {relatedQuestsLoading ? (
           <div className="relative w-full h-fit flex flex-col gap-3">
             <div className="relative w-full h-fit flex flex-row gap-3">
               {Array.from({ length: 4 })?.map((_, index: number) => {

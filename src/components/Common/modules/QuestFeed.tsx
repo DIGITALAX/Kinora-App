@@ -65,7 +65,7 @@ const QuestFeed: FunctionComponent<QuestFeedProps> = ({
             ?.map((item: Quest, index: number) => {
               return (
                 <QuestPreview
-                  key={index}
+                  key={index + 4}
                   width="100%"
                   height="16rem"
                   dispatch={dispatch}
