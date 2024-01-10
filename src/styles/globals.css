@@ -174,13 +174,19 @@ input[type="range"]::-moz-range-thumb {
 
 #fadeOut {
   background: linear-gradient(
-    to right,
-    #0b0e16 0%,
-    #0b0e16 30%,
-    rgba(11, 14, 22, 0) 50%,
-    #0b0e16 70%,
-    #0b0e16 100%
-  );
+      to bottom,
+      rgba(11, 14, 22, 0) 0%,
+      #0b0e16 50%,
+      #0b0e16 100%
+    ),
+    linear-gradient(
+      to right,
+      #0b0e16 0%,
+      #0b0e16 30%,
+      rgba(11, 14, 22, 0) 50%,
+      #0b0e16 70%,
+      #0b0e16 100%
+    );
 }
 
 #northern {

@@ -14,6 +14,7 @@ import {
 import { getMetricsAdded } from "../../../../graphql/subgraph/getMetricsAdded";
 import { Dispatch } from "redux";
 import { setActivityFeed } from "../../../../redux/reducers/activityFeedSlice";
+import fetchIPFSJSON from "../../../../lib/helpers/fetchIPFSJSON";
 
 const useActivity = (
   lensConnected: Profile | undefined,
@@ -80,6 +81,14 @@ const useActivity = (
             );
             cache.publications[postId] = data?.data?.publication;
           }
+          if (!item?.questMetadata) {
+            let data = await fetchIPFSJSON(item?.uri);
+            item = {
+              ...item,
+              questMetadata: data,
+            };
+          }
+
           publication = cache.publications[postId];
 
           return {
@@ -285,7 +294,7 @@ const useActivity = (
           publication = cache.publications[postId];
 
           return {
-          ...item,
+            ...item,
             profile,
             publication: publication,
           };
@@ -399,6 +408,14 @@ const useActivity = (
             postId = `${toHexWithLeadingZero(
               Number(item?.profileId)
             )}-${toHexWithLeadingZero(Number(item?.pubId))}`;
+
+          if (!item?.questMetadata) {
+            let data = await fetchIPFSJSON(item?.uri);
+            item = {
+              ...item,
+              questMetadata: data,
+            };
+          }
 
           if (!cache.publications[postId]) {
             const data = await getPublication(

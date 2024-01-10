@@ -28,7 +28,7 @@ const Sidebar: FunctionComponent<SidebarProps> = ({
       }}
       id={openSidebar ? "openSide" : "closeSide"}
     >
-      <div className="relative w-full h-full flex items-start justify-start flex-col gap-32">
+      <div className="relative w-full h-full flex items-start justify-start flex-col gap-20">
         <div className="relative w-full h-fit flex items-end justify-end ml-0">
           <div
             className="relative flex items-end justify-end w-5 h-5 cursor-pointer active:scale-95"
@@ -181,7 +181,11 @@ const Sidebar: FunctionComponent<SidebarProps> = ({
                 <div className="relative w-full h-px flex items-center justify-center bg-white"></div>
                 <div
                   className="relative font-bit text-white opacity-50 text-xs flex items-center justify-center cursor-pointer active:scale-95"
-                  onClick={() => router.push(`/`)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    router.push(`/`);
+                  }}
                 >{`See More >`}</div>
               </>
             )}
@@ -201,31 +205,37 @@ const Sidebar: FunctionComponent<SidebarProps> = ({
                     className={`relative rounded-sm p-px flex items-center justify-center cursor-pointer active:scale-95 ${
                       openSidebar ? "w-14 h-14" : "w-7 h-7"
                     }`}
-                    onClick={() =>
-                      item &&
-                      router.push(
-                        `/quest/${toHexWithLeadingZero(
-                          Number((item as Quest)?.profileId)
-                        )}-${toHexWithLeadingZero(
-                          Number((item as Quest)?.pubId)
-                        )}`
-                      )
-                    }
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      e.preventDefault();
+                      if (item) {
+                        router.push(
+                          `/quest/${toHexWithLeadingZero(
+                            Number((item as Quest)?.profileId)
+                          )}-${toHexWithLeadingZero(
+                            Number((item as Quest)?.pubId)
+                          )}`
+                        );
+                      }
+                    }}
                   >
-                    {item &&
-                      (item as Quest)?.questMetadata?.cover &&
-                      ((
-                        <Image
-                          layout="fill"
-                          draggable={false}
-                          src={`${INFURA_GATEWAY}/ipfs/${
-                            (item as Quest)?.questMetadata?.cover?.split(
-                              "ipfs://"
-                            )?.[1]
-                          }`}
-                          objectFit="cover"
-                        />
-                      ) as any)}
+                    <div className="relative w-full h-full rounded-sm flex">
+                      {item &&
+                        (item as Quest)?.questMetadata?.cover &&
+                        ((
+                          <Image
+                            layout="fill"
+                            draggable={false}
+                            src={`${INFURA_GATEWAY}/ipfs/${
+                              (item as Quest)?.questMetadata?.cover?.split(
+                                "ipfs://"
+                              )?.[1]
+                            }`}
+                            objectFit="cover"
+                            className="rounded-sm"
+                          />
+                        ) as any)}
+                    </div>
                   </div>
                 );
               })}

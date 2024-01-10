@@ -4,6 +4,7 @@ import { getQuests } from "../../../../graphql/subgraph/getQuests";
 import getPublication from "../../../../graphql/lens/queries/publication";
 import toHexWithLeadingZero from "../../../../lib/helpers/toHexWithLeadingZero";
 import { Profile } from "../../../../graphql/generated";
+import fetchIPFSJSON from "../../../../lib/helpers/fetchIPFSJSON";
 
 const useSuggested = (lensConnected: Profile | undefined) => {
   const [suggestedInfo, setSuggestedInfo] = useState<{
@@ -44,6 +45,14 @@ const useSuggested = (lensConnected: Profile | undefined) => {
             lensConnected?.id
           );
 
+          if (!item?.questMetadata) {
+            let data = await fetchIPFSJSON(item?.uri);
+            item = {
+              ...item,
+              questMetadata: data,
+            };
+          }
+
           return {
             ...item,
             publication: publication?.data?.publication,
@@ -75,28 +84,36 @@ const useSuggested = (lensConnected: Profile | undefined) => {
         });
       }
 
-      const promises = data?.data?.questInstantiateds?.map(async (item: any) => {
-        const publication = await getPublication(
-          {
-            forId: `${toHexWithLeadingZero(
-              Number(item?.profileId)
-            )}-${toHexWithLeadingZero(Number(item?.pubId))}`,
-          },
-          lensConnected?.id
-        );
+      const promises = data?.data?.questInstantiateds?.map(
+        async (item: any) => {
+          const publication = await getPublication(
+            {
+              forId: `${toHexWithLeadingZero(
+                Number(item?.profileId)
+              )}-${toHexWithLeadingZero(Number(item?.pubId))}`,
+            },
+            lensConnected?.id
+          );
 
-        return {
-          ...item,
-          publication: publication?.data?.publication,
-        };
-      });
+          if (!item?.questMetadata) {
+            let data = await fetchIPFSJSON(item?.uri);
+            item = {
+              ...item,
+              questMetadata: data,
+            };
+          }
 
-      (
-        setSuggestedQuests([
-          ...suggestedQuests,
-          ...(((await Promise.all(promises)) || []) as Quest[]),
-        ])
+          return {
+            ...item,
+            publication: publication?.data?.publication,
+          };
+        }
       );
+
+      setSuggestedQuests([
+        ...suggestedQuests,
+        ...(((await Promise.all(promises)) || []) as Quest[]),
+      ]);
     } catch (err: any) {
       console.error(err.message);
     }

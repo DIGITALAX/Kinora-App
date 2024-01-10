@@ -5,7 +5,7 @@ import { NextRouter } from "next/router";
 
 const Footer: FunctionComponent<{ router: NextRouter }> = ({ router }) => {
   return (
-    <div className="fixed w-full h-10 bottom-0 bg-black flex flex-row items-center justify-center">
+    <div className="fixed w-full h-10 bottom-0 bg-black flex flex-row items-center justify-center z-30">
       {[
         "#0F121A",
         "#FE0000",

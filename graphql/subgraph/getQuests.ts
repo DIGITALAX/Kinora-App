@@ -73,8 +73,6 @@ export const getQuests = async (
               comment
               minAVD
               minDuration
-              minImpressionCount
-              minEngagementRate
               minPlayCount
               minSecondaryCollectOnQuote
               minSecondaryCollectOnComment
@@ -242,8 +240,6 @@ export const getQuestsEnvoker = async (
               comment
               minAVD
               minDuration
-              minImpressionCount
-              minEngagementRate
               minPlayCount
               minSecondaryCollectOnQuote
               minSecondaryCollectOnComment

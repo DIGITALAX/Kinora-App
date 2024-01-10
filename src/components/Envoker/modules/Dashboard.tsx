@@ -63,7 +63,7 @@ const Dashboard: FunctionComponent<DashboardProps> = ({
                     return (
                       <div
                         key={index}
-                        className={`relative w-full p-px rounded-sm flex`}
+                        className={`relative w-full p-px rounded-sm flex h-full`}
                         id="northern"
                       >
                         <div className="relative w-full h-fit flex flex-col items-start justify-start rounded-sm bg-nave gap-7">
@@ -373,7 +373,7 @@ const Dashboard: FunctionComponent<DashboardProps> = ({
                     return (
                       <div
                         key={index}
-                        className={`relative w-full p-px rounded-sm flex`}
+                        className={`relative w-full p-px rounded-sm flex h-full`}
                         id="northern"
                       >
                         <div className="relative w-full h-fit flex flex-col items-start justify-start rounded-sm bg-nave gap-7">

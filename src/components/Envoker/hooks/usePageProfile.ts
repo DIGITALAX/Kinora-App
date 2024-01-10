@@ -7,6 +7,7 @@ import { getPlayerData } from "../../../../graphql/subgraph/getPlayer";
 import getPublication from "../../../../graphql/lens/queries/publication";
 import toHexWithLeadingZero from "../../../../lib/helpers/toHexWithLeadingZero";
 import { getQuestById } from "../../../../graphql/subgraph/getQuest";
+import fetchIPFSJSON from "../../../../lib/helpers/fetchIPFSJSON";
 
 const usePageProfile = (handle: string, lensConnected: Profile | undefined) => {
   const [profileLoading, setProfileLoading] = useState<boolean>(false);
@@ -68,6 +69,14 @@ const usePageProfile = (handle: string, lensConnected: Profile | undefined) => {
             },
             lensConnected?.id
           );
+
+          if (!item?.questMetadata) {
+            const uri = await fetchIPFSJSON(item?.uri);
+            item = {
+              ...item,
+              questMetadata: uri,
+            };
+          }
 
           const playerPromises = item?.players?.map(async (player) => {
             const data = await getProfile(
@@ -172,7 +181,7 @@ const usePageProfile = (handle: string, lensConnected: Profile | undefined) => {
           const item = playerQuest.data.players[0].questsJoined?.[i];
           playerPromises.push(
             (async () => {
-              const data = await getQuestById(item);
+              let data = await getQuestById(item);
               const publication = await getPublication(
                 {
                   forId: `${toHexWithLeadingZero(
@@ -183,6 +192,19 @@ const usePageProfile = (handle: string, lensConnected: Profile | undefined) => {
                 },
                 lensConnected?.id
               );
+
+              if (
+                data?.data &&
+                !data?.data?.questInstantiateds?.[0]?.questMetadata
+              ) {
+                const uri = await fetchIPFSJSON(
+                  data?.data?.questInstantiateds?.[0]?.uri
+                );
+                data.data.questInstantiateds[0] = {
+                  ...data.data.questInstantiateds[0],
+                  questMetadata: uri,
+                };
+              }
 
               const newMilestonesPromises =
                 data?.data?.questInstantiateds?.[0]?.milestones.map(
@@ -309,6 +331,14 @@ const usePageProfile = (handle: string, lensConnected: Profile | undefined) => {
               lensConnected?.id
             );
 
+            if (!item?.questMetadata) {
+              const uri = await fetchIPFSJSON(item?.uri);
+              item = {
+                ...item,
+                questMetadata: uri,
+              };
+            }
+
             const playerPromises = item?.players?.map(async (player) => {
               const data = await getProfile(
                 {
@@ -412,7 +442,7 @@ const usePageProfile = (handle: string, lensConnected: Profile | undefined) => {
         const item = allPlayerData?.questsJoined?.[i + info?.playerCursor];
         playerPromises.push(
           (async () => {
-            const data = await getQuestById(item);
+            let data = await getQuestById(item);
             const publication = await getPublication(
               {
                 forId: `${toHexWithLeadingZero(
@@ -423,6 +453,19 @@ const usePageProfile = (handle: string, lensConnected: Profile | undefined) => {
               },
               lensConnected?.id
             );
+
+            if (
+              data?.data &&
+              !data?.data?.questInstantiateds?.[0]?.questMetadata
+            ) {
+              const uri = await fetchIPFSJSON(
+                data?.data?.questInstantiateds?.[0]?.uri
+              );
+              data.data.questInstantiateds[0] = {
+                ...data.data.questInstantiateds[0],
+                questMetadata: uri,
+              };
+            }
 
             const newMilestonesPromises =
               data?.data?.questInstantiateds?.[0]?.milestones.map(
