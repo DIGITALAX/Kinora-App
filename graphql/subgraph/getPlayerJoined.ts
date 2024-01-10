@@ -9,9 +9,10 @@ export const getPlayerJoined = async (
   const queryPromise = graphKinoraClient.query({
     query: gql(`
     query($first: Int, $skip: Int) {
-      playerJoinedQuests(first: $first, skip: $skip) {
+      playerJoinedQuests(first: $first, skip: $skip, orderBy: blockTimestamp) {
             questId
             playerProfileId
+            blockTimestamp
         }
     }
   `),

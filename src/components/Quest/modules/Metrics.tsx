@@ -4,6 +4,7 @@ import Image from "next/legacy/image";
 import { INFURA_GATEWAY } from "../../../../lib/constants";
 import { AiOutlineLoading } from "react-icons/ai";
 import PlayerValues from "./PlayerValues";
+import { formatTime } from "../../../../lib/helpers/formatTime";
 
 const Metrics: FunctionComponent<MetricsProps> = ({
   milestoneMetrics,
@@ -30,6 +31,7 @@ const Metrics: FunctionComponent<MetricsProps> = ({
                     "pubId",
                     "profileId",
                     "videoBytes",
+                    "mostReplayedArea",
                   ]?.includes(key)
               )
               ?.filter(([_, value]) => value !== false && Number(value) !== 0)
@@ -55,31 +57,54 @@ const Metrics: FunctionComponent<MetricsProps> = ({
                       ? "QmfDNH347Vph4b1tEuegydufjMU2QwKzYnMZCjygGvvUMM"
                       : key?.toLowerCase()?.includes("bookmark")
                       ? "QmVXkRB4HCd6gkXmj1cweEh4nVV6oBuKCAWfsKUEJae433"
-                      : "QmXD3LnHiiLSqG2TzaNd1Pmhk2nVqDHDqn8k7RtwVspE6n",
+                      : key?.toLowerCase()?.includes("comment")
+                      ? "QmXD3LnHiiLSqG2TzaNd1Pmhk2nVqDHDqn8k7RtwVspE6n"
+                      : "QmNomDrWUNrcy2SAVzsKoqd5dPMogeohB8PSuHCg57nyzF",
                   };
                 } else {
+                  const newKey = key?.toLowerCase()?.includes("secondary")
+                    ? key
+                        ?.replace(/([A-Z])/g, " $1")
+                        .trim()
+                        ?.replace(/\b([Ss])econdary\b/g, "")
+                        ?.replace(/(min)/g, "")
+                    : key
+                        ?.replace(/(min)/g, "")
+                        ?.replace(/([A-Z])/g, " $1")
+                        .trim()
+                        ?.replace(/\b([Ss])econdary\b/g, "");
+
                   return {
-                    key: key?.toLowerCase()?.includes("secondary")
-                      ? key
-                          ?.replace(/([A-Z])/g, " $1")
-                          .trim()
-                          ?.replace(/\b([Ss])econdary\b/g, "")
-                          ?.replace(/(min)/g, "")
-                      : key
-                          ?.replace(/(min)/g, "")
-                          ?.replace(/([A-Z])/g, " $1")
-                          .trim()
-                          ?.replace(/\b([Ss])econdary\b/g, ""),
-                    value,
-                    image: key?.toLowerCase()?.includes("react")
+                    key: newKey,
+                    value: key?.includes("Duration")
+                      ? formatTime(value)
+                      : value,
+                    image: newKey
+                      ?.split("On")?.[0]
+                      ?.toLowerCase()
+                      ?.includes("react")
                       ? "QmT1aZypVcoAWc6ffvrudV3JQtgkL8XBMjYpJEfdFwkRMZ"
-                      : key?.toLowerCase()?.includes("mirror")
+                      : newKey
+                          ?.split("On")?.[0]
+                          ?.toLowerCase()
+                          ?.includes("mirror")
                       ? "QmPRRRX1S3kxpgJdLC4G425pa7pMS1AGNnyeSedngWmfK3"
-                      : key?.toLowerCase()?.includes("quote")
+                      : newKey
+                          ?.split("On")?.[0]
+                          ?.toLowerCase()
+                          ?.includes("quote")
                       ? "QmfDNH347Vph4b1tEuegydufjMU2QwKzYnMZCjygGvvUMM"
-                      : key?.toLowerCase()?.includes("bookmark")
+                      : newKey
+                          ?.split("On")?.[0]
+                          ?.toLowerCase()
+                          ?.includes("bookmark")
                       ? "QmVXkRB4HCd6gkXmj1cweEh4nVV6oBuKCAWfsKUEJae433"
-                      : "QmXD3LnHiiLSqG2TzaNd1Pmhk2nVqDHDqn8k7RtwVspE6n",
+                      : newKey
+                          ?.split("On")?.[0]
+                          ?.toLowerCase()
+                          ?.includes("comment")
+                      ? "QmXD3LnHiiLSqG2TzaNd1Pmhk2nVqDHDqn8k7RtwVspE6n"
+                      : "QmNomDrWUNrcy2SAVzsKoqd5dPMogeohB8PSuHCg57nyzF",
                   };
                 }
               })
@@ -109,12 +134,7 @@ const Metrics: FunctionComponent<MetricsProps> = ({
                                   ? String(item?.value)?.includes(".")
                                     ? Number(item?.value)?.toFixed(2)
                                     : item?.value
-                                  : String(item?.value)
-                                      ?.replaceAll(/00:00:/g, "")
-                                      ?.replace(
-                                        /(\d+):(\d+)(\d+)-(\d+):(\d+)(\d+)/g,
-                                        "$1:$2-$4:$5"
-                                      )}
+                                  : item?.value}{" "}
                               </div>
                             </div>
                           ) : (

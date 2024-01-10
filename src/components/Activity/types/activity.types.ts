@@ -22,26 +22,27 @@ export type ActivityProps = {
   getMoreActivityFeed: () => Promise<void>;
   lensConnected: Profile | undefined;
   dispatch: Dispatch;
-  mirror: (id: string) => Promise<void>;
-  like: (id: string, hasReacted: boolean) => Promise<void>;
-  mirrorChoiceOpen: boolean[];
-  bookmark: (id: string) => Promise<void>;
-  interactionsLoading: {
+  mirror?: (id: string) => Promise<void>;
+  like?: (id: string, hasReacted: boolean) => Promise<void>;
+  mirrorChoiceOpen?: boolean[];
+  bookmark?: (id: string) => Promise<void>;
+  interactionsLoading?: {
     mirror: boolean;
     like: boolean;
     follow: boolean;
     unfollow: boolean;
-    simpleCollect: boolean;
+    collect: boolean;
   }[];
-  setMirrorChoiceOpen: (id: SetStateAction<boolean[]>) => void;
-  profileHovers: boolean[];
-  setProfileHovers: (id: SetStateAction<boolean[]>) => void;
-  unfollowProfile: (id: string, index: number) => Promise<void>;
-  followProfile: (id: string, index: number) => Promise<void>;
-  simpleCollect: (
+  setMirrorChoiceOpen?: (id: SetStateAction<boolean[]>) => void;
+  profileHovers?: boolean[];
+  setProfileHovers?: (id: SetStateAction<boolean[]>) => void;
+  unfollowProfile?: (id: string, index: number) => Promise<void>;
+  followProfile?: (id: string, index: number) => Promise<void>;
+  simpleCollect?: (
     post: Post | Comment,
     main?: boolean | undefined
   ) => Promise<void>;
+  disabled?: boolean;
 };
 
 export type MetricsAddedProps = {
@@ -69,9 +70,59 @@ export type MetricsAddedProps = {
     like: boolean;
     follow: boolean;
     unfollow: boolean;
-    simpleCollect: boolean;
+    collect: boolean;
   }[];
   followProfile: (id: string, index: number, main?: boolean) => Promise<void>;
   unfollowProfile: (id: string, index: number) => Promise<void>;
   lensConnected: Profile | undefined;
+  disabled?: boolean;
+};
+
+export type PlayerProps = {
+  width: string;
+  height: string;
+  router: NextRouter;
+  quest: Quest & {
+    type: string;
+    profile: Profile | undefined;
+  };
+  dispatch: Dispatch;
+  setProfileHovers: (e: SetStateAction<boolean[]>) => void;
+  profileHovers: boolean[];
+  index: number;
+  interactionsLoading: {
+    mirror: boolean;
+    like: boolean;
+    follow: boolean;
+    unfollow: boolean;
+    collect: boolean;
+  }[];
+  followProfile: (id: string, index: number, main?: boolean) => Promise<void>;
+  unfollowProfile: (id: string, index: number) => Promise<void>;
+  disabled?: boolean;
+};
+
+export type QuestCompletedProps = {
+  width: string;
+  height: string;
+  router: NextRouter;
+  quest: Quest & {
+    type: string;
+    profile: Profile | undefined;
+    milestone?: number;
+  };
+  dispatch: Dispatch;
+  profileHovers: boolean[];
+  setProfileHovers: (e: SetStateAction<boolean[]>) => void;
+  index: number;
+  interactionsLoading: {
+    mirror: boolean;
+    like: boolean;
+    follow: boolean;
+    unfollow: boolean;
+    collect: boolean;
+  }[];
+  disabled?: boolean;
+  followProfile: (id: string, index: number, main?: boolean) => Promise<void>;
+  unfollowProfile: (id: string, index: number) => Promise<void>;
 };

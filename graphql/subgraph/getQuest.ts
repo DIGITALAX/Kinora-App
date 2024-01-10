@@ -101,6 +101,7 @@ export const getQuest = async (
             status
             profileId
             transactionHash
+            blockTimestamp
             uri
             milestoneCount
             players {
@@ -267,6 +268,7 @@ export const getQuestById = async (
             status
             profileId
             transactionHash
+            blockTimestamp
             uri
             milestoneCount
             players {

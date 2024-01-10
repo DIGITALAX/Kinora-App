@@ -2,6 +2,7 @@ import Image from "next/legacy/image";
 import { FunctionComponent } from "react";
 import { INFURA_GATEWAY } from "../../../../lib/constants";
 import { PlayerValuesProps } from "../types/quest.types";
+import { formatTime } from "../../../../lib/helpers/formatTime";
 
 const PlayerValues: FunctionComponent<PlayerValuesProps> = ({
   metrics,
@@ -20,6 +21,8 @@ const PlayerValues: FunctionComponent<PlayerValuesProps> = ({
                 "pubId",
                 "profileId",
                 "videoBytes",
+                "mostReplayedArea",
+                "mostReplayed",
               ]?.includes(key)
           )
           ?.filter(([_, value]) => value !== false && Number(value) !== 0)
@@ -44,31 +47,45 @@ const PlayerValues: FunctionComponent<PlayerValuesProps> = ({
                   ? "QmfDNH347Vph4b1tEuegydufjMU2QwKzYnMZCjygGvvUMM"
                   : key?.toLowerCase()?.includes("bookmark")
                   ? "QmVXkRB4HCd6gkXmj1cweEh4nVV6oBuKCAWfsKUEJae433"
-                  : "QmXD3LnHiiLSqG2TzaNd1Pmhk2nVqDHDqn8k7RtwVspE6n",
+                  : key?.toLowerCase()?.includes("comment")
+                  ? "QmXD3LnHiiLSqG2TzaNd1Pmhk2nVqDHDqn8k7RtwVspE6n"
+                  : "QmNomDrWUNrcy2SAVzsKoqd5dPMogeohB8PSuHCg57nyzF",
               };
             } else {
+              const newKey = key?.toLowerCase()?.includes("secondary")
+                ? key
+                    ?.replace(/([A-Z])/g, " $1")
+                    .trim()
+                    ?.replace(/\b([Ss])econdary\b/g, "")
+                    ?.replace(/(min)/g, "")
+                : key
+                    ?.replace(/(min)/g, "")
+                    ?.replace(/([A-Z])/g, " $1")
+                    .trim()
+                    ?.replace(/\b([Ss])econdary\b/g, "");
               return {
-                key: key?.toLowerCase()?.includes("secondary")
-                  ? key
-                      ?.replace(/([A-Z])/g, " $1")
-                      .trim()
-                      ?.replace(/\b([Ss])econdary\b/g, "")
-                      ?.replace(/(min)/g, "")
-                  : key
-                      ?.replace(/(min)/g, "")
-                      ?.replace(/([A-Z])/g, " $1")
-                      .trim()
-                      ?.replace(/\b([Ss])econdary\b/g, ""),
-                value,
-                image: key?.toLowerCase()?.includes("react")
+                key: newKey,
+                value:
+                  key?.includes("duration") && value
+                    ? formatTime(value)
+                    : value,
+                image: newKey
+                  ?.split("On")?.[0]
+                  ?.toLowerCase()
+                  ?.includes("react")
                   ? "QmT1aZypVcoAWc6ffvrudV3JQtgkL8XBMjYpJEfdFwkRMZ"
-                  : key?.toLowerCase()?.includes("mirror")
+                  : newKey?.split("On")?.[0]?.toLowerCase()?.includes("mirror")
                   ? "QmPRRRX1S3kxpgJdLC4G425pa7pMS1AGNnyeSedngWmfK3"
-                  : key?.toLowerCase()?.includes("quote")
+                  : newKey?.split("On")?.[0]?.toLowerCase()?.includes("quote")
                   ? "QmfDNH347Vph4b1tEuegydufjMU2QwKzYnMZCjygGvvUMM"
-                  : key?.toLowerCase()?.includes("bookmark")
+                  : newKey
+                      ?.split("On")?.[0]
+                      ?.toLowerCase()
+                      ?.includes("bookmark")
                   ? "QmVXkRB4HCd6gkXmj1cweEh4nVV6oBuKCAWfsKUEJae433"
-                  : "QmXD3LnHiiLSqG2TzaNd1Pmhk2nVqDHDqn8k7RtwVspE6n",
+                  : newKey?.split("On")?.[0]?.toLowerCase()?.includes("comment")
+                  ? "QmXD3LnHiiLSqG2TzaNd1Pmhk2nVqDHDqn8k7RtwVspE6n"
+                  : "QmNomDrWUNrcy2SAVzsKoqd5dPMogeohB8PSuHCg57nyzF",
               };
             }
           })
@@ -98,12 +115,7 @@ const PlayerValues: FunctionComponent<PlayerValuesProps> = ({
                               ? String(item?.value)?.includes(".")
                                 ? Number(item?.value)?.toFixed(2)
                                 : item?.value
-                              : String(item?.value)
-                                  ?.replaceAll(/00:00:/g, "")
-                                  ?.replace(
-                                    /(\d+):(\d+)(\d+)-(\d+):(\d+)(\d+)/g,
-                                    "$1:$2-$4:$5"
-                                  )}
+                              : item?.value}
                           </div>
                         </div>
                       ) : (

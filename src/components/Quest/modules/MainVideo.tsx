@@ -90,6 +90,10 @@ const MainVideo: FunctionComponent<MainVideoProps> = ({
           />
         )}
       </KinoraPlayerWrapper>
+      {/* <canvas
+        id="engagementGraph"
+        className="w-full h-10 flex absolute bottom-8 left-0"
+      ></canvas> */}
       <div className="absolute w-full bg-black/70 h-8 flex items-center justify-between gap-7 flex-row z-10 left-0 bottom-0 px-2 rounded-b-md">
         <div className="flex flex-row gap-1.5 items-center justify-center ml-0">
           <div

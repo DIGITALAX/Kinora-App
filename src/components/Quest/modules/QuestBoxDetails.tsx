@@ -488,7 +488,8 @@ const QuestBoxDetails: FunctionComponent<QuestBoxDetailsProps> = ({
                 joinLoading ||
                 questInfo?.players?.some(
                   (item) => item?.profile?.id == lensConnected?.id
-                )
+                ) ||
+                !questInfo?.status
                   ? "opacity-70"
                   : "cursor-pointer active:scale-95"
               }`}
@@ -497,6 +498,7 @@ const QuestBoxDetails: FunctionComponent<QuestBoxDetailsProps> = ({
                 !questInfo?.players?.some(
                   (item) => item?.profile?.id == lensConnected?.id
                 ) &&
+                questInfo?.status &&
                 handlePlayerJoin()
               }
             >
@@ -516,10 +518,16 @@ const QuestBoxDetails: FunctionComponent<QuestBoxDetailsProps> = ({
                 )}
               </div>
               <div className="relative w-fit h-fit text-sm font-vcr text-gray-300">
-                {questInfo?.players?.some(
-                  (item) => item?.profile?.id == lensConnected?.id
-                )
+                {questInfo?.players
+                  ?.find((item) => item?.profile?.id == lensConnected?.id)
+                  ?.questsCompleted?.includes(questInfo?.questId)
+                  ? "Quest Completed"
+                  : questInfo?.players?.some(
+                      (item) => item?.profile?.id == lensConnected?.id
+                    )
                   ? "Quest Joined"
+                  : !questInfo?.status
+                  ? "Quest Closed"
                   : "Join Quest"}
               </div>
             </div>

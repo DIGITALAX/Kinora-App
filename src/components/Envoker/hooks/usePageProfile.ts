@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Profile } from "../../../../graphql/generated";
 import getProfile from "../../../../graphql/lens/queries/profile";
-import { Quest } from "@/components/Quest/types/quest.types";
+import { Milestone, Player, Quest } from "@/components/Quest/types/quest.types";
 import { getQuestsEnvoker } from "../../../../graphql/subgraph/getQuests";
 import { getPlayerData } from "../../../../graphql/subgraph/getPlayer";
 import getPublication from "../../../../graphql/lens/queries/publication";
@@ -87,10 +87,67 @@ const usePageProfile = (handle: string, lensConnected: Profile | undefined) => {
 
           const players = await Promise.all(playerPromises);
 
+          const newMilestonesPromises = item?.milestones.map(
+            async (milestone: any) => {
+              const videoPromises = milestone?.videos?.map(
+                async (video: {
+                  pubId: string;
+                  profileId: string;
+                  minAVD: string;
+                  minDuration: string;
+                }) => {
+                  const publication = await getPublication(
+                    {
+                      forId: `${toHexWithLeadingZero(
+                        Number(video?.profileId)
+                      )}-${toHexWithLeadingZero(Number(video?.pubId))}`,
+                    },
+                    lensConnected?.id
+                  );
+                  return {
+                    ...video,
+                    minAVD: Number(video?.minAVD) / 10 ** 18,
+                    minDuration: Number(video?.minDuration) / 10 ** 18,
+                    publication: publication?.data?.publication,
+                  };
+                }
+              );
+
+              const videos = await Promise.all(videoPromises);
+              return {
+                ...milestone,
+                videos,
+              };
+            }
+          );
+
+          const milestones = await Promise.all(newMilestonesPromises);
+
           return {
             ...item,
+            milestones,
             type: "envoked",
-            players,
+            players: players?.map((player) => ({
+              ...player,
+              videos: player?.videos?.map((video) => ({
+                ...video,
+                avd: Number(video?.avd || 0) / 10 ** 18,
+                duration: Number(video?.duration || 0) / 10 ** 18,
+                publication: (
+                  milestones?.find((milestone: Milestone) =>
+                    milestone?.videos?.find(
+                      (vid) =>
+                        Number(vid?.pubId) == Number(video?.pubId) &&
+                        Number(vid?.profileId) == Number(video?.profileId)
+                    )
+                  ) as Milestone
+                )?.videos?.find(
+                  (vid) =>
+                    Number(vid?.pubId) == Number(video?.pubId) &&
+                    Number(vid?.profileId) == Number(video?.profileId)
+                )?.publication,
+              })),
+            })),
             publication: publication?.data?.publication,
           };
         }
@@ -98,6 +155,7 @@ const usePageProfile = (handle: string, lensConnected: Profile | undefined) => {
 
       const playerQuest = await getPlayerData(parseInt(pageProfile?.id, 16));
       setAllPlayerData(playerQuest?.data?.players?.[0]);
+
       let liveQuests: Quest[] = [];
       let completedQuests: Quest[] = [];
 
@@ -126,11 +184,71 @@ const usePageProfile = (handle: string, lensConnected: Profile | undefined) => {
                 lensConnected?.id
               );
 
+              const newMilestonesPromises =
+                data?.data?.questInstantiateds?.[0]?.milestones.map(
+                  async (milestone: any) => {
+                    const videoPromises = milestone?.videos?.map(
+                      async (video: {
+                        pubId: string;
+                        profileId: string;
+                        minAVD: string;
+                        minDuration: string;
+                      }) => {
+                        const publication = await getPublication(
+                          {
+                            forId: `${toHexWithLeadingZero(
+                              Number(video?.profileId)
+                            )}-${toHexWithLeadingZero(Number(video?.pubId))}`,
+                          },
+                          lensConnected?.id
+                        );
+                        return {
+                          ...video,
+                          minAVD: Number(video?.minAVD) / 10 ** 18,
+                          minDuration: Number(video?.minDuration) / 10 ** 18,
+                          publication: publication?.data?.publication,
+                        };
+                      }
+                    );
+
+                    const videos = await Promise.all(videoPromises);
+                    return {
+                      ...milestone,
+                      videos,
+                    };
+                  }
+                );
+
+              const milestones = await Promise.all(newMilestonesPromises);
+
               const quest = {
                 ...data?.data?.questInstantiateds?.[0],
+                milestones,
+                players: data?.data?.questInstantiateds?.[0]?.players?.map(
+                  (player: Player) => ({
+                    ...player,
+                    videos: player?.videos?.map((video) => ({
+                      ...video,
+                      avd: Number(video?.avd || 0) / 10 ** 18,
+                      duration: Number(video?.duration || 0) / 10 ** 18,
+                      publication: (
+                        milestones?.find((milestone: Milestone) =>
+                          milestone?.videos?.find(
+                            (vid) =>
+                              Number(vid?.pubId) == Number(video?.pubId) &&
+                              Number(vid?.profileId) == Number(video?.profileId)
+                          )
+                        ) as Milestone
+                      )?.videos?.find(
+                        (vid) =>
+                          Number(vid?.pubId) == Number(video?.pubId) &&
+                          Number(vid?.profileId) == Number(video?.profileId)
+                      )?.publication,
+                    })),
+                  })
+                ),
                 publication: publication?.data?.publication,
               };
-
               if (
                 playerQuest?.data?.players?.[0]?.questsCompleted?.includes(item)
               ) {
@@ -148,13 +266,12 @@ const usePageProfile = (handle: string, lensConnected: Profile | undefined) => {
           );
         }
       }
-
       const envoked = await Promise.all(envokedPromises);
       await Promise.all(playerPromises);
 
       setQuests(
-        [...completedQuests, ...liveQuests, ...envoked].sort(
-          () => 0.5 - Math.random()
+        [...completedQuests, ...liveQuests, ...envoked]?.sort(
+          (a, b) => Number(b.blockTimestamp) - Number(a.blockTimestamp)
         )
       );
       setInfo({
@@ -182,7 +299,7 @@ const usePageProfile = (handle: string, lensConnected: Profile | undefined) => {
         );
 
         const envokedPromises = envokedData?.data?.questInstantiateds?.map(
-          async (item: any) => {
+          async (item: Quest) => {
             const publication = await getPublication(
               {
                 forId: `${toHexWithLeadingZero(
@@ -192,10 +309,86 @@ const usePageProfile = (handle: string, lensConnected: Profile | undefined) => {
               lensConnected?.id
             );
 
+            const playerPromises = item?.players?.map(async (player) => {
+              const data = await getProfile(
+                {
+                  forProfileId: `${toHexWithLeadingZero(
+                    Number(player?.profileId)
+                  )}`,
+                },
+                lensConnected?.id
+              );
+
+              return {
+                ...player,
+                profile: data?.data?.profile,
+              };
+            });
+
+            const players = await Promise.all(playerPromises);
+
+            const newMilestonesPromises = item?.milestones.map(
+              async (milestone: any) => {
+                const videoPromises = milestone?.videos?.map(
+                  async (video: {
+                    pubId: string;
+                    profileId: string;
+                    minAVD: string;
+                    minDuration: string;
+                  }) => {
+                    const publication = await getPublication(
+                      {
+                        forId: `${toHexWithLeadingZero(
+                          Number(video?.profileId)
+                        )}-${toHexWithLeadingZero(Number(video?.pubId))}`,
+                      },
+                      lensConnected?.id
+                    );
+                    return {
+                      ...video,
+                      minAVD: Number(video?.minAVD) / 10 ** 18,
+                      minDuration: Number(video?.minDuration) / 10 ** 18,
+                      publication: publication?.data?.publication,
+                    };
+                  }
+                );
+
+                const videos = await Promise.all(videoPromises);
+                return {
+                  ...milestone,
+                  videos,
+                };
+              }
+            );
+
+            const milestones = await Promise.all(newMilestonesPromises);
+
             return {
               ...item,
-              publication: publication?.data?.publication,
+              milestones,
               type: "envoked",
+              players: players?.map((player) => ({
+                ...player,
+                videos: player?.videos?.map((video) => ({
+                  ...video,
+                  avd: Number(video?.avd || 0) / 10 ** 18,
+                  duration: Number(video?.duration || 0) / 10 ** 18,
+                  publication: (
+                    milestones?.find((milestone: Milestone) =>
+                      milestone?.videos?.find(
+                        (vid) =>
+                          Number(vid?.pubId) == Number(video?.pubId) &&
+                          Number(vid?.profileId) == Number(video?.profileId)
+                      )
+                    ) as Milestone
+                  )?.videos?.find(
+                    (vid) =>
+                      Number(vid?.pubId) == Number(video?.pubId) &&
+                      Number(vid?.profileId) == Number(video?.profileId)
+                  )?.publication,
+                })),
+              })),
+              publication: publication?.data?.publication,
             };
           }
         );
@@ -217,7 +410,6 @@ const usePageProfile = (handle: string, lensConnected: Profile | undefined) => {
         i++
       ) {
         const item = allPlayerData?.questsJoined?.[i + info?.playerCursor];
-        if (!item) return;
         playerPromises.push(
           (async () => {
             const data = await getQuestById(item);
@@ -232,11 +424,71 @@ const usePageProfile = (handle: string, lensConnected: Profile | undefined) => {
               lensConnected?.id
             );
 
+            const newMilestonesPromises =
+              data?.data?.questInstantiateds?.[0]?.milestones.map(
+                async (milestone: any) => {
+                  const videoPromises = milestone?.videos?.map(
+                    async (video: {
+                      pubId: string;
+                      profileId: string;
+                      minAVD: string;
+                      minDuration: string;
+                    }) => {
+                      const publication = await getPublication(
+                        {
+                          forId: `${toHexWithLeadingZero(
+                            Number(video?.profileId)
+                          )}-${toHexWithLeadingZero(Number(video?.pubId))}`,
+                        },
+                        lensConnected?.id
+                      );
+                      return {
+                        ...video,
+                        minAVD: Number(video?.minAVD) / 10 ** 18,
+                        minDuration: Number(video?.minDuration) / 10 ** 18,
+                        publication: publication?.data?.publication,
+                      };
+                    }
+                  );
+
+                  const videos = await Promise.all(videoPromises);
+                  return {
+                    ...milestone,
+                    videos,
+                  };
+                }
+              );
+
+            const milestones = await Promise.all(newMilestonesPromises);
+
             const quest = {
               ...data?.data?.questInstantiateds?.[0],
+              milestones,
+              players: data?.data?.questInstantiateds?.[0]?.players?.map(
+                (player: Player) => ({
+                  ...player,
+                  videos: player?.videos?.map((video) => ({
+                    ...video,
+                    avd: Number(video?.avd || 0) / 10 ** 18,
+                    duration: Number(video?.duration || 0) / 10 ** 18,
+                    publication: (
+                      milestones?.find((milestone: Milestone) =>
+                        milestone?.videos?.find(
+                          (vid) =>
+                            Number(vid?.pubId) == Number(video?.pubId) &&
+                            Number(vid?.profileId) == Number(video?.profileId)
+                        )
+                      ) as Milestone
+                    )?.videos?.find(
+                      (vid) =>
+                        Number(vid?.pubId) == Number(video?.pubId) &&
+                        Number(vid?.profileId) == Number(video?.profileId)
+                    )?.publication,
+                  })),
+                })
+              ),
               publication: publication?.data?.publication,
             };
-
             if (allPlayerData?.questsCompleted?.includes(item)) {
               newCompletedQuests.push({
                 ...quest,
@@ -255,8 +507,8 @@ const usePageProfile = (handle: string, lensConnected: Profile | undefined) => {
       await Promise.all(playerPromises);
 
       setQuests(
-        [...newCompletedQuests, ...newLiveQuests, ...envoked].sort(
-          () => 0.5 - Math.random()
+        [...newCompletedQuests, ...newLiveQuests, ...envoked]?.sort(
+          (a, b) => Number(b.blockTimestamp) - Number(a.blockTimestamp)
         )
       );
 

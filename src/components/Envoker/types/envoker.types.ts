@@ -2,7 +2,12 @@ import { Action, Dispatch } from "redux";
 import { Post, Profile } from "../../../../graphql/generated";
 import { SetStateAction } from "react";
 import { NextRouter } from "next/router";
-import { Player, Quest } from "@/components/Quest/types/quest.types";
+import {
+  Player,
+  Quest,
+  Reward,
+  VideoActivity,
+} from "@/components/Quest/types/quest.types";
 
 export type AccountSwitchProps = {
   pageProfile: Profile | undefined;
@@ -19,9 +24,13 @@ export type AccountSwitchProps = {
   claimRewardLoading: boolean[];
   terminateLoading: boolean[];
   approvalLoading: boolean[];
-  playerClaimMilestoneReward: (id: string, index: number) => Promise<void>;
-  openPlayerDetails: (Profile | undefined)[];
-  setOpenPlayerDetails: (e: SetStateAction<(Profile | undefined)[]>) => void;
+  playerClaimMilestoneReward: (
+    id: string,
+    index: number,
+    questCompleted: boolean
+  ) => Promise<void>;
+  openPlayerDetails: Player | undefined;
+  setOpenPlayerDetails: (e: SetStateAction<Player | undefined>) => void;
   info: {
     hasMorePlayer: boolean;
     hasMoreEnvoked: boolean;
@@ -29,8 +38,15 @@ export type AccountSwitchProps = {
     envokedCursor: number;
   };
   quests: (Quest & { type: string })[];
-  openQuest: boolean[];
-  setOpenQuest: (e: SetStateAction<boolean[]>) => void;
+  playerEligible:
+    | {
+        eligible: boolean;
+        completed: VideoActivity[];
+        toComplete: VideoActivity[];
+      }
+    | undefined;
+  openQuest: Quest | undefined;
+  setOpenQuest: (e: SetStateAction<Quest | undefined>) => void;
   router: NextRouter;
   questsLoading: boolean;
   accountType: AccountType;
@@ -41,6 +57,7 @@ export type AccountSwitchProps = {
   getMoreSaves: () => Promise<void>;
   savesLoading: boolean;
   dispatch: Dispatch;
+  globalLoading: boolean;
   setMirrorChoiceOpen: (e: SetStateAction<boolean[]>) => void;
   mirrorChoiceOpen: boolean[];
   mirror: (id: string) => Promise<void>;
@@ -51,6 +68,7 @@ export type AccountSwitchProps = {
     like: boolean;
     follow: boolean;
     unfollow: boolean;
+    collect: boolean;
   }[];
   followProfile: (id: string, index: number, main?: boolean) => Promise<void>;
   unfollowProfile: (id: string, index: number) => Promise<void>;
@@ -68,6 +86,7 @@ export type HomeProps = {
   questsLoading: boolean;
   quests: (Quest & { type: string })[];
   dispatch: Dispatch;
+  globalLoading: boolean;
   lensConnected: Profile | undefined;
   router: NextRouter;
   mirror: (id: string) => Promise<void>;
@@ -80,6 +99,7 @@ export type HomeProps = {
     like: boolean;
     follow: boolean;
     unfollow: boolean;
+    collect: boolean;
   }[];
   setProfileHovers: (e: SetStateAction<boolean[]>) => void;
   profileHovers: boolean[];
@@ -115,11 +135,13 @@ export type SavesProps = {
     like: boolean;
     follow: boolean;
     unfollow: boolean;
+    collect: boolean;
   }[];
   followProfile: (id: string, index: number, main?: boolean) => Promise<void>;
   unfollowProfile: (id: string, index: number) => Promise<void>;
   profileHovers: boolean[];
   setProfileHovers: (e: SetStateAction<boolean[]>) => void;
+  globalLoading: boolean;
 };
 
 export type BioProps = {
@@ -139,9 +161,21 @@ export type DashboardProps = {
   claimRewardLoading: boolean[];
   terminateLoading: boolean[];
   approvalLoading: boolean[];
-  playerClaimMilestoneReward: (id: string, index: number) => Promise<void>;
-  openQuest: boolean[];
-  setOpenQuest: (e: SetStateAction<boolean[]>) => void;
+  playerClaimMilestoneReward: (
+    id: string,
+    index: number,
+    questCompleted: boolean
+  ) => Promise<void>;
+  openQuest: Quest | undefined;
+  playerEligible:
+    | {
+        eligible: boolean;
+        completed: VideoActivity[];
+        toComplete: VideoActivity[];
+      }
+    | undefined;
+  lensConnected: Profile | undefined;
+  setOpenQuest: (e: SetStateAction<Quest | undefined>) => void;
   getMore: () => Promise<void>;
   info: {
     hasMorePlayer: boolean;
@@ -150,15 +184,15 @@ export type DashboardProps = {
     envokedCursor: number;
   };
   router: NextRouter;
-  openPlayerDetails: (Profile | undefined)[];
-  setOpenPlayerDetails: (e: SetStateAction<(Profile | undefined)[]>) => void;
+  openPlayerDetails: Player | undefined;
+  setOpenPlayerDetails: (e: SetStateAction<Player | undefined>) => void;
 };
 
 export type PlayerMilestoneProps = {
   index: number;
   quest: Quest;
-  openPlayerDetails: (Profile | undefined)[];
-  setOpenPlayerDetails: (e: SetStateAction<(Profile | undefined)[]>) => void;
+  openPlayerDetails: Player | undefined;
+  setOpenPlayerDetails: (e: SetStateAction<Player | undefined>) => void;
   approvePlayerMilestone: (
     id: number,
     milestone: number,
@@ -166,4 +200,17 @@ export type PlayerMilestoneProps = {
     index: number
   ) => Promise<void>;
   approvalLoading: boolean[];
+  playerEligible:
+    | {
+        eligible: boolean;
+        completed: VideoActivity[];
+        toComplete: VideoActivity[];
+      }
+    | undefined;
+  router: NextRouter;
+  player?: boolean;
+};
+
+export type RewardProps = {
+  rewards: Reward[];
 };

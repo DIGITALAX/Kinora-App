@@ -9,6 +9,7 @@ import { createPublicClient, http } from "viem";
 import { polygonMumbai } from "viem/chains";
 import { Quest } from "@/components/Quest/types/quest.types";
 import { Profile } from "../../graphql/generated";
+import { setActivityFeed } from "../../redux/reducers/activityFeedSlice";
 
 export default function Envoke({ router }: { router: NextRouter }) {
   const publicClient = createPublicClient({
@@ -25,13 +26,14 @@ export default function Envoke({ router }: { router: NextRouter }) {
   const lensConnected = useSelector(
     (state: RootState) => state.app.lensConnectedReducer.profile
   );
-  const {
-    activityLoading,
-    setActivityFeed,
-    getMoreActivityFeed,
-    activityInfo,
+  const activityFeed = useSelector(
+    (state: RootState) => state.app.activityFeedReducer.feed
+  );
+  const { activityLoading, getMoreActivityFeed, activityInfo } = useActivity(
+    lensConnected,
     activityFeed,
-  } = useActivity(lensConnected);
+    dispatch
+  );
   const {
     mirror,
     like,
@@ -43,7 +45,7 @@ export default function Envoke({ router }: { router: NextRouter }) {
     setProfileHovers,
     followProfile,
     unfollowProfile,
-    simpleCollect
+    simpleCollect,
   } = useInteractions(
     lensConnected,
     dispatch,
@@ -51,8 +53,10 @@ export default function Envoke({ router }: { router: NextRouter }) {
     address,
     publicClient,
     (newItems) =>
-      setActivityFeed(
-        newItems as (Quest & { type: string; profile: Profile | undefined })[]
+      dispatch(
+        setActivityFeed(
+          newItems as (Quest & { type: string; profile: Profile | undefined })[]
+        )
       )
   );
 

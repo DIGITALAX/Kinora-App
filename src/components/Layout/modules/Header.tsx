@@ -14,6 +14,8 @@ import { AiOutlineLoading } from "react-icons/ai";
 import { Profile } from "../../../../graphql/generated";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Quest } from "@/components/Quest/types/quest.types";
+import useActivity from "@/components/Activity/hooks/useActivity";
+import Activity from "@/components/Activity/modules/Activity";
 
 const Header: FunctionComponent<{ router: NextRouter }> = ({ router }) => {
   const { openConnectModal } = useConnectModal();
@@ -22,6 +24,9 @@ const Header: FunctionComponent<{ router: NextRouter }> = ({ router }) => {
   const dispatch = useDispatch();
   const lensConnected = useSelector(
     (state: RootState) => state.app.lensConnectedReducer.profile
+  );
+  const activityFeed = useSelector(
+    (state: RootState) => state.app.activityFeedReducer.feed
   );
   const allUploaded = useSelector(
     (state: RootState) => state.app.allUploadedReducer.videos
@@ -39,6 +44,8 @@ const Header: FunctionComponent<{ router: NextRouter }> = ({ router }) => {
     setAccountOpen,
     signLoading,
     accountOpen,
+    setOpenActivitySample,
+    openActivitySample,
   } = useSignIn(
     lensConnected,
     openAccountModal,
@@ -58,6 +65,11 @@ const Header: FunctionComponent<{ router: NextRouter }> = ({ router }) => {
     setSearchOpen,
     searchOpen,
   } = useSearch(lensConnected);
+  const { activityInfo, activityLoading, getMoreActivityFeed } = useActivity(
+    lensConnected,
+    activityFeed,
+    dispatch
+  );
   return (
     <div className="relative h-fit flex items-center justify-end flex-row w-full z-10">
       <div
@@ -115,7 +127,10 @@ const Header: FunctionComponent<{ router: NextRouter }> = ({ router }) => {
                   return (
                     <div
                       key={index}
-                      className={`relative w-full h-20 cursor-pointer hover:opacity-80 flex flex-row justify-between items-center p-2 gap-6 ${index !== searchResults?.length - 1 && "border-b border-white"}`}
+                      className={`relative w-full h-20 cursor-pointer hover:opacity-80 flex flex-row justify-between items-center p-2 gap-6 ${
+                        index !== searchResults?.length - 1 &&
+                        "border-b border-white"
+                      }`}
                       onClick={() => {
                         router.push(
                           `/${
@@ -186,14 +201,20 @@ const Header: FunctionComponent<{ router: NextRouter }> = ({ router }) => {
           )}
         </div>
         <div className="relative flex items-center justify-center gap-5">
-          <div className="relative w-4 h-6 flex items-center justify-center">
+          <div
+            className="relative w-4 h-6 flex items-center justify-center cursor-pointer active:scale-95"
+            onClick={() => setOpenActivitySample(!openActivitySample)}
+          >
             <Image
               draggable={false}
               layout="fill"
               src={`${INFURA_GATEWAY}/ipfs/QmUhHCKqhK31MYdo8aMAFcZZn1CCFfe4Z5ywTWzVfhuTDX`}
             />
           </div>
-          <div className="relative w-4 h-6 flex items-center justify-center">
+          <div
+            className="relative w-4 h-6 flex items-center justify-center cursor-pointer active:scale-95"
+            onClick={() => window.open("https://codex.irrevocable.dev/")}
+          >
             <Image
               draggable={false}
               layout="fill"
@@ -253,6 +274,33 @@ const Header: FunctionComponent<{ router: NextRouter }> = ({ router }) => {
             >
               Logout
             </div>
+          </div>
+        )}
+        {openActivitySample && (
+          <div className="absolute top-12 right-3 border border-white bg-offBlack flex flex-col p-2 items-start justify-start font-bit text-white text-xs w-60 h-[20rem] overflow-y-scroll">
+            {activityLoading ? (
+              <div className="relative w-full h-fit flex flex-col gap-3">
+                {Array.from({ length: 10 }).map((_, index: number) => {
+                  return (
+                    <div
+                      key={index}
+                      className="relative w-full h-60 flex rounded-sm animate-pulse"
+                      id="northern"
+                    ></div>
+                  );
+                })}
+              </div>
+            ) : (
+              <Activity
+                disabled
+                activityFeed={activityFeed}
+                getMoreActivityFeed={getMoreActivityFeed}
+                activityInfo={activityInfo}
+                lensConnected={lensConnected}
+                dispatch={dispatch}
+                router={router}
+              />
+            )}
           </div>
         )}
       </div>

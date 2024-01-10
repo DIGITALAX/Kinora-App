@@ -36,6 +36,7 @@ export type QuestFeedProps = {
     like: boolean;
     follow: boolean;
     unfollow: boolean;
+    collect: boolean
   }[];
   setMirrorChoiceOpen: (id: SetStateAction<boolean[]>) => void;
   profileHovers: boolean[];
@@ -62,6 +63,7 @@ export type QuestPreviewProps = {
     like: boolean;
     follow: boolean;
     unfollow: boolean;
+    collect: boolean
   }[];
   setMirrorChoiceOpen: (id: SetStateAction<boolean[]>) => void;
   profileHovers: boolean[];
@@ -69,7 +71,8 @@ export type QuestPreviewProps = {
   unfollowProfile: (id: string, index: number) => Promise<void>;
   followProfile: (id: string, index: number, main?: boolean) => Promise<void>;
   mainFeed?: boolean;
-  border?: boolean
+  border?: boolean;
+  disabled?: boolean;
 };
 
 export type InteractBarProps = {
@@ -81,11 +84,12 @@ export type InteractBarProps = {
     like: boolean;
     follow: boolean;
     unfollow: boolean;
+    collect: boolean
   }[];
   publication: Post;
   mirror?: (id: string, main?: boolean) => Promise<void>;
   like?: (id: string, hasReacted: boolean, main?: boolean) => Promise<void>;
-  border?: boolean
+  border?: boolean;
   mirrorChoiceOpen?: boolean[];
   bookmark?: (id: string) => Promise<void>;
   setMirrorChoiceOpen?: (id: SetStateAction<boolean[]>) => void;
@@ -150,7 +154,7 @@ export type ProfileHoverProps = {
   setProfileHovers: (id: SetStateAction<boolean[]>) => void;
   router: NextRouter;
   dispatch: Dispatch;
-  main: boolean
+  main: boolean;
 };
 
 export type PostCommentProps = {
@@ -211,6 +215,7 @@ export type PostQuoteProps = {
     follow: boolean;
     unfollow: boolean;
     comment: boolean;
+    collect: boolean
   }[];
   main?: boolean;
   mirror?: (id: string, main?: boolean | undefined) => Promise<void>;

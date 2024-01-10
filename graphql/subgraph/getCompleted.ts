@@ -9,10 +9,11 @@ export const getCompletedMilestones = async (
   const queryPromise = graphKinoraClient.query({
     query: gql(`
     query($first: Int, $skip: Int) {
-        milestoneCompleteds(first: $first, skip: $skip) {
+        milestoneCompleteds(first: $first, skip: $skip, orderBy: blockTimestamp) {
             questId
             playerProfileId
             milestone
+            blockTimestamp
         }
     }
   `),
@@ -49,9 +50,10 @@ export const getCompletedQuest = async (
   const queryPromise = graphKinoraClient.query({
     query: gql(`
       query($first: Int, $skip: Int) {
-        questCompleteds(first: $first, skip: $skip) {
+        questCompleteds(first: $first, skip: $skip, orderBy: blockTimestamp) {
             questId
             playerProfileId
+            blockTimestamp
         }
       }
     `),

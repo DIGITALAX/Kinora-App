@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Quest, SocialType } from "../types/quest.types";
 import { getQuest } from "../../../../graphql/subgraph/getQuest";
 import getPublication from "../../../../graphql/lens/queries/publication";
-import { apolloClient } from "../../../../lib/lens/client";
 import toHexWithLeadingZero from "../../../../lib/helpers/toHexWithLeadingZero";
 import { Profile } from "../../../../graphql/generated";
 import { getCollectionURI } from "../../../../graphql/subgraph/getAllCollections";
@@ -21,7 +20,8 @@ const useJoin = (
   lensConnected: Profile | undefined,
   dispatch: Dispatch,
   address: `0x${string}` | undefined,
-  publicClient: PublicClient
+  publicClient: PublicClient,
+  kinoraDispatch: KinoraDispatch
 ) => {
   const [questInfoLoading, setQuestInfoLoading] = useState<boolean>(false);
   const [completeLoading, setCompleteLoading] = useState<boolean>(false);
@@ -30,11 +30,8 @@ const useJoin = (
   const [mainViewer, setMainViewer] = useState<number>(0);
   const [joinLoading, setJoinLoading] = useState<boolean>(false);
   const [socialType, setSocialType] = useState<SocialType>(SocialType.Players);
-  const questDispatch = new KinoraDispatch({
-    playerAuthedApolloClient: apolloClient,
-  });
 
-  const handleCompleteMilestone = async () => {
+  const handleCompleteMilestone = async (questCompleted: boolean) => {
     setCompleteLoading(true);
     try {
       await (window as any).ethereum.request({ method: "eth_requestAccounts" });
@@ -45,7 +42,7 @@ const useJoin = (
       const signer = provider.getSigner();
 
       const { error, errorMessage } =
-        await questDispatch.playerCompleteQuestMilestone(
+        await kinoraDispatch.playerCompleteQuestMilestone(
           questId as `0x${string}`,
           signer as unknown as ethers.Wallet
         );
@@ -65,7 +62,9 @@ const useJoin = (
                 ]?.milestoneMetadata?.cover?.split("ipfs://")?.[1]
               : questInfo?.milestones?.[mainViewer - 1]?.milestoneMetadata
                   ?.cover,
-            text: `Milestone ${mainViewer} Completed!`,
+            text: questCompleted
+              ? "Quest Completed! You've leveled up. Ready for the next one?"
+              : `Milestone ${mainViewer} Completed! See all your rewards in the dashboard.`,
           })
         );
         await getQuestInfo();
@@ -103,7 +102,7 @@ const useJoin = (
       );
       const signer = provider.getSigner();
 
-      const { error, errorMessage } = await questDispatch.playerJoinQuest(
+      const { error, errorMessage } = await kinoraDispatch.playerJoinQuest(
         questId as `0x${string}`,
         signer as unknown as ethers.Wallet
       );

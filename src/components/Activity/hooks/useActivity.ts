@@ -12,15 +12,18 @@ import {
   getCompletedQuest,
 } from "../../../../graphql/subgraph/getCompleted";
 import { getMetricsAdded } from "../../../../graphql/subgraph/getMetricsAdded";
+import { Dispatch } from "redux";
+import { setActivityFeed } from "../../../../redux/reducers/activityFeedSlice";
 
-const useActivity = (lensConnected: Profile | undefined) => {
+const useActivity = (
+  lensConnected: Profile | undefined,
+  activityFeed: (Quest & {
+    type: string;
+    profile: Profile | undefined;
+  })[],
+  dispatch: Dispatch
+) => {
   const [activityLoading, setActivityLoading] = useState<boolean>(false);
-  const [activityFeed, setActivityFeed] = useState<
-    (Quest & {
-      type: string;
-      profile: Profile | undefined;
-    })[]
-  >([]);
   const [activityInfo, setActivityInfo] = useState<{
     hasMore: boolean;
     questDataCursor: number;
@@ -131,6 +134,7 @@ const useActivity = (lensConnected: Profile | undefined) => {
           publication = cache.publications[postId];
 
           return {
+            ...item,
             ...quest,
             profile,
             publication,
@@ -184,6 +188,7 @@ const useActivity = (lensConnected: Profile | undefined) => {
           publication = cache.publications[postId];
 
           return {
+            ...item,
             ...quest,
             profile,
             publication,
@@ -236,6 +241,7 @@ const useActivity = (lensConnected: Profile | undefined) => {
           publication = cache.publications[postId];
 
           return {
+            ...item,
             ...quest,
             profile,
             publication,
@@ -279,6 +285,7 @@ const useActivity = (lensConnected: Profile | undefined) => {
           publication = cache.publications[postId];
 
           return {
+          ...item,
             profile,
             publication: publication,
           };
@@ -325,15 +332,16 @@ const useActivity = (lensConnected: Profile | undefined) => {
         completionDataCursor: newCompleted?.length !== 10 ? 0 : 10,
         metricsDataCursor: newMetrics?.length !== 10 ? 0 : 10,
       });
-
-      setActivityFeed(
-        [
-          ...allQuests,
-          ...newPlayers,
-          ...newMilestones,
-          ...newCompleted,
-          ...newMetrics,
-        ]?.sort(() => 0.5 - Math.random())
+      dispatch(
+        setActivityFeed(
+          [
+            ...allQuests,
+            ...newPlayers,
+            ...newMilestones,
+            ...newCompleted,
+            ...newMetrics,
+          ]?.sort((a, b) => Number(b.blockTimestamp) - Number(a.blockTimestamp))
+        )
       );
       setAllCacheState(cache);
     } catch (err: any) {
@@ -454,6 +462,7 @@ const useActivity = (lensConnected: Profile | undefined) => {
         publication = cache.publications[postId];
 
         return {
+          ...item,
           ...quest,
           profile,
           publication,
@@ -505,9 +514,11 @@ const useActivity = (lensConnected: Profile | undefined) => {
         publication = cache.publications[postId];
 
         return {
+          ...item,
           ...quest,
           profile,
           publication,
+          milestone: item?.milestone,
         };
       });
 
@@ -555,6 +566,7 @@ const useActivity = (lensConnected: Profile | undefined) => {
         publication = cache.publications[postId];
 
         return {
+          ...item,
           ...quest,
           profile,
           publication,
@@ -596,6 +608,7 @@ const useActivity = (lensConnected: Profile | undefined) => {
         publication = cache.publications[postId];
 
         return {
+          ...item,
           profile,
           publication: publication,
         };
@@ -642,16 +655,20 @@ const useActivity = (lensConnected: Profile | undefined) => {
         metricsDataCursor: newMetrics?.length !== 10 ? 0 : 10,
       });
 
-      setActivityFeed([
-        ...(activityFeed || []),
-        ...[
-          ...allQuests,
-          ...newPlayers,
-          ...newMilestones,
-          ...newCompleted,
-          ...newMetrics,
-        ]?.sort(() => 0.5 - Math.random()),
-      ]);
+      dispatch(
+        setActivityFeed([
+          ...(activityFeed || []),
+          ...[
+            ...allQuests,
+            ...newPlayers,
+            ...newMilestones,
+            ...newCompleted,
+            ...newMetrics,
+          ]?.sort(
+            (a, b) => Number(b.blockTimestamp) - Number(a.blockTimestamp)
+          ),
+        ])
+      );
     } catch (err: any) {
       console.error(err.message);
     }
@@ -665,10 +682,8 @@ const useActivity = (lensConnected: Profile | undefined) => {
 
   return {
     activityLoading,
-    setActivityFeed,
     getMoreActivityFeed,
     activityInfo,
-    activityFeed,
   };
 };
 

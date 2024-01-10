@@ -502,16 +502,38 @@ const Stages: FunctionComponent<StagesProps> = ({
                             Object.values(QuestStage).length
                         ] == QuestStage.Storyboard
                       ) {
-                       dispatch(
+                        const minLength = Math.min(
+                          questInfo?.details?.gated?.erc20Thresholds.length,
+                          questInfo?.details?.gated?.erc20Addresses.length
+                        );
+                        const thresholds =
+                          questInfo?.details?.gated?.erc20Thresholds.slice(
+                            0,
+                            minLength
+                          );
+                        const addresses =
+                          questInfo?.details?.gated?.erc20Addresses.slice(
+                            0,
+                            minLength
+                          );
+
+
+                        dispatch(
                           setQuestInfo({
                             actionDetails: {
                               ...questInfo?.details,
                               gated: {
                                 ...(questInfo?.details?.gated || {}),
-                                erc20Thresholds:
-                                  questInfo?.details?.gated?.erc20Thresholds?.filter(
-                                    (item) => Number(item || 0) > 0
-                                  ),
+                                erc20Thresholds: thresholds?.filter(
+                                  (item) => Number(item || 0) > 0
+                                ),
+                                erc20Addresses: addresses?.filter(
+                                  (address) =>
+                                    address &&
+                                    address?.trim() !== "" &&
+                                    address !== "0x" &&
+                                    address !== "0x00"
+                                ),
                               },
                             },
                             actionMilestones: questInfo?.milestones
@@ -520,42 +542,71 @@ const Stages: FunctionComponent<StagesProps> = ({
                                   item?.details?.title?.trim() !== "" &&
                                   item?.details?.title
                               )
-                              ?.map((value: Milestone) => ({
-                                ...value,
-                                gated: {
-                                  ...(value?.gated || {}),
-                                  erc20Thresholds:
-                                    value?.gated?.erc20Thresholds?.filter(
+                              ?.map((value: Milestone) => {
+                                const minLength = Math.min(
+                                  value?.gated?.erc20Thresholds.length,
+                                  value?.gated?.erc20Addresses.length
+                                );
+
+                                const thresholds =
+                                  value?.gated?.erc20Thresholds.slice(
+                                    0,
+                                    minLength
+                                  );
+                                const addresses =
+                                  value?.gated?.erc20Addresses.slice(
+                                    0,
+                                    minLength
+                                  );
+
+                                 
+                                return {
+                                  ...value,
+                                  gated: {
+                                    ...(value?.gated || {}),
+                                    erc20Thresholds: thresholds?.filter(
                                       (item) => Number(item || 0) > 0
                                     ),
-                                },
-                                rewards: {
-                                  rewards721: value?.rewards?.rewards721
-                                    ?.filter(Boolean)
-                                    ?.filter(
-                                      (reward) =>
-                                        reward.details.title?.trim() !== "" &&
-                                        reward.details.description?.trim() !==
-                                          "" &&
-                                        ((reward?.details?.images?.length > 0 &&
-                                          reward.details.images?.[0]?.trim() !==
-                                            "") ||
-                                          reward?.details?.audio?.trim() !==
-                                            "" ||
-                                          reward?.details?.video?.trim() !== "")
+                                    erc20Addresses: addresses?.filter(
+                                      (address) =>
+                                        address &&
+                                        address?.trim() !== "" &&
+                                        address !== "0x" &&
+                                        address !== "0x00"
                                     ),
-                                  rewards20: value?.rewards?.rewards20
-                                    ?.filter(Boolean)
-                                    ?.filter(
-                                      (reward) =>
-                                        Number(reward?.amount || 0) > 0
-                                    ),
-                                },
-                              })),
+                                  },
+                                  rewards: {
+                                    rewards721: value?.rewards?.rewards721
+                                      ?.filter(Boolean)
+                                      ?.filter(
+                                        (reward) =>
+                                          reward.details.title?.trim() !== "" &&
+                                          reward.details.description?.trim() !==
+                                            "" &&
+                                          ((reward?.details?.images?.length >
+                                            0 &&
+                                            reward.details.images?.[0]?.trim() !==
+                                              "") ||
+                                            reward?.details?.audio?.trim() !==
+                                              "" ||
+                                            reward?.details?.video?.trim() !==
+                                              "")
+                                      ),
+                                    rewards20:
+                                      value?.rewards?.rewards20?.filter(
+                                        (reward) =>
+                                          Number(reward?.amount || 0) > 0 &&
+                                          reward?.address &&
+                                          reward?.address?.trim() !== "" &&
+                                          reward.address !== "0x" &&
+                                          reward.address !== "0x00"
+                                      ),
+                                  },
+                                };
+                              }),
                           })
                         );
                       }
-
 
                       dispatch(
                         setQuestStage(

@@ -407,10 +407,10 @@ const QuestSocial: FunctionComponent<QuestSocialProps> = ({
             }`}
           </div>
           <div className="relative w-full h-px bg-gray-700"></div>
-          {videoPlaying &&
-          Number(videoPlaying?.publication?.stats?.countOpenActions || 0) > 0 &&
-          questInfo?.players &&
-          questInfo?.players?.length > 0 ? (
+          {(videoPlaying &&
+            Number(videoPlaying?.publication?.stats?.countOpenActions || 0) >
+              0) ||
+          (questInfo?.players && questInfo?.players?.length > 0) ? (
             <div className="relative w-full h-fit flex items-start justify-start flex-wrap gap-3 overflow-y-scroll">
               {(videoPlaying ? reactors : questInfo?.players)?.map(
                 (player: Player, index: number) => {

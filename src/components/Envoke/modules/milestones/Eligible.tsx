@@ -90,7 +90,7 @@ const Eligible: FunctionComponent<EligibleProps> = ({
       <div className="relative w-full h-fit items-start justify-start flex flex-wrap gap-4">
         {[
           {
-            title: "Min. Average View Duration (mins)",
+            title: "Min. Average View Duration (secs)",
             value:
               questInfo?.milestones?.[
                 milestonesOpen.findIndex((item: boolean) => item == true) !== -1
@@ -141,7 +141,7 @@ const Eligible: FunctionComponent<EligibleProps> = ({
             },
           },
           {
-            title: "Min. Total Duration Watched",
+            title: "Min. Total Duration Watched (secs)",
             value:
               questInfo?.milestones?.[
                 milestonesOpen.findIndex((item: boolean) => item == true) !== -1
