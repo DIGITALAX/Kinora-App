@@ -617,6 +617,7 @@ const GatedLogic: FunctionComponent<GatedLogicProps> = ({
                     : getMoreCollectionsSample
                 }
                 loader={<></>}
+                height={"20rem"}
                 className="relative w-full h-fit flex overflow-y-scroll"
               >
                 <div className="relative w-full grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-3 items-start justify-start h-fit max-h-[20rem]">
