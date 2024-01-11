@@ -44,7 +44,7 @@ const useCriteria = (lensConnected: Profile | undefined) => {
       const chromadinData = await getPublications(
         {
           where: {
-            // from: [CHROMADIN_ID],
+            from: [CHROMADIN_ID],
             publicationTypes: [PublicationType.Post],
             metadata: {
               mainContentFocus: [PublicationMetadataMainFocusType.Video],
