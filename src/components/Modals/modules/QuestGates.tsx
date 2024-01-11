@@ -1,7 +1,7 @@
 import { FunctionComponent } from "react";
 import { ImCross } from "react-icons/im";
 import {
-  ACCEPTED_TOKENS_MUMBAI,
+  ACCEPTED_TOKENS,
   INFURA_GATEWAY,
   numberToItemTypeMap,
 } from "../../../../lib/constants";
@@ -66,7 +66,7 @@ const QuestGates: FunctionComponent<QuestGatesProps> = ({
                                 draggable={false}
                                 layout="fill"
                                 src={`${INFURA_GATEWAY}/ipfs/${
-                                  ACCEPTED_TOKENS_MUMBAI?.filter(
+                                  ACCEPTED_TOKENS?.filter(
                                     (token) =>
                                       erc20?.address?.toLowerCase() ==
                                       token[2]?.toLowerCase()
@@ -76,7 +76,7 @@ const QuestGates: FunctionComponent<QuestGatesProps> = ({
                             </div>
                             <div className="relative w-fit h-fit flex items-center justify-center font-vcr text-acei text-sm">
                               {`${Number(erc20?.amount) / 10 ** 18} ${
-                                ACCEPTED_TOKENS_MUMBAI?.filter(
+                                ACCEPTED_TOKENS?.filter(
                                   (token) =>
                                     erc20?.address?.toLowerCase() ==
                                     token[2]?.toLowerCase()

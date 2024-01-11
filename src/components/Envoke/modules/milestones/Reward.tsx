@@ -2,7 +2,7 @@ import { FunctionComponent } from "react";
 import { ERC721Reward, RewardProps } from "../../types/envoke.types";
 import Mint from "./Mint";
 import Image from "next/legacy/image";
-import { ACCEPTED_TOKENS_MUMBAI, INFURA_GATEWAY } from "../../../../../lib/constants";
+import { ACCEPTED_TOKENS, INFURA_GATEWAY } from "../../../../../lib/constants";
 import { setQuestInfo } from "../../../../../redux/reducers/questInfoSlice";
 import { AiOutlineLoading } from "react-icons/ai";
 
@@ -158,7 +158,7 @@ const Reward: FunctionComponent<RewardProps> = ({
             ERC20 Reward
           </div>
           <div className="relative flex flex-col w-full h-fit gap-4 items-start justify-start">
-            {ACCEPTED_TOKENS_MUMBAI.map((item: string[], index: number) => {
+            {ACCEPTED_TOKENS.map((item: string[], index: number) => {
               return (
                 <div
                   key={index}

@@ -25,7 +25,7 @@ import {
 } from "../../../../lib/constants";
 import { setSuccess } from "../../../../redux/reducers/successSlice";
 import { PublicClient, createWalletClient, custom } from "viem";
-import { polygonMumbai } from "viem/chains";
+import { polygon } from "viem/chains";
 import { setInteractError } from "../../../../redux/reducers/interactErrorSlice";
 import { setAccountSwitch } from "../../../../redux/reducers/accountSwitchSlice";
 import { AccountType } from "@/components/Envoker/types/envoker.types";
@@ -177,7 +177,7 @@ const usePostLive = (
       });
 
       const clientWallet = createWalletClient({
-        chain: polygonMumbai,
+        chain: polygon,
         transport: custom((window as any).ethereum),
       });
 

@@ -4,7 +4,7 @@ import { useAccountModal, useConnectModal } from "@rainbow-me/rainbowkit";
 import { useAccount } from "wagmi";
 import useSignIn from "@/components/Layout/hooks/useSignIn";
 import { createPublicClient, http } from "viem";
-import { polygonMumbai } from "viem/chains";
+import { polygon } from "viem/chains";
 import Head from "next/head";
 import useCheckout from "@/components/Storefront/hooks/useCheckout";
 import Prints from "@/components/Storefront/modules/Prints";
@@ -13,7 +13,7 @@ import useInteractions from "@/components/Common/hooks/useInteractions";
 
 export default function Storefront() {
   const publicClient = createPublicClient({
-    chain: polygonMumbai,
+    chain: polygon,
     transport: http(
       `https://polygon.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`
     ),

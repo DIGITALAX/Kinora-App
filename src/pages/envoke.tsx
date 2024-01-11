@@ -8,7 +8,7 @@ import { useAccountModal, useConnectModal } from "@rainbow-me/rainbowkit";
 import useSignIn from "@/components/Layout/hooks/useSignIn";
 import { useAccount } from "wagmi";
 import { createPublicClient, http } from "viem";
-import { polygonMumbai } from "viem/chains";
+import { polygon } from "viem/chains";
 import useCriteria from "@/components/Envoke/hooks/useCriteria";
 import { NextRouter } from "next/router";
 import usePostLive from "@/components/Envoke/hooks/usePostLive";
@@ -18,7 +18,7 @@ import Head from "next/head";
 export default function Envoke({ router }: { router: NextRouter }) {
   const dispatch = useDispatch();
   const publicClient = createPublicClient({
-    chain: polygonMumbai,
+    chain: polygon,
     transport: http(
       `https://polygon.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`
     ),

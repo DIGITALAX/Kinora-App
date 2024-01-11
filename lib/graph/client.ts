@@ -9,7 +9,7 @@ export const graphPrintClient = new ApolloClient({
 });
 
 const httpLinkQuest = new HttpLink({
-  uri: "https://api.thegraph.com/subgraphs/name/digitalax/kinora-mumbai",
+  uri: "https://api.thegraph.com/subgraphs/name/digitalax/kinora",
 });
 
 export const graphKinoraClient = new ApolloClient({

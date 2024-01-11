@@ -1,7 +1,7 @@
 import Image from "next/legacy/image";
 import { FunctionComponent } from "react";
 import {
-  ACCEPTED_TOKENS_MUMBAI,
+  ACCEPTED_TOKENS,
   INFURA_GATEWAY,
 } from "../../../../lib/constants";
 import { Reward } from "@/components/Quest/types/quest.types";
@@ -23,7 +23,7 @@ const Rewards: FunctionComponent<RewardProps> = ({ rewards }): JSX.Element => {
                     draggable={false}
                     layout="fill"
                     src={`${INFURA_GATEWAY}/ipfs/${
-                      ACCEPTED_TOKENS_MUMBAI?.filter(
+                      ACCEPTED_TOKENS?.filter(
                         (token) =>
                           reward?.tokenAddress?.toLowerCase() ==
                           token[2]?.toLowerCase()
@@ -33,7 +33,7 @@ const Rewards: FunctionComponent<RewardProps> = ({ rewards }): JSX.Element => {
                 </div>
                 <div className="relative w-fit h-fit flex items-center justify-center font-vcr text-acei text-xxs">
                   {`${Number(reward?.amount) / 10 ** 18} ${
-                    ACCEPTED_TOKENS_MUMBAI?.filter(
+                    ACCEPTED_TOKENS?.filter(
                       (token) =>
                         reward?.tokenAddress?.toLowerCase() ==
                         token[2]?.toLowerCase()

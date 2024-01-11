@@ -38,7 +38,7 @@ const usePageProfile = (handle: string, lensConnected: Profile | undefined) => {
     try {
       const data = await getProfile(
         {
-          forHandle: "test/" + handle,
+          forHandle: "lens/" + handle,
         },
         lensConnected?.id
       );

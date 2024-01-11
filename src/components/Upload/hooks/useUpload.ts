@@ -12,7 +12,7 @@ import { setInteractError } from "../../../../redux/reducers/interactErrorSlice"
 import { setIndexer } from "../../../../redux/reducers/indexerSlice";
 import lensPost from "../../../../lib/helpers/lensPost";
 import { PublicClient, createWalletClient, custom } from "viem";
-import { polygonMumbai } from "viem/chains";
+import { polygon } from "viem/chains";
 import uploadPostContent from "../../../../lib/helpers/uploadPostContent";
 import { Asset } from "@livepeer/react";
 
@@ -145,7 +145,7 @@ const useUpload = (
 
       if (result == 200) {
         const clientWallet = createWalletClient({
-          chain: polygonMumbai,
+          chain: polygon,
           transport: custom((window as any).ethereum),
         });
 

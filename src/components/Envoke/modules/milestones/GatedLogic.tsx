@@ -3,10 +3,7 @@ import { Collection, GatedLogicProps } from "../../types/envoke.types";
 import { setQuestInfo } from "../../../../../redux/reducers/questInfoSlice";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Image from "next/legacy/image";
-import {
-  ACCEPTED_TOKENS_MUMBAI,
-  INFURA_GATEWAY,
-} from "../../../../../lib/constants";
+import { ACCEPTED_TOKENS, INFURA_GATEWAY } from "../../../../../lib/constants";
 import createProfilePicture from "../../../../../lib/helpers/createProfilePicture";
 import { ImCross } from "react-icons/im";
 
@@ -204,7 +201,7 @@ const GatedLogic: FunctionComponent<GatedLogicProps> = ({
             Token Conditions
           </div>
           <div className="relative flex flex-col w-full h-fit gap-4 items-start justify-start">
-            {ACCEPTED_TOKENS_MUMBAI.map((item: string[], index: number) => {
+            {ACCEPTED_TOKENS.map((item: string[], index: number) => {
               return (
                 <div
                   key={index}

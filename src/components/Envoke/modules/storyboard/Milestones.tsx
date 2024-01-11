@@ -8,7 +8,7 @@ import {
 } from "../../types/envoke.types";
 import Image from "next/legacy/image";
 import {
-  ACCEPTED_TOKENS_MUMBAI,
+  ACCEPTED_TOKENS,
   INFURA_GATEWAY,
   IPFS_REGEX,
 } from "../../../../../lib/constants";
@@ -116,7 +116,7 @@ const Milestones: FunctionComponent<StoryboardMilestonesProps> = ({
                         <div className="relative w-7 h-8 flex items-center justify-center rounded-full">
                           <Image
                             src={`${INFURA_GATEWAY}/ipfs/${
-                              ACCEPTED_TOKENS_MUMBAI?.find(
+                              ACCEPTED_TOKENS?.find(
                                 (value) => value[2] === item
                               )?.[0]
                             }`}
@@ -168,7 +168,7 @@ const Milestones: FunctionComponent<StoryboardMilestonesProps> = ({
                       <div className="relative w-7 h-8 flex items-center justify-center rounded-full">
                         <Image
                           src={`${INFURA_GATEWAY}/ipfs/${
-                            ACCEPTED_TOKENS_MUMBAI?.find(
+                            ACCEPTED_TOKENS?.find(
                               (value) =>
                                 value[2]?.toLowerCase() ===
                                 item?.address?.toLowerCase()

@@ -1,7 +1,7 @@
 import Image from "next/legacy/image";
 import { FunctionComponent } from "react";
 import {
-  ACCEPTED_TOKENS_MUMBAI,
+  ACCEPTED_TOKENS,
   INFURA_GATEWAY,
   numberToItemTypeMap,
 } from "../../../../lib/constants";
@@ -58,7 +58,7 @@ const MilestoneInfo: FunctionComponent<MilestoneInfoProps> = ({
                               draggable={false}
                               layout="fill"
                               src={`${INFURA_GATEWAY}/ipfs/${
-                                ACCEPTED_TOKENS_MUMBAI?.filter(
+                                ACCEPTED_TOKENS?.filter(
                                   (token) =>
                                     erc20?.address?.toLowerCase() ==
                                     token[2]?.toLowerCase()
@@ -68,7 +68,7 @@ const MilestoneInfo: FunctionComponent<MilestoneInfoProps> = ({
                           </div>
                           <div className="relative w-fit h-fit flex items-center justify-center font-vcr text-acei text-xxs">
                             {`${Number(erc20?.amount) / 10 ** 18} ${
-                              ACCEPTED_TOKENS_MUMBAI?.filter(
+                              ACCEPTED_TOKENS?.filter(
                                 (token) =>
                                   erc20?.address?.toLowerCase() ==
                                   token[2]?.toLowerCase()

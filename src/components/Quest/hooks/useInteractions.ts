@@ -9,7 +9,7 @@ import {
 } from "../../../../graphql/generated";
 import errorChoice from "../../../../lib/helpers/errorChoice";
 import { Dispatch } from "redux";
-import { polygonMumbai } from "viem/chains";
+import { polygon } from "viem/chains";
 import { PublicClient, createWalletClient, custom } from "viem";
 import {
   MakePostComment,
@@ -201,7 +201,7 @@ const useInteractions = (
 
     try {
       const clientWallet = createWalletClient({
-        chain: polygonMumbai,
+        chain: polygon,
         transport: custom((window as any).ethereum),
       });
 
@@ -307,7 +307,7 @@ const useInteractions = (
       );
 
       const clientWallet = createWalletClient({
-        chain: polygonMumbai,
+        chain: polygon,
         transport: custom((window as any).ethereum),
       });
 
@@ -449,7 +449,7 @@ const useInteractions = (
 
     try {
       const clientWallet = createWalletClient({
-        chain: polygonMumbai,
+        chain: polygon,
         transport: custom((window as any).ethereum),
       });
       await lensMirror(
@@ -609,7 +609,7 @@ const useInteractions = (
 
     try {
       const clientWallet = createWalletClient({
-        chain: polygonMumbai,
+        chain: polygon,
         transport: custom((window as any).ethereum),
       });
 
@@ -660,7 +660,7 @@ const useInteractions = (
 
     try {
       const clientWallet = createWalletClient({
-        chain: polygonMumbai,
+        chain: polygon,
         transport: custom((window as any).ethereum),
       });
 
