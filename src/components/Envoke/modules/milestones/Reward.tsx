@@ -2,10 +2,7 @@ import { FunctionComponent } from "react";
 import { ERC721Reward, RewardProps } from "../../types/envoke.types";
 import Mint from "./Mint";
 import Image from "next/legacy/image";
-import {
-  ACCEPTED_TOKENS_MUMBAI,
-  INFURA_GATEWAY,
-} from "../../../../../lib/constants";
+import { ACCEPTED_TOKENS_MUMBAI, INFURA_GATEWAY } from "../../../../../lib/constants";
 import { setQuestInfo } from "../../../../../redux/reducers/questInfoSlice";
 import { AiOutlineLoading } from "react-icons/ai";
 

@@ -6,7 +6,7 @@ import { NextRouter } from "next/router";
 import useInteractions from "@/components/Common/hooks/useInteractions";
 import { useAccount } from "wagmi";
 import { createPublicClient, http } from "viem";
-import { polygon, polygonMumbai } from "viem/chains";
+import { polygonMumbai } from "viem/chains";
 import { setQuestFeed } from "../../redux/reducers/questFeedSlice";
 import { Quest } from "@/components/Quest/types/quest.types";
 import Head from "next/head";
@@ -17,7 +17,7 @@ export default function Home({ router }: { router: NextRouter }) {
   const publicClient = createPublicClient({
     chain: polygonMumbai,
     transport: http(
-      `https://polygon-mumbai.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY_MUMBAI}`
+      `https://polygon.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`
     ),
   });
   const questFeed = useSelector(
@@ -51,7 +51,7 @@ export default function Home({ router }: { router: NextRouter }) {
     questFeed,
     address,
     publicClient,
-    (newItems) => dispatch(setQuestFeed(newItems as Quest[]))
+    (newItems: any) => dispatch(setQuestFeed(newItems as Quest[]))
   );
 
   return (

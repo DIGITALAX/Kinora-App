@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import {
   Erc20,
   LimitType,
+  Profile,
   SimpleCollectOpenActionModuleInput,
 } from "../../../../graphql/generated";
 import getEnabledCurrencies from "../../../../graphql/lens/queries/enabledCurrencies";
@@ -11,9 +12,8 @@ import { setInteractError } from "../../../../redux/reducers/interactErrorSlice"
 import { setIndexer } from "../../../../redux/reducers/indexerSlice";
 import lensPost from "../../../../lib/helpers/lensPost";
 import { PublicClient, createWalletClient, custom } from "viem";
-import { polygon, polygonMumbai } from "viem/chains";
+import { polygonMumbai } from "viem/chains";
 import uploadPostContent from "../../../../lib/helpers/uploadPostContent";
-import convertToFile from "../../../../lib/helpers/convertToFile";
 import { INFURA_GATEWAY } from "../../../../lib/constants";
 import { Asset } from "@livepeer/react";
 
@@ -22,7 +22,8 @@ const useUpload = (
   dispatch: Dispatch,
   availableCurrencies: Erc20[],
   publicClient: PublicClient,
-  allUploaded: Asset[]
+  allUploaded: Asset[],
+  lensConnected: Profile | undefined
 ) => {
   const [uploadLoading, setUploadLoading] = useState<boolean>(false);
   const [postDetails, setPostDetails] = useState<{
@@ -95,7 +96,12 @@ const useUpload = (
   };
 
   const handleVideoPost = async () => {
-    if (!postDetails?.description || !postDetails?.title || !postDetails?.video)
+    if (
+      !postDetails?.description ||
+      !postDetails?.title ||
+      !postDetails?.video ||
+      !lensConnected?.id
+    )
       return;
     setUploadLoading(true);
     try {

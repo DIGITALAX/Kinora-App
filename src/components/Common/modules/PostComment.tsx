@@ -223,9 +223,12 @@ const PostComment: FunctionComponent<PostCommentProps> = ({
         <div className="relative w-full sm:w-fit h-fit items-center justify-end flex">
           <div
             className={`relative w-20 h-8 font-vcr text-white flex items-center justify-center bg-fuego border border-gray-700 text-xs rounded-sm ${
-              !commentPostLoading && "cursor-pointer active:scale-95"
+              !commentPostLoading &&
+              lensConnected?.id &&
+              "cursor-pointer active:scale-95"
             }`}
             onClick={() =>
+              lensConnected?.id &&
               (commentPost as (id: string, main?: boolean) => Promise<void>)(
                 id,
                 main

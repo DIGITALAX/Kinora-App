@@ -8,7 +8,6 @@ import { Reward } from "@/components/Quest/types/quest.types";
 import { RewardProps } from "../types/envoker.types";
 
 const Rewards: FunctionComponent<RewardProps> = ({ rewards }): JSX.Element => {
-
   return (
     <div className="relative w-fit h-fit justify-start items-center gap-4 flex flex-row flex-wrap">
       {rewards?.flat()?.map((reward: Reward, index: number) => {
@@ -32,7 +31,7 @@ const Rewards: FunctionComponent<RewardProps> = ({ rewards }): JSX.Element => {
                     }`}
                   />
                 </div>
-                <div className="relative w-fit h-fit flex items-center justify-center font-vcr text-azul/70 text-xxs">
+                <div className="relative w-fit h-fit flex items-center justify-center font-vcr text-acei text-xxs">
                   {`${Number(reward?.amount) / 10 ** 18} ${
                     ACCEPTED_TOKENS_MUMBAI?.filter(
                       (token) =>
@@ -44,19 +43,24 @@ const Rewards: FunctionComponent<RewardProps> = ({ rewards }): JSX.Element => {
               </>
             ) : (
               <div
-                className="relative w-10 h-10 flex items-center justify-center gap-1 rounded-sm"
+                className="relative w-10 h-10 flex items-center justify-center gap-1 rounded-sm p-px"
                 id="northern"
               >
-                <div className="relative w-full p-px h-full flex items-center justify-center rounded-sm">
+                <div className="relative w-full h-full flex items-center justify-center rounded-sm">
                   <Image
                     draggable={false}
                     layout="fill"
                     objectFit="cover"
                     className="rounded-sm"
                     src={`${INFURA_GATEWAY}/ipfs/${
-                      reward?.uri?.mediaCover
-                        ? reward?.uri?.mediaCover?.split("ipfs://")?.[1]
-                        : reward?.uri?.images?.[0]?.split("ipfs://")?.[1]
+                      reward?.rewardMetadata?.mediaCover &&
+                      reward?.rewardMetadata?.mediaCover !== ""
+                        ? reward?.rewardMetadata?.mediaCover?.split(
+                            "ipfs://"
+                          )?.[1]
+                        : reward?.rewardMetadata?.images?.[0]?.split(
+                            "ipfs://"
+                          )?.[1]
                     }`}
                   />
                 </div>

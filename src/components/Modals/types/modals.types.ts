@@ -183,3 +183,11 @@ export type FollowersProps = {
   router: NextRouter;
   dispatch: Dispatch<Action>;
 };
+
+export type ClaimProfileProps = {
+  dispatch: Dispatch<Action>;
+};
+
+export type MissingValuesProps = {
+  dispatch: Dispatch<Action>;
+};

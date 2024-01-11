@@ -42,16 +42,13 @@ const useDashboard = (
     });
     try {
       await (window as any).ethereum.request({ method: "eth_requestAccounts" });
-      const provider = new ethers.providers.Web3Provider(
+      const provider = new ethers.BrowserProvider(
         (window as any).ethereum,
         80001
       );
-      const signer = provider.getSigner();
+      const signer = await provider.getSigner();
       const { error, errorMessage } =
-        await questEnvoker.terminateQuestAndWithdraw(
-          id,
-          signer as unknown as ethers.Wallet
-        );
+        await questEnvoker.terminateQuestAndWithdraw(id, signer as any);
 
       if (error) {
         console.error(errorMessage);
@@ -119,18 +116,18 @@ const useDashboard = (
     });
     try {
       await (window as any).ethereum.request({ method: "eth_requestAccounts" });
-      const provider = new ethers.providers.Web3Provider(
+      const provider = new ethers.BrowserProvider(
         (window as any).ethereum,
         80001
       );
-      const signer = provider.getSigner();
+      const signer = await provider.getSigner();
       const { error, errorMessage } =
         await questEnvoker.setPlayerEligibleToClaimMilestone(
           id,
           milestone + 1,
           playerProfileId,
           true,
-          signer as unknown as ethers.Wallet
+          signer as any
         );
 
       if (error) {
@@ -167,16 +164,16 @@ const useDashboard = (
     });
     try {
       await (window as any).ethereum.request({ method: "eth_requestAccounts" });
-      const provider = new ethers.providers.Web3Provider(
+      const provider = new ethers.BrowserProvider(
         (window as any).ethereum,
         80001
       );
-      const signer = provider.getSigner();
+      const signer = await provider.getSigner();
 
       const { error, errorMessage } =
         await kinoraDispatch.playerCompleteQuestMilestone(
           postId as `0x${string}`,
-          signer as unknown as ethers.Wallet
+          signer as any
         );
 
       if (error) {

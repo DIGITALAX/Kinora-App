@@ -11,7 +11,7 @@ import InteractError from "./InteractError";
 import FollowCollect from "./FollowCollect";
 import useFollowCollect from "../hooks/useFollowCollect";
 import { createPublicClient, http } from "viem";
-import { polygon, polygonMumbai } from "viem/chains";
+import { polygonMumbai } from "viem/chains";
 import QuoteBox from "./QuoteBox";
 import useQuote from "../hooks/useQuote";
 import ImageLarge from "./ImageLarge";
@@ -21,6 +21,8 @@ import QuestGates from "./QuestGates";
 import Followers from "./Followers";
 import useFollowers from "../hooks/useFollowers";
 import useNewQuests from "../hooks/useNewQuests";
+import ClaimProfile from "./ClaimProfile";
+import MissingValues from "./MissingValues";
 
 const Modals: FunctionComponent<{ router: NextRouter }> = ({
   router,
@@ -32,7 +34,7 @@ const Modals: FunctionComponent<{ router: NextRouter }> = ({
   const publicClient = createPublicClient({
     chain: polygonMumbai,
     transport: http(
-      `https://polygon-mumbai.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY_MUMBAI}`
+      `https://polygon.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`
     ),
   });
   const questGates = useSelector(
@@ -65,6 +67,15 @@ const Modals: FunctionComponent<{ router: NextRouter }> = ({
   const allUploaded = useSelector(
     (state: RootState) => state.app.allUploadedReducer.videos
   );
+  const claimProfile = useSelector(
+    (state: RootState) => state.app.claimProfileReducer
+  );
+  const missingValues = useSelector(
+    (state: RootState) => state.app.missingValuesReducer
+  );
+  const oracleData = useSelector(
+    (state: RootState) => state.app.oracleDataReducer.data
+  );
   const indexer = useSelector((state: RootState) => state.app.indexerReducer);
   const interactError = useSelector(
     (state: RootState) => state.app.interactErrorReducer
@@ -75,7 +86,8 @@ const Modals: FunctionComponent<{ router: NextRouter }> = ({
     dispatch,
     isConnected,
     address,
-    allUploaded
+    allUploaded,
+    oracleData
   );
   const {
     handleCollect,
@@ -204,6 +216,8 @@ const Modals: FunctionComponent<{ router: NextRouter }> = ({
           searchGifLoading={searchGifLoading}
         />
       )}
+      {missingValues?.value && <MissingValues dispatch={dispatch} />}
+      {claimProfile?.value && <ClaimProfile dispatch={dispatch} />}
       {indexer?.open && <Index message={indexer?.message!} />}
       {interactError?.value && <InteractError dispatch={dispatch} />}
       {success?.value?.open && (

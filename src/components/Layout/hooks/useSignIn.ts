@@ -18,6 +18,10 @@ import { Asset } from "@livepeer/react";
 import { setAllUploaded } from "../../../../redux/reducers/allUploadedSlice";
 import { getPlayerData } from "../../../../graphql/subgraph/getPlayer";
 import { setisPlayer } from "../../../../redux/reducers/isPlayerSlice";
+import { setClaimProfile } from "../../../../redux/reducers/claimProfileSlice";
+import { setOracleData } from "../../../../redux/reducers/oracleDataSlice";
+import { OracleData } from "@/components/Storefront/types/storefront.types";
+import { getOracle } from "../../../../graphql/subgraph/getOracle";
 
 const useSignIn = (
   lensConnected: Profile | undefined,
@@ -25,7 +29,8 @@ const useSignIn = (
   dispatch: Dispatch,
   isConnected: boolean,
   address: `0x${string}` | undefined,
-  allUploaded: Asset[]
+  allUploaded: Asset[],
+  oracleData: OracleData[]
 ) => {
   const { signMessageAsync } = useSignMessage();
   const [signLoading, setSignLoading] = useState<boolean>(false);
@@ -41,6 +46,12 @@ const useSignIn = (
         },
         lensConnected?.id
       );
+
+      if (!profile?.data?.defaultProfile) {
+        dispatch(setLensConnected(undefined));
+        dispatch(setClaimProfile(true));
+        return;
+      }
       const challengeResponse = await generateChallenge({
         for: profile?.data?.defaultProfile?.id,
         signedBy: address,
@@ -137,6 +148,16 @@ const useSignIn = (
     }
   };
 
+  const handleOracles = async (): Promise<void> => {
+    try {
+      const data = await getOracle();
+
+      dispatch(setOracleData(data?.data?.currencyAddeds));
+    } catch (err: any) {
+      console.error(err.message);
+    }
+  };
+
   useEffect(() => {
     if (allUploaded?.length < 1) {
       handleUploadAssets();
@@ -148,6 +169,12 @@ const useSignIn = (
       checkPlayer();
     }
   }, [lensConnected?.id]);
+
+  useEffect(() => {
+    if (!oracleData || oracleData?.length < 1) {
+      handleOracles();
+    }
+  }, []);
 
   return {
     signLoading,

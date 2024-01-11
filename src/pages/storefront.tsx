@@ -1,27 +1,21 @@
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
-import ConnectFirst from "@/components/Common/modules/ConnectFirst";
 import { useAccountModal, useConnectModal } from "@rainbow-me/rainbowkit";
 import { useAccount } from "wagmi";
 import useSignIn from "@/components/Layout/hooks/useSignIn";
-import useUpload from "@/components/Upload/hooks/useUpload";
-import handleMediaUpload from "../../lib/helpers/handleMediaUpload";
-import {
-  HASHTAG_CONSTANTS,
-  INFURA_GATEWAY,
-  IPFS_REGEX,
-} from "../../lib/constants";
-import CollectOptions from "@/components/Upload/modules/CollectOptions";
-import { AiOutlineLoading } from "react-icons/ai";
 import { createPublicClient, http } from "viem";
 import { polygonMumbai } from "viem/chains";
 import Head from "next/head";
+import useCheckout from "@/components/Storefront/hooks/useCheckout";
+import Prints from "@/components/Storefront/modules/Prints";
+import Checkout from "@/components/Storefront/modules/Checkout";
+import useInteractions from "@/components/Common/hooks/useInteractions";
 
 export default function Storefront() {
   const publicClient = createPublicClient({
     chain: polygonMumbai,
     transport: http(
-      `https://polygon-mumbai.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY_MUMBAI}`
+      `https://polygon.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`
     ),
   });
   const dispatch = useDispatch();
@@ -30,6 +24,9 @@ export default function Storefront() {
   const { isConnected, address } = useAccount();
   const openSidebar = useSelector(
     (state: RootState) => state.app.sideBarOpenReducer.value
+  );
+  const oracleData = useSelector(
+    (state: RootState) => state.app.oracleDataReducer.data
   );
   const walletConnected = useSelector(
     (state: RootState) => state.app.walletConnectedReducer.value
@@ -46,7 +43,37 @@ export default function Storefront() {
     dispatch,
     isConnected,
     address,
-    allUploaded
+    allUploaded,
+    oracleData
+  );
+  const {
+    storeLoading,
+    storeItems,
+    checkoutItem,
+    checkoutLoading,
+    fulfillmentDetails,
+    setFulfillmentDetails,
+    chosenCartItem,
+    setChosenCartItem,
+    checkoutCurrency,
+    handleApproveSpend,
+    approved,
+    setCheckoutCurrency,
+    setStoreItems,
+  } = useCheckout(lensConnected, publicClient, oracleData, address, dispatch);
+  const {
+    mirror,
+    like,
+    interactionsLoading,
+    mirrorChoiceOpen,
+    setMirrorChoiceOpen,
+  } = useInteractions(
+    lensConnected,
+    dispatch,
+    storeItems,
+    address,
+    publicClient,
+    setStoreItems
   );
 
   return (
@@ -113,9 +140,43 @@ export default function Storefront() {
         id={!openSidebar ? "closeSide" : ""}
       >
         <div className="relative w-fit h-fit flex items-start justify-start text-2xl pb-10">
-          Kinora Collections
+          Kinora Shop
         </div>
-        <div className="relative w-full h-fit flex items-start justify-start flex-row text-xs gap-4"></div>
+        <div className="relative w-full h-full flex items-start justify-start flex-row text-xs gap-4">
+          <Prints
+            setStoreItems={setStoreItems}
+            lensConnected={lensConnected}
+            mirror={mirror}
+            like={like}
+            dispatch={dispatch}
+            storeLoading={storeLoading}
+            storeItems={storeItems}
+            interactionsLoading={interactionsLoading}
+            mirrorChoiceOpen={mirrorChoiceOpen}
+            setMirrorChoiceOpen={setMirrorChoiceOpen}
+            chosenCartItem={chosenCartItem}
+            setChosenCartItem={setChosenCartItem}
+          />
+          <Checkout
+            dispatch={dispatch}
+            chosenCartItem={chosenCartItem}
+            setChosenCartItem={setChosenCartItem}
+            checkoutCurrency={checkoutCurrency}
+            handleApproveSpend={handleApproveSpend}
+            approved={approved}
+            setCheckoutCurrency={setCheckoutCurrency}
+            walletConnected={walletConnected}
+            lensConnected={lensConnected}
+            openConnectModal={openConnectModal}
+            oracleData={oracleData}
+            checkoutItem={checkoutItem}
+            checkoutLoading={checkoutLoading}
+            fulfillmentDetails={fulfillmentDetails}
+            setFulfillmentDetails={setFulfillmentDetails}
+            loginLoading={signLoading}
+            handleLogIn={handleLogIn}
+          />
+        </div>
       </div>
     </div>
   );

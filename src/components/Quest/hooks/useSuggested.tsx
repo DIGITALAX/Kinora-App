@@ -120,7 +120,9 @@ const useSuggested = (lensConnected: Profile | undefined) => {
   };
 
   useEffect(() => {
-    getSuggested();
+    if (suggestedQuests?.length < 1) {
+      getSuggested();
+    }
   }, []);
 
   return {

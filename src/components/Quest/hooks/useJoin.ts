@@ -36,16 +36,16 @@ const useJoin = (
     setCompleteLoading(true);
     try {
       await (window as any).ethereum.request({ method: "eth_requestAccounts" });
-      const provider = new ethers.providers.Web3Provider(
+      const provider = new ethers.BrowserProvider(
         (window as any).ethereum,
         80001
       );
-      const signer = provider.getSigner();
+      const signer = await provider.getSigner();
 
       const { error, errorMessage } =
         await kinoraDispatch.playerCompleteQuestMilestone(
           questId as `0x${string}`,
-          signer as unknown as ethers.Wallet
+          signer as any
         );
 
       if (error) {
@@ -97,15 +97,15 @@ const useJoin = (
       }
 
       await (window as any).ethereum.request({ method: "eth_requestAccounts" });
-      const provider = new ethers.providers.Web3Provider(
+      const provider = new ethers.BrowserProvider(
         (window as any).ethereum,
         80001
       );
-      const signer = provider.getSigner();
+      const signer = await provider.getSigner();
 
       const { error, errorMessage } = await kinoraDispatch.playerJoinQuest(
         questId as `0x${string}`,
-        signer as unknown as ethers.Wallet
+        signer as any
       );
 
       if (error) {
@@ -214,9 +214,28 @@ const useJoin = (
 
               const videos = await Promise.all(videoPromises);
 
+              const rewardPromises = milestone?.rewards?.map(
+                async (item: any) => {
+                  if (item.type == "1") {
+                    if (!item?.rewardMetadata) {
+                      const fetched = await fetchIPFSJSON(item?.uri);
+                      return {
+                        ...item,
+                        rewardMetadata: fetched,
+                      };
+                    }
+                  } else {
+                    return item;
+                  }
+                }
+              );
+
+              const rewards = await Promise.all(rewardPromises);
+
               return {
                 ...milestone,
                 videos,
+                rewards,
                 gated: {
                   ...milestone?.gated,
                   erc721Logic,

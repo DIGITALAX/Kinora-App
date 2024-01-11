@@ -31,6 +31,9 @@ const Header: FunctionComponent<{ router: NextRouter }> = ({ router }) => {
   const allUploaded = useSelector(
     (state: RootState) => state.app.allUploadedReducer.videos
   );
+  const oracleData = useSelector(
+    (state: RootState) => state.app.oracleDataReducer.data
+  );
   const openSidebar = useSelector(
     (state: RootState) => state.app.sideBarOpenReducer.value
   );
@@ -52,7 +55,8 @@ const Header: FunctionComponent<{ router: NextRouter }> = ({ router }) => {
     dispatch,
     isConnected,
     address,
-    allUploaded
+    allUploaded,
+    oracleData
   );
   const {
     searchLoading,

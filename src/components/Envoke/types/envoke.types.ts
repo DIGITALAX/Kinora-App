@@ -281,6 +281,7 @@ export type GatedLogicProps = {
 
 export interface Collection {
   collectionId: string;
+  soldTokens: string;
   dropMetadata: {
     dropCover: string;
     dropTitle: string;
@@ -289,10 +290,21 @@ export interface Collection {
     title: string;
     mediaCover: string;
     images: string[];
+    sizes: string[]
+  colors: string[]
+  mediaTypes: string[]
+  access: string[];
+  communities: string[]
+  tags: string[]
   };
+  
+  publication: Post;
+  amount: string;
+  prices: string[];
   origin: string;
   uri: string;
   profileId: string;
+  pubId: string
   profile: Profile;
 }
 

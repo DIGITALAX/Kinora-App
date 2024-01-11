@@ -10,7 +10,7 @@ import {
 } from "../../../../redux/reducers/postCollectGifSlice";
 import lensPost from "../../../../lib/helpers/lensPost";
 import { PublicClient, createWalletClient, custom } from "viem";
-import { polygon, polygonMumbai } from "viem/chains";
+import { polygonMumbai } from "viem/chains";
 import { Dispatch } from "redux";
 import { setInteractError } from "../../../../redux/reducers/interactErrorSlice";
 import { setIndexer } from "../../../../redux/reducers/indexerSlice";

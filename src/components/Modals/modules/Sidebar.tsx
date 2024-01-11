@@ -64,18 +64,23 @@ const Sidebar: FunctionComponent<SidebarProps> = ({
               {
                 title: "Account",
                 image: "QmbRjUquntNwVuSn1GpUpVi7hMygvhShZrA7rHgmFYtzSf",
-                link: () => {
-                  if (!router.asPath?.includes("envoker")) {
-                    router.push(
-                      `/envoker/${
-                        lensConnected?.handle?.suggestedFormatted?.localName?.split(
-                          "@"
-                        )?.[1]
-                      }`
-                    );
-                  }
-                  dispatch(setAccountSwitch(AccountType.Home));
-                },
+                link:
+                  !walletConnected && !lensConnected
+                    ? openConnectModal
+                    : walletConnected && !lensConnected
+                    ? () => handleLogIn()
+                    : () => {
+                        if (!router.asPath?.includes("envoker")) {
+                          router.push(
+                            `/envoker/${
+                              lensConnected?.handle?.suggestedFormatted?.localName?.split(
+                                "@"
+                              )?.[1]
+                            }`
+                          );
+                        }
+                        dispatch(setAccountSwitch(AccountType.Home));
+                      },
               },
               {
                 title: "Envoke",
@@ -90,18 +95,23 @@ const Sidebar: FunctionComponent<SidebarProps> = ({
               {
                 title: "Saves",
                 image: "QmS5LARM6UvSAhzGmGGSQiWYfvNguwsfeiXJ62s3KGZ6Z3",
-                link: () => {
-                  if (!router.asPath?.includes("envoker")) {
-                    router.push(
-                      `/envoker/${
-                        lensConnected?.handle?.suggestedFormatted?.localName?.split(
-                          "@"
-                        )?.[1]
-                      }`
-                    );
-                  }
-                  dispatch(setAccountSwitch(AccountType.Save));
-                },
+                link:
+                  !walletConnected && !lensConnected
+                    ? openConnectModal
+                    : walletConnected && !lensConnected
+                    ? () => handleLogIn()
+                    : () => {
+                        if (!router.asPath?.includes("envoker")) {
+                          router.push(
+                            `/envoker/${
+                              lensConnected?.handle?.suggestedFormatted?.localName?.split(
+                                "@"
+                              )?.[1]
+                            }`
+                          );
+                        }
+                        dispatch(setAccountSwitch(AccountType.Save));
+                      },
               },
               {
                 title: "Activity",
@@ -111,35 +121,38 @@ const Sidebar: FunctionComponent<SidebarProps> = ({
               {
                 title: "Dashboard",
                 image: "QmZ1PSKctNt2REihxUmJBK9ZrcbU2pTACE1XSUY4YprK1x",
-                link: () => {
-                  if (!router.asPath?.includes("envoker")) {
-                    router.push(
-                      `/envoker/${
-                        lensConnected?.handle?.suggestedFormatted?.localName?.split(
-                          "@"
-                        )?.[1]
-                      }`
-                    );
-                  }
-                  dispatch(setAccountSwitch(AccountType.Dashboard));
-                },
+                link:
+                  !walletConnected && !lensConnected
+                    ? openConnectModal
+                    : walletConnected && !lensConnected
+                    ? () => handleLogIn()
+                    : () => {
+                        if (!router.asPath?.includes("envoker")) {
+                          router.push(
+                            `/envoker/${
+                              lensConnected?.handle?.suggestedFormatted?.localName?.split(
+                                "@"
+                              )?.[1]
+                            }`
+                          );
+                        }
+                        dispatch(setAccountSwitch(AccountType.Dashboard));
+                      },
               },
             ].map(
               (
-                item: { title: string; image: string; link: () => void },
+                item: {
+                  title: string;
+                  image: string;
+                  link: (() => void) | (() => void) | undefined;
+                },
                 index: number
               ) => {
                 return (
                   <div
                     key={index}
                     className="relative w-fit h-fit flex items-center justify-center flex flex-row gap-2 hover:opacity-80 cursor-pointer active:scale-95"
-                    onClick={
-                      !walletConnected && !lensConnected
-                        ? openConnectModal
-                        : walletConnected && !lensConnected
-                        ? () => handleLogIn()
-                        : () => item.link()
-                    }
+                    onClick={() => item.link!()}
                   >
                     <div
                       className={`relative flex items-center justify-center w-5 h-5`}

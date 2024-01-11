@@ -155,10 +155,11 @@ const InteractBar: FunctionComponent<InteractBarProps> = ({
                     className={`relative hover:opacity-80 w-7 h-6 rounded-full flex items-center justify-center ${
                       item?.reacted && "hue-rotate-60"
                     } ${
-                      !lensConnected?.id ||
-                      (item?.title === "Collect" &&
-                        (!publication?.openActionModules ||
-                          publication?.openActionModules?.length == 0))
+                      (!lensConnected?.id ||
+                        (item?.title === "Collect" &&
+                          (!publication?.openActionModules ||
+                            publication?.openActionModules?.length == 0))) &&
+                      item?.title !== "Players"
                         ? "opacity-50"
                         : "cursor-pointer active:scale-95"
                     }`}

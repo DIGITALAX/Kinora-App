@@ -9,7 +9,7 @@ import {
 } from "../../../../graphql/generated";
 import errorChoice from "../../../../lib/helpers/errorChoice";
 import { Dispatch } from "redux";
-import { polygon, polygonMumbai } from "viem/chains";
+import { polygonMumbai } from "viem/chains";
 import { PublicClient, createWalletClient, custom } from "viem";
 import {
   MakePostComment,
@@ -122,7 +122,7 @@ const useInteractions = (
       bookmark: false,
       follow: false,
       unfollow: false,
-      collect: false
+      collect: false,
     },
   ]);
 

@@ -7,7 +7,7 @@ import follow from "../../graphql/lens/mutations/follow";
 import broadcast from "../../graphql/lens/mutations/broadcast";
 import { setIndexer } from "../../redux/reducers/indexerSlice";
 import handleIndexCheck from "../../graphql/lens/queries/indexed";
-import { polygon } from "viem/chains";
+import { polygonMumbai } from "viem/chains";
 import { LENS_HUB_PROXY_ADDRESS_MATIC } from "../constants";
 
 const lensFollow = async (
@@ -61,7 +61,7 @@ const lensFollow = async (
       address: LENS_HUB_PROXY_ADDRESS_MATIC,
       abi: LensHubProxy,
       functionName: "follow",
-      chain: polygon,
+      chain: polygonMumbai,
       args: [
         typedData?.value?.followerProfileId,
         typedData?.value?.idsOfProfilesToFollow,

@@ -1,10 +1,7 @@
 import { FunctionComponent } from "react";
 import { PostLiveProps } from "../types/envoke.types";
 import Image from "next/legacy/image";
-import {
-  ACCEPTED_TOKENS_MUMBAI,
-  INFURA_GATEWAY,
-} from "../../../../lib/constants";
+import { ACCEPTED_TOKENS_MUMBAI, INFURA_GATEWAY } from "../../../../lib/constants";
 
 const PostLive: FunctionComponent<PostLiveProps> = ({
   tokensToApprove,

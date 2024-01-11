@@ -42,16 +42,16 @@ const useVideos = (
     setMetricsLoading(true);
     try {
       await (window as any).ethereum.request({ method: "eth_requestAccounts" });
-      const provider = new ethers.providers.Web3Provider(
+      const provider = new ethers.BrowserProvider(
         (window as any).ethereum,
         80001
       );
-      const signer = provider.getSigner();
+      const signer = await provider.getSigner();
 
       const { error, errorMessage } = await kinora.sendPlayerMetricsOnChain(
         (videoInfo ? videoInfo : videoPlaying)?.publication?.id,
         lensConnected?.id,
-        signer as unknown as ethers.Wallet
+        signer as any
       );
 
       if (error) {
