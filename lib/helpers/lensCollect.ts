@@ -9,7 +9,7 @@ import { setIndexer } from "../../redux/reducers/indexerSlice";
 import { LENS_HUB_PROXY_ADDRESS_MATIC } from "../constants";
 import { WalletClient, PublicClient } from "viem";
 import broadcast from "../../graphql/lens/mutations/broadcast";
-import { polygonMumbai } from "viem/chains";
+import { polygon } from "viem/chains";
 import handleIndexCheck from "../../graphql/lens/queries/indexed";
 import { FetchResult } from "@apollo/client";
 import { BroadcastOnchainMutation } from "../../graphql/generated";
@@ -57,8 +57,6 @@ const lensCollect = async (
       message: omit(typedData?.value, ["__typename"]),
       account: address as `0x${string}`,
     });
-
-
 
     broadcastResult = await broadcast({
       id: data?.createActOnOpenActionTypedData?.id,
@@ -122,7 +120,7 @@ const lensCollect = async (
       address: LENS_HUB_PROXY_ADDRESS_MATIC,
       abi: LensHubProxy,
       functionName,
-      chain: polygonMumbai,
+      chain: polygon,
       args,
       account: address,
     });

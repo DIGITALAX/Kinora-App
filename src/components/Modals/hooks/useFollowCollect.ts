@@ -7,7 +7,7 @@ import {
 } from "../../../../graphql/generated";
 import approveCurrency from "../../../../graphql/lens/mutations/approve";
 import isApprovedData from "../../../../graphql/lens/mutations/isApproved";
-import { polygonMumbai } from "viem/chains";
+import { polygon } from "viem/chains";
 import lensCollect from "../../../../lib/helpers/lensCollect";
 import {
   FollowCollectState,
@@ -104,7 +104,7 @@ const useFollowCollect = (
       });
 
       const clientWallet = createWalletClient({
-        chain: polygonMumbai,
+        chain: polygon,
         transport: custom((window as any).ethereum),
       });
 
@@ -164,7 +164,7 @@ const useFollowCollect = (
     setTransactionLoading(true);
     try {
       const clientWallet = createWalletClient({
-        chain: polygonMumbai,
+        chain: polygon,
         transport: custom((window as any).ethereum),
       });
 
@@ -194,7 +194,7 @@ const useFollowCollect = (
     setTransactionLoading(true);
     try {
       const clientWallet = createWalletClient({
-        chain: polygonMumbai,
+        chain: polygon,
         transport: custom((window as any).ethereum),
       });
 

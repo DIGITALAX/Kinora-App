@@ -1,7 +1,7 @@
 import { FunctionComponent } from "react";
 import { PostLiveProps } from "../types/envoke.types";
 import Image from "next/legacy/image";
-import { ACCEPTED_TOKENS_MUMBAI, INFURA_GATEWAY } from "../../../../lib/constants";
+import { ACCEPTED_TOKENS, INFURA_GATEWAY } from "../../../../lib/constants";
 
 const PostLive: FunctionComponent<PostLiveProps> = ({
   tokensToApprove,
@@ -37,7 +37,7 @@ const PostLive: FunctionComponent<PostLiveProps> = ({
                     >
                       <div className="relative flex flex-col gap-1 w-fit h-fit items-center justify-center font-bit">
                         <div className="relative w-fit h-fit flex items-center justify-center text-xs text-white">{`${
-                          ACCEPTED_TOKENS_MUMBAI?.find(
+                          ACCEPTED_TOKENS?.find(
                             (value) =>
                               value[2]?.toLowerCase() ===
                               item?.address?.toLowerCase()
@@ -55,7 +55,7 @@ const PostLive: FunctionComponent<PostLiveProps> = ({
                       >
                         <Image
                           src={`${INFURA_GATEWAY}/ipfs/${
-                            ACCEPTED_TOKENS_MUMBAI?.find(
+                            ACCEPTED_TOKENS?.find(
                               (value) =>
                                 value[2]?.toLowerCase() ===
                                 item?.address?.toLowerCase()

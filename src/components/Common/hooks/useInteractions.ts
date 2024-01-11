@@ -11,7 +11,7 @@ import { Dispatch } from "redux";
 import lensBookmark from "../../../../lib/helpers/lensBookmark";
 import { useEffect, useState } from "react";
 import { PublicClient, createWalletClient, custom } from "viem";
-import { polygonMumbai } from "viem/chains";
+import { polygon } from "viem/chains";
 import lensMirror from "../../../../lib/helpers/lensMirror";
 import lensLike from "../../../../lib/helpers/lensLike";
 import refetchProfile from "../../../../lib/helpers/refetchProfile";
@@ -119,7 +119,7 @@ const useInteractions = (
 
     try {
       const clientWallet = createWalletClient({
-        chain: polygonMumbai,
+        chain: polygon,
         transport: custom((window as any).ethereum),
       });
       await lensMirror(
@@ -201,7 +201,7 @@ const useInteractions = (
 
     try {
       const clientWallet = createWalletClient({
-        chain: polygonMumbai,
+        chain: polygon,
         transport: custom((window as any).ethereum),
       });
 
@@ -327,7 +327,7 @@ const useInteractions = (
 
     try {
       const clientWallet = createWalletClient({
-        chain: polygonMumbai,
+        chain: polygon,
         transport: custom((window as any).ethereum),
       });
 
@@ -380,7 +380,7 @@ const useInteractions = (
 
     try {
       const clientWallet = createWalletClient({
-        chain: polygonMumbai,
+        chain: polygon,
         transport: custom((window as any).ethereum),
       });
 

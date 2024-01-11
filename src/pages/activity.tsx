@@ -6,7 +6,7 @@ import useActivity from "@/components/Activity/hooks/useActivity";
 import useInteractions from "@/components/Common/hooks/useInteractions";
 import { useAccount } from "wagmi";
 import { createPublicClient, http } from "viem";
-import { polygonMumbai } from "viem/chains";
+import { polygon } from "viem/chains";
 import { Quest } from "@/components/Quest/types/quest.types";
 import { Profile } from "../../graphql/generated";
 import { setActivityFeed } from "../../redux/reducers/activityFeedSlice";
@@ -14,7 +14,7 @@ import Head from "next/head";
 
 export default function Envoke({ router }: { router: NextRouter }) {
   const publicClient = createPublicClient({
-    chain: polygonMumbai,
+    chain: polygon,
     transport: http(
       `https://polygon.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`
     ),

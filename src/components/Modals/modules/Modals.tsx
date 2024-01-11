@@ -11,7 +11,7 @@ import InteractError from "./InteractError";
 import FollowCollect from "./FollowCollect";
 import useFollowCollect from "../hooks/useFollowCollect";
 import { createPublicClient, http } from "viem";
-import { polygonMumbai } from "viem/chains";
+import { polygon } from "viem/chains";
 import QuoteBox from "./QuoteBox";
 import useQuote from "../hooks/useQuote";
 import ImageLarge from "./ImageLarge";
@@ -32,7 +32,7 @@ const Modals: FunctionComponent<{ router: NextRouter }> = ({
   const { openAccountModal } = useAccountModal();
   const { isConnected, address } = useAccount();
   const publicClient = createPublicClient({
-    chain: polygonMumbai,
+    chain: polygon,
     transport: http(
       `https://polygon.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`
     ),

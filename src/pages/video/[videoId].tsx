@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { createPublicClient, http } from "viem";
-import { polygonMumbai } from "viem/chains";
+import { polygon } from "viem/chains";
 import { RootState } from "../../../redux/store";
 import { NextRouter } from "next/router";
 import useInteractions from "@/components/Quest/hooks/useInteractions";
@@ -28,7 +28,7 @@ export default function VideoId({ router }: { router: NextRouter }) {
   const dispatch = useDispatch();
   const { address } = useAccount();
   const publicClient = createPublicClient({
-    chain: polygonMumbai,
+    chain: polygon,
     transport: http(
       `https://polygon.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`
     ),
