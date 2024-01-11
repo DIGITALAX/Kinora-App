@@ -37,6 +37,7 @@ export interface ItemDetails {
   title: string;
   media: string;
   description: string;
+  prompt: string
   mediaCover: string;
   video: string;
   audio: string;

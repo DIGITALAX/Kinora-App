@@ -68,6 +68,7 @@ const Reward: FunctionComponent<RewardProps> = ({
                               details: {
                                 title: "",
                                 description: "",
+                                prompt: "",
                                 mediaCover: "",
                                 video: "",
                                 audio: "",
@@ -101,6 +102,7 @@ const Reward: FunctionComponent<RewardProps> = ({
                               details: {
                                 title: "",
                                 description: "",
+                                prompt: "",
                                 mediaCover: "",
                                 video: "",
                                 audio: "",

@@ -449,7 +449,7 @@ const Mint: FunctionComponent<MintProps> = ({
             />
           )}
       </div>
-      <div className="relative w-full h-fit flex items-center justify-center gap-2 flex-col">
+      <div className="relative w-full h-full flex items-center justify-between gap-2 flex-col">
         <input
           className="h-10 w-full bg-black border border-acei rounded-md p-1 text-xs"
           placeholder="Title."
@@ -509,7 +509,7 @@ const Mint: FunctionComponent<MintProps> = ({
           }}
         />
         <textarea
-          className="h-40 w-full bg-black border border-acei rounded-md p-2 text-xs"
+          className="h-20 w-full bg-black border border-acei rounded-md p-2 text-xs"
           style={{
             resize: "none",
           }}
@@ -538,6 +538,67 @@ const Mint: FunctionComponent<MintProps> = ({
                     : 0
                 ]?.rewards?.rewards721?.[index]?.details,
                 description: e.target.value,
+              },
+            };
+            milestones[
+              milestonesOpen.findIndex((item: boolean) => item == true) !== -1
+                ? milestonesOpen.findIndex((item: boolean) => item == true)
+                : 0
+            ] = {
+              ...milestones[
+                milestonesOpen.findIndex((item: boolean) => item == true) !== -1
+                  ? milestonesOpen.findIndex((item: boolean) => item == true)
+                  : 0
+              ],
+              rewards: {
+                ...milestones[
+                  milestonesOpen.findIndex((item: boolean) => item == true) !==
+                  -1
+                    ? milestonesOpen.findIndex((item: boolean) => item == true)
+                    : 0
+                ]?.rewards,
+                rewards721: rewards,
+              },
+            };
+
+            dispatch(
+              setQuestInfo({
+                actionDetails: questInfo?.details,
+                actionMilestones: milestones,
+              })
+            );
+          }}
+        ></textarea>
+        <textarea
+          className="h-16 w-full bg-black border border-acei rounded-md p-2 text-xs"
+          style={{
+            resize: "none",
+          }}
+          placeholder="Prompt."
+          value={item?.prompt}
+          onChange={(e) => {
+            const milestones = [...questInfo?.milestones];
+            const rewards = [
+              ...milestones[
+                milestonesOpen.findIndex((item: boolean) => item == true) !== -1
+                  ? milestonesOpen.findIndex((item: boolean) => item == true)
+                  : 0
+              ]?.rewards?.rewards721,
+            ];
+            rewards[index] = {
+              ...milestones[
+                milestonesOpen.findIndex((item: boolean) => item == true) !== -1
+                  ? milestonesOpen.findIndex((item: boolean) => item == true)
+                  : 0
+              ]?.rewards?.rewards721?.[index],
+              details: {
+                ...milestones[
+                  milestonesOpen.findIndex((item: boolean) => item == true) !==
+                  -1
+                    ? milestonesOpen.findIndex((item: boolean) => item == true)
+                    : 0
+                ]?.rewards?.rewards721?.[index]?.details,
+                prompt: e.target.value,
               },
             };
             milestones[
