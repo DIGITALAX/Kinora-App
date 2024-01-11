@@ -7,7 +7,7 @@ handler.post(async (_, res: NextApiResponse) => {
   try {
     const results = await fetch("https://livepeer.studio/api/asset", {
       headers: {
-        Authorization: "Bearer " + process.env.NEXT_PUBLIC_LIVEPEER_STUDIO_KEY as string,
+        Authorization: "Bearer " + process.env.LIVEPEER_STUDIO as string,
       },
     });
     const json = await results.json();
