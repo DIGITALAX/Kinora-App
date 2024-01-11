@@ -134,7 +134,7 @@ const Reward: FunctionComponent<RewardProps> = ({
               </div>
             </div>
           </div>
-          <div className="relative w-full h-fit flex flex-col gap-3 max-h-[25rem] overflow-y-scroll">
+          <div className="relative w-full h-fit flex flex-col gap-3 sm:max-h-[25rem] overflow-y-scroll">
             {questInfo?.milestones?.[
               milestonesOpen.findIndex((item: boolean) => item == true) !== -1
                 ? milestonesOpen.findIndex((item: boolean) => item == true)
@@ -162,7 +162,7 @@ const Reward: FunctionComponent<RewardProps> = ({
               return (
                 <div
                   key={index}
-                  className={`relative w-full h-fit flex flex-row  items-center justify-center gap-3 ${
+                  className={`relative w-full h-fit flex flex-col sm:flex-row  items-center justify-center gap-3 ${
                     questInfo?.milestones?.[
                       milestonesOpen.findIndex(
                         (item: boolean) => item == true

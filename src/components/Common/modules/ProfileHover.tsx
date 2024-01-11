@@ -45,7 +45,7 @@ const ProfileHover: FunctionComponent<ProfileHoverProps> = ({
             }
             id="northern"
           >
-            <div className="relative w-full h-full flex items-center justify-center">
+            <div className="relative w-full h-full flex items-center justify-center rounded-full">
               {pfp && (
                 <Image
                   layout="fill"

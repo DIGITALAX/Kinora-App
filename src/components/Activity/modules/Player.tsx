@@ -50,9 +50,29 @@ const Player: FunctionComponent<PlayerProps> = ({
           />
         </div>
       </div>
-      <div className="relative w-full flex flex-row items-start justify-start gap-2">
+      <div className="relative w-full flex flex-col sm:flex-row items-start justify-start gap-2 h-16 p-2 border border-white rounded-sm">
+        <div className="absolute top-0 left-0 flex flex-row ml-auto items-center justify-center w-full h-full z-0">
+          <div className="relative w-full h-full flex items-center justify-center rounded-sm">
+            <Image
+              layout="fill"
+              draggable={false}
+              src={`${INFURA_GATEWAY}/ipfs/${
+                quest?.questMetadata?.cover?.split("ipfs://")?.[1]
+              }`}
+              objectFit={"cover"}
+              className="rounded-sm"
+            />
+            <div
+              className="absolute top-0 left-0 w-full h-full items-center justify-center flex rounded-sm"
+              id="fadeSide"
+            ></div>
+          </div>
+        </div>
         <div className="relative flex items-start justify-between w-fit h-full flex-col gap-1.5">
-          <div className="relative flex items-center justify-center border border-suave py-px px-1 rounded-md">
+          <div
+            className="relative flex items-center justify-center border border-suave py-px px-1 rounded-md cursor-pointer active:scale-95"
+            onClick={() => router.push(`/quest/${quest?.publication?.id}`)}
+          >
             <div className="relative w-fit font-bit h-fit text-xs break-words flex items-center justify-center text-white">
               {quest?.questMetadata?.title?.length > 15
                 ? quest?.questMetadata?.title?.slice(0, 15)
@@ -60,9 +80,9 @@ const Player: FunctionComponent<PlayerProps> = ({
               <p className="pl-2 flex text-sm text-calcetine">{">"}</p>
             </div>
           </div>
-          <div className="relative w-full h-fit flex items-center justify-between font-bit text-xs break-words gap-3">
+          <div className="relative w-full h-fit flex items-center justify-between font-bit text-xxs sm:text-xs break-words gap-3">
             <div className="relative flex flex-row gap-1.5 items-center justify-center">
-              <div className="relative w-3 h-3 flex items-center justify-center">
+              <div className="relative w-3 h-3 flex items-center justify-center flex">
                 <Image
                   draggable={false}
                   layout="fill"
@@ -71,37 +91,6 @@ const Player: FunctionComponent<PlayerProps> = ({
               </div>
               <div className="text-gris relative flex items-center justify-center">
                 Player Joined Quest
-              </div>
-            </div>
-            <div className="relative w-fit h-fit flex items-center justify-center text-white">
-              {(quest?.publication?.metadata as VideoMetadataV3)?.title
-                ?.length > 20
-                ? (
-                    quest?.publication?.metadata as VideoMetadataV3
-                  )?.title?.slice(0, 20) + "..."
-                : (quest?.publication?.metadata as VideoMetadataV3)?.title}
-            </div>
-          </div>
-        </div>
-
-        <div className="relative flex flex-row gap-1.5 ml-auto items-center justify-center">
-          <div className="relative w-fit h-fit flex items-center justify-center break-words top-px font-bit text-white text-xxs">
-            Quest <br /> Origin <br /> {">"}
-          </div>
-          <div className="relative w-fit h-fit flex items-center justify-end">
-            <div
-              className="relative w-28 h-12 flex items-center justify-center rounded-md p-px cursor-pointer"
-              id="rainbow"
-              onClick={() => router.push(`/quest/${quest?.publication?.id}`)}
-            >
-              <div className="relative w-full h-full flex items-center justify-center">
-                <Image
-                  layout="fill"
-                  draggable={false}
-                  src={`${INFURA_GATEWAY}/ipfs/${
-                    quest?.questMetadata?.cover?.split("ipfs://")?.[1]
-                  }`}
-                />
               </div>
             </div>
           </div>

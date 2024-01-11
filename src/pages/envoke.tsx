@@ -160,11 +160,14 @@ export default function Envoke({ router }: { router: NextRouter }) {
           }}
         >
           <div
-            className="md:h-full h-fit w-full items-start justify-start px-6 pb-2 pt-6 relative flex flex-col"
+            className="md:h-full h-fit w-full items-start justify-start px-3 sm:px-6 pb-2 pt-6 relative flex flex-col"
             style={{
-              width: openSidebar
-                ? "calc(100vw - 10rem)"
-                : "calc(100vw - 2.5rem)",
+              width:
+                typeof window !== "undefined" &&
+                window.innerWidth > 684 &&
+                openSidebar
+                  ? "calc(100vw - 10rem)"
+                  : "calc(100vw - 2.5rem)",
             }}
             id={!openSidebar ? "closeSide" : ""}
           >
@@ -172,7 +175,7 @@ export default function Envoke({ router }: { router: NextRouter }) {
               Envoke New Quest
             </div>
             <div
-              className={`relative w-full h-full flex flex-col md:flex-row gap-8 pb-2 items-start  ${
+              className={`relative w-full h-fit flex flex-col xl:flex-row gap-8 pb-2 items-start  ${
                 questStage !== QuestStage.Post
                   ? "justify-end"
                   : "justify-center"

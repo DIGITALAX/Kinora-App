@@ -29,12 +29,12 @@ const Home: FunctionComponent<HomeProps> = ({
   return (
     <>
       {questsLoading || globalLoading ? (
-        <div className="w-full h-fit grid-cols-2 grid gap-3">
+        <div className="w-full h-fit grid-cols-1 sm:grid-cols-2 grid gap-3">
           {Array.from({ length: 10 }).map((_, index: number) => {
             return (
               <div
                 key={index}
-                className="relative w-full h-80 flex rounded-sm animate-pulse"
+                className="relative w-full h-60 sm:h-80 flex rounded-sm animate-pulse"
                 id="northern"
               ></div>
             );
@@ -53,7 +53,7 @@ const Home: FunctionComponent<HomeProps> = ({
             dataLength={quests?.length}
             className="relative w-full h-full flex overflow-y-scroll"
           >
-            <div className="relative w-full h-fit grid grid-cols-4 items-start justify-start gap-4">
+            <div className="relative w-full h-fit grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 items-start justify-start gap-4">
               {quests?.map((quest: Quest & { type: string }, index: number) => {
                 return (
                   <div

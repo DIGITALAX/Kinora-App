@@ -3,7 +3,10 @@ import { Collection, GatedLogicProps } from "../../types/envoke.types";
 import { setQuestInfo } from "../../../../../redux/reducers/questInfoSlice";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Image from "next/legacy/image";
-import { ACCEPTED_TOKENS_MUMBAI, INFURA_GATEWAY } from "../../../../../lib/constants";
+import {
+  ACCEPTED_TOKENS_MUMBAI,
+  INFURA_GATEWAY,
+} from "../../../../../lib/constants";
 import createProfilePicture from "../../../../../lib/helpers/createProfilePicture";
 import { ImCross } from "react-icons/im";
 
@@ -194,11 +197,9 @@ const GatedLogic: FunctionComponent<GatedLogicProps> = ({
         </div>
       </div>
       <div
-        className={`relative w-full h-fit flex gap-10 justify-start items-start ${
-          join ? "flex-row" : "flex-col lg:flex-row"
-        }`}
+        className={`relative w-full h-fit flex gap-10 justify-start items-start flex-col xl:flex-row`}
       >
-        <div className="relative w-fit min-w-[20rem] h-fit flex flex-col items-start justify-start gap-4">
+        <div className="relative w-fit w-full sm:min-w-[20rem] h-fit flex flex-col items-start justify-start gap-4">
           <div className="relative w-fit h-fit flex items-center justify-center text-sm">
             Token Conditions
           </div>
@@ -207,7 +208,7 @@ const GatedLogic: FunctionComponent<GatedLogicProps> = ({
               return (
                 <div
                   key={index}
-                  className={`relative w-full h-fit flex flex-row  items-center justify-center gap-3 ${
+                  className={`relative w-full h-fit flex flex-col sm:flex-row items-center justify-center gap-3 ${
                     (
                       join
                         ? questInfo?.details?.gated?.erc20Addresses?.includes(
@@ -347,7 +348,7 @@ const GatedLogic: FunctionComponent<GatedLogicProps> = ({
                       />
                     </div>
                   </div>
-                  <div className="relative w-20 h-fit flex items-center justify-center">
+                  <div className="relative w-full sm:w-20 h-fit flex items-center justify-center">
                     {item[1]}
                   </div>
                   <div className="relative w-full h-fit flex items-center justify-center">
@@ -444,7 +445,7 @@ const GatedLogic: FunctionComponent<GatedLogicProps> = ({
                         }
                       }}
                       type="number"
-                      className="h-10 w-full bg-black border border-acei rounded-md p-1 text-xs"
+                      className="h-10 w-full bg-black border border-acei flex rounded-md p-1 text-xs"
                       placeholder="Enter min amount of token to hold."
                     />
                   </div>
@@ -621,7 +622,7 @@ const GatedLogic: FunctionComponent<GatedLogicProps> = ({
                 loader={<></>}
                 className="relative w-full h-fit flex overflow-y-scroll"
               >
-                <div className="relative w-full grid grid-cols-4 gap-3 items-start justify-start h-fit max-h-[20rem]">
+                <div className="relative w-full grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-3 items-start justify-start h-fit max-h-[20rem]">
                   {collections?.map((item: Collection, index: number) => {
                     const pfp = createProfilePicture(
                       item?.profile?.metadata?.picture
@@ -785,7 +786,7 @@ const GatedLogic: FunctionComponent<GatedLogicProps> = ({
                             className="rounded-full w-6 h-6 p-px flex items-center justify-center"
                             id="northern"
                           >
-                            <div className="relative w-full h-full flex items-center justify-center">
+                            <div className="relative w-full h-full flex items-center justify-center rounded-full">
                               {pfp && (
                                 <Image
                                   src={pfp}

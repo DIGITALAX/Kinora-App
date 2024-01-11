@@ -55,8 +55,8 @@ const MetricsAdded: FunctionComponent<MetricsAddedProps> = ({
           />
         </div>
       </div>
-      <div className="relative w-full h-fit flex items-center justify-between font-bit break-words gap-3">
-        <div className="relative flex flex-row gap-1.5 items-center justify-center">
+      <div className="relative w-full h-fit flex items-center justify-end sm:justify-between font-bit break-words gap-3">
+        <div className="relative flex flex-row gap-1.5 items-center justify-center w-fit h-fit">
           <div className="relative w-3 h-3 flex items-center justify-center">
             <Image
               draggable={false}
@@ -64,11 +64,11 @@ const MetricsAdded: FunctionComponent<MetricsAddedProps> = ({
               src={`${INFURA_GATEWAY}/ipfs/QmS6GgvqEKRjvXtYfiXWTQZMz7nt2ucuKFaWv8sTgUDGNq`}
             />
           </div>
-          <div className="text-gris relative flex items-center justify-center text-xxs">
+          <div className="text-gris relative flex items-center justify-center text-xxs break-words">
             Video Metric <br /> Activity Updated
           </div>
         </div>
-        <div className="relative w-fit h-fit flex items-center justify-center text-white">
+        <div className="relative w-fit h-fit flex items-center justify-end text-white text-right sm:text-sm text-xs break-words">
           {(quest?.publication?.metadata as VideoMetadataV3)?.title?.length > 20
             ? (quest?.publication?.metadata as VideoMetadataV3)?.title?.slice(
                 0,

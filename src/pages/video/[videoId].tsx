@@ -76,6 +76,8 @@ export default function VideoId({ router }: { router: NextRouter }) {
     handleSendMetrics,
     playerMetricsLive,
     currentMetricsLoading,
+    setOpenControls,
+    openControls,
   } = useVideos(
     lensConnected,
     dispatch,
@@ -239,128 +241,138 @@ export default function VideoId({ router }: { router: NextRouter }) {
         />
       </Head>
       <div
-        className="md:h-full h-fit w-full items-start justify-start px-6 pb-2 pt-6 relative flex flex-col gap-14"
+        className="md:h-full h-fit w-full items-start justify-start px-3 sm:px-6 pb-2 pt-6 relative flex flex-col gap-14"
         style={{
-          width: openSidebar ? "calc(100vw - 10rem)" : "calc(100vw - 2.5rem)",
+          width:
+            window.innerWidth > 684 && openSidebar
+              ? "calc(100vw - 10rem)"
+              : "calc(100vw - 2.5rem)",
         }}
         id={!openSidebar ? "closeSide" : ""}
       >
-        <div className="relative h-[28rem] w-full flex items-center justify-start gap-10 min-h-[28rem]">
-          <div className="relative w-fit h-full flex items-start justify-start">
-            <div className="relative h-full w-80 flex items-start justify-start flex-col gap-6 rounded-sm border border-cost bg-black p-3">
-              {videoData && (
-                <VideoInfo
-                  router={router}
-                  setSocialType={setSocialType}
-                  dispatch={dispatch}
-                  setMirrorChoiceOpen={setMirrorChoiceOpenMain}
-                  mirrorChoiceOpen={mirrorChoiceOpenMain}
-                  simpleCollect={simpleCollect}
-                  videoPlaying={videoData}
-                  mirror={mirror}
-                  bookmark={handleBookmark}
-                  like={like}
-                  mainInteractionsLoading={mainInteractionsLoading}
-                  lensConnected={lensConnected}
-                />
-              )}
-              {dataLoading ? (
-                <div className="relative flex items-start justify-start flex-col gap-5 h-full w-full overflow-y-scroll">
-                  <div className="relative w-full h-fit flex items-start justify-start flex-wrap gap-3 overflow-y-scroll animate-pulse">
-                    {Array.from({ length: 30 })?.map((_, index: number) => {
-                      return (
-                        <div
-                          id="northern"
-                          key={index}
-                          className="relative h-20 rounded-md w-full flex"
-                        ></div>
-                      );
-                    })}
-                  </div>
-                </div>
-              ) : (
-                <QuestSocial
-                  videoPlaying={videoData}
-                  mirrorChoiceOpen={mirrorChoiceOpen}
-                  profilesOpen={profilesOpen}
-                  mentionProfiles={mentionProfiles}
-                  setMirrorChoiceOpen={setMirrorChoiceOpen}
-                  profileHovers={profilesOpen}
-                  setProfileHovers={setProfilesOpen}
-                  followProfile={followProfile}
-                  unfollowProfile={unfollowProfile}
-                  simpleCollect={simpleCollect}
-                  setCommentsOpen={setCommentsOpen}
-                  commentsOpen={commentsOpen}
-                  mirror={mirror}
-                  like={like}
-                  interactionsLoading={interactionsItemsLoading}
-                  mainInteractionsLoading={mainInteractionsLoading}
-                  setQuoteMirrorSwitch={setQuoteMirrorSwitch}
-                  quoteMirrorSwitch={quoteMirrorSwitch}
-                  socialType={socialType}
-                  router={router}
-                  reactors={reactors}
-                  quoters={quoters}
-                  hasMore={hasMore}
-                  hasMoreQuote={hasMoreQuote}
-                  showMore={showMore}
-                  lensConnected={lensConnected}
-                  dispatch={dispatch}
-                  commentPost={comment}
-                  setCaretCoordMain={setCaretCoordMain}
-                  caretCoordMain={caretCoordMain}
-                  mentionProfilesMain={mentionProfilesMain}
-                  profilesOpenMain={profilesOpenMain}
-                  setMentionProfilesMain={setMentionProfilesMain}
-                  setProfilesOpenMain={setProfilesOpenMain}
-                  makeCommentMain={mainMakeComment}
-                  setContentLoadingMain={setMainContentLoading}
-                  setMakeCommentMain={setMainMakeComment}
-                  contentLoadingMain={mainContentLoading}
-                  postCollectGif={postCollectGif}
-                  contentLoading={contentLoading}
-                  setContentLoading={setContentLoading}
-                  setCaretCoord={setCaretCoord}
-                  setMakeComment={setMakeComment}
-                  setMentionProfiles={setMentionProfiles}
-                  setProfilesOpen={setProfilesOpen}
-                  makeComment={makeComment}
-                  caretCoord={caretCoord}
-                />
-              )}
-            </div>
-          </div>
-          <div className="relative w-full h-full flex flex-col gap-4">
-            <div
-              className={`relative w-full h-full flex p-px rounded-md ${
-                videoDataLoading && "animate-pulse"
-              }`}
-              id="northern"
-            >
-              <div className="relative w-full h-full flex items-center justify-center rounded-md">
+        <div className="relative h-fit xl:h-[28rem] w-full gap-10 xl:min-h-[28rem] flex flex-col xl:flex-row items-center justify-center xl:justify-between">
+          <div
+            className={`relative w-full flex flex-col lg:flex-row gap-10 items-start justify-start xl:h-full lg:h-[40rem]`}
+          >
+            <div className="relative w-full lg:w-fit h-full flex items-start justify-start">
+              <div className="relative h-full w-full lg:w-80 flex items-start justify-start flex-col gap-6 rounded-sm border border-cost bg-black p-3 max-h-[30rem] overflow-y-scroll lg:max-h-full">
                 {videoData && (
-                  <MainVideo
-                    setVideoPlaying={setVideoData}
+                  <VideoInfo
+                    router={router}
+                    setSocialType={setSocialType}
+                    dispatch={dispatch}
+                    setMirrorChoiceOpen={setMirrorChoiceOpenMain}
+                    mirrorChoiceOpen={mirrorChoiceOpenMain}
+                    simpleCollect={simpleCollect}
                     videoPlaying={videoData}
-                    height="100%"
-                    playing={playing}
-                    setPlaying={setPlaying}
-                    volume={volume}
-                    setVolume={setVolume}
-                    seek={seek}
-                    setSeek={setSeek}
-                    volumeOpen={volumeOpen}
-                    setVolumeOpen={setVolumeOpen}
-                    duration={duration}
-                    setDuration={setDuration}
+                    mirror={mirror}
+                    bookmark={handleBookmark}
+                    like={like}
+                    mainInteractionsLoading={mainInteractionsLoading}
+                    lensConnected={lensConnected}
+                  />
+                )}
+                {dataLoading ? (
+                  <div className="relative flex items-start justify-start flex-col gap-5 h-full w-full overflow-y-scroll">
+                    <div className="relative w-full h-fit flex items-start justify-start flex-wrap gap-3 overflow-y-scroll animate-pulse">
+                      {Array.from({ length: 30 })?.map((_, index: number) => {
+                        return (
+                          <div
+                            id="northern"
+                            key={index}
+                            className="relative h-20 rounded-md w-full flex"
+                          ></div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                ) : (
+                  <QuestSocial
+                    videoPlaying={videoData}
+                    mirrorChoiceOpen={mirrorChoiceOpen}
+                    profilesOpen={profilesOpen}
+                    mentionProfiles={mentionProfiles}
+                    setMirrorChoiceOpen={setMirrorChoiceOpen}
+                    profileHovers={profilesOpen}
+                    setProfileHovers={setProfilesOpen}
+                    followProfile={followProfile}
+                    unfollowProfile={unfollowProfile}
+                    simpleCollect={simpleCollect}
+                    setCommentsOpen={setCommentsOpen}
+                    commentsOpen={commentsOpen}
+                    mirror={mirror}
+                    like={like}
+                    interactionsLoading={interactionsItemsLoading}
+                    mainInteractionsLoading={mainInteractionsLoading}
+                    setQuoteMirrorSwitch={setQuoteMirrorSwitch}
+                    quoteMirrorSwitch={quoteMirrorSwitch}
+                    socialType={socialType}
+                    router={router}
+                    reactors={reactors}
+                    quoters={quoters}
+                    hasMore={hasMore}
+                    hasMoreQuote={hasMoreQuote}
+                    showMore={showMore}
+                    lensConnected={lensConnected}
+                    dispatch={dispatch}
+                    commentPost={comment}
+                    setCaretCoordMain={setCaretCoordMain}
+                    caretCoordMain={caretCoordMain}
+                    mentionProfilesMain={mentionProfilesMain}
+                    profilesOpenMain={profilesOpenMain}
+                    setMentionProfilesMain={setMentionProfilesMain}
+                    setProfilesOpenMain={setProfilesOpenMain}
+                    makeCommentMain={mainMakeComment}
+                    setContentLoadingMain={setMainContentLoading}
+                    setMakeCommentMain={setMainMakeComment}
+                    contentLoadingMain={mainContentLoading}
+                    postCollectGif={postCollectGif}
+                    contentLoading={contentLoading}
+                    setContentLoading={setContentLoading}
+                    setCaretCoord={setCaretCoord}
+                    setMakeComment={setMakeComment}
+                    setMentionProfiles={setMentionProfiles}
+                    setProfilesOpen={setProfilesOpen}
+                    makeComment={makeComment}
+                    caretCoord={caretCoord}
                   />
                 )}
               </div>
             </div>
+            <div className="relative w-full h-full flex flex-col gap-4">
+              <div
+                className={`relative w-full h-full flex p-px rounded-md ${
+                  videoDataLoading && "animate-pulse"
+                }`}
+                id="northern"
+              >
+                <div className="relative w-full h-full flex items-center justify-center rounded-md bg-black">
+                  {videoData && (
+                    <MainVideo
+                      setOpenControls={setOpenControls}
+                      openControls={openControls}
+                      setVideoPlaying={setVideoData}
+                      videoPlaying={videoData}
+                      height={"25.8rem"}
+                      width={"100%"}
+                      playing={playing}
+                      setPlaying={setPlaying}
+                      volume={volume}
+                      setVolume={setVolume}
+                      seek={seek}
+                      setSeek={setSeek}
+                      volumeOpen={volumeOpen}
+                      setVolumeOpen={setVolumeOpen}
+                      duration={duration}
+                      setDuration={setDuration}
+                    />
+                  )}
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="relative w-fit h-full flex items-start justify-start">
-            <div className="relative h-full w-60 flex items-between justify-start flex-col gap-6 rounded-sm border border-cost bg-black p-2">
+          <div className="relative w-full xl:w-fit h-fit xl:h-full flex items-start justify-start">
+            <div className="relative h-full w-full xl:w-60 flex items-between justify-start flex-col gap-6 rounded-sm border border-cost bg-black p-2">
               <div className="relative w-full h-full flex flex-col gap-6 items-start justify-start overflow-y-scroll">
                 <div className="relative w-full h-fit gap-2 flex items-center justify-center flex-col">
                   <div className="relative w-full h-fit flex items-center justify-center text-gray-400 font-bit text-sm">
@@ -403,7 +415,7 @@ export default function VideoId({ router }: { router: NextRouter }) {
                     />
                   )}
                 </div>
-                <div className="relative w-fit h-fit text-sm font-vcr text-gray-300">
+                <div className="relative w-fit h-fit text-xxs sm:text-sm font-vcr text-gray-300">
                   {"Add Current Metrics"}
                 </div>
               </div>
@@ -412,18 +424,18 @@ export default function VideoId({ router }: { router: NextRouter }) {
         </div>
         {relatedQuestsLoading ? (
           <div className="relative w-full h-fit flex flex-col gap-3">
-            <div className="relative w-full h-fit flex flex-row gap-3">
+            <div className="relative w-full h-fit flex flex-row gap-3 sm:flex-nowrap flex-wrap">
               {Array.from({ length: 4 })?.map((_, index: number) => {
                 return (
                   <div
                     key={index}
-                    className="relative w-full h-96 flex rounded-sm animate-pulse"
+                    className="relative w-full h-60 sm:h-96 flex rounded-sm animate-pulse"
                     id="northern"
                   ></div>
                 );
               })}
             </div>
-            <div className="w-full h-fit grid-cols-2 grid gap-3">
+            <div className="w-full h-fit grid-cols-1 sm:grid-cols-2 grid gap-3">
               {Array.from({ length: 10 }).map((_, index: number) => {
                 return (
                   <div

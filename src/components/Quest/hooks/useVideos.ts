@@ -23,6 +23,7 @@ const useVideos = (
   const [videoPlaying, setVideoPlaying] = useState<Video | undefined>(
     undefined
   );
+  const [openControls, setOpenControls] = useState<boolean>(true);
   const [milestoneEligible, setMilestoneEligible] = useState<boolean>(false);
   const [currentMetricsLoading, setCurrentMetricsLoading] =
     useState<boolean>(false);
@@ -421,6 +422,8 @@ const useVideos = (
     currentMetricsLoading,
     chainMetrics,
     milestoneEligible,
+    openControls,
+    setOpenControls,
   };
 };
 

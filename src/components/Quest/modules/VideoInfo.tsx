@@ -29,7 +29,23 @@ const VideoInfo: FunctionComponent<VideoInfoProps> = ({
   return (
     <div className="relative flex flex-col w-full h-fit gap-8">
       <div className="relative w-full h-fit flex gap-5 flex-row justify-between">
-        <div className="relative w-fit ml-0 h-fit flex flex-row gap-2">
+        <div className="relative w-fit ml-0 h-fit items-center flex flex-row gap-2">
+          {!router?.asPath?.includes("/video/") && (
+            <div className="relative w-fit h-fit flex items-center justify-center">
+              <div
+                className="relative w-4 h-4 flex items-center justify-center cursor-pointer active:scale-95"
+                onClick={() =>
+                  router.push(`/video/${videoPlaying?.publication?.id}`)
+                }
+              >
+                <Image
+                  layout="fill"
+                  draggable={false}
+                  src={`${INFURA_GATEWAY}/ipfs/QmRkAoLMAh2hxZfh5WvaxuxRUMhs285umdJWuvLa5wt6Ht`}
+                />
+              </div>
+            </div>
+          )}
           <div
             className="relative w-fit h-fit flex items-center justify-center ml-auto p-px rounded-full"
             id="northern"
@@ -57,14 +73,14 @@ const VideoInfo: FunctionComponent<VideoInfoProps> = ({
               )}
             </div>
           </div>
-          <div className="relative flex flex-col gap-1.5 items-start justify-center font-bit">
-            <div className="relative w-fit h-fit flex items-center justify-center text-white text-xs">
+          <div className="relative flex flex-col gap-px items-start justify-center font-bit">
+            <div className="relative w-fit h-fit flex items-center justify-center text-white text-xs break-words">
               {
                 videoPlaying?.publication?.by?.handle?.suggestedFormatted
                   ?.localName
               }
             </div>
-            <div className="relative w-fit h-fit flex items-center justify-center text-xxs text-gray-600">
+            <div className="relative w-fit h-fit flex items-center justify-center text-xxs text-gray-600 break-words">
               {videoPlaying?.publication?.by?.handle?.localName}
             </div>
           </div>

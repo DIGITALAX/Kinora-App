@@ -36,7 +36,7 @@ const QuestBoxDetails: FunctionComponent<QuestBoxDetailsProps> = ({
   );
 
   return (
-    <div className="relative bg-black rounded-sm border border-cost w-full h-full flex flex-col gap-3 p-2 items-start justify-between">
+    <div className="relative bg-black rounded-sm border border-cost w-full h-fit xl:h-full flex flex-col gap-3 p-2 items-start xl:justify-between">
       {!questInfoLoading ? (
         <>
           <div className="relative w-full flex items-start justify-start flex-row gap-3 h-fit">
@@ -350,138 +350,147 @@ const QuestBoxDetails: FunctionComponent<QuestBoxDetailsProps> = ({
                     index: number
                   ) => {
                     return (
-                      <div
-                        key={index}
-                        className="relative w-fit h-fit flex items-center justify-center flex-row gap-2 font-bit text-white text-xs"
-                      >
+                      <>
                         <div
-                          key={item?.title}
-                          className={`relative w-4 h-4 flex items-center justify-center ${
-                            item?.reacted && "hue-rotate-60"
-                          } ${
-                            !lensConnected?.id
-                              ? "opacity-80"
-                              : "cursor-pointer active:scale-95"
-                          } ${item?.loader && "animate-spin"}`}
-                          onClick={() => item.function()}
+                          key={index}
+                          className="relative w-fit h-fit flex items-center justify-center flex-row gap-2 font-bit text-white text-xs"
                         >
-                          {item?.loader ? (
-                            <AiOutlineLoading color={"white"} size={15} />
-                          ) : (
-                            <Image
-                              layout="fill"
-                              draggable={false}
-                              src={`${INFURA_GATEWAY}/ipfs/${item?.image}`}
-                            />
-                          )}
-                        </div>
-                        <div
-                          className="relative flex w-fit h-fit items-center justify-center cursor-pointer active:scale-95"
-                          onClick={() => item.otherFunction()}
-                        >
-                          {numeral(item?.amount).format("0a")}
-                        </div>
-                      </div>
-                    );
-                  }
-                )}
-              </div>
-              {mirrorChoiceOpen && (
-                <div
-                  className="absolute w-fit h-fit rounded-md bottom-7 left-24 flex bg-nave p-px"
-                  id="northern"
-                >
-                  <div className="relative w-fit h-fit flex flex-row gap-1.5 p-1 bg-nave rounded-md">
-                    {[
-                      {
-                        icon: "QmPRRRX1S3kxpgJdLC4G425pa7pMS1AGNnyeSedngWmfK3",
-                        function: () =>
-                          mirror(
-                            questInfo?.publication?.id,
-
-                            true
-                          ),
-                        title: "Mirror Quest",
-                        reacted:
-                          questInfo?.publication?.operations?.hasMirrored ||
-                          false,
-                        loader: mainInteractionsLoading?.[0]?.mirror || false,
-                        width: "1rem",
-                        height: "0.8rem",
-                      },
-                      {
-                        icon: "QmfDNH347Vph4b1tEuegydufjMU2QwKzYnMZCjygGvvUMM",
-                        function: () =>
-                          dispatch(
-                            setQuote({
-                              actionOpen: true,
-                              actionPublication: questInfo?.publication,
-                            })
-                          ),
-                        title: "Quote Quest",
-                        reacted:
-                          questInfo?.publication?.operations?.hasQuoted ||
-                          false,
-                        loader: false,
-                        width: "0.8rem",
-                        height: "0.8rem",
-                      },
-                    ]?.map(
-                      (
-                        item: {
-                          icon: string;
-                          function: () => void;
-                          title: string;
-                          reacted: boolean;
-                          loader: boolean;
-                          width: string;
-                          height: string;
-                        },
-                        index: number
-                      ) => {
-                        return (
                           <div
-                            key={index}
-                            className={`relative hover:opacity-80 w-7 p-1 h-6 rounded-full flex cursor-pointer active:scale-95 items-center justify-center ${
+                            key={item?.title}
+                            className={`relative w-4 h-4 flex items-center justify-center ${
                               item?.reacted && "hue-rotate-60"
                             } ${
                               !lensConnected?.id
                                 ? "opacity-80"
                                 : "cursor-pointer active:scale-95"
-                            }`}
-                            title={item.title}
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              item.function();
-                            }}
+                            } ${item?.loader && "animate-spin"}`}
+                            onClick={() => item.function()}
                           >
                             {item?.loader ? (
-                              <div className="relative w-fit h-fit flex items-center justify-center animate-spin">
-                                <AiOutlineLoading size={15} color={"white"} />
-                              </div>
+                              <AiOutlineLoading color={"white"} size={15} />
                             ) : (
-                              <div
-                                className="relative flex items-center justify-center"
-                                style={{
-                                  width: item.width,
-                                  height: item.height,
-                                }}
-                              >
-                                <Image
-                                  draggable={false}
-                                  layout="fill"
-                                  objectFit="contain"
-                                  src={`${INFURA_GATEWAY}/ipfs/${item.icon}`}
-                                />
-                              </div>
+                              <Image
+                                layout="fill"
+                                draggable={false}
+                                src={`${INFURA_GATEWAY}/ipfs/${item?.image}`}
+                              />
                             )}
                           </div>
-                        );
-                      }
-                    )}
-                  </div>
-                </div>
-              )}
+                          <div
+                            className="relative flex w-fit h-fit items-center justify-center cursor-pointer active:scale-95"
+                            onClick={() => item.otherFunction()}
+                          >
+                            {numeral(item?.amount).format("0a")}
+                          </div>
+                        </div>
+                        {mirrorChoiceOpen && item.title == "Mirror" && (
+                          <div
+                            key={index * Math.random()}
+                            className="absolute w-fit h-fit rounded-md bottom-7 right-[40vw] xl:left-24 flex bg-nave p-px"
+                            id="northern"
+                          >
+                            <div className="relative w-fit h-fit flex flex-row gap-1.5 p-1 bg-nave rounded-md">
+                              {[
+                                {
+                                  icon: "QmPRRRX1S3kxpgJdLC4G425pa7pMS1AGNnyeSedngWmfK3",
+                                  function: () =>
+                                    mirror(
+                                      questInfo?.publication?.id,
+
+                                      true
+                                    ),
+                                  title: "Mirror Quest",
+                                  reacted:
+                                    questInfo?.publication?.operations
+                                      ?.hasMirrored || false,
+                                  loader:
+                                    mainInteractionsLoading?.[0]?.mirror ||
+                                    false,
+                                  width: "1rem",
+                                  height: "0.8rem",
+                                },
+                                {
+                                  icon: "QmfDNH347Vph4b1tEuegydufjMU2QwKzYnMZCjygGvvUMM",
+                                  function: () =>
+                                    dispatch(
+                                      setQuote({
+                                        actionOpen: true,
+                                        actionPublication:
+                                          questInfo?.publication,
+                                      })
+                                    ),
+                                  title: "Quote Quest",
+                                  reacted:
+                                    questInfo?.publication?.operations
+                                      ?.hasQuoted || false,
+                                  loader: false,
+                                  width: "0.8rem",
+                                  height: "0.8rem",
+                                },
+                              ]?.map(
+                                (
+                                  item: {
+                                    icon: string;
+                                    function: () => void;
+                                    title: string;
+                                    reacted: boolean;
+                                    loader: boolean;
+                                    width: string;
+                                    height: string;
+                                  },
+                                  index: number
+                                ) => {
+                                  return (
+                                    <div
+                                      key={index}
+                                      className={`relative hover:opacity-80 w-7 p-1 h-6 rounded-full flex cursor-pointer active:scale-95 items-center justify-center ${
+                                        item?.reacted && "hue-rotate-60"
+                                      } ${
+                                        !lensConnected?.id
+                                          ? "opacity-80"
+                                          : "cursor-pointer active:scale-95"
+                                      }`}
+                                      title={item.title}
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        item.function();
+                                      }}
+                                    >
+                                      {item?.loader ? (
+                                        <div className="relative w-fit h-fit flex items-center justify-center animate-spin">
+                                          <AiOutlineLoading
+                                            size={15}
+                                            color={"white"}
+                                          />
+                                        </div>
+                                      ) : (
+                                        <div
+                                          className="relative flex items-center justify-center"
+                                          style={{
+                                            width: item.width,
+                                            height: item.height,
+                                          }}
+                                        >
+                                          <Image
+                                            draggable={false}
+                                            layout="fill"
+                                            objectFit="contain"
+                                            src={`${INFURA_GATEWAY}/ipfs/${item.icon}`}
+                                          />
+                                        </div>
+                                      )}
+                                    </div>
+                                  );
+                                }
+                              )}
+                            </div>
+                          </div>
+                        )}
+                      </>
+                    );
+                  }
+                )}
+              </div>
             </div>
             <div
               className={`relative w-full h-8 px-1.5 py-1 flex flex-row items-center gap-3 justify-center border border-gray-300 rounded-md ${

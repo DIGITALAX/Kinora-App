@@ -20,7 +20,7 @@ const Sidebar: FunctionComponent<SidebarProps> = ({
 }) => {
   return (
     <div
-      className={`absolute flex items-start justify-start flex-col p-1.5 border-r border-white/20 z-20 bg-nave ${
+      className={`absolute flex items-start justify-start flex-col p-1.5 border-r border-white/20 z-20 bg-nave overflow-y-scroll ${
         openSidebar ? "w-40" : "w-10"
       }`}
       style={{
@@ -28,7 +28,7 @@ const Sidebar: FunctionComponent<SidebarProps> = ({
       }}
       id={openSidebar ? "openSide" : "closeSide"}
     >
-      <div className="relative w-full h-full flex items-start justify-start flex-col gap-20">
+      <div className="relative w-full h-full flex items-start justify-start flex-col gap-8 sm:gap-20">
         <div className="relative w-full h-fit flex items-end justify-end ml-0">
           <div
             className="relative flex items-end justify-end w-5 h-5 cursor-pointer active:scale-95"
@@ -42,14 +42,14 @@ const Sidebar: FunctionComponent<SidebarProps> = ({
           </div>
         </div>
         <div
-          className={`relative flex flex-col gap-20 w-full h-full ${
+          className={`relative flex flex-col gap-8 sm:gap-20 w-full h-full ${
             openSidebar
               ? "items-start justify-start"
               : "items-center justify-center"
           }`}
         >
           <div
-            className={`relative flex flex-col justify-center gap-7 w-fit h-fit ${
+            className={`relative flex flex-col justify-center gap-4 sm:gap-7 w-fit h-fit ${
               openSidebar ? "items-start" : "items-center"
             }`}
           >
@@ -155,7 +155,7 @@ const Sidebar: FunctionComponent<SidebarProps> = ({
                     onClick={() => item.link!()}
                   >
                     <div
-                      className={`relative flex items-center justify-center w-5 h-5`}
+                      className={`relative flex items-center justify-center w-4 h-4 sm:w-5 sm:h-5`}
                       title={item?.title}
                     >
                       <Image

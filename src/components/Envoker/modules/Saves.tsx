@@ -27,7 +27,7 @@ const Saves: FunctionComponent<SavesProps> = ({
   return (
     <>
       {savesLoading || globalLoading ? (
-        <div className="w-full h-fit grid-cols-3 grid gap-3">
+        <div className="w-full h-fit grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 grid gap-3">
           {Array.from({ length: 10 }).map((_, index: number) => {
             return (
               <div
@@ -54,7 +54,7 @@ const Saves: FunctionComponent<SavesProps> = ({
             dataLength={allSaves?.length}
             className="relative w-full h-full flex overflow-y-scroll"
           >
-            <div className="relative w-full gap-3 h-fit grid grid-cols-3">
+            <div className="relative w-full gap-3 h-fit grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
               {allSaves?.map((quest: Post, index: number) => {
                 return (
                   <QuestPreview

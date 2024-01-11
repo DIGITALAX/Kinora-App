@@ -94,6 +94,8 @@ export default function QuestId({ router }: { router: NextRouter }) {
     currentMetricsLoading,
     chainMetrics,
     milestoneEligible,
+    openControls,
+    setOpenControls,
   } = useVideos(
     lensConnected,
     dispatch,
@@ -267,177 +269,199 @@ export default function QuestId({ router }: { router: NextRouter }) {
         />
       </Head>
       <div
-        className="md:h-full h-fit w-full items-start justify-start px-6 pb-2 pt-6 relative flex flex-col gap-14"
+        className="md:h-full h-fit w-full items-start justify-start px-3 sm:px-6 pb-2 pt-6 relative flex flex-col gap-14"
         style={{
-          width: openSidebar ? "calc(100vw - 10rem)" : "calc(100vw - 2.5rem)",
+          width:
+            typeof window !== "undefined" &&
+            window.innerWidth > 684 &&
+            openSidebar
+              ? "calc(100vw - 10rem)"
+              : "calc(100vw - 2.5rem)",
         }}
         id={!openSidebar ? "closeSide" : ""}
       >
-        <div className="relative h-[38rem] w-full flex items-center justify-start gap-10 min-h-[38rem]">
-          <div className="relative w-fit h-full flex items-start justify-start">
-            <div className="relative h-full w-80 flex items-start justify-start flex-col gap-6 rounded-sm border border-cost bg-black p-3">
-              {videoPlaying && (
-                <VideoInfo
-                  router={router}
-                  setSocialType={setSocialType}
-                  dispatch={dispatch}
-                  setMirrorChoiceOpen={setMirrorChoiceOpenMain}
-                  mirrorChoiceOpen={mirrorChoiceOpenMain}
-                  simpleCollect={simpleCollect}
-                  videoPlaying={videoPlaying}
-                  mirror={mirror}
-                  bookmark={handleBookmark}
-                  like={like}
-                  mainInteractionsLoading={mainInteractionsLoading}
-                  lensConnected={lensConnected}
-                />
-              )}
-              {dataLoading ? (
-                <div className="relative flex items-start justify-start flex-col gap-5 h-full w-full overflow-y-scroll">
-                  <div className="relative w-full h-fit flex items-start justify-start flex-wrap gap-3 overflow-y-scroll animate-pulse">
-                    {Array.from({ length: 30 })?.map((_, index: number) => {
-                      return (
-                        <div
-                          id="northern"
-                          key={index}
-                          className="relative h-20 rounded-md w-full flex"
-                        ></div>
-                      );
-                    })}
+        <div
+          className={`relative h-fit xl:h-[38rem] w-full flex flex-col xl:flex-row items-center justify-center xl:justify-between gap-10 xl:min-h-[38rem]`}
+        >
+          <div
+            className={`relative w-full flex flex-col lg:flex-row gap-10 items-start justify-start xl:h-full ${
+              videoPlaying
+                ? "lg:h-[40rem]"
+                : "h-[70rem] lg:h-[30rem]"
+            }`}
+          >
+            <div className="relative w-full lg:w-fit h-full flex items-start justify-start">
+              <div className="relative h-full w-full lg:w-80 flex items-start justify-start flex-col gap-6 rounded-sm border border-cost bg-black p-3 max-h-[30rem] overflow-y-scroll lg:max-h-full">
+                {videoPlaying && (
+                  <VideoInfo
+                    router={router}
+                    setSocialType={setSocialType}
+                    dispatch={dispatch}
+                    setMirrorChoiceOpen={setMirrorChoiceOpenMain}
+                    mirrorChoiceOpen={mirrorChoiceOpenMain}
+                    simpleCollect={simpleCollect}
+                    videoPlaying={videoPlaying}
+                    mirror={mirror}
+                    bookmark={handleBookmark}
+                    like={like}
+                    mainInteractionsLoading={mainInteractionsLoading}
+                    lensConnected={lensConnected}
+                  />
+                )}
+                {!dataLoading ? (
+                  <div className="relative flex items-start justify-start flex-col gap-5 h-full w-full overflow-y-scroll">
+                    <div className="relative w-full h-fit flex items-start justify-start flex-wrap gap-3 overflow-y-scroll animate-pulse">
+                      {Array.from({ length: 30 })?.map((_, index: number) => {
+                        return (
+                          <div
+                            id="northern"
+                            key={index}
+                            className="relative h-20 rounded-md w-full flex"
+                          ></div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                ) : (
+                  <QuestSocial
+                    videoPlaying={videoPlaying}
+                    mirrorChoiceOpen={mirrorChoiceOpen}
+                    profilesOpen={profilesOpen}
+                    mentionProfiles={mentionProfiles}
+                    setMirrorChoiceOpen={setMirrorChoiceOpen}
+                    profileHovers={profilesOpen}
+                    setProfileHovers={setProfilesOpen}
+                    followProfile={followProfile}
+                    unfollowProfile={unfollowProfile}
+                    simpleCollect={simpleCollect}
+                    setCommentsOpen={setCommentsOpen}
+                    commentsOpen={commentsOpen}
+                    mirror={mirror}
+                    like={like}
+                    interactionsLoading={interactionsItemsLoading}
+                    mainInteractionsLoading={mainInteractionsLoading}
+                    setQuoteMirrorSwitch={setQuoteMirrorSwitch}
+                    quoteMirrorSwitch={quoteMirrorSwitch}
+                    socialType={socialType}
+                    questInfo={questInfo}
+                    router={router}
+                    reactors={reactors}
+                    quoters={quoters}
+                    hasMore={hasMore}
+                    hasMoreQuote={hasMoreQuote}
+                    showMore={showMore}
+                    lensConnected={lensConnected}
+                    dispatch={dispatch}
+                    commentPost={comment}
+                    setCaretCoordMain={setCaretCoordMain}
+                    caretCoordMain={caretCoordMain}
+                    mentionProfilesMain={mentionProfilesMain}
+                    profilesOpenMain={profilesOpenMain}
+                    setMentionProfilesMain={setMentionProfilesMain}
+                    setProfilesOpenMain={setProfilesOpenMain}
+                    makeCommentMain={mainMakeComment}
+                    setContentLoadingMain={setMainContentLoading}
+                    setMakeCommentMain={setMainMakeComment}
+                    contentLoadingMain={mainContentLoading}
+                    postCollectGif={postCollectGif}
+                    contentLoading={contentLoading}
+                    setContentLoading={setContentLoading}
+                    setCaretCoord={setCaretCoord}
+                    setMakeComment={setMakeComment}
+                    setMentionProfiles={setMentionProfiles}
+                    setProfilesOpen={setProfilesOpen}
+                    makeComment={makeComment}
+                    caretCoord={caretCoord}
+                  />
+                )}
+              </div>
+            </div>
+            <div className="relative w-full h-full flex flex-col gap-4">
+              {mainViewer !== 0 && (
+                <div className="relative w-full h-fit flex items-start justify-start">
+                  <div className="relative w-full h-10 sm:h-20 flex items-start justify-start gap-10">
+                    <Channels
+                      videos={questInfo?.milestones[mainViewer - 1]?.videos!}
+                      videoPlaying={videoPlaying}
+                      setVideoPlaying={setVideoPlaying}
+                    />
                   </div>
                 </div>
-              ) : (
-                <QuestSocial
-                  videoPlaying={videoPlaying}
-                  mirrorChoiceOpen={mirrorChoiceOpen}
-                  profilesOpen={profilesOpen}
-                  mentionProfiles={mentionProfiles}
-                  setMirrorChoiceOpen={setMirrorChoiceOpen}
-                  profileHovers={profilesOpen}
-                  setProfileHovers={setProfilesOpen}
-                  followProfile={followProfile}
-                  unfollowProfile={unfollowProfile}
-                  simpleCollect={simpleCollect}
-                  setCommentsOpen={setCommentsOpen}
-                  commentsOpen={commentsOpen}
-                  mirror={mirror}
-                  like={like}
-                  interactionsLoading={interactionsItemsLoading}
-                  mainInteractionsLoading={mainInteractionsLoading}
-                  setQuoteMirrorSwitch={setQuoteMirrorSwitch}
-                  quoteMirrorSwitch={quoteMirrorSwitch}
-                  socialType={socialType}
-                  questInfo={questInfo}
-                  router={router}
-                  reactors={reactors}
-                  quoters={quoters}
-                  hasMore={hasMore}
-                  hasMoreQuote={hasMoreQuote}
-                  showMore={showMore}
-                  lensConnected={lensConnected}
-                  dispatch={dispatch}
-                  commentPost={comment}
-                  setCaretCoordMain={setCaretCoordMain}
-                  caretCoordMain={caretCoordMain}
-                  mentionProfilesMain={mentionProfilesMain}
-                  profilesOpenMain={profilesOpenMain}
-                  setMentionProfilesMain={setMentionProfilesMain}
-                  setProfilesOpenMain={setProfilesOpenMain}
-                  makeCommentMain={mainMakeComment}
-                  setContentLoadingMain={setMainContentLoading}
-                  setMakeCommentMain={setMainMakeComment}
-                  contentLoadingMain={mainContentLoading}
-                  postCollectGif={postCollectGif}
-                  contentLoading={contentLoading}
-                  setContentLoading={setContentLoading}
-                  setCaretCoord={setCaretCoord}
-                  setMakeComment={setMakeComment}
-                  setMentionProfiles={setMentionProfiles}
-                  setProfilesOpen={setProfilesOpen}
-                  makeComment={makeComment}
-                  caretCoord={caretCoord}
-                />
               )}
-            </div>
-          </div>
-          <div className="relative w-full h-full flex flex-col gap-4">
-            {mainViewer !== 0 && (
+              <div
+                className={`relative w-full h-full flex p-px rounded-md ${
+                  questInfoLoading && "animate-pulse"
+                }`}
+                id="northern"
+              >
+                <div className="relative w-full h-full flex items-center justify-center rounded-md bg-black">
+                  {!questInfoLoading &&
+                    (!videoPlaying ? (
+                      <Image
+                        objectFit="cover"
+                        layout="fill"
+                        draggable={false}
+                        className="relative w-full h-full rounded-md"
+                        src={`${INFURA_GATEWAY}/ipfs/${
+                          mainViewer == 0
+                            ? questInfo?.questMetadata?.cover?.includes(
+                                "ipfs://"
+                              )
+                              ? questInfo?.questMetadata?.cover?.split(
+                                  "ipfs://"
+                                )?.[1]
+                              : questInfo?.questMetadata?.cover
+                            : questInfo?.milestones[
+                                mainViewer - 1
+                              ]?.milestoneMetadata?.cover?.includes("ipfs://")
+                            ? questInfo?.milestones[
+                                mainViewer - 1
+                              ]?.milestoneMetadata?.cover?.split("ipfs://")?.[1]
+                            : questInfo?.milestones[mainViewer - 1]
+                                ?.milestoneMetadata?.cover
+                        }`}
+                      />
+                    ) : (
+                      <MainVideo
+                        allVideos={
+                          questInfo?.milestones[mainViewer - 1]?.videos!
+                        }
+                        openControls={openControls}
+                        setOpenControls={setOpenControls}
+                        height={"25.8rem"}
+                        width={"100%"}
+                        setVideoPlaying={setVideoPlaying}
+                        videoPlaying={videoPlaying}
+                        playing={playing}
+                        setPlaying={setPlaying}
+                        volume={volume}
+                        setVolume={setVolume}
+                        seek={seek}
+                        setSeek={setSeek}
+                        volumeOpen={volumeOpen}
+                        setVolumeOpen={setVolumeOpen}
+                        duration={duration}
+                        setDuration={setDuration}
+                      />
+                    ))}
+                </div>
+              </div>
               <div className="relative w-full h-fit flex items-start justify-start">
-                <div className="relative w-full h-20 flex items-start justify-start gap-10">
-                  <Channels
-                    videos={questInfo?.milestones[mainViewer - 1]?.videos!}
-                    videoPlaying={videoPlaying}
+                <div className="relative w-full h-10 sm:h-20 flex items-start justify-start gap-10">
+                  <MilestoneBoards
+                    quest={questInfo?.questMetadata?.cover!}
+                    milestones={questInfo?.milestones!}
+                    mainViewer={mainViewer}
+                    setMainViewer={setMainViewer}
                     setVideoPlaying={setVideoPlaying}
                   />
                 </div>
               </div>
-            )}
-            <div
-              className={`relative w-full h-full flex p-px rounded-md ${
-                questInfoLoading && "animate-pulse"
-              }`}
-              id="northern"
-            >
-              <div className="relative w-full h-full flex items-center justify-center rounded-md">
-                {!questInfoLoading &&
-                  (!videoPlaying ? (
-                    <Image
-                      objectFit="cover"
-                      layout="fill"
-                      draggable={false}
-                      className="relative w-full h-full rounded-md"
-                      src={`${INFURA_GATEWAY}/ipfs/${
-                        mainViewer == 0
-                          ? questInfo?.questMetadata?.cover?.includes("ipfs://")
-                            ? questInfo?.questMetadata?.cover?.split(
-                                "ipfs://"
-                              )?.[1]
-                            : questInfo?.questMetadata?.cover
-                          : questInfo?.milestones[
-                              mainViewer - 1
-                            ]?.milestoneMetadata?.cover?.includes("ipfs://")
-                          ? questInfo?.milestones[
-                              mainViewer - 1
-                            ]?.milestoneMetadata?.cover?.split("ipfs://")?.[1]
-                          : questInfo?.milestones[mainViewer - 1]
-                              ?.milestoneMetadata?.cover
-                      }`}
-                    />
-                  ) : (
-                    <MainVideo
-                      allVideos={questInfo?.milestones[mainViewer - 1]?.videos!}
-                      height="25.8rem"
-                      setVideoPlaying={setVideoPlaying}
-                      videoPlaying={videoPlaying}
-                      playing={playing}
-                      setPlaying={setPlaying}
-                      volume={volume}
-                      setVolume={setVolume}
-                      seek={seek}
-                      setSeek={setSeek}
-                      volumeOpen={volumeOpen}
-                      setVolumeOpen={setVolumeOpen}
-                      duration={duration}
-                      setDuration={setDuration}
-                    />
-                  ))}
-              </div>
-            </div>
-            <div className="relative w-full h-fit flex items-start justify-start">
-              <div className="relative w-full h-20 flex items-start justify-start gap-10">
-                <MilestoneBoards
-                  quest={questInfo?.questMetadata?.cover!}
-                  milestones={questInfo?.milestones!}
-                  mainViewer={mainViewer}
-                  setMainViewer={setMainViewer}
-                  setVideoPlaying={setVideoPlaying}
-                />
-              </div>
             </div>
           </div>
-          <div className="relative w-fit h-full flex items-start justify-start">
+          <div className="relative w-full xl:w-fit h-fit xl:h-full flex items-start justify-start">
             {!videoPlaying ? (
-              <div className="relative h-full w-60 flex items-start justify-start flex-col gap-6">
+              <div className="relative h-fit xl:h-full w-full xl:w-60 flex items-start justify-start flex-col gap-6">
                 <div className="relative w-full h-fit flex items-start justify-start flex-col gap-3">
                   {mainViewer !== 0 && (
                     <div className="relative w-full h-fit flex items-start justify-start text-azul font-bit text-lg">
@@ -573,7 +597,7 @@ export default function QuestId({ router }: { router: NextRouter }) {
                 />
               </div>
             ) : (
-              <div className="relative h-full w-60 flex items-between justify-start flex-col gap-6 rounded-sm border border-cost bg-black p-2">
+              <div className="relative h-full w-full xl:w-60 flex items-between justify-start flex-col gap-6 rounded-sm border border-cost bg-black p-2">
                 <div className="relative w-full h-full flex flex-col gap-6 items-start justify-start overflow-y-scroll">
                   <div className="relative w-full h-fit gap-2 flex items-center justify-center flex-col">
                     <div className="relative w-full h-fit flex items-center justify-center text-gray-400 font-bit text-sm">
@@ -616,7 +640,7 @@ export default function QuestId({ router }: { router: NextRouter }) {
                       />
                     )}
                   </div>
-                  <div className="relative w-fit h-fit text-sm font-vcr text-gray-300">
+                  <div className="relative w-fit h-fit text-xxs sm:text-sm font-vcr text-gray-300">
                     {"Add Current Metrics"}
                   </div>
                 </div>
@@ -626,18 +650,18 @@ export default function QuestId({ router }: { router: NextRouter }) {
         </div>
         {suggestedLoading ? (
           <div className="relative w-full h-fit flex flex-col gap-3">
-            <div className="relative w-full h-fit flex flex-row gap-3">
+            <div className="relative w-full h-fit flex flex-row gap-3 sm:flex-nowrap flex-wrap">
               {Array.from({ length: 4 })?.map((_, index: number) => {
                 return (
                   <div
                     key={index}
-                    className="relative w-full h-96 flex rounded-sm animate-pulse"
+                    className="relative w-full h-60 sm:h-96 flex rounded-sm animate-pulse"
                     id="northern"
                   ></div>
                 );
               })}
             </div>
-            <div className="w-full h-fit grid-cols-2 grid gap-3">
+            <div className="w-full h-fit grid-cols-1 sm:grid-cols-2 grid gap-3">
               {Array.from({ length: 10 }).map((_, index: number) => {
                 return (
                   <div

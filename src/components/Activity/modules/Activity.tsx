@@ -34,11 +34,13 @@ const Activity: FunctionComponent<ActivityProps> = ({
       hasMore={activityInfo?.hasMore}
       dataLength={activityFeed?.length}
       next={getMoreActivityFeed}
-      className="relative w-full h-fit flex-col items-start justify-start"
+      className="relative w-full h-fit flex-col items-start justify-start pb-6"
     >
       <div
-        className={`w-full h-fit justify-start items-start gap-8 ${
-          disabled ? "flex flex-col" : "grid grid-cols-3"
+        className={`w-full h-fit justify-start items-start gap-6 md:gap-8 ${
+          disabled
+            ? "flex flex-col"
+            : "grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3"
         }`}
       >
         {activityFeed?.map(
@@ -46,6 +48,7 @@ const Activity: FunctionComponent<ActivityProps> = ({
             item: Quest & {
               type: string;
               profile: Profile | undefined;
+              completedImage?: string;
             },
             index: number
           ) => {

@@ -20,11 +20,11 @@ const CollectOptions: FunctionComponent<CollectOptionsProps> = ({
 }): JSX.Element => {
   return (
     <div
-      className={`relative w-fit h-fit flex flex-row gap-8 items-start justify-between p-2 ${
+      className={`relative max-w-full w-full md:w-fit h-fit flex flex-col md:flex-row gap-8 items-start justify-between p-2 ${
         border && "border border-suave"
       }`}
     >
-      <div className="relative h-fit w-fit flex flex-col gap-6 items-end justify-between">
+      <div className="relative h-fit w-full md:w-fit flex flex-col gap-6 items-end justify-between">
         {[
           {
             type: "drop",
@@ -193,7 +193,7 @@ const CollectOptions: FunctionComponent<CollectOptionsProps> = ({
         )}
       </div>
       {openMeasure.award === "Yes" && (
-        <div className="relative h-fit w-fit flex flex-col gap-6 items-end justify-between">
+        <div className="relative h-fit w-full md:w-fit flex flex-col gap-6 items-end justify-between">
           {[
             {
               type: "input",
@@ -473,7 +473,7 @@ const CollectOptions: FunctionComponent<CollectOptionsProps> = ({
         </div>
       )}
       {openMeasure.award === "Yes" && (
-        <div className="relative h-fit w-fit flex flex-col gap-6 items-end justify-between">
+        <div className="relative h-fit w-full md:w-fit flex flex-col gap-6 items-end justify-between">
           {[
             {
               type: "drop",

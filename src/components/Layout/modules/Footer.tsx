@@ -23,14 +23,16 @@ const Footer: FunctionComponent<{ router: NextRouter }> = ({ router }) => {
           >
             {index == 0 && (
               <div
-                className="relative w-10 h-5 flex items-center justify-center cursor-pointer active:scale-95"
+                className="relative w-10 px-1 h-5 flex items-center justify-center cursor-pointer active:scale-95"
                 onClick={() => router.push("/")}
               >
+                <div className="flex relative w-full h-full">
                 <Image
                   src={`${INFURA_GATEWAY}/ipfs/QmXTBvC2MVytxqjWfLAtyardgapxKzVi8uApTE5aEt1soc`}
                   layout="fill"
                   draggable={false}
                 />
+                   </div>
               </div>
             )}
           </div>

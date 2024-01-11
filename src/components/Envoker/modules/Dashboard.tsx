@@ -84,7 +84,7 @@ const Dashboard: FunctionComponent<DashboardProps> = ({
                             id="fadeOut"
                           ></div>
                           <div
-                            className={`relative w-full flex items-center justify-start px-2 py-1 flex-row justify-between rounded-sm cursor-pointer h-16`}
+                            className={`relative w-full flex items-center justify-start px-2 py-2 sm:py-1 flex-col sm:flex-row justify-between rounded-sm cursor-pointer sm:gap-1 gap-3 h-24 sm:h-16 sm:flex-nowrap flex-wrap`}
                             onClick={() =>
                               setOpenQuest(
                                 openQuest?.questId == item?.questId
@@ -100,7 +100,7 @@ const Dashboard: FunctionComponent<DashboardProps> = ({
                                   : item?.questMetadata?.title}
                               </div>
                             </div>
-                            <div className="relative w-fit h-fit mr-0 flex flex-col gap-2 items-end justify-between">
+                            <div className="relative w-fit h-fit mr-0 flex flex-col gap-2 items-end justify-between sm:flex-nowrap flex-wrap">
                               <div className="relative w-fit h-fit flex items-center justify-center flex flex-row gap-1.5">
                                 {[
                                   {
@@ -144,7 +144,7 @@ const Dashboard: FunctionComponent<DashboardProps> = ({
                                   }
                                 )}
                               </div>
-                              <div className="relative w-fit h-fit flex items-center justify-center flex flex-row gap-2.5">
+                              <div className="relative w-fit h-fit flex items-center justify-center flex flex-row gap-2.5 sm:flex-nowrap flex-wrap">
                                 {[
                                   {
                                     title: "Likes",
@@ -394,7 +394,7 @@ const Dashboard: FunctionComponent<DashboardProps> = ({
                             id="fadeOut"
                           ></div>
                           <div
-                            className={`relative w-full flex items-center justify-start px-2 py-1 flex-row justify-between rounded-sm cursor-pointer h-16`}
+                            className={`relative w-full flex items-center justify-start px-2 py-2 sm:py-1 flex-col sm:flex-row justify-between rounded-sm cursor-pointer sm:gap-1 gap-3 h-24 sm:h-16 sm:flex-nowrap flex-wrap`}
                             onClick={() => {
                               setOpenQuest(
                                 openQuest?.questId === item?.questId
@@ -427,7 +427,7 @@ const Dashboard: FunctionComponent<DashboardProps> = ({
                                   : item?.questMetadata?.title}
                               </div>
                             </div>
-                            <div className="relative w-fit h-fit mr-0 flex flex-col gap-2 items-end justify-between">
+                            <div className="relative w-fit h-fit mr-0 flex flex-col gap-2 items-end justify-between sm:flex-nowrap flex-wrap">
                               <div className="relative w-fit h-fit flex items-center justify-center flex flex-row gap-1.5">
                                 {[
                                   {
@@ -471,7 +471,7 @@ const Dashboard: FunctionComponent<DashboardProps> = ({
                                   }
                                 )}
                               </div>
-                              <div className="relative w-fit h-fit flex items-center justify-center flex flex-row gap-2.5">
+                              <div className="relative w-fit h-fit flex items-center justify-center flex flex-row gap-2.5 sm:flex-nowrap flex-wrap">
                                 {[
                                   {
                                     title: "Likes",

@@ -225,7 +225,7 @@ const Criteria: FunctionComponent<CriteriaProps> = ({
                               className="rounded-full w-4 h-4 p-px flex items-center justify-center"
                               id="northern"
                             >
-                              <div className="relative w-full h-full flex items-center justify-center">
+                              <div className="relative w-full h-full flex items-center justify-center rounded-full">
                                 {pfp && (
                                   <Image
                                     src={pfp}

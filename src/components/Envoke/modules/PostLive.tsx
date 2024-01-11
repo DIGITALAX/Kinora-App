@@ -8,7 +8,7 @@ const PostLive: FunctionComponent<PostLiveProps> = ({
   handleApprove,
 }): JSX.Element => {
   return (
-    <div className="relative w-full h-full flex items-center justify-start flex-col bg-black  text-lg font-bit text-white gap-8 px-4 py-6">
+    <div className="relative w-full h-full flex items-center justify-start flex-col bg-black text-sm sm:text-lg font-bit text-white gap-8 px-4 py-6">
       <div className="relative w-fit hit flex items-center justify-center text-center break-words leading-5">
         Just one step left. <br /> <br /> Are you ready for your <br /> <br />
         Quest to be live?

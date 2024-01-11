@@ -89,22 +89,20 @@ const QuestPreview: FunctionComponent<QuestPreviewProps> = ({
           border={border}
         />
       )}
-      {!border && (
-        <div className="relative w-fit h-fit flex items-center justify-center text-white font-bit text-sm break-words">
-          {(
-            (post ? (quest as Post) : (quest as Quest)?.publication)
-              ?.metadata as VideoMetadataV3
-          )?.title?.length > 20
-            ? (
-                (post ? (quest as Post) : (quest as Quest)?.publication)
-                  ?.metadata as VideoMetadataV3
-              )?.title?.slice(0, 20) + "..."
-            : (
-                (post ? (quest as Post) : (quest as Quest)?.publication)
-                  ?.metadata as VideoMetadataV3
-              )?.title}
-        </div>
-      )}
+      <div className="relative w-fit h-fit flex items-center justify-center text-white font-bit text-sm break-words">
+        {(
+          (post ? (quest as Post) : (quest as Quest)?.publication)
+            ?.metadata as VideoMetadataV3
+        )?.title?.length > 20
+          ? (
+              (post ? (quest as Post) : (quest as Quest)?.publication)
+                ?.metadata as VideoMetadataV3
+            )?.title?.slice(0, 20) + "..."
+          : (
+              (post ? (quest as Post) : (quest as Quest)?.publication)
+                ?.metadata as VideoMetadataV3
+            )?.title}
+      </div>
     </div>
   );
 };
