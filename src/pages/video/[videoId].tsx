@@ -244,7 +244,9 @@ export default function VideoId({ router }: { router: NextRouter }) {
         className="md:h-full h-fit w-full items-start justify-start px-3 sm:px-6 pb-2 pt-6 relative flex flex-col gap-14"
         style={{
           width:
-            window.innerWidth > 684 && openSidebar
+            typeof window !== "undefined" &&
+            window.innerWidth > 684 &&
+            openSidebar
               ? "calc(100vw - 10rem)"
               : "calc(100vw - 2.5rem)",
         }}
