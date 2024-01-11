@@ -137,6 +137,7 @@ export const getQuest = async (
                 hasBookmarked
                 duration
                 avd
+                playerId
               }
             }
       }
@@ -302,6 +303,7 @@ export const getQuestById = async (
                 hasBookmarked
                 duration
                 avd
+                playerId
               }
             }
       }

@@ -37,6 +37,7 @@ export interface VideoActivity {
   playCount: number;
   pubId: number;
   profileId: number;
+  playerId: string;
   mostReplayed: string;
   duration: number;
   hasReacted: boolean;

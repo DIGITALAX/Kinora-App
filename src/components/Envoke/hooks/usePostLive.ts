@@ -429,10 +429,12 @@ const usePostLive = (
                 (item?.eligibility || [])?.map(
                   async (playbackCriteria: VideoEligible) => {
                     let assetWithPlaybackId = allUploaded.find((asset) => {
-                      asset?.name?.toLowerCase() ===
+                      asset?.storage?.ipfs?.cid?.toLowerCase() ===
                         (
                           playbackCriteria?.video?.metadata as VideoMetadataV3
-                        )?.title?.toLowerCase();
+                        )?.asset?.video?.raw?.uri
+                          ?.split("ipfs://")?.[1]
+                          ?.toLowerCase();
                     })?.playbackId;
 
                     if (!assetWithPlaybackId) {
@@ -452,11 +454,8 @@ const usePostLive = (
                       );
                       formData.append(
                         "link",
-                        `${INFURA_GATEWAY}/ipfs/${
-                          (
-                            playbackCriteria?.video?.metadata as VideoMetadataV3
-                          )?.asset?.video?.raw?.uri?.split("ipfs://")?.[1]
-                        }`
+                        (playbackCriteria?.video?.metadata as VideoMetadataV3)
+                          ?.asset?.video?.raw?.uri
                       );
 
                       const result = await fetch("/api/video", {

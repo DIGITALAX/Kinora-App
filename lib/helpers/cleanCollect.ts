@@ -26,7 +26,7 @@ const cleanCollect = (
         !amount?.currency ||
         parseFloat(amount?.value || "") <= 0
       ) {
-        const { amount, ...restOfSimpleCollect } = simpleCollect;
+        const { amount, recipient, ...restOfSimpleCollect } = simpleCollect;
         simpleCollect = restOfSimpleCollect;
       }
     }

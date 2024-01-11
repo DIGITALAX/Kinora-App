@@ -14,7 +14,6 @@ import lensPost from "../../../../lib/helpers/lensPost";
 import { PublicClient, createWalletClient, custom } from "viem";
 import { polygonMumbai } from "viem/chains";
 import uploadPostContent from "../../../../lib/helpers/uploadPostContent";
-import { INFURA_GATEWAY } from "../../../../lib/constants";
 import { Asset } from "@livepeer/react";
 
 const useUpload = (
@@ -119,14 +118,12 @@ const useUpload = (
         getVideoCover()
       );
 
-      const hashExists = allUploaded.find((asset) =>
-        asset?.hash?.some(
-          (h) =>
-            h?.hash?.toLowerCase() ===
-            (contentURI?.object as any)?.lens?.video?.item
-              ?.split("ipfs://")?.[1]
-              ?.toLowerCase()
-        )
+      const hashExists = allUploaded.find(
+        (asset) =>
+          asset?.storage?.ipfs?.cid?.toLowerCase() ===
+          (contentURI?.object as any)?.lens?.video?.item
+            ?.split("ipfs://")?.[1]
+            ?.toLowerCase()
       )?.playbackId;
 
       let result: number = 200;
@@ -134,14 +131,8 @@ const useUpload = (
       if (!hashExists) {
         const formData = new FormData();
         formData.append("name", postDetails?.title);
-        formData.append(
-          "link",
-          `${INFURA_GATEWAY}/ipfs/${
-            (contentURI?.object as any)?.lens?.video?.item?.split(
-              "ipfs://"
-            )?.[1]
-          }`
-        );
+        formData.append("link", (contentURI?.object as any)?.lens?.video?.item);
+        formData.append("link", "");
         const res = await fetch("/api/video", {
           method: "POST",
           body: formData,

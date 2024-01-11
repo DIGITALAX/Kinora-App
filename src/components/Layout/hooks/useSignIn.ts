@@ -35,6 +35,7 @@ const useSignIn = (
   const { signMessageAsync } = useSignMessage();
   const [signLoading, setSignLoading] = useState<boolean>(false);
   const [accountOpen, setAccountOpen] = useState<boolean>(false);
+  const [assetLoading, setAssetLoading] = useState<boolean>(false);
   const [openActivitySample, setOpenActivitySample] = useState<boolean>(false);
 
   const handleLogIn = async () => {
@@ -123,13 +124,17 @@ const useSignIn = (
   }, [isConnected, address]);
 
   const handleUploadAssets = async () => {
+    if (assetLoading) return;
+    setAssetLoading(true);
     try {
+
       const data = await fetch("/api/livepeer", {
         method: "POST",
       });
 
       const res = await data.json();
-      dispatch(setAllUploaded(res.json || []));
+      dispatch(setAllUploaded(res || []));
+      setAssetLoading(false);
     } catch (err: any) {
       console.error(err.message);
     }

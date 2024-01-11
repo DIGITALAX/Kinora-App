@@ -32,6 +32,7 @@ export const getVideoActivity = async (
           secondaryCollectOnQuote
           secondaryQuoteOnComment
           secondaryReactOnComment
+          playerId
         }
     }
   `),

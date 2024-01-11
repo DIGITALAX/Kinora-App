@@ -81,12 +81,12 @@ const MainVideo: FunctionComponent<MainVideoProps> = ({
           {(setMediaElement: (node: HTMLVideoElement) => void) => (
             <Player
               mediaElementRef={setMediaElement}
-              // playbackId={videoPlaying?.playerId}
-              src={`${INFURA_GATEWAY}/ipfs/${
-                (
-                  videoPlaying?.publication?.metadata as VideoMetadataV3
-                )?.asset?.video?.raw?.uri?.split("ipfs://")?.[1]
-              }`}
+              playbackId={videoPlaying?.playerId}
+              // src={`${INFURA_GATEWAY}/ipfs/${
+              //   (
+              //     videoPlaying?.publication?.metadata as VideoMetadataV3
+              //   )?.asset?.video?.raw?.uri?.split("ipfs://")?.[1]
+              // }`}
               showLoadingSpinner={false}
               objectFit="cover"
               autoUrlUpload={{
