@@ -37,11 +37,11 @@ const InteractBar: FunctionComponent<InteractBarProps> = ({
       id={!border ? "northern" : ""}
     >
       <div
-        className={`relative w-full h-fit flex flex-row gap-4 justify-between items-center py-1.5 rounded-sm ${
+        className={`relative w-full h-fit flex md:flex-row flex-col  gap-2 md:gap-4 justify-between items-center py-1.5 rounded-sm ${
           !border && "bg-nave px-1"
         }`}
       >
-        <div className="relative w-full h-fit flex flex-row gap-2">
+        <div className="relative w-full h-fit flex flex-row sm:flex-nowrap flex-wrap gap-2">
           {[
             mainFeed || router.asPath.includes("/envoker/")
               ? {

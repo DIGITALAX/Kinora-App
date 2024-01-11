@@ -104,8 +104,17 @@ const useActivity = (
 
           if (!cache.quests[item?.questId]) {
             const data = await getQuestById(item?.questId);
-            quest = data?.data?.questInstantiateds;
-            cache.quests[item?.questId] = data?.data?.questInstantiateds;
+            quest = data?.data?.questInstantiateds?.[0];
+
+            if (!quest?.questMetadata) {
+              let fetched = await fetchIPFSJSON(quest?.uri);
+              quest = {
+                ...quest,
+                questMetadata: fetched,
+              };
+            }
+
+            cache.quests[item?.questId] = quest;
           }
 
           quest = cache.quests[item?.questId];
@@ -174,8 +183,17 @@ const useActivity = (
 
           if (!cache.quests[item?.questId]) {
             const data = await getQuestById(item?.questId);
-            quest = data?.data?.questInstantiateds;
-            cache.quests[item?.questId] = data?.data?.questInstantiateds;
+            quest = data?.data?.questInstantiateds?.[0];
+
+            if (!quest?.questMetadata) {
+              let fetched = await fetchIPFSJSON(quest?.uri);
+              quest = {
+                ...quest,
+                questMetadata: fetched,
+              };
+            }
+
+            cache.quests[item?.questId] = quest;
           }
 
           quest = cache.quests[item?.questId];
@@ -227,8 +245,17 @@ const useActivity = (
 
           if (!cache.quests[item?.questId]) {
             const data = await getQuestById(item?.questId);
-            quest = data?.data?.questInstantiateds;
-            cache.quests[item?.questId] = data?.data?.questInstantiateds;
+            quest = data?.data?.questInstantiateds?.[0];
+
+            if (!quest?.questMetadata) {
+              let fetched = await fetchIPFSJSON(quest?.uri);
+              quest = {
+                ...quest,
+                questMetadata: fetched,
+              };
+            }
+
+            cache.quests[item?.questId] = quest;
           }
 
           quest = cache.quests[item?.questId];
@@ -313,11 +340,31 @@ const useActivity = (
         await Promise.all(milestoneCompletedPromises)
       )?.map((item) => ({
         ...item,
+        completedImage: [
+          "QmRBtzEqBnFgoHKr1Vkf5G4Y32ZwyBVKLua43mwtrVgmQo",
+          "QmfQqn7CnVRrkDHmcEYeofcWS7xoqFxAxW8pWVYTzUMQqS",
+          "QmPfh6SzzrCesndETLmTLw1CWUb51BoFfzkRJgvt2bghXs",
+          "Qmd8GU3CTGqkgVdPZvHkQKvuNqQzU2xSoqw9MnbNhGhy5u",
+          "QmYobgfsyUth61ZC1pZ6rDPpcPEZPj75PhJzFaRH7LPgjW",
+          "QmU1GSjt6aqxz2Li9ynaXCReXd1HyHmdbRQ8oMH5LFDoSA",
+          "QmSdULub95KyESom5DsxzXdZ5TjBighgZPCNiEm3mtgaSM",
+          "QmZZjahdpxiYdki4gsGeKiuSDMLpWZqtXXmxn6WhCYnXuq",
+        ]?.sort(() => 0.5 - Math.random())?.[0],
         type: "milestone",
       }));
       const newCompleted = (await Promise.all(completedPromises))?.map(
         (item) => ({
           ...item,
+          completedImage: [
+            "QmRBtzEqBnFgoHKr1Vkf5G4Y32ZwyBVKLua43mwtrVgmQo",
+            "QmfQqn7CnVRrkDHmcEYeofcWS7xoqFxAxW8pWVYTzUMQqS",
+            "QmPfh6SzzrCesndETLmTLw1CWUb51BoFfzkRJgvt2bghXs",
+            "Qmd8GU3CTGqkgVdPZvHkQKvuNqQzU2xSoqw9MnbNhGhy5u",
+            "QmYobgfsyUth61ZC1pZ6rDPpcPEZPj75PhJzFaRH7LPgjW",
+            "QmU1GSjt6aqxz2Li9ynaXCReXd1HyHmdbRQ8oMH5LFDoSA",
+            "QmSdULub95KyESom5DsxzXdZ5TjBighgZPCNiEm3mtgaSM",
+            "QmZZjahdpxiYdki4gsGeKiuSDMLpWZqtXXmxn6WhCYnXuq",
+          ]?.sort(() => 0.5 - Math.random())?.[0],
           type: "completed",
         })
       );
@@ -442,8 +489,17 @@ const useActivity = (
 
         if (!cache.quests[item?.questId]) {
           const data = await getQuestById(item?.questId);
-          quest = data?.data?.questInstantiateds;
-          cache.quests[item?.questId] = data?.data?.questInstantiateds;
+          quest = data?.data?.questInstantiateds?.[0];
+
+          if (!quest?.questMetadata) {
+            let fetched = await fetchIPFSJSON(quest?.uri);
+            quest = {
+              ...quest,
+              questMetadata: fetched,
+            };
+          }
+
+          cache.quests[item?.questId] = quest;
         }
 
         quest = cache.quests[item?.questId];
@@ -508,8 +564,17 @@ const useActivity = (
 
         if (!cache.quests[item?.questId]) {
           const data = await getQuestById(item?.questId);
-          quest = data?.data?.questInstantiateds;
-          cache.quests[item?.questId] = data?.data?.questInstantiateds;
+          quest = data?.data?.questInstantiateds?.[0];
+
+          if (!quest?.questMetadata) {
+            let fetched = await fetchIPFSJSON(quest?.uri);
+            quest = {
+              ...quest,
+              questMetadata: fetched,
+            };
+          }
+
+          cache.quests[item?.questId] = quest;
         }
 
         quest = cache.quests[item?.questId];
@@ -560,8 +625,17 @@ const useActivity = (
 
         if (!cache.quests[item?.questId]) {
           const data = await getQuestById(item?.questId);
-          quest = data?.data?.questInstantiateds;
-          cache.quests[item?.questId] = data?.data?.questInstantiateds;
+          quest = data?.data?.questInstantiateds?.[0];
+
+          if (!quest?.questMetadata) {
+            let fetched = await fetchIPFSJSON(quest?.uri);
+            quest = {
+              ...quest,
+              questMetadata: fetched,
+            };
+          }
+
+          cache.quests[item?.questId] = quest;
         }
 
         quest = cache.quests[item?.questId];
@@ -643,11 +717,31 @@ const useActivity = (
         await Promise.all(milestoneCompletedPromises)
       )?.map((item) => ({
         ...item,
+        completedImage: [
+          "QmRBtzEqBnFgoHKr1Vkf5G4Y32ZwyBVKLua43mwtrVgmQo",
+          "QmfQqn7CnVRrkDHmcEYeofcWS7xoqFxAxW8pWVYTzUMQqS",
+          "QmPfh6SzzrCesndETLmTLw1CWUb51BoFfzkRJgvt2bghXs",
+          "Qmd8GU3CTGqkgVdPZvHkQKvuNqQzU2xSoqw9MnbNhGhy5u",
+          "QmYobgfsyUth61ZC1pZ6rDPpcPEZPj75PhJzFaRH7LPgjW",
+          "QmU1GSjt6aqxz2Li9ynaXCReXd1HyHmdbRQ8oMH5LFDoSA",
+          "QmSdULub95KyESom5DsxzXdZ5TjBighgZPCNiEm3mtgaSM",
+          "QmZZjahdpxiYdki4gsGeKiuSDMLpWZqtXXmxn6WhCYnXuq",
+        ]?.sort(() => 0.5 - Math.random())?.[0],
         type: "milestone",
       }));
       const newCompleted = (await Promise.all(completedPromises))?.map(
         (item) => ({
           ...item,
+          completedImage: [
+            "QmRBtzEqBnFgoHKr1Vkf5G4Y32ZwyBVKLua43mwtrVgmQo",
+            "QmfQqn7CnVRrkDHmcEYeofcWS7xoqFxAxW8pWVYTzUMQqS",
+            "QmPfh6SzzrCesndETLmTLw1CWUb51BoFfzkRJgvt2bghXs",
+            "Qmd8GU3CTGqkgVdPZvHkQKvuNqQzU2xSoqw9MnbNhGhy5u",
+            "QmYobgfsyUth61ZC1pZ6rDPpcPEZPj75PhJzFaRH7LPgjW",
+            "QmU1GSjt6aqxz2Li9ynaXCReXd1HyHmdbRQ8oMH5LFDoSA",
+            "QmSdULub95KyESom5DsxzXdZ5TjBighgZPCNiEm3mtgaSM",
+            "QmZZjahdpxiYdki4gsGeKiuSDMLpWZqtXXmxn6WhCYnXuq",
+          ]?.sort(() => 0.5 - Math.random())?.[0],
           type: "completed",
         })
       );

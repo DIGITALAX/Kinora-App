@@ -174,9 +174,14 @@ export default function Handle({ router }: { router: NextRouter }) {
         />
       </Head>
       <div
-        className="md:h-full h-fit w-full items-start justify-start px-6 pb-2 pt-6 relative flex flex-col gap-10"
+        className="md:h-full h-fit w-full items-start justify-start px-3 sm:px-6 pb-2 pt-6 relative flex flex-col gap-10"
         style={{
-          width: openSidebar ? "calc(100vw - 10rem)" : "calc(100vw - 2.5rem)",
+          width:
+            typeof window !== "undefined" &&
+            window.innerWidth > 684 &&
+            openSidebar
+              ? "calc(100vw - 10rem)"
+              : "calc(100vw - 2.5rem)",
         }}
         id={!openSidebar ? "closeSide" : ""}
       >
@@ -203,7 +208,7 @@ export default function Handle({ router }: { router: NextRouter }) {
               ></div>
             </div>
             <div
-              className="absolute w-20 h-20 right-4 bottom-4 rounded-full p-px"
+              className="absolute w-12 h-12 sm:w-20 sm:h-20 right-4 bottom-4 rounded-full p-px"
               id="northern"
             >
               <div className="relative w-full h-full flex items-center justify-center rounded-full">

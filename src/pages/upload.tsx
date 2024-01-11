@@ -129,19 +129,22 @@ export default function Upload() {
             />
           </Head>
           <div
-            className="md:h-full h-fit w-full items-start justify-start px-6 pb-2 pt-6 relative flex flex-col"
+            className="md:h-full h-fit w-full items-start justify-start px-3 sm:px-6 pb-2 pt-6 relative flex flex-col"
             style={{
-              width: openSidebar
-                ? "calc(100vw - 10rem)"
-                : "calc(100vw - 2.5rem)",
+              width:
+                typeof window !== "undefined" &&
+                window.innerWidth > 684 &&
+                openSidebar
+                  ? "calc(100vw - 10rem)"
+                  : "calc(100vw - 2.5rem)",
             }}
             id={!openSidebar ? "closeSide" : ""}
           >
             <div className="relative w-fit h-fit flex items-start justify-start text-2xl pb-10">
               Upload A New Video
             </div>
-            <div className="relative w-full h-fit flex items-start justify-start flex-row text-xs gap-4">
-              <div className="relative w-full h-fit flex items-start justify-start flex-col gap-5">
+            <div className="relative w-full h-fit flex items-start justify-start flex-col md:flex-row text-xs gap-4">
+              <div className="relative w-full h-fit flex items-start justify-start flex-col gap-5 order-2 md:order-1">
                 <label
                   className={`relative flex items-center w-full h-80 rounded-md justify-center z-0 cursor-pointer p-px`}
                   id="northern"
@@ -204,7 +207,7 @@ export default function Upload() {
                   </div>
                 </div>
               </div>
-              <div className="relative w-full h-fit flex flex-col gap-8 items-center justify-center">
+              <div className="relative w-full h-fit flex flex-col gap-8 items-center justify-center order-1 md:order-2">
                 <div className="relative w-full h-fit flex items-center justify-center gap-3 flex-row">
                   <div className="relative w-fit h-fit text-xs break-words flex items-center justify-center">
                     Title{" "}

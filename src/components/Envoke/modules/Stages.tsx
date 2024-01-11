@@ -36,8 +36,8 @@ const Stages: FunctionComponent<StagesProps> = ({
 }): JSX.Element => {
   return (
     <div
-      className={`relative w-full h-fit p-px flex lg:top-20  ${
-        questStage !== QuestStage.Post ? "lg:max-w-[20rem]" : "lg:max-w-[30rem]"
+      className={`relative w-full xl:order-2 order-1 h-fit p-px flex lg:top-20  ${
+        questStage !== QuestStage.Post ? "xl:max-w-[20rem]" : "lg:max-w-[30rem]"
       }`}
     >
       <div className="relative w-full flex flex-col gap-6">
@@ -333,7 +333,7 @@ const Stages: FunctionComponent<StagesProps> = ({
             />
           )}
         </div>
-        <div className="relative w-full p-2 h-fit flex items-center justify-center text-white font-bit mb-0 flex-row gap-5">
+        <div className="relative w-full p-2 h-fit flex items-center justify-center text-white font-bit mb-0 flex-col sm:flex-row gap-5">
           {questStage !== QuestStage.Details && (
             <div
               className={`relative w-32 bg-black text-xs h-8 p-1 rounded-sm border border-suave cursor-pointer hover:opacity-80 flex items-center justify-center gap-4 `}

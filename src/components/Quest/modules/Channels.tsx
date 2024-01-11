@@ -20,7 +20,7 @@ const Channels: FunctionComponent<ChannelsProps> = ({
           return (
             <div
               key={index}
-              className={`relative w-40 h-full p-px flex items-center justify-center rounded-md cursor-pointer hover:opacity-70 ${
+              className={`relative w-14 sm:w-40 h-full p-px flex items-center justify-center rounded-md cursor-pointer hover:opacity-70 ${
                 videoPlaying == video && "opacity-30"
               }`}
               onClick={() => setVideoPlaying(video)}

@@ -42,6 +42,7 @@ const config: Config = {
         galaxy: "300px",
         pre: "400px",
         otro: "1350px",
+        half: "1460px"
       },
       backgroundImage: {
         fuzz: 'url("https://thedial.infura-ipfs.io/ipfs/QmcnyZRwBo2yRC8xPuyD2UVEfRGX6JNPX86dT43aPSsy5y")',

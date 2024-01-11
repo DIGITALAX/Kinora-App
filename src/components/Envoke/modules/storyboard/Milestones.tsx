@@ -20,7 +20,7 @@ const Milestones: FunctionComponent<StoryboardMilestonesProps> = ({
   milestone,
 }): JSX.Element => {
   return (
-    <div className="relative w-full h-fit flex items-start justify-start flex-col font-bit text-white gap-10 max-h-[40rem] overflow-y-scroll">
+    <div className="relative w-full h-fit flex items-start justify-start flex-col font-bit text-white gap-10 h-fit sm:max-h-[40rem] overflow-y-scroll">
       <div className="relative w-fit h-fit items-start justify-start opacity-70">
         Review your Quest storyboard before going live.
       </div>
@@ -260,7 +260,7 @@ const Milestones: FunctionComponent<StoryboardMilestonesProps> = ({
                 key={index}
                 className="relative w-full h-fit flex flex-col lg:flex-row gap-4 items-start justify-start"
               >
-                <div className="relative w-fit h-fit items-start justify-start gap-2 flex flex-col">
+                <div className="relative w-full sm:w-fit h-fit items-start justify-start gap-2 flex flex-col">
                   <div className="relative w-fit h-fit flex items-start justify-start text-xs">
                     {(item?.video?.metadata as VideoMetadataV3)?.title?.length >
                     30
@@ -270,7 +270,7 @@ const Milestones: FunctionComponent<StoryboardMilestonesProps> = ({
                       : (item?.video?.metadata as VideoMetadataV3)?.title}
                   </div>
                   <div
-                    className="relative w-60 h-44 p-px rounded-md flex items-center justify-center"
+                    className="relative w-3/4 galaxy:w-full sm:w-60 full sm:h-44 p-px rounded-md flex items-center justify-center"
                     id="northern"
                   >
                     <div className="relative w-full h-full flex items-center justify-center">

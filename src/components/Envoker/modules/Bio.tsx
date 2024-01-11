@@ -136,7 +136,7 @@ const Bio: FunctionComponent<BioProps> = ({
           </div>
         </div>
         <div className="relative w-fit h-fit flex gap-3 mr-0">
-          <div className="font-vcr text-xl text-white w-fit h-fit relative flex items-center justify-end break-words">
+          <div className="font-vcr text-xl text-white w-fit h-fit relative flex items-center justify-end break-all">
             {profile?.handle?.suggestedFormatted?.localName}
           </div>
         </div>

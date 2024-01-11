@@ -22,14 +22,17 @@ const Prints: FunctionComponent<PrintProps> = ({
   setStoreItems,
 }): JSX.Element => {
   return (
-    <div className="relative w-full h-full flex overflow-x-scroll" id="xScroll">
-      <div className="relative w-fit h-full flex items-start justify-center flex-row gap-5">
+    <div
+      className="relative w-full h-full flex overflow-x-scroll items-start justify-start"
+      id="xScroll"
+    >
+      <div className="relative w-fit h-full flex items-start justify-start flex-row gap-5">
         {storeLoading
           ? Array.from({ length: 10 })?.map((_, index: number) => {
               return (
                 <div
                   key={index}
-                  className="relative w-72 h-full flex flex-col gap-3 animate-pulse"
+                  className="relative w-72 h-96 md:h-full flex flex-col gap-3 animate-pulse"
                 >
                   <div
                     className="relative w-full h-full flex items-center justify-center p-px rounded-sm"
@@ -45,7 +48,7 @@ const Prints: FunctionComponent<PrintProps> = ({
               return (
                 <div
                   key={index}
-                  className="relative w-72 h-full flex flex-col gap-3"
+                  className="relative w-72 h-96 md:h-full flex flex-col gap-3"
                 >
                   <div
                     className="relative w-full h-full flex items-center justify-center p-px rounded-sm"
@@ -56,6 +59,7 @@ const Prints: FunctionComponent<PrintProps> = ({
                         objectFit={"cover"}
                         draggable={false}
                         layout="fill"
+                        className="rounded-sm"
                         src={`${INFURA_GATEWAY}/ipfs/${
                           item?.collectionMetadata?.images?.[0]?.split(
                             "ipfs://"
@@ -74,7 +78,7 @@ const Prints: FunctionComponent<PrintProps> = ({
                               return (
                                 <div
                                   key={index}
-                                  className={`relative rounded-full text-xxs w-5 h-5 font-bit flex items-center justify-center cursor-pointer active:scale-95 ${
+                                  className={`relative rounded-sm text-xxs w-5 h-5 font-bit flex items-center justify-center cursor-pointer active:scale-95 ${
                                     chosenCartItem?.chosenSize === size &&
                                     chosenCartItem?.item?.collectionMetadata
                                       ?.title == item?.collectionMetadata?.title

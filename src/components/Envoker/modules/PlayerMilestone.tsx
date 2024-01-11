@@ -236,7 +236,7 @@ const PlayerMilestone: FunctionComponent<PlayerMilestoneProps> = ({
                     Milestone {(video as any)?.milestone}
                   </div>
                 )}
-                <div className="relative w-full h-fit flex flex-row gap-4">
+                <div className="relative w-full h-fit flex flex-col sm:flex-row gap-4">
                   <div
                     className="relative w-fit h-fit flex rounded-md items-center justify-center p-px cursor-pointer"
                     id="rainbow"
@@ -264,7 +264,7 @@ const PlayerMilestone: FunctionComponent<PlayerMilestoneProps> = ({
                       )}
                     </div>
                   </div>
-                  <div className="relative w-px h-8 bg-gray-700"></div>
+                  <div className="relative w-full sm:w-px h-px sm:h-8 bg-gray-700"></div>
                   <PlayerValues
                     metrics={
                       openPlayerDetails?.videos?.find(

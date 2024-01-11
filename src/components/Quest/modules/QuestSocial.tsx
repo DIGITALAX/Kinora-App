@@ -285,7 +285,7 @@ const QuestSocial: FunctionComponent<QuestSocialProps> = ({
                             className="relative w-8 h-8 rounded-full p-px items-center justify-center"
                             id="northern"
                           >
-                            <div className="relative w-full h-full flex items-center justify-center">
+                            <div className="relative w-full h-full flex items-center justify-center rounded-full">
                               {profileImage && (
                                 <Image
                                   src={profileImage}
@@ -361,7 +361,7 @@ const QuestSocial: FunctionComponent<QuestSocialProps> = ({
                           className="relative w-8 h-8 rounded-full p-px items-center justify-center"
                           id="northern"
                         >
-                          <div className="relative w-full h-full flex items-center justify-center">
+                          <div className="relative w-full h-full flex items-center justify-center rounded-full">
                             {profileImage && (
                               <Image
                                 src={profileImage}
@@ -432,7 +432,7 @@ const QuestSocial: FunctionComponent<QuestSocialProps> = ({
                       }
                       id="northern"
                     >
-                      <div className="relative w-full h-full flex items-center justify-center">
+                      <div className="relative w-full h-full flex items-center justify-center rounded-full">
                         {playerPfp && (
                           <Image
                             layout="fill"

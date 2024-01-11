@@ -23,8 +23,8 @@ const QuestFeed: FunctionComponent<QuestFeedProps> = ({
   profileHovers,
 }): JSX.Element => {
   return (
-    <div className="relative w-full h-fit flex flex-col gap-3">
-      <div className="relative w-full h-fit flex flex-row gap-3">
+    <div className="relative w-full h-fit flex flex-col gap-3 lg:flex-nowrap flex-wrap">
+      <div className="relative w-full h-fit flex flex-row gap-3 lg:flex-nowrap flex-wrap">
         {questFeed?.slice(0, 4)?.map((item: Quest, index: number) => {
           return (
             <QuestPreview
@@ -58,7 +58,7 @@ const QuestFeed: FunctionComponent<QuestFeedProps> = ({
         next={getMoreQuestFeed}
         className="relative w-full h-fit flex-col items-center justify-start"
       >
-        <div className="w-full h-fit grid grid-cols-2 justify-center items-start gap-3">
+        <div className="w-full h-fit flex flex-col md:grid md:grid-cols-2 justify-center items-start gap-3 flex-wrap">
           {questFeed
             ?.slice(4)
 

@@ -110,6 +110,7 @@ export type QuestCompletedProps = {
     type: string;
     profile: Profile | undefined;
     milestone?: number;
+    completedImage?: string;
   };
   dispatch: Dispatch;
   profileHovers: boolean[];

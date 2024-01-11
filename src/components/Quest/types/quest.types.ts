@@ -388,6 +388,9 @@ export type MainVideoProps = {
     | ((e: SetStateAction<VideoActivity | undefined>) => void);
   allVideos?: Video[];
   height: string;
+  width: string;
+  openControls: boolean;
+  setOpenControls: (e: SetStateAction<boolean>) => void;
 };
 
 export type MetricsProps = {

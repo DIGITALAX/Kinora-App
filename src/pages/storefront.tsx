@@ -133,16 +133,21 @@ export default function Storefront() {
         />
       </Head>
       <div
-        className="md:h-full h-fit w-full items-start justify-start px-6 pb-2 pt-6 relative flex flex-col"
+        className="md:h-full h-fit w-full items-start justify-start px-3 sm:px-6 pb-2 pt-6 relative flex flex-col"
         style={{
-          width: openSidebar ? "calc(100vw - 10rem)" : "calc(100vw - 2.5rem)",
+          width:
+            typeof window !== "undefined" &&
+            window.innerWidth > 684 &&
+            openSidebar
+              ? "calc(100vw - 10rem)"
+              : "calc(100vw - 2.5rem)",
         }}
         id={!openSidebar ? "closeSide" : ""}
       >
         <div className="relative w-fit h-fit flex items-start justify-start text-2xl pb-10">
           Kinora Shop
         </div>
-        <div className="relative w-full h-full flex items-start justify-start flex-row text-xs gap-4">
+        <div className="relative w-full h-full flex items-start justify-start flex-col md:flex-row text-xs gap-4 pb-3">
           <Prints
             setStoreItems={setStoreItems}
             lensConnected={lensConnected}

@@ -23,9 +23,9 @@ const Mint: FunctionComponent<MintProps> = ({
 }): JSX.Element => {
   return item?.open ? (
     <div className="relative w-full h-fit flex items-start justify-start flex-col sm:flex-row md:flex-col xl:flex-row gap-6 font-bit text-white">
-      <div className="relative w-fit h-fit flex items-center justify-center">
+      <div className="relative w-full sm:w-fit h-fit flex items-center justify-center">
         <label
-          className="relative w-52 h-52 rounded-sm cursor-pointer p-px"
+          className="relative w-full sm:w-52 h-52 rounded-sm cursor-pointer p-px"
           id="northern"
         >
           <div className="relative w-full h-full flex items-center justify-center rounded-sm">

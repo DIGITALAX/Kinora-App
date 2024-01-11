@@ -27,16 +27,16 @@ const Checkout: FunctionComponent<CheckoutProps> = ({
   openConnectModal,
 }): JSX.Element => {
   return (
-    <div className={`relative w-full h-full flex lg:max-w-[20rem]`}>
+    <div className={`relative w-full h-full flex md:max-w-[17rem] xl:max-w-[20rem] overflow-y-scroll`}>
       <div className="relative w-full flex h-full flex-col justify-between bg-black border border-cost rounded-sm p-2">
         <div className="relative w-full h-full flex items-center flex-col gap-5">
           <div className="uppercase text-xl font-vcr text-gray-200 px-1 flex items-start whitespace-nowrap justify-center w-fit h-fit">
             Cart Items
           </div>
           <div className="relative w-full h-full flex overflow-y-scroll items-start justify-center">
-            <div className="relative w-full h-fit flex flex-col gap-10 font-vcr items-center justify-center px-2">
+            <div className="relative w-full h-fit flex flex-col gap-10 font-vcr items-center justify-center px-px xl:px-2">
               {!chosenCartItem ? (
-                <div className="relative w-fit h-fit flex items-center justify-center font-vcr text-girasol break-words text-xs opacity-70">
+                <div className="relative w-fit h-fit flex items-center justify-center text-center font-vcr text-girasol break-words text-xs opacity-70">
                   Add apparel to your cart.
                 </div>
               ) : (

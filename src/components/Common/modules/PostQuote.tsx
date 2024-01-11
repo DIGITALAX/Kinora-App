@@ -54,7 +54,7 @@ const PostQuote: FunctionComponent<PostQuoteProps> = ({
         id="northern"
       >
         <div className="relative w-full h-full p-2 flex items-center justify-start flex-col gap-5 bg-nave">
-          <div className="relative w-full h-fit flex flex-row items-center justify-center gap-2 px-1">
+          <div className="relative w-full h-fit flex flex-row items-center justify-between sm:justify-center gap-2 px-1 sm:flex-nowrap flex-wrap">
             <div className="relative w-fit h-fit flex items-center justify-center gap-2 mr-auto">
               <div
                 className="relative w-5 h-5 flex items-center justify-center p-px rounded-full cursor-pointer"
