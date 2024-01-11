@@ -308,7 +308,7 @@ export default function QuestId({ router }: { router: NextRouter }) {
                     lensConnected={lensConnected}
                   />
                 )}
-                {!dataLoading ? (
+                {dataLoading ? (
                   <div className="relative flex items-start justify-start flex-col gap-5 h-full w-full overflow-y-scroll">
                     <div className="relative w-full h-fit flex items-start justify-start flex-wrap gap-3 overflow-y-scroll animate-pulse">
                       {Array.from({ length: 30 })?.map((_, index: number) => {

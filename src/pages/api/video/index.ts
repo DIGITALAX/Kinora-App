@@ -26,8 +26,9 @@ handler.use(async (req: ExtendedRequest, _, next) => {
 handler.post(async (req: any, res: NextApiResponse) => {
   try {
     const livepeer = new Livepeer({
-      apiKey: process.env.LIVEPEER_STUDIO_KEY as string,
+      apiKey: process.env.NEXT_PUBLIC_LIVEPEER_STUDIO_KEY as string,
     });
+    
 
     const results = await livepeer.asset.create({
       name: req.body.name[0],
