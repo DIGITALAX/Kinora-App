@@ -86,6 +86,7 @@ const Criteria: FunctionComponent<CriteriaProps> = ({
                     : getMoreVideosSample
                 }
                 loader={<></>}
+                height={"28rem"}
                 className="relative w-full h-fit flex overflow-y-scroll"
               >
                 <div className="relative w-full flex flex-wrap gap-3 items-start justify-start h-fit max-h-[28rem] rounded-md">
