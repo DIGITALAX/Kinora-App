@@ -86,7 +86,8 @@ const VideoInfo: FunctionComponent<VideoInfoProps> = ({
           </div>
         </div>
         <div className="relative w-fit h-fit flex font-bit text-gray-600 items-center justify-center text-xxs mr-0">
-          {moment(`${videoPlaying?.publication?.createdAt}`).fromNow()}
+          {videoPlaying?.publication?.createdAt &&
+            moment(videoPlaying?.publication?.createdAt).fromNow()}
         </div>
       </div>
       <div className="relative w-full h-fit flex flex-col gap-1.5">

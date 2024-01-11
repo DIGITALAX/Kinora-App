@@ -23,7 +23,7 @@ const QuestBoardSwitch: FunctionComponent<QuestBoardSwitchProps> = ({
   mainViewer,
   handleCompleteMilestone,
   completeLoading,
-  milestoneEligible
+  milestoneEligible,
 }): JSX.Element => {
   switch (mainViewer) {
     case 0:
@@ -50,20 +50,18 @@ const QuestBoardSwitch: FunctionComponent<QuestBoardSwitchProps> = ({
 
     default:
       return (
-        <>
-          <MilestoneInfo
-            player={
-              questInfo?.players?.find(
-                (item) => item?.profile?.id == lensConnected?.id
-              )!
-            }
-            milestoneEligible={milestoneEligible}
-            questInfo={questInfo!}
-            completeLoading={completeLoading}
-            milestone={questInfo?.milestones?.[mainViewer - 1]!}
-            handleCompleteMilestone={handleCompleteMilestone}
-          />
-        </>
+        <MilestoneInfo
+          player={
+            questInfo?.players?.find(
+              (item) => item?.profile?.id == lensConnected?.id
+            )!
+          }
+          milestoneEligible={milestoneEligible}
+          questInfo={questInfo!}
+          completeLoading={completeLoading}
+          milestone={questInfo?.milestones?.[mainViewer - 1]!}
+          handleCompleteMilestone={handleCompleteMilestone}
+        />
       );
   }
 };
