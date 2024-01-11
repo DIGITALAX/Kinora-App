@@ -79,7 +79,8 @@ const QuestBoxDetails: FunctionComponent<QuestBoxDetailsProps> = ({
                         ?.localName
                 }`}</div>
                 <div className="relative flex font-bit text-gray-600 items-center justify-center text-xxs">
-                  {moment(`${questInfo?.publication?.createdAt}`).fromNow()}
+                  {questInfo?.publication?.createdAt &&
+                    moment(questInfo?.publication?.createdAt).fromNow()}
                 </div>
               </div>
             </div>
@@ -106,7 +107,6 @@ const QuestBoxDetails: FunctionComponent<QuestBoxDetailsProps> = ({
               </div>
             </div>
           </div>
-
           {((questInfo?.gate?.erc20Logic &&
             questInfo?.gate?.erc20Logic?.length > 0) ||
             (questInfo?.gate?.erc721Logic &&
