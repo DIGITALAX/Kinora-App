@@ -51,6 +51,7 @@ const useSignIn = (
       if (!profile?.data?.defaultProfile) {
         dispatch(setLensConnected(undefined));
         dispatch(setClaimProfile(true));
+        setSignLoading(false);
         return;
       }
       const challengeResponse = await generateChallenge({
@@ -127,7 +128,6 @@ const useSignIn = (
     if (assetLoading) return;
     setAssetLoading(true);
     try {
-
       const data = await fetch("/api/livepeer", {
         method: "POST",
       });
