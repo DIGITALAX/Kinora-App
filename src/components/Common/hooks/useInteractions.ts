@@ -11,7 +11,7 @@ import { Dispatch } from "redux";
 import lensBookmark from "../../../../lib/helpers/lensBookmark";
 import { useEffect, useState } from "react";
 import { PublicClient, createWalletClient, custom } from "viem";
-import { polygon, polygonMumbai } from "viem/chains";
+import { polygonMumbai } from "viem/chains";
 import lensMirror from "../../../../lib/helpers/lensMirror";
 import lensLike from "../../../../lib/helpers/lensLike";
 import refetchProfile from "../../../../lib/helpers/refetchProfile";
@@ -19,14 +19,21 @@ import lensFollow from "../../../../lib/helpers/lensFollow";
 import lensUnfollow from "../../../../lib/helpers/lensUnfollow";
 import { setFollowCollect } from "../../../../redux/reducers/followCollectSlice";
 import lensCollect from "../../../../lib/helpers/lensCollect";
+import { Collection } from "@/components/Envoke/types/envoke.types";
 
 const useInteractions = (
   lensConnected: Profile | undefined,
   dispatch: Dispatch,
-  feed: (Quest | Post)[],
+  feed: (Quest | Post | Collection)[],
   address: `0x${string}` | undefined,
   publicClient: PublicClient,
-  itemSetter: (e: Quest[] | (Quest & { type: string }[])) => void
+  itemSetter:
+    | ((e: Quest[]) => void)
+    | ((e: (Quest & { type: string })[]) => void)
+    | ((e: (Collection & {
+      chosenSize: string;
+      chosenAmount: string;
+    })[]) => void)
 ) => {
   const [mirrorChoiceOpen, setMirrorChoiceOpen] = useState<boolean[]>([]);
   const [mainInteractionsLoading, setMainInteractionsLoading] = useState<{

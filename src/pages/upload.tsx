@@ -21,7 +21,7 @@ export default function Upload() {
   const publicClient = createPublicClient({
     chain: polygonMumbai,
     transport: http(
-      `https://polygon-mumbai.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY_MUMBAI}`
+      `https://polygon.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`
     ),
   });
   const dispatch = useDispatch();
@@ -40,6 +40,9 @@ export default function Upload() {
   const availableCurrencies = useSelector(
     (state: RootState) => state.app.availableCurrenciesReducer.currencies
   );
+  const oracleData = useSelector(
+    (state: RootState) => state.app.oracleDataReducer.data
+  );
   const lensConnected = useSelector(
     (state: RootState) => state.app.lensConnectedReducer.profile
   );
@@ -49,7 +52,8 @@ export default function Upload() {
     dispatch,
     isConnected,
     address,
-    allUploaded
+    allUploaded,
+    oracleData
   );
   const {
     uploadLoading,
@@ -63,7 +67,8 @@ export default function Upload() {
     dispatch,
     availableCurrencies,
     publicClient,
-    allUploaded
+    allUploaded,
+    lensConnected
   );
   return (
     <>

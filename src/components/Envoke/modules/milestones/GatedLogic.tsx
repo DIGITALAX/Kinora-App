@@ -3,10 +3,7 @@ import { Collection, GatedLogicProps } from "../../types/envoke.types";
 import { setQuestInfo } from "../../../../../redux/reducers/questInfoSlice";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Image from "next/legacy/image";
-import {
-  ACCEPTED_TOKENS_MUMBAI,
-  INFURA_GATEWAY,
-} from "../../../../../lib/constants";
+import { ACCEPTED_TOKENS_MUMBAI, INFURA_GATEWAY } from "../../../../../lib/constants";
 import createProfilePicture from "../../../../../lib/helpers/createProfilePicture";
 import { ImCross } from "react-icons/im";
 

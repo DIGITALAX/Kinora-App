@@ -10,6 +10,8 @@ import indexerReducer from "./reducers/indexerSlice";
 import questStageReducer from "./reducers/questStageSlice";
 import questInfoReducer from "./reducers/questInfoSlice";
 import availableCurrenciesReducer from "./reducers/availableCurrenciesSlice";
+import oracleDataReducer from "./reducers/oracleDataSlice";
+import claimProfileReducer from "./reducers/claimProfileSlice";
 import activityFeedReducer from "./reducers/activityFeedSlice";
 import followBoxReducer from "./reducers/followBoxSlice";
 import isPlayerReducer from "./reducers/isPlayerSlice";
@@ -20,6 +22,7 @@ import quoteReducer from "./reducers/quoteSlice";
 import followCollectReducer from "./reducers/followCollectSlice";
 import imageViewerReducer from "./reducers/imageViewerSlice";
 import allUploadedReducer from "./reducers/allUploadedSlice";
+import missingValuesReducer from "./reducers/missingValuesSlice";
 
 const reducer = combineReducers({
   walletConnectedReducer,
@@ -41,7 +44,10 @@ const reducer = combineReducers({
   questGatesReducer,
   isPlayerReducer,
   followBoxReducer,
-  activityFeedReducer
+  activityFeedReducer,
+  claimProfileReducer,
+  missingValuesReducer,
+  oracleDataReducer
 });
 
 export const store = configureStore({

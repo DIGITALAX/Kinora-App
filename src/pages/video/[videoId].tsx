@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { createPublicClient, http } from "viem";
-import { polygon, polygonMumbai } from "viem/chains";
+import { polygonMumbai } from "viem/chains";
 import { RootState } from "../../../redux/store";
 import { NextRouter } from "next/router";
 import useInteractions from "@/components/Quest/hooks/useInteractions";
@@ -30,7 +30,7 @@ export default function VideoId({ router }: { router: NextRouter }) {
   const publicClient = createPublicClient({
     chain: polygonMumbai,
     transport: http(
-      `https://polygon-mumbai.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY_MUMBAI}`
+      `https://polygon.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`
     ),
   });
   const kinoraDispatch = new KinoraDispatch({
@@ -169,7 +169,7 @@ export default function VideoId({ router }: { router: NextRouter }) {
     relatedQuests,
     address,
     publicClient,
-    (newItems) => setRelatedQuests(newItems as Quest[])
+    (newItems: any) => setRelatedQuests(newItems as Quest[])
   );
   return (
     <div
@@ -247,7 +247,7 @@ export default function VideoId({ router }: { router: NextRouter }) {
       >
         <div className="relative h-[28rem] w-full flex items-center justify-start gap-10 min-h-[28rem]">
           <div className="relative w-fit h-full flex items-start justify-start">
-            <div className="relative h-full w-80 flex items-start justify-start flex-col gap-6 rounded-md border border-gray-700 p-3">
+            <div className="relative h-full w-80 flex items-start justify-start flex-col gap-6 rounded-sm border border-cost bg-black p-3">
               {videoData && (
                 <VideoInfo
                   router={router}
@@ -360,7 +360,7 @@ export default function VideoId({ router }: { router: NextRouter }) {
             </div>
           </div>
           <div className="relative w-fit h-full flex items-start justify-start">
-            <div className="relative h-full w-60 flex items-between justify-start flex-col gap-6 rounded-md border border-gray-700 p-2">
+            <div className="relative h-full w-60 flex items-between justify-start flex-col gap-6 rounded-sm border border-cost bg-black p-2">
               <div className="relative w-full h-full flex flex-col gap-6 items-start justify-start overflow-y-scroll">
                 <div className="relative w-full h-fit gap-2 flex items-center justify-center flex-col">
                   <div className="relative w-full h-fit flex items-center justify-center text-gray-400 font-bit text-sm">

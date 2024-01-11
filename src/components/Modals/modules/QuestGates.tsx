@@ -74,7 +74,7 @@ const QuestGates: FunctionComponent<QuestGatesProps> = ({
                                 }`}
                               />
                             </div>
-                            <div className="relative w-fit h-fit flex items-center justify-center font-vcr text-azul/70 text-sm">
+                            <div className="relative w-fit h-fit flex items-center justify-center font-vcr text-acei text-sm">
                               {`${Number(erc20?.amount) / 10 ** 18} ${
                                 ACCEPTED_TOKENS_MUMBAI?.filter(
                                   (token) =>

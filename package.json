@@ -10,11 +10,12 @@
   },
   "dependencies": {
     "@apollo/client": "^3.8.8",
+    "@lit-protocol/lit-node-client": "3.0.25",
     "@livepeer/react": "^3.1.8",
     "@rainbow-me/rainbowkit": "^1.1.1",
     "@reduxjs/toolkit": "^2.0.1",
     "axios": "^1.6.3",
-    "ethers": "^5.7.2",
+    "ethers": "^6.8.1",
     "formidable": "^3.5.1",
     "ipfs-http-client": "^60.0.1",
     "kinora-sdk": "^0.0.8",

@@ -7,7 +7,7 @@ import {
 import { Envoker } from "kinora-sdk";
 import { apolloClient } from "../../../../lib/lens/client";
 import { Asset } from "@livepeer/react";
-import { VideoMetadataV3 } from "../../../../graphql/generated";
+import { Profile, VideoMetadataV3 } from "../../../../graphql/generated";
 import {
   Milestone,
   VideoEligible,
@@ -22,7 +22,6 @@ import {
   IPFS_REGEX,
   KINORA_ESCROW_CONTRACT,
   NFT_CREATOR,
-  NFT_CREATOR_MUMBAI,
 } from "../../../../lib/constants";
 import { setSuccess } from "../../../../redux/reducers/successSlice";
 import { PublicClient, createWalletClient, custom } from "viem";
@@ -31,6 +30,8 @@ import { setInteractError } from "../../../../redux/reducers/interactErrorSlice"
 import { setAccountSwitch } from "../../../../redux/reducers/accountSwitchSlice";
 import { AccountType } from "@/components/Envoker/types/envoker.types";
 import { setQuestStage } from "../../../../redux/reducers/questStageSlice";
+import { setMissingValues } from "../../../../redux/reducers/missingValuesSlice";
+import handleQuestCheck from "../../../../lib/helpers/handleQuestCheck";
 
 const usePostLive = (
   dispatch: Dispatch,
@@ -40,7 +41,9 @@ const usePostLive = (
   allUploaded: Asset[],
   setMilestonesOpen: (e: boolean[]) => void,
   setMilestoneStage: (e: number) => void,
-  setCollectionsSearch: (e: string) => void
+  setCollectionsSearch: (e: string) => void,
+  lensConnected: Profile | undefined,
+  walletConnected: boolean
 ) => {
   const [postLoading, setPostLoading] = useState<boolean>(false);
   const [tokensToApprove, setTokensToApprove] = useState<
@@ -55,6 +58,7 @@ const usePostLive = (
   });
 
   const checkApproved = async () => {
+    if (!walletConnected || !lensConnected?.id) return;
     try {
       if (
         questInfo?.milestones?.length < 1 ||
@@ -155,6 +159,7 @@ const usePostLive = (
   const handleApprove = async (
     approveTokenAddress: `0x${string}`
   ): Promise<void> => {
+    if (!lensConnected?.id) return;
     setPostLoading(true);
     try {
       let totalAmount = "0";
@@ -267,14 +272,19 @@ const usePostLive = (
   };
 
   const handlePostLive = async () => {
+    if (!lensConnected?.id) return;
+    if (!handleQuestCheck(questInfo)) {
+      dispatch(setMissingValues(true));
+      return;
+    }
     setPostLoading(true);
     try {
       await (window as any).ethereum.request({ method: "eth_requestAccounts" });
-      const provider = new ethers.providers.Web3Provider(
+      const provider = new ethers.BrowserProvider(
         (window as any).ethereum,
         80001
       );
-      const signer = provider.getSigner();
+      const signer = await provider.getSigner();
 
       let cover: `ipfs://${string}` = questInfo?.details
         ?.cover as `ipfs://${string}`;
@@ -320,7 +330,7 @@ const usePostLive = (
                 (item?.gated?.erc721TokenIds || [])
                   ?.map((item) => item?.uri)
                   ?.filter(Boolean)?.length > 0
-                  ? [NFT_CREATOR_MUMBAI]
+                  ? [NFT_CREATOR]
                   : [],
               erc20Addresses:
                 item?.gated?.erc20Addresses?.filter(Boolean)?.length > 0
@@ -454,7 +464,6 @@ const usePostLive = (
                         body: formData,
                       });
 
-
                       assetWithPlaybackId = (await result.json())?.assetId;
                     }
 
@@ -546,7 +555,7 @@ const usePostLive = (
             (questInfo.details?.gated?.erc721TokenIds || [])
               ?.map((item) => item.uri)
               ?.filter(Boolean)?.length > 0
-              ? [NFT_CREATOR_MUMBAI]
+              ? [NFT_CREATOR]
               : [],
           erc20Addresses:
             questInfo.details?.gated?.erc20Addresses?.filter(Boolean)?.length >
@@ -565,7 +574,7 @@ const usePostLive = (
         },
         maxPlayerCount: questInfo?.details?.maxPlayerCount,
         milestones: milestonePromises,
-        wallet: signer as unknown as ethers.Wallet,
+        wallet: signer as any,
         approveRewardTokens: false,
       });
 

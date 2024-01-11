@@ -412,7 +412,7 @@ const Stages: FunctionComponent<StagesProps> = ({
               onClick={() =>
                 tokensToApprove?.filter((item) => !item.approved)?.length ==
                   0 &&
-                !postLoading &&
+                !postLoading && 
                 handlePostLive()
               }
             >

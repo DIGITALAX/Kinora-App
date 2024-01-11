@@ -19,7 +19,7 @@ const MilestoneInfo: FunctionComponent<MilestoneInfoProps> = ({
   milestoneEligible,
 }): JSX.Element => {
   return (
-    <div className="relative rounded-md border border-gray-700 w-full h-full flex flex-col gap-3 p-2 items-start justify-between">
+    <div className="relative rounded-sm bg-black border border-cost w-full h-full flex flex-col gap-3 p-2 items-start justify-between">
       <div className="relative w-full h-fit flex flex-col gap-5 overflow-y-scroll">
         <div className="relative w-full h-fit flex flex-col items-start justify-start gap-2 font-vcr text-white text-xs">
           <div className="relative w-fit h-fit flex items-center justify-center text-gray-400 text-sm">
@@ -66,7 +66,7 @@ const MilestoneInfo: FunctionComponent<MilestoneInfoProps> = ({
                               }`}
                             />
                           </div>
-                          <div className="relative w-fit h-fit flex items-center justify-center font-vcr text-azul/70 text-xxs">
+                          <div className="relative w-fit h-fit flex items-center justify-center font-vcr text-acei text-xxs">
                             {`${Number(erc20?.amount) / 10 ** 18} ${
                               ACCEPTED_TOKENS_MUMBAI?.filter(
                                 (token) =>

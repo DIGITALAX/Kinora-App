@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { createPublicClient, http } from "viem";
-import { polygon, polygonMumbai } from "viem/chains";
+import { polygonMumbai } from "viem/chains";
 import { RootState } from "../../../redux/store";
 import { NextRouter } from "next/router";
 import useJoin from "@/components/Quest/hooks/useJoin";
@@ -25,7 +25,6 @@ import VideoInfo from "@/components/Quest/modules/VideoInfo";
 import useSuggested from "@/components/Quest/hooks/useSuggested";
 import QuestFeed from "@/components/Common/modules/QuestFeed";
 import { apolloClient } from "../../../lib/lens/client";
-import { VideoMetadataV3 } from "kinora-sdk/dist/@types/generated";
 import Head from "next/head";
 
 export default function QuestId({ router }: { router: NextRouter }) {
@@ -35,7 +34,7 @@ export default function QuestId({ router }: { router: NextRouter }) {
   const publicClient = createPublicClient({
     chain: polygonMumbai,
     transport: http(
-      `https://polygon-mumbai.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY_MUMBAI}`
+      `https://polygon.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`
     ),
   });
   const kinoraDispatch = new KinoraDispatch({
@@ -198,7 +197,7 @@ export default function QuestId({ router }: { router: NextRouter }) {
     suggestedQuests,
     address,
     publicClient,
-    (newItems) => setSuggestedQuests(newItems as Quest[])
+    (newItems: any) => setSuggestedQuests(newItems as Quest[])
   );
   return (
     <div
@@ -276,7 +275,7 @@ export default function QuestId({ router }: { router: NextRouter }) {
       >
         <div className="relative h-[38rem] w-full flex items-center justify-start gap-10 min-h-[38rem]">
           <div className="relative w-fit h-full flex items-start justify-start">
-            <div className="relative h-full w-80 flex items-start justify-start flex-col gap-6 rounded-md border border-gray-700 p-3">
+            <div className="relative h-full w-80 flex items-start justify-start flex-col gap-6 rounded-sm border border-cost bg-black p-3">
               {videoPlaying && (
                 <VideoInfo
                   router={router}
@@ -574,7 +573,7 @@ export default function QuestId({ router }: { router: NextRouter }) {
                 />
               </div>
             ) : (
-              <div className="relative h-full w-60 flex items-between justify-start flex-col gap-6 rounded-md border border-gray-700 p-2">
+              <div className="relative h-full w-60 flex items-between justify-start flex-col gap-6 rounded-sm border border-cost bg-black p-2">
                 <div className="relative w-full h-full flex flex-col gap-6 items-start justify-start overflow-y-scroll">
                   <div className="relative w-full h-fit gap-2 flex items-center justify-center flex-col">
                     <div className="relative w-full h-fit flex items-center justify-center text-gray-400 font-bit text-sm">
@@ -625,7 +624,7 @@ export default function QuestId({ router }: { router: NextRouter }) {
             )}
           </div>
         </div>
-        {suggestedLoading || dataLoading ? (
+        {suggestedLoading ? (
           <div className="relative w-full h-fit flex flex-col gap-3">
             <div className="relative w-full h-fit flex flex-row gap-3">
               {Array.from({ length: 4 })?.map((_, index: number) => {

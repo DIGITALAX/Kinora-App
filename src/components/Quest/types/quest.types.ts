@@ -126,7 +126,7 @@ export interface Gate {
 export interface Reward {
   amount: string;
   tokenAddress: string;
-  uri: {
+  rewardMetadata: {
     mediaCover: string;
     images: string;
     video: string;
@@ -135,6 +135,7 @@ export interface Reward {
     title: string;
     description: string;
   };
+  uri: string;
   type: string;
 }
 

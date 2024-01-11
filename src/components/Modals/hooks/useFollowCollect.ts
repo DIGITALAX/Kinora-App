@@ -7,8 +7,7 @@ import {
 } from "../../../../graphql/generated";
 import approveCurrency from "../../../../graphql/lens/mutations/approve";
 import isApprovedData from "../../../../graphql/lens/mutations/isApproved";
-import { polygon, polygonMumbai } from "viem/chains";
-import handleIndexCheck from "../../../../graphql/lens/queries/indexed";
+import { polygonMumbai } from "viem/chains";
 import lensCollect from "../../../../lib/helpers/lensCollect";
 import {
   FollowCollectState,

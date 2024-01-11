@@ -36,7 +36,7 @@ const QuestBoxDetails: FunctionComponent<QuestBoxDetailsProps> = ({
   );
 
   return (
-    <div className="relative rounded-md border border-gray-700 w-full h-full flex flex-col gap-3 p-2 items-start justify-between">
+    <div className="relative bg-black rounded-sm border border-cost w-full h-full flex flex-col gap-3 p-2 items-start justify-between">
       {!questInfoLoading ? (
         <>
           <div className="relative w-full flex items-start justify-start flex-row gap-3 h-fit">
@@ -148,7 +148,7 @@ const QuestBoxDetails: FunctionComponent<QuestBoxDetailsProps> = ({
                                   }`}
                                 />
                               </div>
-                              <div className="relative w-fit h-fit flex items-center justify-center font-vcr text-azul/70 text-xxs">
+                              <div className="relative w-fit h-fit flex items-center justify-center font-vcr text-acei text-xxs">
                                 {`${Number(erc20?.amount) / 10 ** 18} ${
                                   ACCEPTED_TOKENS_MUMBAI?.filter(
                                     (token) =>
@@ -278,7 +278,7 @@ const QuestBoxDetails: FunctionComponent<QuestBoxDetailsProps> = ({
                       questInfo?.publication?.operations?.hasActed
                         ?.isFinalisedOnchain || false,
                     function: () => setSocialType(SocialType.Players),
-                    loader: mainInteractionsLoading?.[0]?.like,
+                    loader: false,
                     otherFunction: () => setSocialType(SocialType.Players),
                   },
                   {

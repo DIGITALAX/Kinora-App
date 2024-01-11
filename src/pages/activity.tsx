@@ -16,7 +16,7 @@ export default function Envoke({ router }: { router: NextRouter }) {
   const publicClient = createPublicClient({
     chain: polygonMumbai,
     transport: http(
-      `https://polygon-mumbai.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY_MUMBAI}`
+      `https://polygon.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`
     ),
   });
   const { address } = useAccount();
@@ -53,7 +53,7 @@ export default function Envoke({ router }: { router: NextRouter }) {
     activityFeed,
     address,
     publicClient,
-    (newItems) =>
+    (newItems: any) =>
       dispatch(
         setActivityFeed(
           newItems as (Quest & { type: string; profile: Profile | undefined })[]

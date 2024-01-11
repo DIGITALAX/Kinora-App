@@ -25,7 +25,7 @@ export default function Handle({ router }: { router: NextRouter }) {
   const publicClient = createPublicClient({
     chain: polygonMumbai,
     transport: http(
-      `https://polygon-mumbai.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY_MUMBAI}`
+      `https://polygon.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`
     ),
   });
   const dispatch = useDispatch();
@@ -82,7 +82,7 @@ export default function Handle({ router }: { router: NextRouter }) {
     accountType == AccountType.Save ? allSaves : quests,
     address,
     publicClient,
-    (newItems) =>
+    (newItems: any) =>
       (accountType == AccountType.Save ? setAllSaves : setQuests)(
         newItems as any
       )

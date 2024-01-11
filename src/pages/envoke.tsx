@@ -8,7 +8,7 @@ import { useAccountModal, useConnectModal } from "@rainbow-me/rainbowkit";
 import useSignIn from "@/components/Layout/hooks/useSignIn";
 import { useAccount } from "wagmi";
 import { createPublicClient, http } from "viem";
-import { polygon, polygonMumbai } from "viem/chains";
+import { polygonMumbai } from "viem/chains";
 import useCriteria from "@/components/Envoke/hooks/useCriteria";
 import { NextRouter } from "next/router";
 import usePostLive from "@/components/Envoke/hooks/usePostLive";
@@ -20,7 +20,7 @@ export default function Envoke({ router }: { router: NextRouter }) {
   const publicClient = createPublicClient({
     chain: polygonMumbai,
     transport: http(
-      `https://polygon-mumbai.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY_MUMBAI}`
+      `https://polygon.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`
     ),
   });
   const { openConnectModal } = useConnectModal();
@@ -37,6 +37,9 @@ export default function Envoke({ router }: { router: NextRouter }) {
   );
   const questStage = useSelector(
     (state: RootState) => state.app.questStageReducer.value
+  );
+  const oracleData = useSelector(
+    (state: RootState) => state.app.oracleDataReducer.data
   );
   const openSidebar = useSelector(
     (state: RootState) => state.app.sideBarOpenReducer.value
@@ -70,7 +73,8 @@ export default function Envoke({ router }: { router: NextRouter }) {
     dispatch,
     isConnected,
     address,
-    allUploaded
+    allUploaded,
+    oracleData
   );
   const {
     getMoreVideosSample,
@@ -96,7 +100,9 @@ export default function Envoke({ router }: { router: NextRouter }) {
       allUploaded,
       setMilestonesOpen,
       setMilestoneStage,
-      setCollectionsSearch
+      setCollectionsSearch,
+      lensConnected,
+      walletConnected
     );
   return (
     <>
