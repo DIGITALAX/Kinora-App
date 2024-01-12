@@ -1,39 +1,41 @@
-import type { NextApiResponse } from "next";
+import type { NextApiRequest, NextApiResponse } from "next";
 import nextConnect from "next-connect";
 import { Livepeer } from "livepeer";
-import { Asset } from "@livepeer/react";
+import { IncomingForm } from "formidable";
+import { IncomingMessage } from "http";
 
 const handler = nextConnect();
 
-handler.post(async (_, res: NextApiResponse) => {
+interface ExtendedRequest extends IncomingMessage {
+  body: any;
+  files: any;
+}
+
+handler.use(async (req: ExtendedRequest, _, next) => {
+  const form = new IncomingForm();
+  form.parse(req, (err, fields) => {
+    if (err) {
+      next(err);
+      return;
+    }
+    req.body = fields;
+    next();
+  });
+});
+
+handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const livepeer = new Livepeer({
       apiKey: process.env.LIVEPEER_STUDIO as string,
     });
 
-    let allAssets: Asset[] = [];
-    let page = 1;
-    let hasMore = true;
-
-    while (hasMore) {
-      const results = await livepeer.asset.getAll({
-        params: {
-          page: page,
-          limit: 100,
-        },
-      });
-      allAssets = allAssets.concat(results.data as Asset[]);
-
-      if ((results?.data && results?.data?.length < 100) || !results?.data) {
-        hasMore = false;
-        break;
-      } else {
-        page++;
-        await delay(1000);
-      }
-    }
-
-    return res.status(200).json(allAssets);
+    const results = await livepeer.asset.getAll({
+      params: {
+        page: Number(req.body.page[0]),
+        limit: 1000,
+      },
+    });
+    return res.status(200).json(results.data);
   } catch (err: any) {
     console.error(err.message);
     return res.status(500).json({ error: err.message });

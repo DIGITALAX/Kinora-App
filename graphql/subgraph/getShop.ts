@@ -2,8 +2,8 @@ import { gql } from "@apollo/client";
 import { graphPrintClient } from "../../lib/graph/client";
 
 const COLLECTIONS = `
-query($origin: String!) {
-  collectionCreateds(where: {origin: $origin}) {
+query($dropTitle: String) {
+  collectionCreateds(where: {dropMetadata_: {dropTitle: $dropTitle}}) {
     amount
     dropMetadata {
       dropCover
@@ -58,7 +58,7 @@ export const getAllStore = async (): Promise<any> => {
   const queryPromise = graphPrintClient.query({
     query: gql(COLLECTIONS),
     variables: {
-      origin: "3",
+      dropTitle: "Kinora",
     },
     fetchPolicy: "no-cache",
     errorPolicy: "all",

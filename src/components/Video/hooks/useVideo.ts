@@ -7,7 +7,10 @@ import {
   VideoActivity,
 } from "@/components/Quest/types/quest.types";
 import { getQuestById } from "../../../../graphql/subgraph/getQuest";
-import { getVideos } from "../../../../graphql/subgraph/getVideos";
+import {
+  getVideoPlayerId,
+  getVideos,
+} from "../../../../graphql/subgraph/getVideos";
 import toHexWithLeadingZero from "../../../../lib/helpers/toHexWithLeadingZero";
 import { getVideoActivity } from "../../../../graphql/subgraph/getVideoActivity";
 import fetchIPFSJSON from "../../../../lib/helpers/fetchIPFSJSON";
@@ -168,14 +171,32 @@ const useVideo = (videoId: string, lensConnected: Profile | undefined) => {
         parseInt(videoId?.split("-")?.[0], 16)
       );
 
+      let videoDataObject;
+
+      if (video?.data?.videoActivities?.length < 1) {
+        const data = await getVideoPlayerId(
+          parseInt(videoId?.split("-")?.[1], 16),
+          parseInt(videoId?.split("-")?.[0], 16)
+        );
+        videoDataObject = {
+          playerId: data?.data?.videos?.[0]?.playerId,
+          pubId: data?.data?.videos?.[0]?.pubId,
+          profileId: data?.data?.videos?.[0]?.profileId,
+        };
+      } else {
+        videoDataObject = {
+          ...video?.data?.videoActivities[0],
+          avd:
+            video?.data?.videoActivities[0]?.avd &&
+            Number(video?.data?.videoActivities[0]?.avd) / 10 ** 18,
+          duration:
+            video?.data?.videoActivities[0]?.duration &&
+            Number(video?.data?.videoActivities[0]?.duration) / 10 ** 18,
+        };
+      }
+
       setVideoData({
-        ...video?.data?.videoActivities[0],
-        avd:
-          video?.data?.videoActivities[0]?.avd &&
-          Number(video?.data?.videoActivities[0]?.avd) / 10 ** 18,
-        duration:
-          video?.data?.videoActivities[0]?.duration &&
-          Number(video?.data?.videoActivities[0]?.duration) / 10 ** 18,
+        ...videoDataObject,
         publication: data?.data?.publication,
       });
     } catch (err: any) {

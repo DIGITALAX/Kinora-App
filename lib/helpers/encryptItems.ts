@@ -77,11 +77,11 @@ export const encryptItems = async (
         dataToEncrypt: JSON.stringify({
           ...rest,
           prices: [collection?.item?.prices[0]],
-          types: ["listener"],
+          types: ["coinop"],
           amounts: [chosenAmount],
           collectionIds: [collection?.item?.collectionId],
           fulfillerAddress: [DIGITALAX_ADDRESS],
-          origin: "3",
+          origin: "0",
         }),
       },
       client!

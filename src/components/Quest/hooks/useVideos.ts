@@ -43,11 +43,11 @@ const useVideos = (
     setMetricsLoading(true);
     try {
       await (window as any).ethereum.request({ method: "eth_requestAccounts" });
-      const provider = new ethers.BrowserProvider(
+      const provider = new ethers.providers.Web3Provider(
         (window as any).ethereum,
-        80001
+        137
       );
-      const signer = await provider.getSigner();
+      const signer = provider.getSigner();
 
       const { error, errorMessage } = await kinora.sendPlayerMetricsOnChain(
         (videoInfo ? videoInfo : videoPlaying)?.publication?.id,
@@ -387,7 +387,6 @@ const useVideos = (
   //     ctx.fill();
   //   }
   // };
-
   useEffect(() => {
     if (
       (videoPlaying?.publication?.id || videoInfo?.publication?.id) &&

@@ -121,9 +121,11 @@ const useUpload = (
       const hashExists = allUploaded.find(
         (asset) =>
           asset?.storage?.ipfs?.cid?.toLowerCase() ===
-          (contentURI?.object as any)?.lens?.video?.item
-            ?.split("ipfs://")?.[1]
-            ?.toLowerCase()
+            (contentURI?.object as any)?.lens?.video?.item
+              ?.split("ipfs://")?.[1]
+              ?.toLowerCase() ||
+          asset?.name?.toLowerCase() ==
+            (contentURI?.object as any)?.lens?.title?.toLowerCase()
       )?.playbackId;
 
       let result: number = 200;

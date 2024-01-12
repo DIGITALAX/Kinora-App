@@ -1,7 +1,11 @@
 import { FunctionComponent } from "react";
-import { StoryboardDetailsProps } from "../../types/envoke.types";
+import { Collection, StoryboardDetailsProps } from "../../types/envoke.types";
 import Image from "next/legacy/image";
-import { INFURA_GATEWAY, IPFS_REGEX } from "../../../../../lib/constants";
+import {
+  ACCEPTED_TOKENS,
+  INFURA_GATEWAY,
+  IPFS_REGEX,
+} from "../../../../../lib/constants";
 
 const Details: FunctionComponent<StoryboardDetailsProps> = ({
   details,
@@ -64,6 +68,99 @@ const Details: FunctionComponent<StoryboardDetailsProps> = ({
                 </div>
               );
             })}
+        </div>
+        <div className="relative w-full h-fit flex flex-col items-start justify-start gap-6">
+          <div className="relative underline underline-offset-4 text-base items-start justify-start flex">
+            Gates
+          </div>
+          {details?.gated?.erc721TokenIds?.length > 0 && (
+            <div className="relative w-full h-fit flex flex-col gap-2">
+              <div className="relative text-sm items-start justify-start flex">
+                ERC721 Token Gates
+              </div>
+              <div className="relative w-full h-fit items-start justify-start flex flex-wrap gap-5">
+                {details?.gated?.erc721TokenIds?.map(
+                  (item: Collection, index: number) => {
+                    return (
+                      <div
+                        key={index}
+                        className={`relative w-14 h-14 flex items-center hover:opacity-80 justify-center p-px rounded-md`}
+                        id="northern"
+                      >
+                        <div className="relative w-full h-full relative rounded-md">
+                          {(item?.collectionMetadata?.mediaCover ||
+                            item?.collectionMetadata?.images?.[0]) && (
+                            <Image
+                              className={"rounded-md"}
+                              draggable={false}
+                              src={`${INFURA_GATEWAY}/ipfs/${
+                                item?.collectionMetadata?.mediaCover
+                                  ? item?.collectionMetadata?.mediaCover?.split(
+                                      "ipfs://"
+                                    )?.[1]
+                                  : item?.collectionMetadata?.images?.[0]?.split(
+                                      "ipfs://"
+                                    )?.[1]
+                              }`}
+                              layout="fill"
+                              objectFit="cover"
+                            />
+                          )}
+                        </div>
+                      </div>
+                    );
+                  }
+                )}
+              </div>
+            </div>
+          )}
+          {details?.gated?.erc20Addresses?.length > 0 && (
+            <div className="relative w-full h-fit flex flex-col gap-2">
+              <div className="relative text-base items-start justify-start flex text-sm">
+                ERC20 Token Gates
+              </div>
+              <div className="relative w-full h-fit items-start justify-start flex flex-wrap gap-5">
+                {details?.gated?.erc20Addresses?.map(
+                  (item: string, index: number) => {
+                    return (
+                      <div
+                        key={index}
+                        className={`relative w-fit h-fit flex flex-row  items-center justify-center gap-2`}
+                      >
+                        <div
+                          className={`relative w-fit h-fit rounded-full flex items-center active:scale-95`}
+                          key={index}
+                        >
+                          <div className="relative w-7 h-8 flex items-center justify-center rounded-full">
+                            <Image
+                              src={`${INFURA_GATEWAY}/ipfs/${
+                                ACCEPTED_TOKENS?.find(
+                                  (value) => value[2] === item
+                                )?.[0]
+                              }`}
+                              className="flex rounded-full"
+                              draggable={false}
+                              layout="fill"
+                            />
+                          </div>
+                        </div>
+                        <div className="relative w-fit h-fit flex items-center justify-center">
+                          <input
+                            value={
+                              details?.gated?.erc20Thresholds?.[index] || ""
+                            }
+                            disabled
+                            type="number"
+                            className="h-10 w-20 px-2 bg-black border border-white rounded-md py-1 text-xs"
+                          />
+                        </div>
+                      </div>
+                    );
+                  }
+                )}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

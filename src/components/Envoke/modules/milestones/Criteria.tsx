@@ -239,7 +239,14 @@ const Criteria: FunctionComponent<CriteriaProps> = ({
                               </div>
                             </div>
                             <div className="relative w-fit h-fit flex items-center justify-center">
-                              {item?.by?.handle?.suggestedFormatted?.localName}
+                              {item?.by?.handle?.suggestedFormatted?.localName!
+                                ?.length > 10
+                                ? item?.by?.handle?.suggestedFormatted?.localName?.slice(
+                                    0,
+                                    10
+                                  ) + "..."
+                                : item?.by?.handle?.suggestedFormatted
+                                    ?.localName}
                             </div>
                           </div>
                         </div>

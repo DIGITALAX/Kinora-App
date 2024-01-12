@@ -57,9 +57,7 @@ const Sidebar: FunctionComponent<SidebarProps> = ({
               {
                 title: "Feed",
                 image: "QmRs3h5EmfHLKGNLUPKiUdhw5i25UKtFRYQ7frGiYmxE4K",
-                link: () => {
-                  router.push(`/`);
-                },
+                link: () => router.push(`/`),
               },
               {
                 title: "Account",

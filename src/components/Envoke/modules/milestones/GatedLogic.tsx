@@ -353,7 +353,9 @@ const GatedLogic: FunctionComponent<GatedLogicProps> = ({
                       value={
                         join
                           ? questInfo?.details?.gated?.erc20Thresholds?.[
-                              index
+                              questInfo?.details?.gated?.erc20Addresses?.indexOf(
+                                item[2] as `0x${string}`
+                              )
                             ] || ""
                           : questInfo?.milestones?.[
                               milestonesOpen!?.findIndex(
@@ -363,7 +365,19 @@ const GatedLogic: FunctionComponent<GatedLogicProps> = ({
                                     (item: boolean) => item == true
                                   )
                                 : 0
-                            ]?.gated?.erc20Thresholds?.[index] || ""
+                            ]?.gated?.erc20Thresholds?.[
+                              questInfo?.milestones?.[
+                                milestonesOpen!?.findIndex(
+                                  (item: boolean) => item == true
+                                ) !== -1
+                                  ? milestonesOpen!?.findIndex(
+                                      (item: boolean) => item == true
+                                    )
+                                  : 0
+                              ]?.gated?.erc20Addresses?.indexOf(
+                                item[2] as `0x${string}`
+                              )
+                            ] || ""
                       }
                       onChange={(e) => {
                         if (join) {
@@ -372,7 +386,11 @@ const GatedLogic: FunctionComponent<GatedLogicProps> = ({
                               []),
                           ];
 
-                          thresholds[index] = Number(e.target.value);
+                          thresholds[
+                            questInfo?.details?.gated?.erc20Addresses?.indexOf(
+                              item[2] as `0x${string}`
+                            )
+                          ] = Number(e.target.value);
 
                           dispatch(
                             setQuestInfo({
@@ -400,7 +418,19 @@ const GatedLogic: FunctionComponent<GatedLogicProps> = ({
                             ]?.gated?.erc20Thresholds || []),
                           ];
 
-                          thresholds[index] = Number(e.target.value);
+                          thresholds[
+                            questInfo?.milestones?.[
+                              milestonesOpen!?.findIndex(
+                                (item: boolean) => item == true
+                              ) !== -1
+                                ? milestonesOpen!?.findIndex(
+                                    (item: boolean) => item == true
+                                  )
+                                : 0
+                            ]?.gated?.erc20Addresses?.indexOf(
+                              item[2] as `0x${string}`
+                            )
+                          ] = Number(e.target.value);
                           milestones[
                             milestonesOpen!?.findIndex(
                               (item: boolean) => item == true
@@ -797,10 +827,14 @@ const GatedLogic: FunctionComponent<GatedLogicProps> = ({
                             </div>
                           </div>
                           <div className="relative w-fit h-fit flex items-center justify-center">
-                            {
-                              item?.profile?.handle?.suggestedFormatted
-                                ?.localName
-                            }
+                            {item?.profile?.handle?.suggestedFormatted
+                              ?.localName!?.length > 10
+                              ? item?.profile?.handle?.suggestedFormatted?.localName?.slice(
+                                  0,
+                                  10
+                                ) + "..."
+                              : item?.profile?.handle?.suggestedFormatted
+                                  ?.localName}
                           </div>
                         </div>
                       </div>

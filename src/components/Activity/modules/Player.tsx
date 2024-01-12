@@ -75,7 +75,7 @@ const Player: FunctionComponent<PlayerProps> = ({
           >
             <div className="relative w-fit font-bit h-fit text-xs break-words flex items-center justify-center text-white">
               {quest?.questMetadata?.title?.length > 15
-                ? quest?.questMetadata?.title?.slice(0, 15)
+                ? quest?.questMetadata?.title?.slice(0, 15) + "..."
                 : quest?.questMetadata?.title}{" "}
               <p className="pl-2 flex text-sm text-calcetine">{">"}</p>
             </div>

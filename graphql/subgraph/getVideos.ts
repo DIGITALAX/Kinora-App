@@ -20,7 +20,47 @@ export const getVideos = async (
       first,
       skip,
       pubId,
-      profileId
+      profileId,
+    },
+    fetchPolicy: "no-cache",
+    errorPolicy: "all",
+  });
+
+  const timeoutPromise = new Promise((resolve) => {
+    timeoutId = setTimeout(() => {
+      resolve({ timedOut: true });
+    }, 60000);
+    return () => clearTimeout(timeoutId);
+  });
+
+  const result: any = await Promise.race([queryPromise, timeoutPromise]);
+
+  timeoutId && clearTimeout(timeoutId);
+  if (result.timedOut) {
+    return;
+  } else {
+    return result;
+  }
+};
+
+export const getVideoPlayerId = async (
+  pubId: number,
+  profileId: number
+): Promise<FetchResult | void> => {
+  let timeoutId: NodeJS.Timeout | undefined;
+  const queryPromise = graphKinoraClient.query({
+    query: gql(`
+    query($pubId: Int, $profileId: Int) {
+      videos(where: {pubId: $pubId, profileId: $profileId}) {
+        playerId
+        pubId
+        profileId
+      }
+    }
+  `),
+    variables: {
+      pubId,
+      profileId,
     },
     fetchPolicy: "no-cache",
     errorPolicy: "all",

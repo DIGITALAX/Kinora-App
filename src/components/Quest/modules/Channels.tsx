@@ -11,12 +11,11 @@ const Channels: FunctionComponent<ChannelsProps> = ({
 }): JSX.Element => {
   return (
     <div
-      className="relative w-full h-full flex overflow-x-scroll items-start justify-start"
+      className="relative w-full h-full flex overflow-x-scroll items-start justify-start max-w-[35rem]"
       id="xScroll"
     >
       <div className="relative flex w-fit h-full item-center justify-start flex-row gap-3">
         {(videos || [])?.map((video: Video, index: number) => {
-      
           return (
             <div
               key={index}
@@ -27,17 +26,20 @@ const Channels: FunctionComponent<ChannelsProps> = ({
               id="northern"
             >
               <div className="relative w-full h-full flex items-center justify-center rounded-md">
-                <Image
-                  className="rounded-md"
-                  src={`${INFURA_GATEWAY}/ipfs/${
-                    (
-                      video?.publication?.metadata as VideoMetadataV3
-                    )?.asset?.cover?.raw?.uri?.split("ipfs://")?.[1]
-                  }`}
-                  draggable={false}
-                  objectFit="cover"
-                  layout="fill"
-                />
+                {(video?.publication?.metadata as VideoMetadataV3)?.asset?.cover
+                  ?.raw?.uri && (
+                  <Image
+                    className="rounded-md"
+                    src={`${INFURA_GATEWAY}/ipfs/${
+                      (
+                        video?.publication?.metadata as VideoMetadataV3
+                      )?.asset?.cover?.raw?.uri?.split("ipfs://")?.[1]
+                    }`}
+                    draggable={false}
+                    objectFit="cover"
+                    layout="fill"
+                  />
+                )}
               </div>
             </div>
           );
