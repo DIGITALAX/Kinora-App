@@ -4,7 +4,6 @@ import { KinoraPlayerWrapper } from "kinora-sdk";
 import { Player } from "@livepeer/react";
 import { INFURA_GATEWAY } from "../../../../lib/constants";
 import Image from "next/legacy/image";
-import { VideoMetadataV3 } from "../../../../graphql/generated";
 import formatDuration from "../../../../lib/helpers/formatDuration";
 
 const MainVideo: FunctionComponent<MainVideoProps> = ({
@@ -82,11 +81,6 @@ const MainVideo: FunctionComponent<MainVideoProps> = ({
             <Player
               mediaElementRef={setMediaElement}
               playbackId={videoPlaying?.playerId}
-              // src={`${INFURA_GATEWAY}/ipfs/${
-              //   (
-              //     videoPlaying?.publication?.metadata as VideoMetadataV3
-              //   )?.asset?.video?.raw?.uri?.split("ipfs://")?.[1]
-              // }`}
               showLoadingSpinner={false}
               objectFit="cover"
               autoUrlUpload={{

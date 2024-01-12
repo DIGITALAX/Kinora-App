@@ -11,7 +11,7 @@ export const getAllCollections = async (
   const queryPromise = graphPrintClient.query({
     query: gql(`
     query($first: Int, $skip: Int, $title: String, $dropTitle: String) {
-      collectionCreateds(where: { or: [{collectionMetadata_: { title_starts_with_nocase: $title }}, {collectionMetadata_: { title_ends_with_nocase: $title }}, {collectionMetadata_: { prompt_contains_nocase: $title }}, {dropMetadata_: { dropTitle_contains_nocase: $dropTitle }}]}, first: $first, skip: $skip, orderDirection: desc, orderBy: blockTimestamp) {
+      collectionCreateds(where: { or: [{collectionMetadata_: { title_contains_nocase: $title }}, {collectionMetadata_: { microbrand_contains_nocase: $title }}, {collectionMetadata_: { prompt_contains_nocase: $title }}, {collectionMetadata_: { tags_contains_nocase: $title }}, {dropMetadata_: { dropTitle_contains_nocase: $dropTitle }}]}, first: $first, skip: $skip, orderDirection: desc, orderBy: blockTimestamp) {
         collectionId
         dropMetadata {
           dropCover

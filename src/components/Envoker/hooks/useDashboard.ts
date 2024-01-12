@@ -42,11 +42,11 @@ const useDashboard = (
     });
     try {
       await (window as any).ethereum.request({ method: "eth_requestAccounts" });
-      const provider = new ethers.BrowserProvider(
+      const provider = new ethers.providers.Web3Provider(
         (window as any).ethereum,
-        80001
+        137
       );
-      const signer = await provider.getSigner();
+      const signer = provider.getSigner();
       const { error, errorMessage } =
         await questEnvoker.terminateQuestAndWithdraw(id, signer as any);
 
@@ -116,11 +116,11 @@ const useDashboard = (
     });
     try {
       await (window as any).ethereum.request({ method: "eth_requestAccounts" });
-      const provider = new ethers.BrowserProvider(
+      const provider = new ethers.providers.Web3Provider(
         (window as any).ethereum,
-        80001
+        137
       );
-      const signer = await provider.getSigner();
+      const signer = provider.getSigner();
       const { error, errorMessage } =
         await questEnvoker.setPlayerEligibleToClaimMilestone(
           id,
@@ -164,11 +164,11 @@ const useDashboard = (
     });
     try {
       await (window as any).ethereum.request({ method: "eth_requestAccounts" });
-      const provider = new ethers.BrowserProvider(
+      const provider = new ethers.providers.Web3Provider(
         (window as any).ethereum,
-        80001
+        137
       );
-      const signer = await provider.getSigner();
+      const signer = provider.getSigner();
 
       const { error, errorMessage } =
         await kinoraDispatch.playerCompleteQuestMilestone(

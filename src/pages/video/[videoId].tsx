@@ -173,6 +173,7 @@ export default function VideoId({ router }: { router: NextRouter }) {
     publicClient,
     (newItems: any) => setRelatedQuests(newItems as Quest[])
   );
+
   return (
     <div
       className="relative flex overflow-y-scroll min-h-full w-full items-start justify-end pb-5"

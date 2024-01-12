@@ -15,17 +15,21 @@ const handleQuestCheck = (quest: QuestInfoState): boolean => {
     return false;
   }
   if (quest.details.tags.split(",").every((tag) => !tag.trim())) {
+
     return false;
   }
   if (quest.details.maxPlayerCount <= 0) {
+
     return false;
   }
   if (!validateGatingLogic(quest.details.gated)) {
+
     return false;
   }
 
   for (const milestone of quest.milestones) {
     if (!validateGatingLogic(milestone.gated)) {
+
       return false;
     }
     if (
@@ -33,12 +37,15 @@ const handleQuestCheck = (quest: QuestInfoState): boolean => {
       !milestone.details.cover.trim() ||
       !milestone.details.description.trim()
     ) {
+
       return false;
     }
     if (!validateRewards(milestone.rewards)) {
+
       return false;
     }
     if (!validateVideoEligible(milestone.eligibility)) {
+
       return false;
     }
   }
@@ -49,9 +56,10 @@ export default handleQuestCheck;
 
 const validateGatingLogic = (gatingLogic: GatingLogic): boolean => {
   return (
-    gatingLogic.erc20Addresses.length === gatingLogic.erc20Thresholds.length &&
-    gatingLogic.erc721TokenIds.length === gatingLogic.erc721Addresses.length &&
-    (gatingLogic.erc20Addresses.length > 0 ||
+    (gatingLogic.erc20Addresses.length > 0 &&
+      gatingLogic.erc20Addresses.length ===
+        gatingLogic.erc20Thresholds.length) ||
+    (gatingLogic.erc721TokenIds.length === gatingLogic.erc721Addresses.length &&
       gatingLogic.erc721Addresses.length > 0)
   );
 };
@@ -60,7 +68,7 @@ const validateRewards = (rewards: {
   rewards721: ERC721Reward[];
   rewards20: ERC20Reward[];
 }): boolean => {
-  for (const reward of rewards.rewards721) {
+  for (const reward of rewards?.rewards721) {
     if (
       !reward.details.title.trim() ||
       !reward.details.media.trim() ||
@@ -75,23 +83,24 @@ const validateRewards = (rewards: {
       return false;
     }
   }
-  for (const reward of rewards.rewards20) {
+  for (const reward of rewards?.rewards20) {
     if (!reward.address.trim() || Number(reward.amount) <= 0) {
       return false;
     }
   }
-  return rewards.rewards721.length > 0 || rewards.rewards20.length > 0;
+  return rewards?.rewards721?.length > 0 || rewards?.rewards20?.length > 0;
 };
 
 const validateVideoEligible = (eligibilities: VideoEligible[]): boolean => {
   for (const eligibility of eligibilities) {
+
     if (
-      eligibility.criteria &&
-      Object.values(eligibility.criteria).length === 0
+      eligibility?.criteria &&
+      Object.values(eligibility?.criteria).length === 0
     ) {
       return false;
     }
-    if (!eligibility.video) {
+    if (!eligibility?.video) {
       return false;
     }
   }

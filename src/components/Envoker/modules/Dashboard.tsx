@@ -96,7 +96,8 @@ const Dashboard: FunctionComponent<DashboardProps> = ({
                             <div className="relative ml-0 flex items-center justify-center gap-3">
                               <div className="relative w-fit h-fit flex items-center justify-center font-bit text-white text-sm">
                                 {item?.questMetadata?.title?.length > 15
-                                  ? item?.questMetadata?.title?.slice(0, 15)
+                                  ? item?.questMetadata?.title?.slice(0, 15) +
+                                    "..."
                                   : item?.questMetadata?.title}
                               </div>
                             </div>
@@ -423,7 +424,7 @@ const Dashboard: FunctionComponent<DashboardProps> = ({
                             <div className="relative ml-0 flex items-center justify-center gap-3">
                               <div className="relative w-fit h-fit flex items-center justify-center font-bit text-white text-sm">
                                 {item?.questMetadata?.title?.length > 15
-                                  ? item?.questMetadata?.title?.slice(0, 15)
+                                  ? item?.questMetadata?.title?.slice(0, 15) + "..."
                                   : item?.questMetadata?.title}
                               </div>
                             </div>

@@ -266,7 +266,7 @@ const Milestones: FunctionComponent<StoryboardMilestonesProps> = ({
                     30
                       ? (
                           item?.video?.metadata as VideoMetadataV3
-                        )?.title?.slice(0, 30) + ".."
+                        )?.title?.slice(0, 30) + "..."
                       : (item?.video?.metadata as VideoMetadataV3)?.title}
                   </div>
                   <div

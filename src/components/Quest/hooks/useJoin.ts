@@ -36,11 +36,11 @@ const useJoin = (
     setCompleteLoading(true);
     try {
       await (window as any).ethereum.request({ method: "eth_requestAccounts" });
-      const provider = new ethers.BrowserProvider(
+      const provider = new ethers.providers.Web3Provider(
         (window as any).ethereum,
-        80001
+        137
       );
-      const signer = await provider.getSigner();
+      const signer = provider.getSigner();
 
       const { error, errorMessage } =
         await kinoraDispatch.playerCompleteQuestMilestone(
@@ -97,11 +97,11 @@ const useJoin = (
       }
 
       await (window as any).ethereum.request({ method: "eth_requestAccounts" });
-      const provider = new ethers.BrowserProvider(
+      const provider = new ethers.providers.Web3Provider(
         (window as any).ethereum,
-        80001
+        137
       );
-      const signer = await provider.getSigner();
+      const signer = provider.getSigner();
 
       const { error, errorMessage } = await kinoraDispatch.playerJoinQuest(
         questId as `0x${string}`,

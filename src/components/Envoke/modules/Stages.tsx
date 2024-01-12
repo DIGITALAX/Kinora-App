@@ -16,6 +16,7 @@ import { INFURA_GATEWAY } from "../../../../lib/constants";
 import { setQuestInfo } from "../../../../redux/reducers/questInfoSlice";
 import PostLive from "./PostLive";
 import { AiOutlineLoading } from "react-icons/ai";
+import filterValidErc20Pairs from "../../../../lib/helpers/filterValidPairs";
 
 const Stages: FunctionComponent<StagesProps> = ({
   questStage,
@@ -239,7 +240,7 @@ const Stages: FunctionComponent<StagesProps> = ({
                                         storyboardStage
                                       ) +
                                         1) %
-                                        Object.values(StoryboardStage).length
+                                        Object.values(StoryboardStage)?.length
                                     ]
                                   );
                                 }
@@ -345,7 +346,7 @@ const Stages: FunctionComponent<StagesProps> = ({
                   ? () => {
                       if (milestoneStage - 1 < 0) {
                         setMilestonesOpen((prev) => {
-                          const arr = new Array(prev.length).fill(false);
+                          const arr = new Array(prev?.length).fill(false);
                           arr[
                             milestonesOpen?.findIndex((item) => item == true) -
                               1
@@ -371,7 +372,7 @@ const Stages: FunctionComponent<StagesProps> = ({
                               storyboardStage
                             ) -
                               1) %
-                              Object.values(StoryboardStage).length
+                              Object.values(StoryboardStage)?.length
                           ]
                         )
                   : () =>
@@ -380,7 +381,7 @@ const Stages: FunctionComponent<StagesProps> = ({
                           Object.values(QuestStage)[
                             (Object.values(QuestStage).indexOf(questStage) -
                               1) %
-                              Object.values(QuestStage).length
+                              Object.values(QuestStage)?.length
                           ]
                         )
                       )
@@ -412,7 +413,7 @@ const Stages: FunctionComponent<StagesProps> = ({
               onClick={() =>
                 tokensToApprove?.filter((item) => !item.approved)?.length ==
                   0 &&
-                !postLoading && 
+                !postLoading &&
                 handlePostLive()
               }
             >
@@ -453,7 +454,7 @@ const Stages: FunctionComponent<StagesProps> = ({
                   ? () => {
                       if (milestoneStage + 1 > 3) {
                         setMilestonesOpen((prev) => {
-                          const arr = new Array(prev.length).fill(false);
+                          const arr = new Array(prev?.length).fill(false);
                           arr[
                             milestonesOpen?.findIndex((item) => item == true) +
                               1
@@ -488,7 +489,7 @@ const Stages: FunctionComponent<StagesProps> = ({
                               storyboardStage
                             ) +
                               1) %
-                              Object.values(StoryboardStage).length
+                              Object.values(StoryboardStage)?.length
                           ]
                         )
                     : () =>
@@ -499,41 +500,27 @@ const Stages: FunctionComponent<StagesProps> = ({
                       if (
                         Object.values(QuestStage)[
                           (Object.values(QuestStage).indexOf(questStage) + 1) %
-                            Object.values(QuestStage).length
+                            Object.values(QuestStage)?.length
                         ] == QuestStage.Storyboard
                       ) {
-                        const minLength = Math.min(
-                          questInfo?.details?.gated?.erc20Thresholds.length,
-                          questInfo?.details?.gated?.erc20Addresses.length
-                        );
-                        const thresholds =
-                          questInfo?.details?.gated?.erc20Thresholds.slice(
-                            0,
-                            minLength
-                          );
-                        const addresses =
-                          questInfo?.details?.gated?.erc20Addresses.slice(
-                            0,
-                            minLength
-                          );
-
-
                         dispatch(
                           setQuestInfo({
                             actionDetails: {
                               ...questInfo?.details,
                               gated: {
                                 ...(questInfo?.details?.gated || {}),
-                                erc20Thresholds: thresholds?.filter(
-                                  (item) => Number(item || 0) > 0
-                                ),
-                                erc20Addresses: addresses?.filter(
-                                  (address) =>
-                                    address &&
-                                    address?.trim() !== "" &&
-                                    address !== "0x" &&
-                                    address !== "0x00"
-                                ),
+                                erc20Thresholds: filterValidErc20Pairs(
+                                  questInfo?.details?.gated?.erc20Addresses ||
+                                    [],
+                                  questInfo?.details?.gated?.erc20Thresholds ||
+                                    []
+                                )?.finalThresholds,
+                                erc20Addresses: filterValidErc20Pairs(
+                                  questInfo?.details?.gated?.erc20Addresses ||
+                                    [],
+                                  questInfo?.details?.gated?.erc20Thresholds ||
+                                    []
+                                )?.finalAddresses,
                               },
                             },
                             actionMilestones: questInfo?.milestones
@@ -543,37 +530,18 @@ const Stages: FunctionComponent<StagesProps> = ({
                                   item?.details?.title
                               )
                               ?.map((value: Milestone) => {
-                                const minLength = Math.min(
-                                  value?.gated?.erc20Thresholds.length,
-                                  value?.gated?.erc20Addresses.length
-                                );
-
-                                const thresholds =
-                                  value?.gated?.erc20Thresholds.slice(
-                                    0,
-                                    minLength
-                                  );
-                                const addresses =
-                                  value?.gated?.erc20Addresses.slice(
-                                    0,
-                                    minLength
-                                  );
-
-                                 
                                 return {
                                   ...value,
                                   gated: {
                                     ...(value?.gated || {}),
-                                    erc20Thresholds: thresholds?.filter(
-                                      (item) => Number(item || 0) > 0
-                                    ),
-                                    erc20Addresses: addresses?.filter(
-                                      (address) =>
-                                        address &&
-                                        address?.trim() !== "" &&
-                                        address !== "0x" &&
-                                        address !== "0x00"
-                                    ),
+                                    erc20Thresholds: filterValidErc20Pairs(
+                                      value?.gated?.erc20Addresses || [],
+                                      value?.gated?.erc20Thresholds || []
+                                    )?.finalThresholds,
+                                    erc20Addresses: filterValidErc20Pairs(
+                                      value?.gated?.erc20Addresses || [],
+                                      value?.gated?.erc20Thresholds || []
+                                    )?.finalAddresses,
                                   },
                                   rewards: {
                                     rewards721: value?.rewards?.rewards721
@@ -592,28 +560,29 @@ const Stages: FunctionComponent<StagesProps> = ({
                                             reward?.details?.video?.trim() !==
                                               "")
                                       ),
-                                    rewards20:
-                                      value?.rewards?.rewards20?.filter(
-                                        (reward) =>
-                                          Number(reward?.amount || 0) > 0 &&
-                                          reward?.address &&
-                                          reward?.address?.trim() !== "" &&
-                                          reward.address !== "0x" &&
-                                          reward.address !== "0x00"
-                                      ),
+                                    rewards20: (
+                                      value?.rewards?.rewards20 || []
+                                    )?.filter(
+                                      (reward) =>
+                                        Number(reward?.amount || 0) > 0 &&
+                                        reward?.address &&
+                                        reward?.address?.trim() !== "" &&
+                                        reward.address !== "0x" &&
+                                        reward.address !== "0x00"
+                                    ),
                                   },
                                 };
                               }),
                           })
                         );
                       }
-
+      
                       dispatch(
                         setQuestStage(
                           Object.values(QuestStage)[
                             (Object.values(QuestStage).indexOf(questStage) +
                               1) %
-                              Object.values(QuestStage).length
+                              Object.values(QuestStage)?.length
                           ]
                         )
                       );

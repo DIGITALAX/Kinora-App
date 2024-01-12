@@ -128,12 +128,32 @@ const useSignIn = (
     if (assetLoading) return;
     setAssetLoading(true);
     try {
-      const data = await fetch("/api/livepeer", {
-        method: "POST",
-      });
+      let hasMore = true;
+      let page: number = 1;
+      let allAssets: Asset[] = [];
 
-      const res = await data.json();
-      dispatch(setAllUploaded(res || []));
+      while (hasMore) {
+        const formData = new FormData();
+        formData.append("page", page.toString());
+        const data = await fetch("/api/livepeer", {
+          method: "POST",
+          body: formData,
+        });
+
+        const res = await data.json();
+        allAssets = [...allAssets, ...(res || [])];
+        if (
+          res?.length < 1000 ||
+          allAssets?.some((asset) => asset?.id == res?.[0]?.id)
+        ) {
+          hasMore = false;
+          break;
+        } else {
+          page++;
+        }
+      }
+
+      dispatch(setAllUploaded(allAssets || []));
       setAssetLoading(false);
     } catch (err: any) {
       console.error(err.message);

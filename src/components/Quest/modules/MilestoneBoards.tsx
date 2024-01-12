@@ -12,7 +12,7 @@ const MilestoneBoards: FunctionComponent<MilestoneBoardsProps> = ({
 }): JSX.Element => {
   return (
     <div
-      className="relative w-full h-full flex overflow-x-scroll items-start justify-start"
+      className="relative w-full h-full flex overflow-x-scroll items-start justify-start max-w-[35rem]"
       id="xScroll"
     >
       <div className="relative flex w-fit h-full item-center justify-start flex-row gap-3">

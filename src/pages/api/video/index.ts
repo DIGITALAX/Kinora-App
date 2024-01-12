@@ -1,5 +1,5 @@
 import { Livepeer } from "livepeer";
-import type { NextApiResponse } from "next";
+import type { NextApiRequest, NextApiResponse } from "next";
 import nextConnect from "next-connect";
 import { IncomingForm } from "formidable";
 import { IncomingMessage } from "http";
@@ -25,7 +25,7 @@ handler.use(async (req: ExtendedRequest, _, next) => {
   });
 });
 
-handler.post(async (req: any, res: NextApiResponse) => {
+handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const livepeer = new Livepeer({
       apiKey: process.env.LIVEPEER_STUDIO as string,

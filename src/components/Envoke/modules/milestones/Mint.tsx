@@ -13,6 +13,7 @@ import {
 } from "react-icons/io5";
 import { KinoraPlayerWrapper } from "kinora-sdk";
 import { Player } from "@livepeer/react";
+import { ImCross } from "react-icons/im";
 
 const Mint: FunctionComponent<MintProps> = ({
   item,
@@ -29,6 +30,72 @@ const Mint: FunctionComponent<MintProps> = ({
           id="northern"
         >
           <div className="relative w-full h-full flex items-center justify-center rounded-sm">
+            <div className="absolute top-2 right-2 flex items-center justify-center w-fit h-fit">
+              <div
+                className="relative w-5 h-5 border border-acei flex items-center justify-center rounded-full p-1 bg-black cursor-pointer active:scale-95 z-20"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  e.preventDefault();
+                  let milestones = [...questInfo?.milestones];
+
+                  const rewards721 = [
+                    ...milestones?.[
+                      milestonesOpen.findIndex(
+                        (item: boolean) => item == true
+                      ) !== -1
+                        ? milestonesOpen.findIndex(
+                            (item: boolean) => item == true
+                          )
+                        : 0
+                    ]?.rewards?.rewards721
+                      ?.filter((_, i) => i !== index)
+                      ?.filter(Boolean),
+                  ];
+
+                  milestones[
+                    milestonesOpen.findIndex(
+                      (item: boolean) => item == true
+                    ) !== -1
+                      ? milestonesOpen.findIndex(
+                          (item: boolean) => item == true
+                        )
+                      : 0
+                  ] = {
+                    ...milestones[
+                      milestonesOpen.findIndex(
+                        (item: boolean) => item == true
+                      ) !== -1
+                        ? milestonesOpen.findIndex(
+                            (item: boolean) => item == true
+                          )
+                        : 0
+                    ],
+                    rewards: {
+                      rewards721,
+                      rewards20:
+                        milestones[
+                          milestonesOpen.findIndex(
+                            (item: boolean) => item == true
+                          ) !== -1
+                            ? milestonesOpen.findIndex(
+                                (item: boolean) => item == true
+                              )
+                            : 0
+                        ]?.rewards?.rewards20,
+                    },
+                  };
+
+                  dispatch(
+                    setQuestInfo({
+                      actionDetails: questInfo?.details,
+                      actionMilestones: milestones,
+                    })
+                  );
+                }}
+              >
+                <ImCross color={"white"} size={8} />
+              </div>
+            </div>
             {item?.images?.[0] || item?.media === "static" ? (
               <Image
                 layout="fill"

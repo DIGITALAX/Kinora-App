@@ -18,7 +18,6 @@ import {
 import { ethers } from "ethers";
 import convertToFile from "../../../../lib/helpers/convertToFile";
 import {
-  INFURA_GATEWAY,
   IPFS_REGEX,
   KINORA_ESCROW_CONTRACT,
   NFT_CREATOR,
@@ -280,11 +279,11 @@ const usePostLive = (
     setPostLoading(true);
     try {
       await (window as any).ethereum.request({ method: "eth_requestAccounts" });
-      const provider = new ethers.BrowserProvider(
+      const provider = new ethers.providers.Web3Provider(
         (window as any).ethereum,
-        80001
+        137
       );
-      const signer = await provider.getSigner();
+      const signer = provider.getSigner();
 
       let cover: `ipfs://${string}` = questInfo?.details
         ?.cover as `ipfs://${string}`;
@@ -428,14 +427,20 @@ const usePostLive = (
               internalCriteria: await Promise.all(
                 (item?.eligibility || [])?.map(
                   async (playbackCriteria: VideoEligible) => {
-                    let assetWithPlaybackId = allUploaded.find((asset) => {
+                    let assetWithPlaybackId = allUploaded?.find((asset) => {
                       asset?.storage?.ipfs?.cid?.toLowerCase() ===
                         (
                           playbackCriteria?.video?.metadata as VideoMetadataV3
                         )?.asset?.video?.raw?.uri
                           ?.split("ipfs://")?.[1]
-                          ?.toLowerCase();
+                          ?.toLowerCase() ||
+                        asset?.name?.toLowerCase() ==
+                          (
+                            playbackCriteria?.video?.metadata as VideoMetadataV3
+                          )?.title?.toLowerCase();
                     })?.playbackId;
+
+                    console.log({ assetWithPlaybackId, allUploaded });
 
                     if (!assetWithPlaybackId) {
                       const formData = new FormData();

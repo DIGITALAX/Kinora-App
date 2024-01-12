@@ -59,6 +59,7 @@ const QuestSocial: FunctionComponent<QuestSocialProps> = ({
   mainInteractionsLoading,
   videoPlaying,
 }): JSX.Element => {
+
   switch (socialType) {
     case SocialType.Comments:
       return (
@@ -415,8 +416,10 @@ const QuestSocial: FunctionComponent<QuestSocialProps> = ({
               {(videoPlaying ? reactors : questInfo?.players)?.map(
                 (player: Player, index: number) => {
                   const playerPfp = createProfilePicture(
-                    player?.profile?.metadata?.picture
+                    (videoPlaying ? (player as any) : player?.profile)?.metadata
+                      ?.picture
                   );
+
                   return (
                     <div
                       key={index}
@@ -424,7 +427,10 @@ const QuestSocial: FunctionComponent<QuestSocialProps> = ({
                       onClick={() =>
                         router.push(
                           `/envoker/${
-                            player?.profile?.handle?.suggestedFormatted?.localName?.split(
+                            (videoPlaying
+                              ? (player as any)
+                              : player?.profile
+                            )?.handle?.suggestedFormatted?.localName?.split(
                               "@"
                             )?.[1]
                           }`
