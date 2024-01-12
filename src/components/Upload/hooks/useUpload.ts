@@ -138,7 +138,6 @@ const useUpload = (
         const formData = new FormData();
         formData.append("name", postDetails?.title);
         formData.append("link", (contentURI?.object as any)?.lens?.video?.item);
-        formData.append("link", "");
         const res = await fetch("/api/video", {
           method: "POST",
           body: formData,

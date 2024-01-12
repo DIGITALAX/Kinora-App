@@ -159,7 +159,7 @@ const useSignIn = (
       console.error(err.message);
     }
   };
-
+  
   const checkPlayer = async () => {
     try {
       const data = await getPlayerData(parseInt(lensConnected?.id, 16));

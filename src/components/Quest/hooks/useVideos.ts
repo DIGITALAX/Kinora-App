@@ -102,7 +102,7 @@ const useVideos = (
 
     try {
       let currentActivity = {};
-      if (!chainMetrics?.hasCommented) {
+      if (!chainMetrics?.hasCommented && lensConnected?.id) {
         const { data } = await getPublications(
           {
             where: {
