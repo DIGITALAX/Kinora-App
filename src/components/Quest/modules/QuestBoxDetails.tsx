@@ -255,14 +255,31 @@ const QuestBoxDetails: FunctionComponent<QuestBoxDetailsProps> = ({
                 Reward Mix:
               </div>
               <div className="relative w-fit h-fit flex items-center justify-center text-girasol break-words">
-                {questInfo?.milestones?.filter((item) =>
-                  item?.rewards?.filter((rew) => rew?.type == "0")
-                ).length +
-                  " x ERC20 + " +
-                  questInfo?.milestones?.filter((item) =>
-                    item?.rewards?.filter((rew) => rew?.type == "1")
-                  ).length +
-                  " x ERC721"}
+                {(questInfo?.milestones
+                  ?.map(
+                    (item) =>
+                      item?.rewards?.filter((rew) => rew?.type == "0")?.length
+                  )
+                  ?.filter(Boolean)?.length! > 0
+                  ? questInfo?.milestones?.map(
+                      (item) =>
+                        item?.rewards?.filter((rew) => rew?.type == "0")?.length
+                    )?.length + " x ERC20 + "
+                  : "") +
+                  (questInfo?.milestones
+                    ?.map(
+                      (item) =>
+                        item?.rewards?.filter((rew) => rew?.type == "1")?.length
+                    )
+                    ?.filter(Boolean)?.length! > 0
+                    ? questInfo?.milestones
+                        ?.map(
+                          (item) =>
+                            item?.rewards?.filter((rew) => rew?.type == "1")
+                              ?.length
+                        )
+                        ?.filter(Boolean)?.length + " x ERC721"
+                    : "")}
               </div>
             </div>
           </div>

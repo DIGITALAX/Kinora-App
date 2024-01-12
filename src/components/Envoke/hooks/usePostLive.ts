@@ -440,8 +440,6 @@ const usePostLive = (
                           )?.title?.toLowerCase();
                     })?.playbackId;
 
-                    console.log({ assetWithPlaybackId, allUploaded });
-
                     if (!assetWithPlaybackId) {
                       const formData = new FormData();
                       formData.append(

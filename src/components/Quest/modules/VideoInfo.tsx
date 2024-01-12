@@ -99,7 +99,7 @@ const VideoInfo: FunctionComponent<VideoInfoProps> = ({
               )?.title?.slice(0, 20) + "..."
             : (videoPlaying?.publication?.metadata as VideoMetadataV3)?.title}
         </div>
-        <div className="relative w-full h-fit max-h-[6rem] overflow-y-scroll items-start justify-start text-gray-600 font-vcr text-base">
+        <div className="relative w-full h-fit max-h-[3rem] overflow-y-scroll items-start justify-start text-gray-600 font-vcr text-base">
           {(videoPlaying?.publication?.metadata as VideoMetadataV3)?.content}
         </div>
       </div>
