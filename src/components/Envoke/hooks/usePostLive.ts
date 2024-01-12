@@ -427,18 +427,25 @@ const usePostLive = (
               internalCriteria: await Promise.all(
                 (item?.eligibility || [])?.map(
                   async (playbackCriteria: VideoEligible) => {
-                    let assetWithPlaybackId = allUploaded?.find((asset) => {
-                      asset?.storage?.ipfs?.cid?.toLowerCase() ===
-                        (
-                          playbackCriteria?.video?.metadata as VideoMetadataV3
-                        )?.asset?.video?.raw?.uri
-                          ?.split("ipfs://")?.[1]
-                          ?.toLowerCase() ||
+                    let assetWithPlaybackId = allUploaded?.find(
+                      (asset) =>
+                        asset?.storage?.ipfs?.cid?.toLowerCase() ===
+                          (
+                            playbackCriteria?.video?.metadata as VideoMetadataV3
+                          )?.asset?.video?.raw?.uri
+                            ?.split("ipfs://")?.[1]
+                            ?.toLowerCase() ||
                         asset?.name?.toLowerCase() ==
                           (
                             playbackCriteria?.video?.metadata as VideoMetadataV3
-                          )?.title?.toLowerCase();
-                    })?.playbackId;
+                          )?.title?.toLowerCase() ||
+                        asset?.name?.toLowerCase() ==
+                          (
+                            playbackCriteria?.video?.metadata as VideoMetadataV3
+                          )?.content
+                            ?.split("\n\n")[0]
+                            ?.toLowerCase()
+                    )?.playbackId;
 
                     if (!assetWithPlaybackId) {
                       const formData = new FormData();
