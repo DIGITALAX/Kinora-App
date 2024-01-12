@@ -125,7 +125,11 @@ const useUpload = (
               ?.split("ipfs://")?.[1]
               ?.toLowerCase() ||
           asset?.name?.toLowerCase() ==
-            (contentURI?.object as any)?.lens?.title?.toLowerCase()
+            (contentURI?.object as any)?.lens?.title?.toLowerCase() ||
+          asset?.name?.toLowerCase() ==
+            (contentURI?.object as any)?.lens?.content
+              ?.split("\n\n")[0]
+              ?.toLowerCase()
       )?.playbackId;
 
       let result: number = 200;
