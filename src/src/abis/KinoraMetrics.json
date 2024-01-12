@@ -1,0 +1,304 @@
+[
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_kinoraAccessAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_kinoraQuestDataAddress",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "inputs": [],
+    "name": "InvalidAddress",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "PlayerNotEligible",
+    "type": "error"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "videoPubId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "videoProfileId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "playerProfileId",
+        "type": "uint256"
+      }
+    ],
+    "name": "AddPlayerMetrics",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "questId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "milestone",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "playerProfileId",
+        "type": "uint256"
+      }
+    ],
+    "name": "PlayerEligibleToClaimMilestone",
+    "type": "event"
+  },
+  {
+    "inputs": [
+      {
+        "components": [
+          {
+            "internalType": "string",
+            "name": "mostReplayedArea",
+            "type": "string"
+          },
+          {
+            "internalType": "uint256",
+            "name": "profileId",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "pubId",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "playCount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "secondaryQuoteOnQuote",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "secondaryMirrorOnQuote",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "secondaryReactOnQuote",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "secondaryCommentOnQuote",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "secondaryCollectOnQuote",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "secondaryQuoteOnComment",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "secondaryMirrorOnComment",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "secondaryReactOnComment",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "secondaryCommentOnComment",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "secondaryCollectOnComment",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "avd",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "duration",
+            "type": "uint256"
+          },
+          {
+            "internalType": "bool",
+            "name": "hasQuoted",
+            "type": "bool"
+          },
+          {
+            "internalType": "bool",
+            "name": "hasMirrored",
+            "type": "bool"
+          },
+          {
+            "internalType": "bool",
+            "name": "hasCommented",
+            "type": "bool"
+          },
+          {
+            "internalType": "bool",
+            "name": "hasBookmarked",
+            "type": "bool"
+          },
+          {
+            "internalType": "bool",
+            "name": "hasReacted",
+            "type": "bool"
+          }
+        ],
+        "internalType": "struct KinoraLibrary.PlayerVideoMetrics",
+        "name": "_metrics",
+        "type": "tuple"
+      }
+    ],
+    "name": "addPlayerMetrics",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "kinoraAccess",
+    "outputs": [
+      {
+        "internalType": "contract KinoraAccessControl",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "kinoraQuestData",
+    "outputs": [
+      {
+        "internalType": "contract KinoraQuestData",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "name",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_questId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_milestone",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_playerProfileId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bool",
+        "name": "_eligibility",
+        "type": "bool"
+      }
+    ],
+    "name": "playerEligibleToClaimMilestone",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_newAccessContract",
+        "type": "address"
+      }
+    ],
+    "name": "setKinoraAccess",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_newQuestDataContract",
+        "type": "address"
+      }
+    ],
+    "name": "setKinoraQuestData",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "symbol",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }
+]

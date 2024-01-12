@@ -165,12 +165,13 @@ const useVideo = (videoId: string, lensConnected: Profile | undefined) => {
         },
         lensConnected?.id
       );
+      
       const video = await getVideoActivity(
         parseInt(lensConnected?.id, 16),
         parseInt(videoId?.split("-")?.[1], 16),
         parseInt(videoId?.split("-")?.[0], 16)
       );
-
+     
       let videoDataObject;
 
       if (video?.data?.videoActivities?.length < 1) {
@@ -206,7 +207,7 @@ const useVideo = (videoId: string, lensConnected: Profile | undefined) => {
   };
 
   useEffect(() => {
-    if (!videoData && videoId && lensConnected?.id) {
+    if (!videoData && videoId) {
       getVideoDetails();
     }
   }, [lensConnected?.id, videoId]);
