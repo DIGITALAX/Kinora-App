@@ -118,18 +118,12 @@ const useUpload = (
         getVideoCover()
       );
 
-      const hashExists = allUploaded.find(
+      const hashExists = allUploaded?.find(
         (asset) =>
           asset?.storage?.ipfs?.cid?.toLowerCase() ===
-            (contentURI?.object as any)?.lens?.video?.item
-              ?.split("ipfs://")?.[1]
-              ?.toLowerCase() ||
-          asset?.name?.toLowerCase() ==
-            (contentURI?.object as any)?.lens?.title?.toLowerCase() ||
-          asset?.name?.toLowerCase() ==
-            (contentURI?.object as any)?.lens?.content
-              ?.split("\n\n")[0]
-              ?.toLowerCase()
+          (contentURI?.object as any)?.lens?.video?.item
+            ?.split("ipfs://")?.[1]
+            ?.toLowerCase()
       )?.playbackId;
 
       let result: number = 200;
