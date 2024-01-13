@@ -430,21 +430,11 @@ const usePostLive = (
                     let assetWithPlaybackId = allUploaded?.find(
                       (asset) =>
                         asset?.storage?.ipfs?.cid?.toLowerCase() ===
-                          (
-                            playbackCriteria?.video?.metadata as VideoMetadataV3
-                          )?.asset?.video?.raw?.uri
-                            ?.split("ipfs://")?.[1]
-                            ?.toLowerCase() ||
-                        asset?.name?.toLowerCase() ==
-                          (
-                            playbackCriteria?.video?.metadata as VideoMetadataV3
-                          )?.title?.toLowerCase() ||
-                        asset?.name?.toLowerCase() ==
-                          (
-                            playbackCriteria?.video?.metadata as VideoMetadataV3
-                          )?.content
-                            ?.split("\n\n")[0]
-                            ?.toLowerCase()
+                        (
+                          playbackCriteria?.video?.metadata as VideoMetadataV3
+                        )?.asset?.video?.raw?.uri
+                          ?.split("ipfs://")?.[1]
+                          ?.toLowerCase()
                     )?.playbackId;
 
                     if (!assetWithPlaybackId) {
