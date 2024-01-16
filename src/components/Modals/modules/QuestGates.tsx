@@ -52,10 +52,10 @@ const QuestGates: FunctionComponent<QuestGatesProps> = ({
                         return (
                           <div
                             key={index}
-                            className="relative w-fit h-fit flex items-center justify-center gap-1"
+                            className="relative w-fit h-fit flex items-center justify-center gap-1.5"
                           >
                             <div
-                              className="relative w-7 h-8 flex items-center justify-center cursor-pointer"
+                              className="relative w-5 h-6 flex items-center justify-center cursor-pointer"
                               onClick={() =>
                                 window.open(
                                   `https://polygonscan.com/address/${erc20.address}`
