@@ -127,7 +127,7 @@ const PlayerMilestone: FunctionComponent<PlayerMilestoneProps> = ({
                             (value) => value?.questId == quest?.questId
                           )
                     ]?.status &&
-                    !approvalLoading &&
+                    !approvalLoading[index] &&
                     playerEligible?.eligible &&
                     quest?.status &&
                     approvePlayerMilestone(
@@ -141,7 +141,7 @@ const PlayerMilestone: FunctionComponent<PlayerMilestoneProps> = ({
                         ? 1
                         : openPlayerDetails!?.milestonesCompleted?.findIndex(
                             (value) => value?.questId == quest?.questId
-                          ),
+                          ) ,
                       openPlayerDetails!?.profile?.id,
                       index
                     )
@@ -192,7 +192,7 @@ const PlayerMilestone: FunctionComponent<PlayerMilestoneProps> = ({
                       ? 1
                       : openPlayerDetails!?.milestonesCompleted?.findIndex(
                           (value) => value?.questId == quest?.questId
-                        )
+                        ) 
                   ]?.milestonesCompleted
                 ) - 1 || 0
               ]?.videos

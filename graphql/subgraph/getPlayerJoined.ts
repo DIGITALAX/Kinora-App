@@ -1,5 +1,6 @@
 import { FetchResult, gql } from "@apollo/client";
 import { graphKinoraClient } from "../../lib/graph/client";
+import { KINORA_QUEST_DATA } from "../../lib/constants";
 
 export const getPlayerJoined = async (
   first: number,
@@ -8,8 +9,8 @@ export const getPlayerJoined = async (
   let timeoutId: NodeJS.Timeout | undefined;
   const queryPromise = graphKinoraClient.query({
     query: gql(`
-    query($first: Int, $skip: Int) {
-      playerJoinedQuests(first: $first, skip: $skip, orderBy: blockTimestamp) {
+    query($first: Int, $skip: Int, $contractAddress: String) {
+      playerJoinedQuests(first: $first, skip: $skip, orderBy: blockTimestamp, where: {contractAddress: $contractAddress}) {
             questId
             playerProfileId
             blockTimestamp
@@ -19,6 +20,7 @@ export const getPlayerJoined = async (
     variables: {
       first,
       skip,
+      contractAddress: KINORA_QUEST_DATA
     },
     fetchPolicy: "no-cache",
     errorPolicy: "all",

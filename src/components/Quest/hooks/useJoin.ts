@@ -188,12 +188,15 @@ const useJoin = (
               const erc721Logic = await Promise.all(erc721LogicPromises);
 
               const videoPromises = milestone?.videos?.map(
-                async (video: {
-                  pubId: string;
-                  profileId: string;
-                  minAVD: string;
-                  minDuration: string;
-                }) => {
+                async (
+                  video: {
+                    pubId: string;
+                    profileId: string;
+                    minAVD: string;
+                    minDuration: string;
+                  },
+                  i: number
+                ) => {
                   const publication = await getPublication(
                     {
                       forId: `${toHexWithLeadingZero(
@@ -205,6 +208,7 @@ const useJoin = (
 
                   return {
                     ...video,
+                    details: milestone?.milestoneMetadata?.videoCovers?.[i],
                     minAVD: Number(video?.minAVD) / 10 ** 18,
                     minDuration: Number(video?.minDuration) / 10 ** 18,
                     publication: publication?.data?.publication,
@@ -279,6 +283,7 @@ const useJoin = (
         });
 
         const questInfoResolved = await Promise.all(promises);
+      
         setQuestInfo(questInfoResolved[0]);
       }
     } catch (err: any) {

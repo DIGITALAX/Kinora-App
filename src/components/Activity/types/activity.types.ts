@@ -52,6 +52,11 @@ export type MetricsAddedProps = {
   quest: Quest & {
     type: string;
     profile: Profile | undefined;
+    details?: {
+      title: string;
+      description: string;
+      cover: string;
+    };
   };
   dispatch: Dispatch;
   mirrorChoiceOpen: boolean[];

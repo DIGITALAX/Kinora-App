@@ -19,6 +19,11 @@ export interface Quest {
     title: string;
     description: string;
     cover: string;
+    videoCovers: {
+      title: string;
+      description: string;
+      cover: string;
+    }[];
   };
   status: boolean;
   pubId: string;
@@ -36,6 +41,17 @@ export interface Quest {
 export interface VideoActivity {
   playCount: number;
   pubId: number;
+  uri: string;
+  details?: {
+    cover: string;
+    title: string;
+    description: string;
+  };
+  videoMetadata: {
+    cover: string;
+    title: string;
+    description: string;
+  };
   profileId: number;
   playerId: string;
   mostReplayed: string;
@@ -92,6 +108,12 @@ export interface Player {
 
 export interface Video {
   videoBytes: string;
+  uri: string;
+  details?: {
+    cover: string;
+    title: string;
+    description: string;
+  };
   publication?: Post;
   react: boolean;
   quote: boolean;

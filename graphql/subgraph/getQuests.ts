@@ -1,5 +1,6 @@
 import { FetchResult, gql } from "@apollo/client";
 import { graphKinoraClient } from "../../lib/graph/client";
+import { KINORA_QUEST_DATA } from "../../lib/constants";
 
 export const getQuests = async (
   first: number,
@@ -8,8 +9,8 @@ export const getQuests = async (
   let timeoutId: NodeJS.Timeout | undefined;
   const queryPromise = graphKinoraClient.query({
     query: gql(`
-    query($first: Int, $skip: Int) {
-      questInstantiateds(first: $first, skip: $skip, orderDirection: desc, orderBy: blockTimestamp) {
+    query($first: Int, $skip: Int, $contractAddress: String) {
+      questInstantiateds(first: $first, skip: $skip, orderDirection: desc, orderBy: blockTimestamp, where: {contractAddress: $contractAddress}) {
           gate {
             erc721Logic {
               uris
@@ -27,6 +28,7 @@ export const getQuests = async (
             title
             description
             cover
+            videoCovers
           }
           milestones {
             gated {
@@ -146,6 +148,7 @@ export const getQuests = async (
     variables: {
       first,
       skip,
+      contractAddress: KINORA_QUEST_DATA
     },
     fetchPolicy: "no-cache",
     errorPolicy: "all",
@@ -176,8 +179,8 @@ export const getQuestsEnvoker = async (
   let timeoutId: NodeJS.Timeout | undefined;
   const queryPromise = graphKinoraClient.query({
     query: gql(`
-    query($first: Int, $skip: Int, $profileId: Int) {
-      questInstantiateds(first: $first, skip: $skip, orderDirection: desc, orderBy: blockTimestamp, where: { profileId: $profileId }) {
+    query($first: Int, $skip: Int, $profileId: Int, $contractAddress: String) {
+      questInstantiateds(first: $first, skip: $skip, orderDirection: desc, orderBy: blockTimestamp, where: { profileId: $profileId, contractAddress: $contractAddress }) {
           gate {
             erc721Logic {
               uris
@@ -195,6 +198,7 @@ export const getQuestsEnvoker = async (
             title
             description
             cover
+            videoCovers
           }
           milestones {
             gated {
@@ -315,6 +319,7 @@ export const getQuestsEnvoker = async (
       first,
       skip,
       profileId,
+      contractAddress: KINORA_QUEST_DATA
     },
     fetchPolicy: "no-cache",
     errorPolicy: "all",

@@ -16,6 +16,11 @@ const Channels: FunctionComponent<ChannelsProps> = ({
     >
       <div className="relative flex w-fit h-full item-center justify-start flex-row gap-3">
         {(videos || [])?.map((video: Video, index: number) => {
+          const poster = (video?.publication?.metadata as VideoMetadataV3)
+            ?.asset?.cover?.raw?.uri
+            ? (video?.publication?.metadata as VideoMetadataV3)?.asset?.cover
+                ?.raw?.uri
+            : video?.details?.cover;
           return (
             <div
               key={index}
@@ -26,8 +31,7 @@ const Channels: FunctionComponent<ChannelsProps> = ({
               id="northern"
             >
               <div className="relative w-full h-full flex items-center justify-center rounded-md">
-                {(video?.publication?.metadata as VideoMetadataV3)?.asset?.cover
-                  ?.raw?.uri && (
+                {poster && (
                   <Image
                     className="rounded-md"
                     src={`${INFURA_GATEWAY}/ipfs/${

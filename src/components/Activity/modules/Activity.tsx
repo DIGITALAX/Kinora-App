@@ -49,6 +49,11 @@ const Activity: FunctionComponent<ActivityProps> = ({
               type: string;
               profile: Profile | undefined;
               completedImage?: string;
+              details?: {
+                title: string;
+                description: string;
+                cover: string;
+              };
             },
             index: number
           ) => {

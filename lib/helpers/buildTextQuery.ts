@@ -1,3 +1,5 @@
+import { KINORA_QUEST_DATA } from "../constants";
+
 const buildTextQuery = (inputText: string): Object | void => {
   const trimmedInputText = inputText?.trim();
   if (trimmedInputText === "" || !trimmedInputText) return;
@@ -31,9 +33,13 @@ const buildTextQuery = (inputText: string): Object | void => {
   });
 
   const query = {
-    or: [
+    and: [
       {
         questMetadata_: { or: orConditions },
+      },
+
+      {
+        contractAddress: KINORA_QUEST_DATA,
       },
     ],
   };

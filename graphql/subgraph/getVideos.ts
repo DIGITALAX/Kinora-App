@@ -1,5 +1,6 @@
 import { FetchResult, gql } from "@apollo/client";
 import { graphKinoraClient } from "../../lib/graph/client";
+import { KINORA_QUEST_DATA } from "../../lib/constants";
 
 export const getVideos = async (
   first: number,
@@ -10,8 +11,8 @@ export const getVideos = async (
   let timeoutId: NodeJS.Timeout | undefined;
   const queryPromise = graphKinoraClient.query({
     query: gql(`
-    query($first: Int, $skip: Int, $pubId: Int, $profileId: Int) {
-      videos(first: $first, skip: $skip, where: {pubId: $pubId, profileId: $profileId}) {
+    query($first: Int, $skip: Int, $pubId: Int, $profileId: Int, $contractAddress: String) {
+      videos(first: $first, skip: $skip, where: {pubId: $pubId, profileId: $profileId, contractAddress: $contractAddress}) {
         questId
       }
     }
@@ -21,6 +22,7 @@ export const getVideos = async (
       skip,
       pubId,
       profileId,
+      contractAddress: KINORA_QUEST_DATA
     },
     fetchPolicy: "no-cache",
     errorPolicy: "all",
@@ -50,17 +52,19 @@ export const getVideoPlayerId = async (
   let timeoutId: NodeJS.Timeout | undefined;
   const queryPromise = graphKinoraClient.query({
     query: gql(`
-    query($pubId: Int, $profileId: Int) {
-      videos(where: {pubId: $pubId, profileId: $profileId}) {
+    query($pubId: Int, $profileId: Int, $contractAddress: String) {
+      videos(where: {pubId: $pubId, profileId: $profileId, contractAddress: $contractAddress}) {
         playerId
         pubId
         profileId
+        questId
       }
     }
   `),
     variables: {
       pubId,
       profileId,
+      contractAddress: KINORA_QUEST_DATA
     },
     fetchPolicy: "no-cache",
     errorPolicy: "all",

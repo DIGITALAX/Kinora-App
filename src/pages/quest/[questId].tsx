@@ -8,7 +8,7 @@ import useInteractions from "@/components/Quest/hooks/useInteractions";
 import useInteractionsSuggested from "@/components/Common/hooks/useInteractions";
 import { useAccount } from "wagmi";
 import Image from "next/legacy/image";
-import { INFURA_GATEWAY } from "../../../lib/constants";
+import { INFURA_GATEWAY, KINORA_QUEST_DATA } from "../../../lib/constants";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import QuestSocial from "@/components/Quest/modules/QuestSocial";
 import MilestoneBoards from "@/components/Quest/modules/MilestoneBoards";
@@ -34,7 +34,7 @@ export default function QuestId({ router }: { router: NextRouter }) {
   const publicClient = createPublicClient({
     chain: polygon,
     transport: http(
-      `https://polygon.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`
+     `https://polygon-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`
     ),
   });
   const kinoraDispatch = new KinoraDispatch({

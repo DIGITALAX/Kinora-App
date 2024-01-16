@@ -165,24 +165,24 @@ const useVideo = (videoId: string, lensConnected: Profile | undefined) => {
         },
         lensConnected?.id
       );
-      
+
       const video = await getVideoActivity(
         parseInt(lensConnected?.id, 16),
         parseInt(videoId?.split("-")?.[1], 16),
         parseInt(videoId?.split("-")?.[0], 16)
       );
-     
+      const activityData = await getVideoPlayerId(
+        parseInt(videoId?.split("-")?.[1], 16),
+        parseInt(videoId?.split("-")?.[0], 16)
+      );
+
       let videoDataObject;
 
       if (video?.data?.videoActivities?.length < 1) {
-        const data = await getVideoPlayerId(
-          parseInt(videoId?.split("-")?.[1], 16),
-          parseInt(videoId?.split("-")?.[0], 16)
-        );
         videoDataObject = {
-          playerId: data?.data?.videos?.[0]?.playerId,
-          pubId: data?.data?.videos?.[0]?.pubId,
-          profileId: data?.data?.videos?.[0]?.profileId,
+          playerId: activityData?.data?.videos?.[0]?.playerId,
+          pubId: activityData?.data?.videos?.[0]?.pubId,
+          profileId: activityData?.data?.videos?.[0]?.profileId,
         };
       } else {
         videoDataObject = {
@@ -196,8 +196,43 @@ const useVideo = (videoId: string, lensConnected: Profile | undefined) => {
         };
       }
 
+      const questData = await getQuestById(
+        activityData?.data?.videos?.[0]?.questId
+      );
+
+      const fetchVideoDataPromises =
+        questData?.data?.questInstantiateds?.[0]?.milestones
+          ?.map(
+            (milestone: {
+              uri: string;
+              videos: {
+                pubId: string;
+                profileId: string;
+              }[];
+            }) => {
+              const index = milestone?.videos?.findIndex(
+                (item) =>
+                  Number(item?.profileId) ===
+                    parseInt(videoId?.split("-")?.[0], 16) &&
+                  Number(item?.pubId) === parseInt(videoId?.split("-")?.[1], 16)
+              );
+
+              if (index !== -1) {
+                return fetchIPFSJSON(milestone?.uri).then(
+                  (data) => data?.videoCovers?.[index]
+                );
+              }
+              return null;
+            }
+          )
+          .filter((promise: Promise<any>) => promise !== null);
+
+      const videoDataArray = await Promise.all(fetchVideoDataPromises);
+      const details = videoDataArray.find((data) => data !== undefined);
+
       setVideoData({
         ...videoDataObject,
+        details,
         publication: data?.data?.publication,
       });
     } catch (err: any) {

@@ -22,6 +22,9 @@ import { setClaimProfile } from "../../../../redux/reducers/claimProfileSlice";
 import { setOracleData } from "../../../../redux/reducers/oracleDataSlice";
 import { OracleData } from "@/components/Storefront/types/storefront.types";
 import { getOracle } from "../../../../graphql/subgraph/getOracle";
+import { setVerifiedEnvoker } from "../../../../redux/reducers/verifiedEnvokerSlice";
+import { PublicClient } from "viem";
+import { KINORA_ACCESS_CONTROL } from "../../../../lib/constants";
 
 const useSignIn = (
   lensConnected: Profile | undefined,
@@ -30,7 +33,8 @@ const useSignIn = (
   isConnected: boolean,
   address: `0x${string}` | undefined,
   allUploaded: Asset[],
-  oracleData: OracleData[]
+  oracleData: OracleData[],
+  publicClient: PublicClient
 ) => {
   const { signMessageAsync } = useSignMessage();
   const [signLoading, setSignLoading] = useState<boolean>(false);
@@ -159,7 +163,7 @@ const useSignIn = (
       console.error(err.message);
     }
   };
-  
+
   const checkPlayer = async () => {
     try {
       const data = await getPlayerData(parseInt(lensConnected?.id, 16));
@@ -183,6 +187,43 @@ const useSignIn = (
     }
   };
 
+  const checkEnvokerVerified = async (): Promise<void> => {
+    try {
+      if (!address) return;
+      const data = await publicClient.readContract({
+        address: KINORA_ACCESS_CONTROL,
+        abi: [
+          {
+            inputs: [
+              {
+                internalType: "address",
+                name: "_address",
+                type: "address",
+              },
+            ],
+            name: "isEnvoker",
+            outputs: [
+              {
+                internalType: "bool",
+                name: "",
+                type: "bool",
+              },
+            ],
+            stateMutability: "view",
+            type: "function",
+          },
+        ],
+        functionName: "isEnvoker",
+        args: [address!],
+        account: address,
+      });
+
+      dispatch(setVerifiedEnvoker(data));
+    } catch (err: any) {
+      console.error(err.message);
+    }
+  };
+
   useEffect(() => {
     if (allUploaded?.length < 1) {
       handleUploadAssets();
@@ -200,6 +241,12 @@ const useSignIn = (
       handleOracles();
     }
   }, []);
+
+  useEffect(() => {
+    if (lensConnected?.id && isConnected) {
+      checkEnvokerVerified();
+    }
+  }, [isConnected, lensConnected?.id]);
 
   return {
     signLoading,

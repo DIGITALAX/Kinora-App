@@ -5,7 +5,7 @@ export const BASE_URL: string = "https://api-v2.lens.dev";
 export const IPFS_REGEX: RegExp = /\b(Qm[1-9A-Za-z]{44}|ba[A-Za-z2-7]{57})\b/;
 
 export const KINORA_OPEN_ACTION: `0x${string}` =
-  "0x6369b7a2A256ec2834d117b280Cec2e94Ebf3439";
+  "0x196f267A4aCA1243CCCB85AD7098D1fDA1D683CD";
 export const COINOP_OPEN_ACTION: `0x${string}` =
   "0x179ACb90575CfF001c6c767b197FFe100B6ADc3a";
 export const CHROMADIN_ID: string = "0x01c6a9";
@@ -17,10 +17,16 @@ export const NFT_CREATOR: `0x${string}` =
   "0x0147435c505390Bb1E657c8EBc373DcEdfDe0F08";
 export const NFT_CREATOR_MUMBAI: `0x${string}` =
   "0x5B714F8eb491453f9cb9D5c4Ba698b34E9b8c0f0";
-export const KINORA_ESCROW_CONTRACT: `0x${string}` =
-  "0x0a6a1CfCE6d5DD6f277BaC5FB17C1C9bd2Dd6E9D";
 export const DIGITALAX_ADDRESS: `0x${string}` =
   "0xAA3e5ee4fdC831e5274FE7836c95D670dC2502e6";
+export const KINORA_QUEST_DATA: `0x${string}` =
+  "0xB638b8e910f5852d9B2b69D250883EB3E8575092";
+export const KINORA_METRICS: `0x${string}` =
+  "0x97B8B90458616f3680f1A17941C0F33E22CD2C60";
+export const KINORA_ESCROW: `0x${string}` =
+  "0xfD43f3B544c772782f8620a90B529B5636AA3920";
+export const KINORA_ACCESS_CONTROL: `0x${string}` =
+  "0x8EF97bb2a0871a685D3867B6AB9b3778333481Ab";
 
 export const COVER_CONSTANTS: string[] = [
   "QmPW4zahvfhNUUbc27sM2WZE9uQcZ9KYGcXTq64zzuoazi",

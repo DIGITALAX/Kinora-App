@@ -10,6 +10,8 @@ import { ethers } from "ethers";
 import { setInteractError } from "../../../../redux/reducers/interactErrorSlice";
 import { Dispatch } from "redux";
 import { setSuccess } from "../../../../redux/reducers/successSlice";
+import { KINORA_METRICS, KINORA_QUEST_DATA, KINORA_ESCROW } from "../../../../lib/constants";
+import toHexWithLeadingZero from "../../../../lib/helpers/toHexWithLeadingZero";
 
 const useDashboard = (
   allQuests: (Quest & { type: string })[],
@@ -48,7 +50,11 @@ const useDashboard = (
       );
       const signer = provider.getSigner();
       const { error, errorMessage } =
-        await questEnvoker.terminateQuestAndWithdraw(id, signer as any);
+        await questEnvoker.terminateQuestAndWithdraw(
+          id,
+          KINORA_ESCROW,
+          signer as any
+        );
 
       if (error) {
         console.error(errorMessage);
@@ -76,7 +82,9 @@ const useDashboard = (
     try {
       const { error, eligible, completed, toComplete } =
         await kinoraDispatch.playerMilestoneEligibilityCheck(
-          openPlayerDetails?.profile?.id,
+          `${toHexWithLeadingZero(
+            Number(openPlayerDetails?.profileId)
+          )}` as `0x${string}`,
           Number(openQuest?.questId),
           openPlayerDetails?.milestonesCompleted?.findIndex(
             (value) => Number(value?.questId) == Number(openQuest?.questId)
@@ -87,7 +95,8 @@ const useDashboard = (
             ? 1
             : openPlayerDetails!?.milestonesCompleted?.findIndex(
                 (value) => value?.questId == openQuest?.questId
-              )
+              ),
+          KINORA_QUEST_DATA
         );
 
       if (!error) {
@@ -114,6 +123,7 @@ const useDashboard = (
       arr[index] = true;
       return arr;
     });
+
     try {
       await (window as any).ethereum.request({ method: "eth_requestAccounts" });
       const provider = new ethers.providers.Web3Provider(
@@ -124,9 +134,10 @@ const useDashboard = (
       const { error, errorMessage } =
         await questEnvoker.setPlayerEligibleToClaimMilestone(
           id,
-          milestone + 1,
+          milestone,
           playerProfileId,
           true,
+          KINORA_METRICS,
           signer as any
         );
 

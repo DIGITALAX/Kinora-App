@@ -23,6 +23,7 @@ const PlayerValues: FunctionComponent<PlayerValuesProps> = ({
                 "videoBytes",
                 "mostReplayedArea",
                 "mostReplayed",
+                "details",
               ]?.includes(key)
           )
           ?.filter(([_, value]) => value !== false && Number(value) !== 0)

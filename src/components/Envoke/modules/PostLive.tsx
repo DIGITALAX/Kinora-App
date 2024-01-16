@@ -44,8 +44,8 @@ const PostLive: FunctionComponent<PostLiveProps> = ({
                           )?.[1]
                         }`}</div>
                         <div className="relative w-fit h-fit flex items-center justify-center text-xxs text-ligera">
-                          {Number(item?.amount) / 10 ** 18}
-                        </div>
+                          {(Number(item?.amount) / 10 ** 18)?.toFixed(2)}
+                        </div> 
                       </div>
                       <div
                         className="relative w-7 h-8 flex items-center justify-center rounded-full cursor-pointer hover:opacity-70 active:scale-95"

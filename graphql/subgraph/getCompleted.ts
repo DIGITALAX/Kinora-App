@@ -1,5 +1,6 @@
 import { FetchResult, gql } from "@apollo/client";
 import { graphKinoraClient } from "../../lib/graph/client";
+import { KINORA_QUEST_DATA } from "../../lib/constants";
 
 export const getCompletedMilestones = async (
   first: number,
@@ -8,8 +9,8 @@ export const getCompletedMilestones = async (
   let timeoutId: NodeJS.Timeout | undefined;
   const queryPromise = graphKinoraClient.query({
     query: gql(`
-    query($first: Int, $skip: Int) {
-        milestoneCompleteds(first: $first, skip: $skip, orderBy: blockTimestamp) {
+    query($first: Int, $skip: Int, $contractAddress: String) {
+        milestoneCompleteds(where:{ contractAddress: $contractAddress }, first: $first, skip: $skip, orderBy: blockTimestamp) {
             questId
             playerProfileId
             milestone
@@ -20,6 +21,7 @@ export const getCompletedMilestones = async (
     variables: {
       first,
       skip,
+      contractAddress: KINORA_QUEST_DATA
     },
     fetchPolicy: "no-cache",
     errorPolicy: "all",
@@ -49,8 +51,8 @@ export const getCompletedQuest = async (
   let timeoutId: NodeJS.Timeout | undefined;
   const queryPromise = graphKinoraClient.query({
     query: gql(`
-      query($first: Int, $skip: Int) {
-        questCompleteds(first: $first, skip: $skip, orderBy: blockTimestamp) {
+      query($first: Int, $skip: Int, $contractAddress: String) {
+        questCompleteds(first: $first, skip: $skip, orderBy: blockTimestamp, where: {contractAddress: $contractAddress}) {
             questId
             playerProfileId
             blockTimestamp
@@ -60,6 +62,8 @@ export const getCompletedQuest = async (
     variables: {
       first,
       skip,
+      contractAddress: KINORA_QUEST_DATA
+
     },
     fetchPolicy: "no-cache",
     errorPolicy: "all",

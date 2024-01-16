@@ -48,7 +48,6 @@ const useCriteria = (lensConnected: Profile | undefined) => {
             publicationTypes: [PublicationType.Post],
             metadata: {
               mainContentFocus: [PublicationMetadataMainFocusType.Video],
-              
             },
           },
           limit: LimitType.Fifty,
@@ -57,7 +56,9 @@ const useCriteria = (lensConnected: Profile | undefined) => {
       );
 
       setChromadinVideos([
-        ...(chromadinData?.data?.publications?.items?.filter((item) => item?.momoka == null) || []),
+        ...(chromadinData?.data?.publications?.items?.filter(
+          (item) => item?.momoka == null
+        ) || []),
       ] as Post[]);
 
       setVideoInfo({
@@ -96,7 +97,11 @@ const useCriteria = (lensConnected: Profile | undefined) => {
         );
         setChromadinVideos([
           ...chromadinVideos,
-          ...([...(kinoraData?.data?.publications?.items?.filter((item) => item?.momoka == null) || [])] as Post[]),
+          ...([
+            ...(kinoraData?.data?.publications?.items?.filter(
+              (item) => item?.momoka == null
+            ) || []),
+          ] as Post[]),
         ]);
       }
 
@@ -117,7 +122,9 @@ const useCriteria = (lensConnected: Profile | undefined) => {
         );
         setVideos([
           ...videos,
-          ...(kinoraData?.data?.publications?.items?.filter((item) => item?.momoka == null) || []),
+          ...(kinoraData?.data?.publications?.items?.filter(
+            (item) => item?.momoka == null
+          ) || []),
         ] as Post[]);
       }
 
@@ -162,7 +169,9 @@ const useCriteria = (lensConnected: Profile | undefined) => {
       );
 
       setVideos([
-        ...(kinoraData?.data?.searchPublications?.items?.filter((item) => item?.momoka == null) || []),
+        ...(kinoraData?.data?.searchPublications?.items?.filter(
+          (item) => item?.momoka == null
+        ) || []),
         ...chromadinSearch,
       ] as Post[]);
 
@@ -202,7 +211,9 @@ const useCriteria = (lensConnected: Profile | undefined) => {
 
       setVideos([
         ...videos,
-        ...(kinoraData?.data?.searchPublications?.items?.filter((item) => item?.momoka == null) || []),
+        ...(kinoraData?.data?.searchPublications?.items?.filter(
+          (item) => item?.momoka == null
+        ) || []),
       ] as Post[]);
 
       setVideoInfo((prev) => ({

@@ -15,6 +15,7 @@ import { PublicClient, createWalletClient, custom } from "viem";
 import { polygon } from "viem/chains";
 import uploadPostContent from "../../../../lib/helpers/uploadPostContent";
 import { Asset } from "@livepeer/react";
+import { setSuccess } from "../../../../redux/reducers/successSlice";
 
 const useUpload = (
   address: `0x${string}` | undefined,
@@ -22,7 +23,8 @@ const useUpload = (
   availableCurrencies: Erc20[],
   publicClient: PublicClient,
   allUploaded: Asset[],
-  lensConnected: Profile | undefined
+  lensConnected: Profile | undefined,
+  verifiedEnvoker: boolean
 ) => {
   const [uploadLoading, setUploadLoading] = useState<boolean>(false);
   const [postDetails, setPostDetails] = useState<{
@@ -95,6 +97,16 @@ const useUpload = (
   };
 
   const handleVideoPost = async () => {
+    if (!verifiedEnvoker) {
+      dispatch(
+        setSuccess({
+          open: true,
+          text: "Idea for a quest in this deployment? Send us a message!",
+          image: "QmYTAxWEr9qm6p6R5GzRoRDJXBmC5bxMBpg3XZcPKqRNmp",
+        })
+      );
+      return;
+    }
     if (
       !postDetails?.description ||
       !postDetails?.title ||
