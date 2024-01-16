@@ -227,6 +227,8 @@ const useJoin = (
                         ...item,
                         rewardMetadata: fetched,
                       };
+                    } else {
+                      return item;
                     }
                   } else {
                     return item;
@@ -283,7 +285,7 @@ const useJoin = (
         });
 
         const questInfoResolved = await Promise.all(promises);
-      
+
         setQuestInfo(questInfoResolved[0]);
       }
     } catch (err: any) {
