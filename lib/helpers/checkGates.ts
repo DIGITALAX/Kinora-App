@@ -51,10 +51,15 @@ const checkGates = async (
       });
 
       await Promise.all(promises);
-    }
 
-    if (gates?.oneOf && erc20s?.length < (gates?.erc20Logic || [])?.length) {
-      return undefined;
+      if (
+        (!gates?.oneOf && erc20s?.length > 0) ||
+        (gates?.oneOf && gates?.erc721Logic?.length < 1 && erc20s?.length > 0)
+      ) {
+        return {
+          erc20: erc20s,
+        };
+      }
     }
 
     if (gates?.erc721Logic?.length > 0) {
@@ -89,7 +94,7 @@ const checkGates = async (
             }
           });
 
-          if (erc721s?.length < gates?.erc721Logic?.length && gates?.oneOf) {
+          if (erc721s?.length < 1) {
             return undefined;
           } else {
             return {

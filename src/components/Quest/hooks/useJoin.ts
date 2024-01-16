@@ -78,9 +78,10 @@ const useJoin = (
 
   const handlePlayerJoin = async () => {
     if (!address) return;
-    setJoinLoading(true);
+    // setJoinLoading(true);
     try {
       const data = await checkGates(questInfo?.gate!, publicClient, address);
+
       if (
         (data?.erc20 && data?.erc20?.length > 0) ||
         (data?.erc721 && data?.erc721?.length > 0)
