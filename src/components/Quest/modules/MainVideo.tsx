@@ -6,7 +6,6 @@ import { INFURA_GATEWAY } from "../../../../lib/constants";
 import Image from "next/legacy/image";
 import formatDuration from "../../../../lib/helpers/formatDuration";
 import { VideoMetadataV3 } from "kinora-sdk/dist/@types/generated";
-import { buildCover } from "../../../../lib/helpers/getVideoCover";
 
 const MainVideo: FunctionComponent<MainVideoProps> = ({
   videoPlaying,
@@ -27,13 +26,6 @@ const MainVideo: FunctionComponent<MainVideoProps> = ({
   openControls,
   setOpenControls,
 }): JSX.Element => {
-  const poster = buildCover(
-    (videoPlaying?.publication?.metadata as VideoMetadataV3)?.asset?.cover?.raw
-      ?.uri
-      ? (videoPlaying?.publication?.metadata as VideoMetadataV3)?.asset?.cover
-          ?.raw?.uri
-      : videoPlaying?.details?.cover
-  );
   return (
     <>
       <div
@@ -92,6 +84,8 @@ const MainVideo: FunctionComponent<MainVideoProps> = ({
               playbackId={videoPlaying?.playerId}
               src={
                 (videoPlaying?.publication?.metadata as VideoMetadataV3)?.asset
+                  ?.video?.optimized?.uri ||
+                (videoPlaying?.publication?.metadata as VideoMetadataV3)?.asset
                   ?.video?.raw?.uri
               }
               showLoadingSpinner={false}
@@ -100,7 +94,7 @@ const MainVideo: FunctionComponent<MainVideoProps> = ({
                 fallback: true,
                 ipfsGateway: INFURA_GATEWAY,
               }}
-              poster={poster}
+              // poster={poster}
             />
           )}
         </KinoraPlayerWrapper>
