@@ -34,7 +34,6 @@ const QuestBoxDetails: FunctionComponent<QuestBoxDetailsProps> = ({
   const pfp = createProfilePicture(
     questInfo?.publication?.by?.metadata?.picture
   );
-
   return (
     <div className="relative bg-black rounded-sm border border-cost w-full h-fit xl:h-full flex flex-col gap-3 p-2 items-start xl:justify-between">
       {!questInfoLoading ? (
@@ -261,10 +260,16 @@ const QuestBoxDetails: FunctionComponent<QuestBoxDetailsProps> = ({
                       item?.rewards?.filter((rew) => rew?.type == "0")?.length
                   )
                   ?.filter(Boolean)?.length! > 0
-                  ? questInfo?.milestones?.map(
-                      (item) =>
-                        item?.rewards?.filter((rew) => rew?.type == "0")?.length
-                    )?.length + " x ERC20 + "
+                  ? questInfo?.milestones?.reduce(
+                      (acumulador, valorActual) =>
+                        acumulador +
+                        Number(
+                          valorActual?.rewards?.filter(
+                            (rew) => rew?.type == "0"
+                          )?.length
+                        ),
+                      0
+                    ) + " x ERC20 + "
                   : "") +
                   (questInfo?.milestones
                     ?.map(
@@ -272,13 +277,16 @@ const QuestBoxDetails: FunctionComponent<QuestBoxDetailsProps> = ({
                         item?.rewards?.filter((rew) => rew?.type == "1")?.length
                     )
                     ?.filter(Boolean)?.length! > 0
-                    ? questInfo?.milestones
-                        ?.map(
-                          (item) =>
-                            item?.rewards?.filter((rew) => rew?.type == "1")
-                              ?.length
-                        )
-                        ?.filter(Boolean)?.length + " x ERC721"
+                    ? questInfo?.milestones?.reduce(
+                        (acumulador, valorActual) =>
+                          acumulador +
+                          Number(
+                            valorActual?.rewards?.filter(
+                              (rew) => rew?.type == "1"
+                            )?.length
+                          ),
+                        0
+                      ) + " x ERC721"
                     : "")}
               </div>
             </div>

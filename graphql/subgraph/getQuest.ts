@@ -56,7 +56,6 @@ export const getQuest = async (
                 tokenAddress
                 uri
                 rewardMetadata {
-                  id
                   title
                   description
                   cover
@@ -224,7 +223,6 @@ export const getQuestById = async (
                 tokenAddress
                 uri
                 rewardMetadata {
-                  id
                   title
                   description
                   cover
