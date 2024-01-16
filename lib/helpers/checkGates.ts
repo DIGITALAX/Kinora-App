@@ -71,8 +71,8 @@ const checkGates = async (
           (item: { subOrderCollectionIds: string[] }) =>
             item?.subOrderCollectionIds?.map(async (item: string) => {
               const data = await getCollectionId(item);
-              if (data?.data?.collectionCreateds) {
-                collectionURIs?.push(data?.data?.collectionCreateds);
+              if (data?.data?.collectionCreateds?.[0]) {
+                collectionURIs?.push(data?.data?.collectionCreateds?.[0]);
               }
             })
         );
