@@ -4,6 +4,7 @@ import { INFURA_GATEWAY } from "../../../../lib/constants";
 import InteractBar from "@/components/Common/modules/InteractBar";
 import { VideoMetadataV3 } from "../../../../graphql/generated";
 import { MetricsAddedProps } from "../types/activity.types";
+import { buildCover } from "../../../../lib/helpers/getVideoCover";
 
 const MetricsAdded: FunctionComponent<MetricsAddedProps> = ({
   width,
@@ -25,6 +26,12 @@ const MetricsAdded: FunctionComponent<MetricsAddedProps> = ({
   lensConnected,
   disabled,
 }): JSX.Element => {
+  const poster = buildCover(
+    quest?.details?.cover && quest?.details?.cover?.trim() !== ""
+      ? quest?.details?.cover
+      : (quest?.publication?.metadata as VideoMetadataV3)?.asset?.cover?.raw
+          ?.uri
+  );
   return (
     <div className="relative w-full h-fit flex flex-col gap-2 flex items-start justify-start">
       <div
@@ -37,18 +44,15 @@ const MetricsAdded: FunctionComponent<MetricsAddedProps> = ({
         onClick={() => router.push(`/video/${quest?.publication?.id}`)}
       >
         <div className="relative rounded-lg w-full h-full flex items-center justify-center">
-          <Image
-            src={`${INFURA_GATEWAY}/ipfs/${
-              quest?.details?.cover?.split("ipfs://")?.[1] ||
-              (
-                quest?.publication?.metadata as VideoMetadataV3
-              )?.asset?.cover?.raw?.uri?.split("ipfs://")?.[1]
-            }`}
-            objectFit="cover"
-            draggable={false}
-            className="rounded-lg"
-            layout="fill"
-          />
+          {poster && (
+            <Image
+              src={poster}
+              objectFit="cover"
+              draggable={false}
+              className="rounded-lg"
+              layout="fill"
+            />
+          )}
         </div>
       </div>
       <div className="relative w-full h-fit flex items-center justify-end sm:justify-between font-bit break-words gap-3">
