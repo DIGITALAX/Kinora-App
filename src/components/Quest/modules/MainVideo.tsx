@@ -2,7 +2,7 @@ import { FunctionComponent, SetStateAction } from "react";
 import { MainVideoProps, Video } from "../types/quest.types";
 import { KinoraPlayerWrapper } from "kinora-sdk";
 import { Player } from "@livepeer/react";
-import { INFURA_GATEWAY } from "../../../../lib/constants";
+import { ENSHIT_LINK, INFURA_GATEWAY } from "../../../../lib/constants";
 import Image from "next/legacy/image";
 import formatDuration from "../../../../lib/helpers/formatDuration";
 import { VideoMetadataV3 } from "kinora-sdk/dist/@types/generated";
@@ -83,6 +83,10 @@ const MainVideo: FunctionComponent<MainVideoProps> = ({
               mediaElementRef={setMediaElement}
               playbackId={videoPlaying?.playerId}
               src={
+                // videoPlaying?.playerId == "7e04dq739p9pp8mz"
+                //   ?
+                //    ENSHIT_LINK
+                // :
                 (videoPlaying?.publication?.metadata as VideoMetadataV3)?.asset
                   ?.video?.optimized?.uri ||
                 (videoPlaying?.publication?.metadata as VideoMetadataV3)?.asset
@@ -90,11 +94,10 @@ const MainVideo: FunctionComponent<MainVideoProps> = ({
               }
               showLoadingSpinner={false}
               objectFit="cover"
-              autoUrlUpload={{
-                fallback: true,
-                ipfsGateway: INFURA_GATEWAY,
-              }}
-              // poster={poster}
+              // autoUrlUpload={{
+              //   fallback: true,
+              //   ipfsGateway: INFURA_GATEWAY,
+              // }}
             />
           )}
         </KinoraPlayerWrapper>

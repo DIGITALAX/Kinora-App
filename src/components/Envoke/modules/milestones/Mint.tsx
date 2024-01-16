@@ -163,10 +163,10 @@ const Mint: FunctionComponent<MintProps> = ({
                           loop
                           autoPlay
                           objectFit="cover"
-                          autoUrlUpload={{
-                            fallback: true,
-                            ipfsGateway: INFURA_GATEWAY,
-                          }}
+                          // autoUrlUpload={{
+                          //   fallback: true,
+                          //   ipfsGateway: INFURA_GATEWAY,
+                          // }}
                         />
                       )}
                     </KinoraPlayerWrapper>
