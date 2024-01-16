@@ -1,7 +1,6 @@
 import { FetchResult, gql } from "@apollo/client";
 import { graphKinoraClient } from "../../lib/graph/client";
 import serializeQuery from "../../lib/helpers/serializeQuery";
-import { KINORA_QUEST_DATA } from "../../lib/constants";
 
 export const getQuestSearch = async (
   where: Object,
@@ -11,7 +10,7 @@ export const getQuestSearch = async (
   let timeoutId: NodeJS.Timeout | undefined;
   const queryPromise = graphKinoraClient.query({
     query: gql(`
-    query($first: Int, $skip: Int, $contractAddress: String) {
+    query($first: Int, $skip: Int) {
         questInstantiateds(where: {${serializeQuery(
           where
         )}}, first: $first, skip: $skip) {
@@ -32,7 +31,6 @@ export const getQuestSearch = async (
     variables: {
       first,
       skip,
-      contractAddress: KINORA_QUEST_DATA,
     },
     fetchPolicy: "no-cache",
     errorPolicy: "all",

@@ -27,6 +27,8 @@ export const KINORA_ESCROW: `0x${string}` =
   "0xfD43f3B544c772782f8620a90B529B5636AA3920";
 export const KINORA_ACCESS_CONTROL: `0x${string}` =
   "0x8EF97bb2a0871a685D3867B6AB9b3778333481Ab";
+export const ENSHIT_LINK: string =
+  "https://player.vimeo.com/video/817352623?title=0&byline=0&portrait=0&autopause=0&controls=0&app_id=122963";
 
 export const COVER_CONSTANTS: string[] = [
   "QmPW4zahvfhNUUbc27sM2WZE9uQcZ9KYGcXTq64zzuoazi",

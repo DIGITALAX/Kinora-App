@@ -70,12 +70,11 @@ const MediaSwitch: FunctionComponent<MediaProps> = ({
                   src={srcUrl}
                   playbackId={srcUrl}
                   // poster={srcCover? srcCover : undefined}
-                  objectFit="cover"
-                  autoUrlUpload={{
-                    fallback: true,
-                    ipfsGateway: INFURA_GATEWAY,
-                  }}
-                  
+                  // objectFit="cover"
+                  // autoUrlUpload={{
+                  //   fallback: true,
+                  //   ipfsGateway: INFURA_GATEWAY,
+                  // }}
                   showLoadingSpinner={false}
                   loop={hidden}
                   autoPlay={autoPlay}

@@ -78,7 +78,7 @@ const useJoin = (
 
   const handlePlayerJoin = async () => {
     if (!address) return;
-    // setJoinLoading(true);
+    setJoinLoading(true);
     try {
       const data = await checkGates(questInfo?.gate!, publicClient, address);
 
