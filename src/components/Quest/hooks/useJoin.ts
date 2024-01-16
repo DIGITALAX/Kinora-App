@@ -49,7 +49,6 @@ const useJoin = (
         );
 
       if (error) {
-        console.error(errorMessage);
         dispatch(setInteractError(true));
       } else {
         dispatch(

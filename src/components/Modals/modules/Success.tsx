@@ -29,7 +29,7 @@ const Success: FunctionComponent<SuccessProps> = ({
             </div>
             <div
               className="relative w-full sm:w-2/3 h-full min-h-[25vh] flex items-center justify-center rounded-sm p-px"
-              id="smoke"
+              id="northern"
             >
               <Image
                 className="rounded-sm"
