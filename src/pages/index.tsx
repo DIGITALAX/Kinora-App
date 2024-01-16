@@ -17,7 +17,7 @@ export default function Home({ router }: { router: NextRouter }) {
   const publicClient = createPublicClient({
     chain: polygon,
     transport: http(
-      `https://polygon.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`
+     `https://polygon-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`
     ),
   });
   const questFeed = useSelector(

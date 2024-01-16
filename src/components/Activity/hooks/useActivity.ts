@@ -15,6 +15,7 @@ import { getMetricsAdded } from "../../../../graphql/subgraph/getMetricsAdded";
 import { Dispatch } from "redux";
 import { setActivityFeed } from "../../../../redux/reducers/activityFeedSlice";
 import fetchIPFSJSON from "../../../../lib/helpers/fetchIPFSJSON";
+import { getVideoPlayerId } from "../../../../graphql/subgraph/getVideos";
 
 const useActivity = (
   lensConnected: Profile | undefined,
@@ -292,6 +293,44 @@ const useActivity = (
               Number(item?.playerProfileId)
             )}`;
 
+          const activityData = await getVideoPlayerId(
+            Number(item?.videoPubId),
+            Number(item?.videoProfileId)
+          );
+
+          const questData = await getQuestById(
+            activityData?.data?.videos?.[0]?.questId
+          );
+
+          const fetchVideoDataPromises =
+            questData?.data?.questInstantiateds?.[0]?.milestones
+              ?.map(
+                (milestone: {
+                  uri: string;
+                  videos: {
+                    pubId: string;
+                    profileId: string;
+                  }[];
+                }) => {
+                  const index = milestone?.videos?.findIndex(
+                    (vid) =>
+                      Number(vid?.profileId) === Number(item?.videoProfileId) &&
+                      Number(vid?.pubId) === Number(item?.videoPubId)
+                  );
+
+                  if (index !== -1) {
+                    return fetchIPFSJSON(milestone?.uri).then(
+                      (data) => data?.videoCovers?.[index]
+                    );
+                  }
+                  return null;
+                }
+              )
+              .filter((promise: Promise<any>) => promise !== null);
+
+          const videoDataArray = await Promise.all(fetchVideoDataPromises);
+          const details = videoDataArray.find((data) => data !== undefined);
+
           if (!cache.profiles[profileId]) {
             const data = await getProfile(
               {
@@ -322,6 +361,7 @@ const useActivity = (
 
           return {
             ...item,
+            details,
             profile,
             publication: publication,
           };

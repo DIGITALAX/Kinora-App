@@ -8,7 +8,7 @@ import useInteractionsSuggested from "@/components/Common/hooks/useInteractions"
 import { Dispatch as KinoraDispatch } from "kinora-sdk";
 import { useAccount } from "wagmi";
 import Image from "next/legacy/image";
-import { INFURA_GATEWAY } from "../../../lib/constants";
+import { INFURA_GATEWAY, KINORA_QUEST_DATA } from "../../../lib/constants";
 import QuestSocial from "@/components/Quest/modules/QuestSocial";
 import useWho from "@/components/Quest/hooks/useWho";
 import { Quest, SocialType } from "@/components/Quest/types/quest.types";
@@ -30,7 +30,7 @@ export default function VideoId({ router }: { router: NextRouter }) {
   const publicClient = createPublicClient({
     chain: polygon,
     transport: http(
-      `https://polygon.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`
+     `https://polygon-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`
     ),
   });
   const kinoraDispatch = new KinoraDispatch({
@@ -379,7 +379,7 @@ export default function VideoId({ router }: { router: NextRouter }) {
               <div className="relative w-full h-full flex flex-col gap-6 items-start justify-start overflow-y-scroll">
                 <div className="relative w-full h-fit gap-2 flex items-center justify-center flex-col">
                   <div className="relative w-full h-fit flex items-center justify-center text-gray-400 font-bit text-sm">
-                    Milestone Video Metrics
+                    Logged Video Metrics
                   </div>
                   <div className="relative w-full h-px bg-gray-700"></div>
                 </div>

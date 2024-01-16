@@ -151,7 +151,14 @@ const MilestoneInfo: FunctionComponent<MilestoneInfoProps> = ({
                     Number(value?.questId) == Number(questInfo?.questId)
                 )
           ]?.status ||
-          !questInfo?.status
+          !questInfo?.status ||
+          Number(
+            player?.milestonesCompleted?.[
+              player?.milestonesCompleted?.findIndex(
+                (value) => Number(value?.questId) == Number(questInfo?.questId)
+              )
+            ]?.milestonesCompleted
+          ) >= Number(milestone?.milestoneId)
             ? "opacity-70"
             : "cursor-pointer active:scale-95"
         }`}
@@ -170,6 +177,13 @@ const MilestoneInfo: FunctionComponent<MilestoneInfoProps> = ({
                     Number(value?.questId) == Number(questInfo?.questId)
                 )
           ]?.status &&
+          Number(
+            player?.milestonesCompleted?.[
+              player?.milestonesCompleted?.findIndex(
+                (value) => Number(value?.questId) == Number(questInfo?.questId)
+              )
+            ]?.milestonesCompleted
+          ) < Number(milestone?.milestoneId) &&
           questInfo?.status &&
           handleCompleteMilestone(
             Number(
@@ -238,7 +252,18 @@ const MilestoneInfo: FunctionComponent<MilestoneInfoProps> = ({
                 ]?.milestonesCompleted
               ) -
                 1 ==
-              Number(questInfo?.milestoneCount)
+                Number(questInfo?.milestoneCount) ||
+              (Number(questInfo?.milestoneCount) == 1 &&
+                Number.isNaN(
+                  Number(
+                    player?.milestonesCompleted?.[
+                      player?.milestonesCompleted?.findIndex(
+                        (value) =>
+                          Number(value?.questId) == Number(questInfo?.questId)
+                      )
+                    ]?.milestonesCompleted
+                  )
+                ))
               ? "Complete Quest"
               : "Claim Reward"
             : "Envoker To Verify"}

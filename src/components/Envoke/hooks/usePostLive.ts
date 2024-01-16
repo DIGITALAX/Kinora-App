@@ -19,7 +19,7 @@ import { ethers } from "ethers";
 import convertToFile from "../../../../lib/helpers/convertToFile";
 import {
   IPFS_REGEX,
-  KINORA_ESCROW_CONTRACT,
+  KINORA_OPEN_ACTION,
   NFT_CREATOR,
 } from "../../../../lib/constants";
 import { setSuccess } from "../../../../redux/reducers/successSlice";
@@ -31,6 +31,7 @@ import { AccountType } from "@/components/Envoker/types/envoker.types";
 import { setQuestStage } from "../../../../redux/reducers/questStageSlice";
 import { setMissingValues } from "../../../../redux/reducers/missingValuesSlice";
 import handleQuestCheck from "../../../../lib/helpers/handleQuestCheck";
+import getVideoCover from "../../../../lib/helpers/getVideoCover";
 
 const usePostLive = (
   dispatch: Dispatch,
@@ -42,7 +43,8 @@ const usePostLive = (
   setMilestoneStage: (e: number) => void,
   setCollectionsSearch: (e: string) => void,
   lensConnected: Profile | undefined,
-  walletConnected: boolean
+  walletConnected: boolean,
+  verifiedEnvoker: boolean
 ) => {
   const [postLoading, setPostLoading] = useState<boolean>(false);
   const [tokensToApprove, setTokensToApprove] = useState<
@@ -127,7 +129,7 @@ const usePostLive = (
               },
             ],
             functionName: "allowance",
-            args: [address as `0x${string}`, KINORA_ESCROW_CONTRACT],
+            args: [address as `0x${string}`, KINORA_OPEN_ACTION],
             account: address,
           });
 
@@ -245,7 +247,7 @@ const usePostLive = (
         ],
         functionName: "approve",
         args: [
-          KINORA_ESCROW_CONTRACT,
+          KINORA_OPEN_ACTION,
           BigInt(
             Number(totalAmount) *
               10 ** 18 *
@@ -271,6 +273,16 @@ const usePostLive = (
   };
 
   const handlePostLive = async () => {
+    if (!verifiedEnvoker) {
+      dispatch(
+        setSuccess({
+          open: true,
+          text: "Idea for a quest in this deployment? Send us a message!",
+          image: "QmYTAxWEr9qm6p6R5GzRoRDJXBmC5bxMBpg3XZcPKqRNmp",
+        })
+      );
+      return;
+    }
     if (!lensConnected?.id) return;
     if (!handleQuestCheck(questInfo)) {
       dispatch(setMissingValues(true));
@@ -422,6 +434,49 @@ const usePostLive = (
               title: item.details.title,
               cover: ("ipfs://" + cover) as `ipfs://${string}`,
               description: item.details.description,
+              videoInfo: await Promise.all(
+                (item?.eligibility || [])?.map(async (video) => {
+                  let cover: `ipfs://${string}` = (
+                    video?.video?.metadata as VideoMetadataV3
+                  )?.asset?.cover?.raw?.uri;
+
+                  if (!cover) {
+                    const file = await fetch("/api/ipfs", {
+                      method: "POST",
+                      body: convertToFile(
+                        await getVideoCover(
+                          (video?.video?.metadata as VideoMetadataV3)?.asset
+                            ?.video?.raw?.uri
+                        ),
+                        "image/png"
+                      ),
+                    });
+                    cover = ("ipfs://" +
+                      (await file.json()).cid) as `ipfs://${string}`;
+                  }
+
+                  return {
+                    title: (((video?.video?.metadata as VideoMetadataV3)?.title
+                      ?.toLowerCase()
+                      ?.includes("video by") ||
+                      (video?.video?.metadata as VideoMetadataV3)?.title
+                        ?.toLowerCase()
+                        ?.includes("post by")) &&
+                    (video?.video?.metadata as VideoMetadataV3)?.content
+                      ?.split("\n\n")?.[0]
+                      ?.trim() !== ""
+                      ? (
+                          video?.video?.metadata as VideoMetadataV3
+                        )?.content?.split("\n\n")?.[0]
+                      : (video?.video?.metadata as VideoMetadataV3)
+                          ?.title) as string,
+                    description: (
+                      video?.video?.metadata as VideoMetadataV3
+                    )?.content?.split("\n\n")?.[0] as string,
+                    cover,
+                  };
+                })
+              ),
             },
             eligibility: {
               internalCriteria: await Promise.all(
@@ -430,11 +485,19 @@ const usePostLive = (
                     let assetWithPlaybackId = allUploaded?.find(
                       (asset) =>
                         asset?.storage?.ipfs?.cid?.toLowerCase() ===
-                        (
-                          playbackCriteria?.video?.metadata as VideoMetadataV3
-                        )?.asset?.video?.raw?.uri
+                          (
+                            playbackCriteria?.video?.metadata as VideoMetadataV3
+                          )?.asset?.video?.raw?.uri
+                            ?.split("ipfs://")?.[1]
+                            ?.toLowerCase() ||
+                        (asset as any)?.source.url
                           ?.split("ipfs://")?.[1]
-                          ?.toLowerCase()
+                          ?.toLowerCase() ===
+                          (
+                            playbackCriteria?.video?.metadata as VideoMetadataV3
+                          )?.asset?.video?.raw?.uri
+                            ?.split("ipfs://")?.[1]
+                            ?.toLowerCase()
                     )?.playbackId;
 
                     if (!assetWithPlaybackId) {
@@ -516,8 +579,9 @@ const usePostLive = (
                       }
                     );
                     return {
+                      factoryIds: [],
                       playbackId: assetWithPlaybackId as string,
-                      postId: playbackCriteria?.video?.id as string,
+                      postId: playbackCriteria?.video?.id as `0x${string}`,
                       playbackCriteria: playbackCriteria.criteria,
                     };
                   }
@@ -529,6 +593,7 @@ const usePostLive = (
       );
 
       const { error, errorMessage } = await questEnvoker.instantiateNewQuest({
+        factoryId: 1,
         questDetails: {
           title: questInfo.details.title,
           description: questInfo.details.description,

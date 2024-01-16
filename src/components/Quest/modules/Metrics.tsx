@@ -32,6 +32,7 @@ const Metrics: FunctionComponent<MetricsProps> = ({
                     "profileId",
                     "videoBytes",
                     "mostReplayedArea",
+                    "details"
                   ]?.includes(key)
               )
               ?.filter(([_, value]) => value !== false && Number(value) !== 0)

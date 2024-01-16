@@ -16,12 +16,20 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { Quest } from "@/components/Quest/types/quest.types";
 import useActivity from "@/components/Activity/hooks/useActivity";
 import Activity from "@/components/Activity/modules/Activity";
+import { createPublicClient, http } from "viem";
+import { polygon } from "viem/chains";
 
 const Header: FunctionComponent<{ router: NextRouter }> = ({ router }) => {
   const { openConnectModal } = useConnectModal();
   const { openAccountModal } = useAccountModal();
   const { isConnected, address } = useAccount();
   const dispatch = useDispatch();
+  const publicClient = createPublicClient({
+    chain: polygon,
+    transport: http(
+      `https://polygon-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`
+    ),
+  });
   const lensConnected = useSelector(
     (state: RootState) => state.app.lensConnectedReducer.profile
   );
@@ -56,7 +64,8 @@ const Header: FunctionComponent<{ router: NextRouter }> = ({ router }) => {
     isConnected,
     address,
     allUploaded,
-    oracleData
+    oracleData,
+    publicClient
   );
   const {
     searchLoading,

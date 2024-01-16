@@ -10,6 +10,7 @@ import indexerReducer from "./reducers/indexerSlice";
 import questStageReducer from "./reducers/questStageSlice";
 import questInfoReducer from "./reducers/questInfoSlice";
 import availableCurrenciesReducer from "./reducers/availableCurrenciesSlice";
+import verifiedEnvokerReducer from "./reducers/verifiedEnvokerSlice";
 import oracleDataReducer from "./reducers/oracleDataSlice";
 import claimProfileReducer from "./reducers/claimProfileSlice";
 import activityFeedReducer from "./reducers/activityFeedSlice";
@@ -47,7 +48,8 @@ const reducer = combineReducers({
   activityFeedReducer,
   claimProfileReducer,
   missingValuesReducer,
-  oracleDataReducer
+  oracleDataReducer,
+  verifiedEnvokerReducer,
 });
 
 export const store = configureStore({

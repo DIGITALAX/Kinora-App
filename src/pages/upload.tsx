@@ -21,7 +21,7 @@ export default function Upload() {
   const publicClient = createPublicClient({
     chain: polygon,
     transport: http(
-      `https://polygon.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`
+      `https://polygon-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`
     ),
   });
   const dispatch = useDispatch();
@@ -33,6 +33,9 @@ export default function Upload() {
   );
   const walletConnected = useSelector(
     (state: RootState) => state.app.walletConnectedReducer.value
+  );
+  const verifiedEnvoker = useSelector(
+    (state: RootState) => state.app.verifiedEnvokerReducer.value
   );
   const allUploaded = useSelector(
     (state: RootState) => state.app.allUploadedReducer.videos
@@ -53,7 +56,8 @@ export default function Upload() {
     isConnected,
     address,
     allUploaded,
-    oracleData
+    oracleData,
+    publicClient
   );
   const {
     uploadLoading,
@@ -68,7 +72,8 @@ export default function Upload() {
     availableCurrencies,
     publicClient,
     allUploaded,
-    lensConnected
+    lensConnected,
+    verifiedEnvoker
   );
   return (
     <>

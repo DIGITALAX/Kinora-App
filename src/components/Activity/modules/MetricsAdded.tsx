@@ -39,14 +39,10 @@ const MetricsAdded: FunctionComponent<MetricsAddedProps> = ({
         <div className="relative rounded-lg w-full h-full flex items-center justify-center">
           <Image
             src={`${INFURA_GATEWAY}/ipfs/${
+              quest?.details?.cover?.split("ipfs://")?.[1] ||
               (
                 quest?.publication?.metadata as VideoMetadataV3
-              )?.asset?.cover?.raw?.uri?.includes("ipfs://")
-                ? (
-                    quest?.publication?.metadata as VideoMetadataV3
-                  )?.asset?.cover?.raw?.uri?.split("ipfs://")?.[1]
-                : (quest?.publication?.metadata as VideoMetadataV3)?.asset
-                    ?.cover?.raw?.uri
+              )?.asset?.cover?.raw?.uri?.split("ipfs://")?.[1]
             }`}
             objectFit="cover"
             draggable={false}

@@ -20,7 +20,7 @@ export default function Envoke({ router }: { router: NextRouter }) {
   const publicClient = createPublicClient({
     chain: polygon,
     transport: http(
-      `https://polygon.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`
+      `https://polygon-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`
     ),
   });
   const { openConnectModal } = useConnectModal();
@@ -31,6 +31,9 @@ export default function Envoke({ router }: { router: NextRouter }) {
   );
   const allUploaded = useSelector(
     (state: RootState) => state.app.allUploadedReducer.videos
+  );
+  const verifiedEnvoker = useSelector(
+    (state: RootState) => state.app.verifiedEnvokerReducer.value
   );
   const walletConnected = useSelector(
     (state: RootState) => state.app.walletConnectedReducer.value
@@ -74,7 +77,8 @@ export default function Envoke({ router }: { router: NextRouter }) {
     isConnected,
     address,
     allUploaded,
-    oracleData
+    oracleData,
+    publicClient
   );
   const {
     getMoreVideosSample,
@@ -102,7 +106,8 @@ export default function Envoke({ router }: { router: NextRouter }) {
       setMilestoneStage,
       setCollectionsSearch,
       lensConnected,
-      walletConnected
+      walletConnected,
+      verifiedEnvoker
     );
   return (
     <>

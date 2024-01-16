@@ -424,7 +424,8 @@ const Dashboard: FunctionComponent<DashboardProps> = ({
                             <div className="relative ml-0 flex items-center justify-center gap-3">
                               <div className="relative w-fit h-fit flex items-center justify-center font-bit text-white text-sm">
                                 {item?.questMetadata?.title?.length > 15
-                                  ? item?.questMetadata?.title?.slice(0, 15) + "..."
+                                  ? item?.questMetadata?.title?.slice(0, 15) +
+                                    "..."
                                   : item?.questMetadata?.title}
                               </div>
                             </div>
@@ -585,7 +586,7 @@ const Dashboard: FunctionComponent<DashboardProps> = ({
                                         )?.length
                                     ] ||
                                     !item?.status ||
-                                    item?.type !== "completed" ||
+                                    item?.type == "completed" ||
                                     !playerEligible?.eligible
                                       ? "opacity-70"
                                       : "cursor-pointer active:scale-95 hover:opacity-70"
@@ -606,7 +607,7 @@ const Dashboard: FunctionComponent<DashboardProps> = ({
                                               value?.questId == item?.questId
                                           )
                                     ]?.status &&
-                                    !claimRewardLoading &&
+                                    !claimRewardLoading?.[index] &&
                                     item?.type !== "completed" &&
                                     playerEligible?.eligible &&
                                     item?.status &&
@@ -686,10 +687,23 @@ const Dashboard: FunctionComponent<DashboardProps> = ({
                                         ]?.milestonesCompleted
                                       ) -
                                         1 ==
-                                      Number(item?.milestoneCount) ? (
+                                        Number(item?.milestoneCount) ||
+                                      (Number(item?.milestoneCount) == 1 &&
+                                        Number.isNaN(
+                                          Number(
+                                            openPlayerDetails
+                                              ?.milestonesCompleted?.[
+                                              openPlayerDetails?.milestonesCompleted?.findIndex(
+                                                (value) =>
+                                                  Number(value?.questId) ==
+                                                  Number(item?.questId)
+                                              )
+                                            ]?.milestonesCompleted
+                                          )
+                                        )) ? (
                                       "Complete Quest"
                                     ) : (
-                                      "Verify Milestone"
+                                      "Claim Reward"
                                     )}
                                   </div>
                                 </div>

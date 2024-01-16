@@ -10,6 +10,7 @@ import { apolloClient } from "../../../../lib/lens/client";
 import { getVideoActivity } from "../../../../graphql/subgraph/getVideoActivity";
 import getPublication from "../../../../graphql/lens/queries/publication";
 import { Dispatch as KinoraDispatch, Kinora } from "kinora-sdk";
+import { KINORA_METRICS, KINORA_QUEST_DATA } from "../../../../lib/constants";
 
 const useVideos = (
   lensConnected: Profile | undefined,
@@ -52,7 +53,9 @@ const useVideos = (
       const { error, errorMessage } = await kinora.sendPlayerMetricsOnChain(
         (videoInfo ? videoInfo : videoPlaying)?.publication?.id,
         lensConnected?.id,
-        signer as any
+        signer as any,
+        KINORA_METRICS,
+        KINORA_QUEST_DATA
       );
 
       if (error) {
@@ -77,11 +80,12 @@ const useVideos = (
 
   const checkMilestoneToClaim = async () => {
     try {
-      const { error, eligible, completed, toComplete, errorMessage } =
+      const { error, eligible } =
         await kinoraDispatch.playerMilestoneEligibilityCheck(
           lensConnected?.id,
           Number(questInfo?.questId),
-          Number(questInfo?.milestones[mainViewer! - 1]?.milestoneId)
+          Number(questInfo?.milestones[mainViewer! - 1]?.milestoneId),
+          KINORA_QUEST_DATA
         );
 
       if (!error) {

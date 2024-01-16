@@ -34,7 +34,7 @@ const Modals: FunctionComponent<{ router: NextRouter }> = ({
   const publicClient = createPublicClient({
     chain: polygon,
     transport: http(
-      `https://polygon.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`
+      `https://polygon-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`
     ),
   });
   const questGates = useSelector(
@@ -87,7 +87,8 @@ const Modals: FunctionComponent<{ router: NextRouter }> = ({
     isConnected,
     address,
     allUploaded,
-    oracleData
+    oracleData,
+    publicClient
   );
   const {
     handleCollect,
