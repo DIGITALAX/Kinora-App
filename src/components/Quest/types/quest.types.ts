@@ -157,9 +157,25 @@ export interface Reward {
     audio: string;
     title: string;
     description: string;
+    prompt: string;
   };
   uri: string;
   type: string;
+  questId: string;
+  pubId: string;
+  profileId: string;
+  milestone: string;
+  questURI: string;
+  questMetadata: {
+    title: string;
+    description: string;
+    cover: string;
+    videoCovers: {
+      title: string;
+      description: string;
+      cover: string;
+    }[];
+  };
 }
 
 export type QuestBoxDetailsProps = {
@@ -386,6 +402,7 @@ export type MilestoneInfoProps = {
   player: Player;
   questInfo: Quest;
   milestoneEligible: boolean;
+  dispatch: Dispatch;
 };
 
 export type ChannelsProps = {

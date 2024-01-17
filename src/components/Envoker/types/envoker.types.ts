@@ -213,4 +213,5 @@ export type PlayerMilestoneProps = {
 
 export type RewardProps = {
   rewards: Reward[];
+  dispatch: Dispatch;
 };

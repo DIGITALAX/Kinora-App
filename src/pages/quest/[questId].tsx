@@ -196,9 +196,9 @@ export default function QuestId({ router }: { router: NextRouter }) {
   } = useInteractionsSuggested(
     lensConnected,
     dispatch,
-    suggestedQuests,
     address,
     publicClient,
+    suggestedQuests,
     (newItems: any) => setSuggestedQuests(newItems as Quest[])
   );
   return (

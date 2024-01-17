@@ -58,7 +58,7 @@ const QuestFeed: FunctionComponent<QuestFeedProps> = ({
         next={getMoreQuestFeed}
         className="relative w-full h-fit flex-col items-center justify-start"
       >
-        <div className="w-full h-fit flex flex-col md:grid md:grid-cols-2 justify-center items-start gap-3 flex-wrap">
+        <div className="w-full h-fit flex flex-col md:grid md:grid-cols-2 justify-center items-start gap-3 flex-wrap pb-4">
           {questFeed
             ?.slice(4)
 

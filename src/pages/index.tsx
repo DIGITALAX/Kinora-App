@@ -48,9 +48,9 @@ export default function Home({ router }: { router: NextRouter }) {
   } = useInteractions(
     lensConnected,
     dispatch,
-    questFeed,
     address,
     publicClient,
+    questFeed,
     (newItems: any) => dispatch(setQuestFeed(newItems as Quest[]))
   );
 

@@ -33,6 +33,7 @@ const useJoin = (
   const [socialType, setSocialType] = useState<SocialType>(SocialType.Players);
 
   const handleCompleteMilestone = async (questCompleted: boolean) => {
+    if (!address || !lensConnected?.id) return;
     setCompleteLoading(true);
     try {
       await (window as any).ethereum.request({ method: "eth_requestAccounts" });
@@ -42,11 +43,10 @@ const useJoin = (
       );
       const signer = provider.getSigner();
 
-      const { error, errorMessage } =
-        await kinoraDispatch.playerCompleteQuestMilestone(
-          questId as `0x${string}`,
-          signer as any
-        );
+      const { error } = await kinoraDispatch.playerCompleteQuestMilestone(
+        questId as `0x${string}`,
+        signer as any
+      );
 
       if (error) {
         dispatch(setInteractError(true));
@@ -76,7 +76,7 @@ const useJoin = (
   };
 
   const handlePlayerJoin = async () => {
-    if (!address) return;
+    if (!address || !lensConnected?.id) return;
     setJoinLoading(true);
     try {
       const data = await checkGates(questInfo?.gate!, publicClient, address);
