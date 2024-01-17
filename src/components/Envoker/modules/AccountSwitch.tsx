@@ -94,6 +94,7 @@ const AccountSwitch: FunctionComponent<AccountSwitchProps> = ({
       case AccountType.Dashboard:
         return (
           <Dashboard
+            dispatch={dispatch}
             router={router}
             lensConnected={lensConnected}
             setOpenPlayerDetails={setOpenPlayerDetails}

@@ -177,6 +177,7 @@ export type DashboardProps = {
   lensConnected: Profile | undefined;
   setOpenQuest: (e: SetStateAction<Quest | undefined>) => void;
   getMore: () => Promise<void>;
+  dispatch: Dispatch;
   info: {
     hasMorePlayer: boolean;
     hasMoreEnvoked: boolean;

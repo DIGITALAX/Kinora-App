@@ -28,6 +28,7 @@ const Dashboard: FunctionComponent<DashboardProps> = ({
   router,
   playerEligible,
   lensConnected,
+  dispatch,
 }): JSX.Element => {
   return (
     <div className="relative w-full h-fit flex flex-col items-start justify-center gap-10">
@@ -737,6 +738,7 @@ const Dashboard: FunctionComponent<DashboardProps> = ({
                                     openPlayerDetails?.milestonesCompleted
                                       ?.length > 0 && (
                                       <Rewards
+                                        dispatch={dispatch}
                                         rewards={
                                           item?.milestones
                                             ?.map((milestone) => {
