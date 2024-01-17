@@ -29,16 +29,13 @@ const useRewards = () => {
               questMetadata: data,
             };
           }
-          if (reward?.type === "1") {
-            if (!reward?.rewardMetadata) {
-              const data = await fetchIPFSJSON(reward?.uri);
-              return {
-                ...reward,
-                rewardMetadata: data,
-              };
-            } else {
-              return reward;
-            }
+
+          if (!reward?.rewardMetadata) {
+            const data = await fetchIPFSJSON(reward?.uri);
+            return {
+              ...reward,
+              rewardMetadata: data,
+            };
           } else {
             return reward;
           }
@@ -78,16 +75,13 @@ const useRewards = () => {
               questMetadata: data,
             };
           }
-          if (reward?.type === "1") {
-            if (!reward?.rewardMetadata) {
-              const data = await fetchIPFSJSON(reward?.uri);
-              return {
-                ...reward,
-                rewardMetadata: data,
-              };
-            } else {
-              return reward;
-            }
+
+          if (!reward?.rewardMetadata) {
+            const data = await fetchIPFSJSON(reward?.uri);
+            return {
+              ...reward,
+              rewardMetadata: data,
+            };
           } else {
             return reward;
           }
