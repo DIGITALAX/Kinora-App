@@ -79,9 +79,9 @@ export default function Handle({ router }: { router: NextRouter }) {
   } = useInteractions(
     lensConnected,
     dispatch,
-    accountType == AccountType.Save ? allSaves : quests,
     address,
     publicClient,
+    accountType == AccountType.Save ? allSaves : quests,
     (newItems: any) =>
       (accountType == AccountType.Save ? setAllSaves : setQuests)(
         newItems as any

@@ -28,7 +28,7 @@ const Sidebar: FunctionComponent<SidebarProps> = ({
       }}
       id={openSidebar ? "openSide" : "closeSide"}
     >
-      <div className="relative w-full h-full flex items-start justify-start flex-col gap-8 sm:gap-20">
+      <div className="relative w-full h-full flex items-start justify-start flex-col gap-8 sm:gap-14">
         <div className="relative w-full h-fit flex items-end justify-end ml-0">
           <div
             className="relative flex items-end justify-end w-5 h-5 cursor-pointer active:scale-95"
@@ -115,6 +115,11 @@ const Sidebar: FunctionComponent<SidebarProps> = ({
                 title: "Activity",
                 image: "QmZ3mrF2YgwPkoeFpR54mpDKznTg9oFo5Mqk7uGFW8PgY2",
                 link: () => router.push("/activity"),
+              },
+              {
+                title: "Awards",
+                image: "QmUcWZDv5pFbxkvM995yAQAcPQHpy1G1faTbAk7UvDbTyd",
+                link: () => router.push("/awards"),
               },
               {
                 title: "Dashboard",

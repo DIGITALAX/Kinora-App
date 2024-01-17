@@ -1,13 +1,14 @@
 import Image from "next/legacy/image";
 import { FunctionComponent } from "react";
-import {
-  ACCEPTED_TOKENS,
-  INFURA_GATEWAY,
-} from "../../../../lib/constants";
+import { ACCEPTED_TOKENS, INFURA_GATEWAY } from "../../../../lib/constants";
 import { Reward } from "@/components/Quest/types/quest.types";
 import { RewardProps } from "../types/envoker.types";
+import { setImageViewer } from "../../../../redux/reducers/imageViewerSlice";
 
-const Rewards: FunctionComponent<RewardProps> = ({ rewards }): JSX.Element => {
+const Rewards: FunctionComponent<RewardProps> = ({
+  rewards,
+  dispatch,
+}): JSX.Element => {
   return (
     <div className="relative w-fit h-fit justify-start items-center gap-4 flex flex-row flex-wrap">
       {rewards?.flat()?.map((reward: Reward, index: number) => {
@@ -46,7 +47,27 @@ const Rewards: FunctionComponent<RewardProps> = ({ rewards }): JSX.Element => {
                 className="relative w-10 h-10 flex items-center justify-center gap-1 rounded-sm p-px"
                 id="northern"
               >
-                <div className="relative w-full h-full flex items-center justify-center rounded-sm">
+                <div
+                  className="relative w-full h-full flex items-center justify-center rounded-sm cursor-pointer active:scale-95"
+                  onClick={() =>
+                    dispatch(
+                      setImageViewer({
+                        actionValue: true,
+                        actionType: "png",
+                        actionImage: `${INFURA_GATEWAY}/ipfs/${
+                          reward?.rewardMetadata?.mediaCover &&
+                          reward?.rewardMetadata?.mediaCover !== ""
+                            ? reward?.rewardMetadata?.mediaCover?.split(
+                                "ipfs://"
+                              )?.[1]
+                            : reward?.rewardMetadata?.images?.[0]?.split(
+                                "ipfs://"
+                              )?.[1]
+                        }`,
+                      })
+                    )
+                  }
+                >
                   <Image
                     draggable={false}
                     layout="fill"

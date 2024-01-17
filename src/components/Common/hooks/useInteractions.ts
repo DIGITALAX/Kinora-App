@@ -24,16 +24,18 @@ import { Collection } from "@/components/Envoke/types/envoke.types";
 const useInteractions = (
   lensConnected: Profile | undefined,
   dispatch: Dispatch,
-  feed: (Quest | Post | Collection)[],
   address: `0x${string}` | undefined,
   publicClient: PublicClient,
-  itemSetter:
+  feed?: (Quest | Post | Collection)[],
+  itemSetter?:
     | ((e: Quest[]) => void)
     | ((e: (Quest & { type: string })[]) => void)
-    | ((e: (Collection & {
-      chosenSize: string;
-      chosenAmount: string;
-    })[]) => void)
+    | ((
+        e: (Collection & {
+          chosenSize: string;
+          chosenAmount: string;
+        })[]
+      ) => void)
 ) => {
   const [mirrorChoiceOpen, setMirrorChoiceOpen] = useState<boolean[]>([]);
   const [mainInteractionsLoading, setMainInteractionsLoading] = useState<{
@@ -71,7 +73,7 @@ const useInteractions = (
     try {
       await lensBookmark(id, dispatch);
       updateInteractions(
-        index,
+        index!,
         {
           hasBookmarked: true,
         },
@@ -82,7 +84,7 @@ const useInteractions = (
         err,
         () =>
           updateInteractions(
-            index,
+            index!,
             {
               hasBookmarked: true,
             },
@@ -99,7 +101,7 @@ const useInteractions = (
     let index = 0;
 
     if (!main) {
-      index = feed?.findIndex(
+      index = feed!?.findIndex(
         (pub) =>
           (!(pub as Quest)?.publication
             ? (pub as Post)?.id
@@ -256,7 +258,7 @@ const useInteractions = (
     let index = 0;
 
     if (!main) {
-      index = feed?.findIndex(
+      index = feed!?.findIndex(
         (pub) =>
           (!(pub as Quest)?.publication
             ? (pub as Post)?.id
@@ -407,6 +409,7 @@ const useInteractions = (
   };
 
   const updateInteractions = (index: number, value: Object, type: string) => {
+    if (!itemSetter || !feed) return;
     const newItems = [...feed];
 
     if (index !== -1 && (newItems[index] as Quest)?.publication) {

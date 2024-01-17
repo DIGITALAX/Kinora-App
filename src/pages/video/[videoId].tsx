@@ -168,9 +168,9 @@ export default function VideoId({ router }: { router: NextRouter }) {
   } = useInteractionsSuggested(
     lensConnected,
     dispatch,
-    relatedQuests,
     address,
     publicClient,
+    relatedQuests,
     (newItems: any) => setRelatedQuests(newItems as Quest[])
   );
 

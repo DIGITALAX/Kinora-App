@@ -1,65 +1,24 @@
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { NextRouter } from "next/router";
-import Activity from "@/components/Activity/modules/Activity";
-import useActivity from "@/components/Activity/hooks/useActivity";
-import useInteractions from "@/components/Common/hooks/useInteractions";
-import { useAccount } from "wagmi";
-import { createPublicClient, http } from "viem";
-import { polygon } from "viem/chains";
-import { Quest } from "@/components/Quest/types/quest.types";
-import { Profile } from "../../graphql/generated";
-import { setActivityFeed } from "../../redux/reducers/activityFeedSlice";
 import Head from "next/head";
+import useRewards from "@/components/Rewards/hooks/useRewards";
+import { Reward as RewardType } from "@/components/Quest/types/quest.types";
+import InfiniteScroll from "react-infinite-scroll-component";
+import Reward from "@/components/Rewards/modules/Reward";
 
-export default function Envoke({ router }: { router: NextRouter }) {
-  const publicClient = createPublicClient({
-    chain: polygon,
-    transport: http(
-      `https://polygon-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`
-    ),
-  });
-  const { address } = useAccount();
+export default function Awards({ router }: { router: NextRouter }) {
   const dispatch = useDispatch();
   const openSidebar = useSelector(
     (state: RootState) => state.app.sideBarOpenReducer.value
   );
-  const lensConnected = useSelector(
-    (state: RootState) => state.app.lensConnectedReducer.profile
-  );
-  const activityFeed = useSelector(
-    (state: RootState) => state.app.activityFeedReducer.feed
-  );
-  const { activityLoading, getMoreActivityFeed, activityInfo } = useActivity(
-    lensConnected,
-    activityFeed,
-    dispatch
-  );
   const {
-    mirror,
-    like,
-    bookmark,
-    interactionsLoading,
-    setMirrorChoiceOpen,
-    mirrorChoiceOpen,
-    profileHovers,
-    setProfileHovers,
-    followProfile,
-    unfollowProfile,
-    simpleCollect,
-  } = useInteractions(
-    lensConnected,
-    dispatch,
-    address,
-    publicClient,
-    activityFeed,
-    (newItems: any) =>
-      dispatch(
-        setActivityFeed(
-          newItems as (Quest & { type: string; profile: Profile | undefined })[]
-        )
-      )
-  );
+    rewardsLoading,
+    getMoreRewards,
+    rewardsInfo,
+    allRewards,
+    moreLoading,
+  } = useRewards();
 
   return (
     <div
@@ -129,7 +88,7 @@ export default function Envoke({ router }: { router: NextRouter }) {
         }}
         id={!openSidebar ? "closeSide" : ""}
       >
-        {activityLoading ? (
+        {rewardsLoading ? (
           <div className="relative w-full h-fit flex flex-col gap-3">
             <div className="relative w-full h-fit flex sm:flex-nowrap flex-wrap flex-row gap-3">
               {Array.from({ length: 4 })?.map((_, index: number) => {
@@ -155,25 +114,41 @@ export default function Envoke({ router }: { router: NextRouter }) {
             </div>
           </div>
         ) : (
-          <Activity
-            simpleCollect={simpleCollect}
-            activityFeed={activityFeed}
-            getMoreActivityFeed={getMoreActivityFeed}
-            activityInfo={activityInfo}
-            lensConnected={lensConnected}
-            dispatch={dispatch}
-            router={router}
-            mirror={mirror}
-            like={like}
-            interactionsLoading={interactionsLoading}
-            bookmark={bookmark}
-            setMirrorChoiceOpen={setMirrorChoiceOpen}
-            mirrorChoiceOpen={mirrorChoiceOpen}
-            followProfile={followProfile}
-            unfollowProfile={unfollowProfile}
-            setProfileHovers={setProfileHovers}
-            profileHovers={profileHovers}
-          />
+          <InfiniteScroll
+            loader={<></>}
+            hasMore={rewardsInfo?.hasMore}
+            dataLength={
+              moreLoading ? allRewards?.length + 10 : allRewards?.length
+            }
+            next={getMoreRewards}
+            className="relative w-full h-fit flex-col items-start justify-start pb-6"
+            height={"calc(100vh - 5.5rem)"}
+          >
+            <div
+              className={`w-full h-fit justify-start items-start gap-6 md:gap-8 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3`}
+            >
+              {allRewards?.map((item: RewardType, index: number) => {
+                return (
+                  <Reward
+                    key={index}
+                    reward={item}
+                    router={router}
+                    dispatch={dispatch}
+                  />
+                );
+              })}
+              {moreLoading &&
+                Array.from({ length: 10 }).map((_, index: number) => {
+                  return (
+                    <div
+                      key={index}
+                      className="relative w-full h-40 sm:h-80 flex rounded-sm animate-pulse"
+                      id="northern"
+                    ></div>
+                  );
+                })}
+            </div>
+          </InfiniteScroll>
         )}
       </div>
     </div>

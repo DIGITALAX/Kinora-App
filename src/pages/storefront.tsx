@@ -71,9 +71,9 @@ export default function Storefront() {
   } = useInteractions(
     lensConnected,
     dispatch,
-    storeItems,
     address,
     publicClient,
+    storeItems,
     setStoreItems
   );
 

@@ -17,6 +17,7 @@ const MilestoneInfo: FunctionComponent<MilestoneInfoProps> = ({
   player,
   questInfo,
   milestoneEligible,
+  dispatch,
 }): JSX.Element => {
   return (
     <div className="relative rounded-sm bg-black border border-cost w-full h-full flex flex-col gap-3 p-2 items-start justify-between">
@@ -26,7 +27,7 @@ const MilestoneInfo: FunctionComponent<MilestoneInfoProps> = ({
             Milestone Rewards
           </div>
           {milestone?.rewards && milestone?.rewards?.length > 0 && (
-            <Rewards rewards={milestone?.rewards} />
+            <Rewards rewards={milestone?.rewards} dispatch={dispatch} />
           )}
         </div>
         <div className="relative w-full h-fit flex flex-col items-start justify-start gap-2 font-vcr text-white text-xs">

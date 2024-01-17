@@ -414,6 +414,7 @@ const usePostLive = (
                         title: item?.details?.title,
                         description: item?.details?.description,
                         mediaType: item?.details?.media,
+                        prompt: item?.details?.prompt,
                         mediaCover,
                         video,
                         audio,
