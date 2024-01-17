@@ -28,12 +28,12 @@ export default function Awards({ router }: { router: NextRouter }) {
       }}
     >
       <Head>
-        <title>Kinora Activity Feed</title>
+        <title>Kinora Awards Feed</title>
         <meta
           name="og:url"
-          content={`https://kinora.irrevocable.dev/activity`}
+          content={`https://kinora.irrevocable.dev/awards`}
         />
-        <meta name="og:title" content={"Kinora Activity Feed"} />
+        <meta name="og:title" content={"Kinora Awards"} />
         <meta name="og:description" content={"On-Chain Video Social Quests."} />
         <meta
           name="og:image"
@@ -49,7 +49,7 @@ export default function Awards({ router }: { router: NextRouter }) {
         />
         <meta
           name="twitter:url"
-          content={`https://kinora.irrevocable.dev/activity`}
+          content={`https://kinora.irrevocable.dev/awards`}
         />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
