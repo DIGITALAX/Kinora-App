@@ -22,7 +22,7 @@ import {
   studioProvider,
   LivepeerConfig,
 } from "@livepeer/react";
-import { KinoraProvider } from "./../src/index";
+import { KinoraProvider } from "kinora-sdk";
 import { useEffect, useState } from "react";
 import RouterChange from "@/components/Common/modules/RouterChange";
 import { apolloClient } from "../../lib/lens/client";

@@ -1,6 +1,6 @@
 import { FunctionComponent, SetStateAction } from "react";
 import { MainVideoProps, Video } from "../types/quest.types";
-import { KinoraPlayerWrapper } from "./../../../src/index";
+import { KinoraPlayerWrapper } from "kinora-sdk";
 import { Player } from "@livepeer/react";
 import { INFURA_GATEWAY } from "../../../../lib/constants";
 import Image from "next/legacy/image";

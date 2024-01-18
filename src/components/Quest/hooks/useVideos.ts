@@ -9,7 +9,7 @@ import { setSuccess } from "../../../../redux/reducers/successSlice";
 import { apolloClient } from "../../../../lib/lens/client";
 import { getVideoActivity } from "../../../../graphql/subgraph/getVideoActivity";
 import getPublication from "../../../../graphql/lens/queries/publication";
-import { Dispatch as KinoraDispatch, Kinora } from "./../../../src/index";
+import { Dispatch as KinoraDispatch, Kinora } from "kinora-sdk";
 import { KINORA_METRICS, KINORA_QUEST_DATA } from "../../../../lib/constants";
 
 const useVideos = (
