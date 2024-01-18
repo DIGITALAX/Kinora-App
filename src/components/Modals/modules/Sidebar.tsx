@@ -42,14 +42,14 @@ const Sidebar: FunctionComponent<SidebarProps> = ({
           </div>
         </div>
         <div
-          className={`relative flex flex-col gap-8 sm:gap-20 w-full h-full ${
+          className={`relative flex flex-col gap-8 sm:gap-16 w-full h-full ${
             openSidebar
               ? "items-start justify-start"
               : "items-center justify-center"
           }`}
         >
           <div
-            className={`relative flex flex-col justify-center gap-4 sm:gap-7 w-fit h-fit ${
+            className={`relative flex flex-col justify-center gap-2 sm:gap-7 w-fit h-fit ${
               openSidebar ? "items-start" : "items-center"
             }`}
           >
@@ -219,7 +219,7 @@ const Sidebar: FunctionComponent<SidebarProps> = ({
                     key={index}
                     id="rainbow"
                     className={`relative rounded-sm p-px flex items-center justify-center cursor-pointer active:scale-95 ${
-                      openSidebar ? "w-14 h-14" : "w-7 h-7"
+                      openSidebar ? "w-12 h-12" : "w-7 h-7"
                     }`}
                     onClick={(e) => {
                       e.stopPropagation();

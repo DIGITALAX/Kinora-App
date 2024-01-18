@@ -12,7 +12,7 @@ const Reward: FunctionComponent<RewardProps> = ({
 }): JSX.Element => {
   return (
     <div className="relative w-full h-fit sm:h-80 border border-cost rounded-sm p-2 flex">
-      <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center z-0">
+      <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center z-0" >
         <Image
           layout="fill"
           objectFit="cover"
@@ -57,6 +57,7 @@ const Reward: FunctionComponent<RewardProps> = ({
         <div className="relative flex flex-col sm:flex-row gap-2 justify-start sm:justify-between items-center sm:items-start w-full h-full">
           <div
             className="relative w-full h-60 sm:h-full flex rounded-sm items-center justify-center border border-suave cursor-pointer active:scale-95"
+            id="northern"
             onClick={() =>
               dispatch(
                 setImageViewer({
