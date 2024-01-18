@@ -1,8 +1,8 @@
 import { FunctionComponent, SetStateAction } from "react";
 import { MainVideoProps, Video } from "../types/quest.types";
-import { KinoraPlayerWrapper } from "kinora-sdk";
+import { KinoraPlayerWrapper } from "./../../../src/index";
 import { Player } from "@livepeer/react";
-import { ENSHIT_LINK, INFURA_GATEWAY } from "../../../../lib/constants";
+import { INFURA_GATEWAY } from "../../../../lib/constants";
 import Image from "next/legacy/image";
 import formatDuration from "../../../../lib/helpers/formatDuration";
 import { VideoMetadataV3 } from "kinora-sdk/dist/@types/generated";

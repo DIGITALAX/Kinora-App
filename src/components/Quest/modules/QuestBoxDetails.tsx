@@ -148,7 +148,13 @@ const QuestBoxDetails: FunctionComponent<QuestBoxDetailsProps> = ({
                                 />
                               </div>
                               <div className="relative w-fit h-fit flex items-center justify-center font-vcr text-acei text-xxs">
-                                {`${Number(erc20?.amount) / 10 ** 18} ${
+                                {`${
+                                  Number(erc20?.amount) /
+                                  (erc20?.address?.toLowerCase() ==
+                                  ACCEPTED_TOKENS[2][2]?.toLowerCase()
+                                    ? 10 ** 6
+                                    : 10 ** 18)
+                                } ${
                                   ACCEPTED_TOKENS?.filter(
                                     (token) =>
                                       erc20?.address?.toLowerCase() ==

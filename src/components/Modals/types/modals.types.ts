@@ -171,7 +171,7 @@ export type QuestGatesProps = {
       amount: string;
     }[];
     erc721?: Collection[];
-    oneof?: boolean;
+    oneOf?: boolean;
   };
 };
 

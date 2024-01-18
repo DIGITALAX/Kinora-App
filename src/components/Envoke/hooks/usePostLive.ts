@@ -18,6 +18,7 @@ import {
 import { ethers } from "ethers";
 import convertToFile from "../../../../lib/helpers/convertToFile";
 import {
+  ACCEPTED_TOKENS,
   IPFS_REGEX,
   KINORA_OPEN_ACTION,
   NFT_CREATOR,
@@ -82,7 +83,10 @@ const usePostLive = (
             } else {
               accumulatedRewards[reward?.address] = (
                 Number(reward?.amount) *
-                10 ** 18
+                (reward?.address?.toLowerCase() ==
+                ACCEPTED_TOKENS[2][2]?.toLowerCase()
+                  ? 10 ** 6
+                  : 10 ** 18)
               ).toString();
             }
           }
@@ -250,7 +254,10 @@ const usePostLive = (
           KINORA_OPEN_ACTION,
           BigInt(
             Number(totalAmount) *
-              10 ** 18 *
+              (approveTokenAddress?.toLowerCase() ==
+              ACCEPTED_TOKENS[2][2]?.toLowerCase()
+                ? 10 ** 6
+                : 10 ** 18) *
               Number(questInfo?.details?.maxPlayerCount)
           ) as bigint,
         ],
@@ -348,8 +355,14 @@ const usePostLive = (
                   ? item?.gated?.erc20Addresses?.filter(Boolean)
                   : [],
               erc20Thresholds: (item?.gated?.erc20Thresholds || [])
-                ?.map((item) =>
-                  (Number(item || 0) * 10 ** 18).toLocaleString("fullwide", {
+                ?.map((value, index) =>
+                  (
+                    Number(value || 0) *
+                    (item?.gated?.erc20Addresses?.[index]?.toLowerCase() ==
+                    ACCEPTED_TOKENS[2][2]?.toLowerCase()
+                      ? 10 ** 6
+                      : 10 ** 18)
+                  ).toLocaleString("fullwide", {
                     useGrouping: false,
                   })
                 )
@@ -363,9 +376,10 @@ const usePostLive = (
                 ?.map((item) => ({
                   type: 0 as RewardType,
                   erc20tokenAddress: item?.address,
-                  erc20tokenAmount: (
-                    Number(item?.amount) *
-                    10 ** 18
+                  erc20tokenAmount: (item?.address?.toLowerCase() ==
+                  ACCEPTED_TOKENS[2][2]?.toLowerCase()
+                    ? Number(item?.amount) * 10 ** 6
+                    : Number(item?.amount) * 10 ** 18
                   )?.toLocaleString("fullwide", { useGrouping: false }),
                 }))
                 .filter(Boolean),
@@ -628,8 +642,15 @@ const usePostLive = (
               ? questInfo.details?.gated?.erc20Addresses?.filter(Boolean)
               : [],
           erc20Thresholds: (questInfo.details?.gated?.erc20Thresholds || [])
-            ?.map((item) =>
-              (Number(item || 0) * 10 ** 18).toLocaleString("fullwide", {
+            ?.map((value, index) =>
+              (
+                Number(value || 0) *
+                (questInfo.details?.gated?.erc20Addresses[
+                  index
+                ]?.toLowerCase() == ACCEPTED_TOKENS[2][2]?.toLowerCase()
+                  ? 10 ** 6
+                  : 10 ** 18)
+              ).toLocaleString("fullwide", {
                 useGrouping: false,
               })
             )
