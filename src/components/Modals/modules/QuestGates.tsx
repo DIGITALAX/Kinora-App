@@ -30,7 +30,7 @@ const QuestGates: FunctionComponent<QuestGatesProps> = ({
               Ready player? Gather your tokens to accept this quest.
             </div>
             <div className="relative w-fit h-fit flex items-center justify-center text-gray-500 text-xs">
-              {gates?.oneof
+              {gates?.oneOf == true
                 ? "Collect & Hold At Least One Token to Join Quest."
                 : "Collect & Hold All Tokens To Join Quest."}
             </div>
@@ -75,7 +75,13 @@ const QuestGates: FunctionComponent<QuestGatesProps> = ({
                               />
                             </div>
                             <div className="relative w-fit h-fit flex items-center justify-center font-vcr text-acei text-sm">
-                              {`${Number(erc20?.amount) / 10 ** 18} ${
+                              {`${
+                                Number(erc20?.amount) /
+                                (erc20?.address?.toLowerCase() ==
+                                ACCEPTED_TOKENS[2][2]?.toLowerCase()
+                                  ? 10 ** 6
+                                  : 10 ** 18)
+                              } ${
                                 ACCEPTED_TOKENS?.filter(
                                   (token) =>
                                     erc20?.address?.toLowerCase() ==
