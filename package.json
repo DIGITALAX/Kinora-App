@@ -18,7 +18,7 @@
     "ethers": "^5.7.2",
     "formidable": "^3.5.1",
     "ipfs-http-client": "^60.0.1",
-    "kinora-sdk": "^1.0.4",
+    "kinora-sdk": "^1.0.6",
     "livepeer": "^3.0.1",
     "lodash": "^4.17.21",
     "moment": "^2.30.1",

@@ -20,6 +20,7 @@ import convertToFile from "../../../../lib/helpers/convertToFile";
 import {
   ACCEPTED_TOKENS,
   IPFS_REGEX,
+  KINORA_ESCROW,
   KINORA_OPEN_ACTION,
   NFT_CREATOR,
 } from "../../../../lib/constants";

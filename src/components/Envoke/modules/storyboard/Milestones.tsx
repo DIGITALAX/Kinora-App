@@ -252,7 +252,7 @@ const Milestones: FunctionComponent<StoryboardMilestonesProps> = ({
         <div className="relative text-base underline underline-offset-4 items-start justify-start flex">
           Video Ops
         </div>
-        <div className="relative w-fit h-fit flex flex-col gap-7 lg:gap-2 items-start justify-start">
+        <div className="relative w-fit h-fit flex flex-col gap-7  items-start justify-start">
           {milestone?.eligibility?.map((item: VideoEligible, index: number) => {
             const media = createMedia(item?.video?.metadata);
             return (

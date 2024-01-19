@@ -54,7 +54,9 @@ const checkGates = async (
 
       if (
         (!gates?.oneOf && erc20s?.length > 0) ||
-        (gates?.oneOf && gates?.erc721Logic?.length < 1 && erc20s?.length > 0)
+        (gates?.oneOf &&
+          gates?.erc721Logic?.length < 1 &&
+          erc20s?.length == gates?.erc20Logic?.length)
       ) {
         return {
           erc20: erc20s,
