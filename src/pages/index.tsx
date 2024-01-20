@@ -74,8 +74,9 @@ export default function Home({ router }: { router: NextRouter }) {
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@digitalax" />
         <meta name="twitter:creator" content="@digitalax" />
+        <link rel="icon" href="/favicon.ico" />
         <meta
-          name="twitter:image"
+          name="og:image"
           content={"https://kinora.irrevocable.dev/card.png/"}
         />
         <meta name="twitter:url" content={`https://kinora.irrevocable.dev/`} />

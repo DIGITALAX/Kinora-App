@@ -15,7 +15,7 @@ export default function Storefront() {
   const publicClient = createPublicClient({
     chain: polygon,
     transport: http(
-     `https://polygon-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`
+      `https://polygon-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`
     ),
   });
   const dispatch = useDispatch();
@@ -92,6 +92,7 @@ export default function Storefront() {
         />
         <meta name="og:title" content={"Storefront"} />
         <meta name="og:description" content={"Kinora IRL Print Collections."} />
+        <link rel="icon" href="/favicon.ico" />
         <meta
           name="og:image"
           content={"https://kinora.irrevocable.dev/card.png/"}

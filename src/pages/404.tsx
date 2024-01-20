@@ -13,6 +13,10 @@ const Custom404: NextPage = (): JSX.Element => {
       <Head>
         <title>Page Not Found</title>
         <link rel="icon" href="/favicon.ico" />
+        <meta
+          name="og:image"
+          content={"https://kinora.irrevocable.dev/card.png/"}
+        />
       </Head>
       <div
         className="relative flex overflow-y-scroll min-h-full w-full items-start justify-end pb-5"

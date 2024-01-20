@@ -90,6 +90,7 @@ export default function Upload() {
               name="og:url"
               content={`https://kinora.irrevocable.dev/upload`}
             />
+            <link rel="icon" href="/favicon.ico" />
             <meta name="og:title" content={"Upload"} />
             <meta name="og:description" content={"Video Upload."} />
             <meta

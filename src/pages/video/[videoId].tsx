@@ -30,7 +30,7 @@ export default function VideoId({ router }: { router: NextRouter }) {
   const publicClient = createPublicClient({
     chain: polygon,
     transport: http(
-     `https://polygon-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`
+      `https://polygon-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`
     ),
   });
   const kinoraDispatch = new KinoraDispatch({
@@ -200,6 +200,7 @@ export default function VideoId({ router }: { router: NextRouter }) {
           }
         />
         <meta name="og:description" content={"On-Chain Video Social Quests."} />
+        <link rel="icon" href="/favicon.ico" />
         <meta
           name="og:image"
           content={"https://kinora.irrevocable.dev/card.png/"}

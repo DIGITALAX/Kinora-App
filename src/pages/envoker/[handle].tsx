@@ -130,6 +130,7 @@ export default function Handle({ router }: { router: NextRouter }) {
           }
         />
         <meta name="og:description" content={"On-Chain Video Social Quests."} />
+        <link rel="icon" href="/favicon.ico" />
         <meta
           name="og:image"
           content={"https://kinora.irrevocable.dev/card.png/"}

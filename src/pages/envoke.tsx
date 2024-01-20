@@ -116,6 +116,7 @@ export default function Envoke({ router }: { router: NextRouter }) {
         <meta name="og:url" content={`https://kinora.irrevocable.dev/envoke`} />
         <meta name="og:title" content={"Envoke New Quest"} />
         <meta name="og:description" content={"On-Chain Video Social Quests."} />
+        <link rel="icon" href="/favicon.ico" />
         <meta
           name="og:image"
           content={"https://kinora.irrevocable.dev/card.png/"}

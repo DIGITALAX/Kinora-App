@@ -76,6 +76,7 @@ export default function Envoke({ router }: { router: NextRouter }) {
         />
         <meta name="og:title" content={"Kinora Activity Feed"} />
         <meta name="og:description" content={"On-Chain Video Social Quests."} />
+        <link rel="icon" href="/favicon.ico" />
         <meta
           name="og:image"
           content={"https://kinora.irrevocable.dev/card.png/"}
