@@ -80,7 +80,7 @@ const Modals: FunctionComponent<{ router: NextRouter }> = ({
   const interactError = useSelector(
     (state: RootState) => state.app.interactErrorReducer
   );
-  const { handleLogIn } = useSignIn(
+  const { handleLogIn, handleLogOut } = useSignIn(
     lensConnected,
     openAccountModal,
     dispatch,
@@ -218,7 +218,9 @@ const Modals: FunctionComponent<{ router: NextRouter }> = ({
         />
       )}
       {missingValues?.value && <MissingValues dispatch={dispatch} />}
-      {claimProfile?.value && <ClaimProfile dispatch={dispatch} />}
+      {claimProfile?.value && (
+        <ClaimProfile dispatch={dispatch} handleLogOut={handleLogOut} />
+      )}
       {indexer?.open && <Index message={indexer?.message!} />}
       {interactError?.value && <InteractError dispatch={dispatch} />}
       {success?.value?.open && (

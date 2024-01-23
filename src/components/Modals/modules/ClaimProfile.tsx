@@ -7,6 +7,7 @@ import { INFURA_GATEWAY } from "../../../../lib/constants";
 
 const ClaimProfile: FunctionComponent<ClaimProfileProps> = ({
   dispatch,
+  handleLogOut,
 }): JSX.Element => {
   return (
     <div className="inset-0 justify-center fixed z-50 bg-opacity-50 backdrop-blur-sm overflow-y-hidden grid grid-flow-col auto-cols-auto w-full h-auto">
@@ -35,12 +36,25 @@ const ClaimProfile: FunctionComponent<ClaimProfileProps> = ({
                 objectFit="cover"
               />
             </div>
-            <div
-              onClick={() => window.open(`https://claim.lens.xyz/`)}
-              className="relative border border-white w-32 h-8 cursor-pointer flex items-center justify-center active:scale-95 py-1 rounded-md text-xs font-bit text-white"
-            >
-              <div className="relative w-fit h-fit flex items-center justify-center">
-                Claim Profile
+            <div className="relative w-full h-fit flex items-center justify-center flex-row gap-4">
+              <div
+                onClick={() => window.open(`https://claim.lens.xyz/`)}
+                className="relative border border-white w-28 h-8 cursor-pointer flex items-center justify-center active:scale-95 py-1 rounded-md text-xs font-bit text-white"
+              >
+                <div className="relative w-fit h-fit flex items-center justify-center">
+                  Claim Profile
+                </div>
+              </div>
+              <div
+                onClick={() => {
+                  handleLogOut();
+                  dispatch(setClaimProfile(false));
+                }}
+                className="relative border border-white w-28 h-8 cursor-pointer flex items-center justify-center active:scale-95 py-1 rounded-md text-xs font-bit text-white"
+              >
+                <div className="relative w-fit h-fit flex items-center justify-center">
+                  Log Out
+                </div>
               </div>
             </div>
           </div>
