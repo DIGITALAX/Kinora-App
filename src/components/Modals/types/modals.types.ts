@@ -186,6 +186,7 @@ export type FollowersProps = {
 
 export type ClaimProfileProps = {
   dispatch: Dispatch<Action>;
+  handleLogOut: () => Promise<void>;
 };
 
 export type MissingValuesProps = {
