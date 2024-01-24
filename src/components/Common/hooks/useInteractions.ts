@@ -354,7 +354,7 @@ const useInteractions = (
     } else {
       setInteractionsLoading((prev) => {
         const updatedArray = [...prev];
-        updatedArray[index!] = { ...updatedArray[index!], like: false };
+        updatedArray[index!] = { ...updatedArray[index!], follow: false };
         return updatedArray;
       });
     }
