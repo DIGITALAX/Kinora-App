@@ -7,14 +7,14 @@ export const IPFS_REGEX: RegExp = /\b(Qm[1-9A-Za-z]{44}|ba[A-Za-z2-7]{57})\b/;
 export const KINORA_OPEN_ACTION: `0x${string}` =
   "0x196f267A4aCA1243CCCB85AD7098D1fDA1D683CD";
 export const COINOP_OPEN_ACTION: `0x${string}` =
-  "0x179ACb90575CfF001c6c767b197FFe100B6ADc3a";
+  "0x3710f718f9E78a58FEcfF5Cd9cc41a4b7466BB14";
 export const CHROMADIN_ID: string = "0x01c6a9";
 export const LENS_HUB_PROXY_ADDRESS_MATIC: `0x${string}` =
   "0xDb46d1Dc155634FbC732f92E853b10B288AD5a1d";
 export const LENS_HUB_PROXY_ADDRESS_MUMBAI: `0x${string}` =
   "0x4fbffF20302F3326B20052ab9C217C44F6480900";
 export const NFT_CREATOR: `0x${string}` =
-  "0x0147435c505390Bb1E657c8EBc373DcEdfDe0F08";
+  "0x63D98B34BbED5D924E30A84018E860AF75431356";
 export const NFT_CREATOR_MUMBAI: `0x${string}` =
   "0x5B714F8eb491453f9cb9D5c4Ba698b34E9b8c0f0";
 export const DIGITALAX_ADDRESS: `0x${string}` =
