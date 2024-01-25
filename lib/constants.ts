@@ -776,7 +776,7 @@ export const HASHTAG_CONSTANTS: string[] = [
 ];
 
 export const PRINT_NFT: `0x${string}` =
-  "0x3D92B16Bb20A740C5dDcaEda305A7c16B2DdC580";
+  "0x63D98B34BbED5D924E30A84018E860AF75431356";
 
 export const ACCEPTED_TOKENS: string[][] = [
   [
