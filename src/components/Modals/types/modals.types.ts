@@ -125,7 +125,6 @@ export type PostCollectGifProps = {
   ) => void;
   openMeasure: {
     collectibleOpen: boolean;
-    collectible: string;
     award: string;
     whoCollectsOpen: boolean;
     creatorAwardOpen: boolean;
@@ -138,7 +137,6 @@ export type PostCollectGifProps = {
   setOpenMeasure: (
     e: SetStateAction<{
       collectibleOpen: boolean;
-      collectible: string;
       award: string;
       whoCollectsOpen: boolean;
       creatorAwardOpen: boolean;

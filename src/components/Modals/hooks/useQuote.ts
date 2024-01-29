@@ -42,7 +42,6 @@ const useQuote = (
   });
   const [openMeasure, setOpenMeasure] = useState<{
     collectibleOpen: boolean;
-    collectible: string;
     award: string;
     whoCollectsOpen: boolean;
     creatorAwardOpen: boolean;
@@ -53,7 +52,6 @@ const useQuote = (
     time: string;
   }>({
     collectibleOpen: false,
-    collectible: "Yes",
     award: "No",
     whoCollectsOpen: false,
     creatorAwardOpen: false,
