@@ -51,7 +51,6 @@ const useUpload = (
     },
   });
   const [openMeasure, setOpenMeasure] = useState<{
-    collectibleOpen: boolean;
     award: string;
     whoCollectsOpen: boolean;
     creatorAwardOpen: boolean;
@@ -61,7 +60,6 @@ const useUpload = (
     timeOpen: boolean;
     time: string;
   }>({
-    collectibleOpen: false,
     award: "No",
     whoCollectsOpen: false,
     creatorAwardOpen: false,
@@ -191,7 +189,6 @@ const useUpload = (
           },
         });
         setOpenMeasure({
-          collectibleOpen: false,
           award: "No",
           whoCollectsOpen: false,
           creatorAwardOpen: false,

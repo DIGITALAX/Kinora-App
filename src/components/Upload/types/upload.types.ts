@@ -7,7 +7,6 @@ import { Action, Dispatch } from "redux";
 
 export type CollectOptionsProps = {
   openMeasure: {
-    collectibleOpen: boolean;
     award: string;
     whoCollectsOpen: boolean;
     creatorAwardOpen: boolean;
@@ -19,7 +18,6 @@ export type CollectOptionsProps = {
   };
   setOpenMeasure: (
     e: SetStateAction<{
-      collectibleOpen: boolean;
       award: string;
       whoCollectsOpen: boolean;
       creatorAwardOpen: boolean;
