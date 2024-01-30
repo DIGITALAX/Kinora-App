@@ -77,7 +77,8 @@ const useInteractions = (
         {
           hasBookmarked: true,
         },
-        "bookmarks"
+        "bookmarks",
+        true
       );
     } catch (err: any) {
       errorChoice(
@@ -88,7 +89,8 @@ const useInteractions = (
             {
               hasBookmarked: true,
             },
-            "bookmarks"
+            "bookmarks",
+            true
           ),
         dispatch
       );
@@ -136,7 +138,8 @@ const useInteractions = (
         {
           hasMirrored: true,
         },
-        "mirrors"
+        "mirrors",
+        true
       );
     } catch (err: any) {
       errorChoice(
@@ -147,7 +150,8 @@ const useInteractions = (
             {
               hasMirrored: true,
             },
-            "mirrors"
+            "mirrors",
+            true
           ),
         dispatch
       );
@@ -224,7 +228,8 @@ const useInteractions = (
             value: true,
           },
         },
-        "countOpenActions"
+        "countOpenActions",
+        true
       );
     } catch (err: any) {
       errorChoice(
@@ -239,7 +244,8 @@ const useInteractions = (
                 value: true,
               },
             },
-            "countOpenActions"
+            "countOpenActions",
+            true
           ),
         dispatch
       );
@@ -283,7 +289,8 @@ const useInteractions = (
         {
           hasReacted: hasReacted ? false : true,
         },
-        "reactions"
+        "reactions",
+        hasReacted ? false : true
       );
     } catch (err: any) {
       errorChoice(
@@ -294,7 +301,8 @@ const useInteractions = (
             {
               hasReacted: hasReacted ? false : true,
             },
-            "reactions"
+            "reactions",
+            hasReacted ? false : true
           ),
         dispatch
       );
@@ -408,7 +416,12 @@ const useInteractions = (
     }
   };
 
-  const updateInteractions = (index: number, value: Object, type: string) => {
+  const updateInteractions = (
+    index: number,
+    value: Object,
+    type: string,
+    increase: boolean
+  ) => {
     if (!itemSetter || !feed) return;
     const newItems = [...feed];
 
@@ -426,7 +439,7 @@ const useInteractions = (
             [type]:
               (newItems[index] as Quest)?.publication?.stats?.[
                 type as keyof PublicationStats
-              ] + 1,
+              ] + (increase ? 1 : -1),
           },
         },
       };
@@ -441,7 +454,7 @@ const useInteractions = (
           ...(newItems[index] as Post)?.stats,
           [type]:
             (newItems[index] as Post)?.stats?.[type as keyof PublicationStats] +
-            1,
+            (increase ? 1 : -1),
         },
       } as Post;
     }
