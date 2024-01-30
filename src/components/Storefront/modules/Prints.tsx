@@ -170,8 +170,7 @@ const Prints: FunctionComponent<PrintProps> = ({
                               like(
                                 item?.publication?.id,
                                 item?.publication?.operations?.hasReacted!,
-
-                                true
+                                false
                               ),
                             loader: interactionsLoading?.[index]?.like,
                           },
@@ -258,7 +257,7 @@ const Prints: FunctionComponent<PrintProps> = ({
                               {
                                 icon: "QmPRRRX1S3kxpgJdLC4G425pa7pMS1AGNnyeSedngWmfK3",
                                 function: () =>
-                                  mirror(item?.publication?.id, true),
+                                  mirror(item?.publication?.id, false),
                                 title: "Mirror Quest",
                                 reacted:
                                   item?.publication?.operations?.hasMirrored ||
