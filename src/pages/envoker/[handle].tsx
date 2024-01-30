@@ -232,7 +232,7 @@ export default function Handle({ router }: { router: NextRouter }) {
                   "cursor-pointer active:scale-95"
                 }`}
                 onClick={
-                  !pageProfile?.operations?.isFollowedByMe
+                  !pageProfile?.operations?.isFollowedByMe?.value
                     ? () =>
                         !mainInteractionsLoading?.follow &&
                         !mainInteractionsLoading?.unfollow &&
@@ -254,7 +254,7 @@ export default function Handle({ router }: { router: NextRouter }) {
                   {mainInteractionsLoading?.follow ||
                   mainInteractionsLoading?.unfollow ? (
                     <AiOutlineLoading color="white" size={12} />
-                  ) : pageProfile?.operations?.isFollowedByMe ? (
+                  ) : pageProfile?.operations?.isFollowedByMe?.value ? (
                     "Unfollow"
                   ) : (
                     "Follow"

@@ -16,7 +16,7 @@ const ProfileHover: FunctionComponent<ProfileHoverProps> = ({
   setProfileHovers,
   router,
   dispatch,
-  main
+  main,
 }) => {
   return (
     <div
@@ -77,28 +77,17 @@ const ProfileHover: FunctionComponent<ProfileHoverProps> = ({
                         actionFollower: profile,
                       })
                     )
-                  : followProfile(
-                      profile?.id,
-                      index,
-                      main
-                    ),
+                  : followProfile(profile?.id, index, main),
               title: "Follow Profile",
               loader: followLoading,
-              canRun: profile?.operations?.isFollowedByMe?.isFinalisedOnchain
-                ? false
-                : true,
+              canRun: profile?.operations?.isFollowedByMe?.value ? false : true,
               icon: "QmadanZQr9dxDXQFG41d2gZrhbKgVvnVnG64qAzMhXyxmG",
             },
             {
-              function: () =>
-                unfollowProfile(
-                  profile?.id,
-                  index,
-                  main
-                ),
+              function: () => unfollowProfile(profile?.id, index, main),
               title: "Unfollow Profile",
               loader: unfollowLoading,
-              canRun: profile?.operations?.isFollowedByMe?.isFinalisedOnchain
+              canRun: profile?.operations?.isFollowedByMe?.value
                 ? true
                 : false,
               icon: "QmSWjjhXh1VAEkNzhfzEojqg1dfSJ69Xf9ezxbKpwTRjZC",
