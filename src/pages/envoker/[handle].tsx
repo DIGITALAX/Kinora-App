@@ -25,7 +25,7 @@ export default function Handle({ router }: { router: NextRouter }) {
   const publicClient = createPublicClient({
     chain: polygon,
     transport: http(
-     `https://polygon-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`
+      `https://polygon-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`
     ),
   });
   const dispatch = useDispatch();
@@ -246,9 +246,9 @@ export default function Handle({ router }: { router: NextRouter }) {
                 <div
                   className={`"relative w-16 h-5 text-xxs font-bit text-white flex items-center justify-center px-1.5 py-1 ${
                     mainInteractionsLoading?.follow ||
-                    (mainInteractionsLoading?.unfollow
+                    mainInteractionsLoading?.unfollow
                       ? "animate-spin"
-                      : "top-px")
+                      : "top-px"
                   }`}
                 >
                   {mainInteractionsLoading?.follow ||
