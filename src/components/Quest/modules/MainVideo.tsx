@@ -176,7 +176,7 @@ const MainVideo: FunctionComponent<MainVideoProps> = ({
                 }}
               ></div>
             </div>
-
+            
             <div className="flex flex-row gap-2 items-center justify-center mr-0">
               {allVideos && (
                 <div

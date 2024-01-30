@@ -93,14 +93,14 @@ const QuestBoxDetails: FunctionComponent<QuestBoxDetailsProps> = ({
                 onClick={() =>
                   lensConnected?.id &&
                   (questInfo?.publication?.by?.operations?.isFollowedByMe
-                    ?.isFinalisedOnchain
+                    ?.value
                     ? unfollowProfile(questInfo?.publication?.by?.id, 0)
                     : followProfile(questInfo?.publication?.by?.id),
                   0)
                 }
               >
                 {questInfo?.publication?.by?.operations?.isFollowedByMe
-                  ?.isFinalisedOnchain
+                  ?.value
                   ? "Unfollow"
                   : "Follow"}
               </div>
