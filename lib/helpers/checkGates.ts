@@ -67,16 +67,21 @@ const checkGates = async (
     if (gates?.erc721Logic?.length > 0) {
       const orders = await getOrders(address);
 
-      if (orders?.data?.orderCreateds?.length > 0) {
+      if (
+        orders?.data?.orderCreateds?.length > 0 ||
+        orders?.data?.nftonlyOrderCreateds?.length > 0
+      ) {
         let collectionURIs: Collection[] = [];
-        const promises = orders?.data?.orderCreateds?.map(
-          (item: { subOrderCollectionIds: string[] }) =>
-            item?.subOrderCollectionIds?.map(async (item: string) => {
-              const data = await getCollectionId(item);
-              if (data?.data?.collectionCreateds?.[0]) {
-                collectionURIs?.push(data?.data?.collectionCreateds?.[0]);
-              }
-            })
+        const promises = [
+          ...(orders?.data?.orderCreateds || []),
+          ...(orders?.data?.nftonlyOrderCreateds?.length || []),
+        ]?.map((item: { subOrderCollectionIds: string[] }) =>
+          item?.subOrderCollectionIds?.map(async (item: string) => {
+            const data = await getCollectionId(item);
+            if (data?.data?.collectionCreateds?.[0]) {
+              collectionURIs?.push(data?.data?.collectionCreateds?.[0]);
+            }
+          })
         );
 
         await Promise.all(promises);
