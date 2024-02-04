@@ -4,7 +4,6 @@ import Waveform from "./Waveform";
 import { MediaProps } from "../types/common.types";
 import { KinoraPlayerWrapper } from "kinora-sdk";
 import { Player } from "@livepeer/react";
-import { INFURA_GATEWAY } from "../../../../lib/constants";
 
 const MediaSwitch: FunctionComponent<MediaProps> = ({
   type,

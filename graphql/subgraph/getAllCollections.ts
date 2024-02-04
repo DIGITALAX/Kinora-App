@@ -158,6 +158,7 @@ export const getCollectionId = async (
           mediaCover
           images
         }
+        uri
         origin
       }
     }
