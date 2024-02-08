@@ -412,25 +412,13 @@ export type ChannelsProps = {
 };
 
 export type MainVideoProps = {
-  videoPlaying: Video | VideoActivity;
-  playing: boolean;
-  setPlaying: (e: boolean) => void;
-  setVolume: (e: number) => void;
-  volume: number;
-  seek: number;
-  volumeOpen: boolean;
-  setVolumeOpen: (e: boolean) => void;
-  duration: number;
-  setDuration: (e: number) => void;
-  setSeek: (e: number) => void;
+  videoPlaying: Video | VideoActivity
   setVideoPlaying:
     | ((e: SetStateAction<Video | undefined>) => void)
     | ((e: SetStateAction<VideoActivity | undefined>) => void);
   allVideos?: Video[];
   height: string;
   width: string;
-  openControls: boolean;
-  setOpenControls: (e: SetStateAction<boolean>) => void;
 };
 
 export type MetricsProps = {

@@ -62,22 +62,10 @@ export default function VideoId({ router }: { router: NextRouter }) {
     setRelatedQuests,
   } = useVideo(videoId as string, lensConnected);
   const {
-    playing,
-    setPlaying,
-    volume,
-    setVolume,
-    seek,
-    setSeek,
-    volumeOpen,
-    setVolumeOpen,
-    duration,
-    setDuration,
     metricsLoading,
     handleSendMetrics,
     playerMetricsLive,
     currentMetricsLoading,
-    setOpenControls,
-    openControls,
   } = useVideos(
     lensConnected,
     dispatch,
@@ -353,22 +341,10 @@ export default function VideoId({ router }: { router: NextRouter }) {
                 <div className="relative w-full h-full flex items-center justify-center rounded-md bg-black">
                   {videoData && (
                     <MainVideo
-                      setOpenControls={setOpenControls}
-                      openControls={openControls}
                       setVideoPlaying={setVideoData}
                       videoPlaying={videoData}
                       height={"25.8rem"}
                       width={"100%"}
-                      playing={playing}
-                      setPlaying={setPlaying}
-                      volume={volume}
-                      setVolume={setVolume}
-                      seek={seek}
-                      setSeek={setSeek}
-                      volumeOpen={volumeOpen}
-                      setVolumeOpen={setVolumeOpen}
-                      duration={duration}
-                      setDuration={setDuration}
                     />
                   )}
                 </div>
