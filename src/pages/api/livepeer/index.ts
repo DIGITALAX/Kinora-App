@@ -35,7 +35,7 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
         limit: 1000,
       },
     });
-    return res.status(200).json(results.data);
+    return res.status(200).json(results?.data);
   } catch (err: any) {
     console.error(err.message);
     return res.status(500).json({ error: err.message });
