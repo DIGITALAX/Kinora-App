@@ -5,8 +5,8 @@ import { Player } from "@livepeer/react";
 import { INFURA_GATEWAY } from "../../../../lib/constants";
 import Image from "next/legacy/image";
 import formatDuration from "../../../../lib/helpers/formatDuration";
-import { VideoMetadataV3 } from "kinora-sdk/dist/@types/generated";
 import useVideoControls from "../hooks/useVideoControls";
+import { VideoMetadataV3 } from "../../../../graphql/generated";
 
 const MainVideo: FunctionComponent<MainVideoProps> = ({
   videoPlaying,
