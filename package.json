@@ -11,7 +11,7 @@
   "dependencies": {
     "@apollo/client": "^3.8.8",
     "@lit-protocol/lit-node-client": "3.0.25",
-    "@livepeer/react": "^3.1.8",
+    "@livepeer/react": "3.1.8",
     "@rainbow-me/rainbowkit": "^1.1.1",
     "@reduxjs/toolkit": "^2.0.1",
     "axios": "^1.6.3",
@@ -19,7 +19,7 @@
     "formidable": "^3.5.1",
     "ipfs-http-client": "^60.0.1",
     "kinora-sdk": "^1.0.65",
-    "livepeer": "^3.0.1",
+    "livepeer": "3.0.1",
     "lodash": "^4.17.21",
     "moment": "^2.30.1",
     "next": "13.5.4",
