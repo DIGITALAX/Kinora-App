@@ -8,7 +8,7 @@ import useInteractionsSuggested from "@/components/Common/hooks/useInteractions"
 import { Dispatch as KinoraDispatch } from "kinora-sdk";
 import { useAccount } from "wagmi";
 import Image from "next/legacy/image";
-import { INFURA_GATEWAY, KINORA_QUEST_DATA } from "../../../lib/constants";
+import { INFURA_GATEWAY } from "../../../lib/constants";
 import QuestSocial from "@/components/Quest/modules/QuestSocial";
 import useWho from "@/components/Quest/hooks/useWho";
 import { Quest, SocialType } from "@/components/Quest/types/quest.types";

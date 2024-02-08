@@ -1,7 +1,6 @@
 import Image from "next/legacy/image";
 import { FunctionComponent } from "react";
 import { INFURA_GATEWAY } from "../../../../lib/constants";
-import { VideoMetadataV3 } from "kinora-sdk/dist/@types/generated";
 import { PlayerProps } from "../types/activity.types";
 import ProfileHover from "@/components/Common/modules/ProfileHover";
 import createProfilePicture from "../../../../lib/helpers/createProfilePicture";
