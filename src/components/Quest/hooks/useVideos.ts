@@ -24,16 +24,10 @@ const useVideos = (
   const [videoPlaying, setVideoPlaying] = useState<Video | undefined>(
     undefined
   );
-  const [openControls, setOpenControls] = useState<boolean>(true);
   const [milestoneEligible, setMilestoneEligible] = useState<boolean>(false);
   const [currentMetricsLoading, setCurrentMetricsLoading] =
     useState<boolean>(false);
-  const [playing, setPlaying] = useState<boolean>(false);
-  const [volume, setVolume] = useState<number>(0.5);
-  const [seek, setSeek] = useState<number>(0);
   const [chainMetrics, setChainMetrics] = useState<VideoActivity | undefined>();
-  const [volumeOpen, setVolumeOpen] = useState<boolean>(false);
-  const [duration, setDuration] = useState<number>(0);
   const [metricsLoading, setMetricsLoading] = useState<boolean>(false);
   const [playerMetricsLive, setPlayerMetricsLive] = useState<
     VideoActivity | undefined
@@ -331,7 +325,6 @@ const useVideos = (
 
   useEffect(() => {
     if (videoPlaying || videoInfo) {
-      setSeek(0);
       handleCurrentMetrics();
       // drawEngagementGraph();
     }
@@ -409,24 +402,12 @@ const useVideos = (
   return {
     videoPlaying,
     setVideoPlaying,
-    playing,
-    setPlaying,
-    volume,
-    setVolume,
-    seek,
-    setSeek,
-    volumeOpen,
-    setVolumeOpen,
-    duration,
-    setDuration,
     metricsLoading,
     handleSendMetrics,
     playerMetricsLive,
     currentMetricsLoading,
     chainMetrics,
     milestoneEligible,
-    openControls,
-    setOpenControls,
   };
 };
 

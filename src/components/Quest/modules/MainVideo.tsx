@@ -6,26 +6,29 @@ import { INFURA_GATEWAY } from "../../../../lib/constants";
 import Image from "next/legacy/image";
 import formatDuration from "../../../../lib/helpers/formatDuration";
 import { VideoMetadataV3 } from "kinora-sdk/dist/@types/generated";
+import useVideoControls from "../hooks/useVideoControls";
 
 const MainVideo: FunctionComponent<MainVideoProps> = ({
   videoPlaying,
-  playing,
-  setPlaying,
-  setVolume,
-  volume,
-  seek,
-  volumeOpen,
-  setVolumeOpen,
-  duration,
-  setDuration,
-  setSeek,
   setVideoPlaying,
   allVideos,
   height,
   width,
-  openControls,
-  setOpenControls,
 }): JSX.Element => {
+  const {
+    openControls,
+    setOpenControls,
+    duration,
+    setDuration,
+    seek,
+    setSeek,
+    setVolumeOpen,
+    volumeOpen,
+    playing,
+    setPlaying,
+    volume,
+    setVolume,
+  } = useVideoControls();
   return (
     <>
       <div
@@ -65,7 +68,10 @@ const MainVideo: FunctionComponent<MainVideoProps> = ({
             alignItems: "center",
             // display: "flex",
           }}
-          onEnded={() => setPlaying(false)}
+          onEnded={() => {
+            setPlaying(false);
+            setSeek(0);
+          }}
           onTimeUpdate={(e) => setSeek((e.target as any)?.currentTime)}
           onCanPlay={(e) => setDuration((e.target as any)?.duration)}
           fillWidthHeight
@@ -176,7 +182,7 @@ const MainVideo: FunctionComponent<MainVideoProps> = ({
                 }}
               ></div>
             </div>
-            
+
             <div className="flex flex-row gap-2 items-center justify-center mr-0">
               {allVideos && (
                 <div

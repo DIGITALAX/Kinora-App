@@ -78,24 +78,12 @@ export default function QuestId({ router }: { router: NextRouter }) {
   const {
     videoPlaying,
     setVideoPlaying,
-    playing,
-    setPlaying,
-    volume,
-    setVolume,
-    seek,
-    setSeek,
-    volumeOpen,
-    setVolumeOpen,
-    duration,
-    setDuration,
     metricsLoading,
     handleSendMetrics,
     playerMetricsLive,
     currentMetricsLoading,
     chainMetrics,
-    milestoneEligible,
-    openControls,
-    setOpenControls,
+    milestoneEligible
   } = useVideos(
     lensConnected,
     dispatch,
@@ -427,22 +415,10 @@ export default function QuestId({ router }: { router: NextRouter }) {
                         allVideos={
                           questInfo?.milestones[mainViewer - 1]?.videos!
                         }
-                        openControls={openControls}
-                        setOpenControls={setOpenControls}
                         height={"25.8rem"}
                         width={"100%"}
                         setVideoPlaying={setVideoPlaying}
                         videoPlaying={videoPlaying}
-                        playing={playing}
-                        setPlaying={setPlaying}
-                        volume={volume}
-                        setVolume={setVolume}
-                        seek={seek}
-                        setSeek={setSeek}
-                        volumeOpen={volumeOpen}
-                        setVolumeOpen={setVolumeOpen}
-                        duration={duration}
-                        setDuration={setDuration}
                       />
                     ))}
                 </div>
