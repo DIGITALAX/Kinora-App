@@ -9,8 +9,6 @@ import {
   darkTheme,
   Theme,
 } from "@rainbow-me/rainbowkit";
-import "./../../i18n";
-import { appWithTranslation } from "next-i18next";
 import merge from "lodash.merge";
 import { configureChains, createConfig, WagmiConfig } from "wagmi";
 import { polygon } from "viem/chains";
@@ -25,7 +23,7 @@ import {
   LivepeerConfig,
 } from "@livepeer/react";
 import { KinoraProvider } from "kinora-sdk";
-import { useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import RouterChange from "@/components/Common/modules/RouterChange";
 import { apolloClient } from "../../lib/lens/client";
 
@@ -34,6 +32,26 @@ const walletTheme = merge(darkTheme(), {
     accentColor: "#111313",
   },
 } as Theme);
+
+interface Translations {
+  [key: string]: string;
+}
+
+type LanguageContextType = {
+  t: (key: keyof Translations) => string;
+  setLocale: (locale: "es" | "en") => void;
+  locale: "es" | "en";
+};
+
+const defaultState: LanguageContextType = {
+  t: () => "",
+  setLocale: () => {},
+  locale: "en",
+};
+
+const LanguageContext = createContext<LanguageContextType>(defaultState);
+export const useTranslation = (): LanguageContextType =>
+  useContext(LanguageContext);
 
 const { chains, publicClient } = configureChains(
   [polygon],
@@ -60,8 +78,19 @@ const wagmiConfig = createConfig({
 
 function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
+  const [locale, setLocale] = useState<"en" | "es">();
+  const [translations, setTranslations] = useState<Translations>({});
+  const t = (key: keyof Translations) => translations[key] || (key as string);
   const [routerChangeLoading, setRouterChangeLoading] =
     useState<boolean>(false);
+  useEffect(() => {
+    if (locale) {
+      localStorage.setItem("locale", locale);
+      fetch(`/locales/${locale}.json`)
+        .then((res) => res.json())
+        .then((data) => setTranslations(data));
+    }
+  }, [locale]);
   useEffect(() => {
     const handleStart = () => {
       setRouterChangeLoading(true);
@@ -82,28 +111,35 @@ function App({ Component, pageProps }: AppProps) {
     };
   }, [router]);
 
+  useEffect(() => {
+    const savedLocale = localStorage.getItem("locale") || "en";
+    setLocale(savedLocale as "en" | "es");
+  }, []);
+
   if (routerChangeLoading) {
     return <RouterChange />;
   }
 
   return (
-    <WagmiConfig config={wagmiConfig}>
-      <RainbowKitProvider chains={chains} theme={walletTheme}>
-        <LivepeerConfig client={livepeerClient}>
-          <KinoraProvider playerAuthedApolloClient={apolloClient}>
-            <Provider store={store}>
-              <div className="relative w-full h-full flex bg-fuzz flex-col">
-                <Header router={router} />
-                <Component router={router} {...pageProps} />
-                <Modals router={router} />
-                <Footer router={router} />
-              </div>
-            </Provider>
-          </KinoraProvider>
-        </LivepeerConfig>
-      </RainbowKitProvider>
-    </WagmiConfig>
+    <LanguageContext.Provider value={{ t, setLocale, locale: locale ?? "en" }}>
+      <WagmiConfig config={wagmiConfig}>
+        <RainbowKitProvider chains={chains} theme={walletTheme}>
+          <LivepeerConfig client={livepeerClient}>
+            <KinoraProvider playerAuthedApolloClient={apolloClient}>
+              <Provider store={store}>
+                <div className="relative w-full h-full flex bg-fuzz flex-col">
+                  <Header router={router} />
+                  <Component router={router} {...pageProps} />
+                  <Modals router={router} />
+                  <Footer router={router} />
+                </div>
+              </Provider>
+            </KinoraProvider>
+          </LivepeerConfig>
+        </RainbowKitProvider>
+      </WagmiConfig>
+    </LanguageContext.Provider>
   );
 }
 
-export default appWithTranslation(App);
+export default App;
