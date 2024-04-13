@@ -17,6 +17,7 @@ import Bio from "@/components/Envoker/modules/Bio";
 import { AiOutlineLoading } from "react-icons/ai";
 import { useEffect, useState } from "react";
 import Head from "next/head";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 export default function Handle({ router }: { router: NextRouter }) {
   const { handle } = router.query;
@@ -314,3 +315,17 @@ export default function Handle({ router }: { router: NextRouter }) {
     </div>
   );
 }
+
+
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: "blocking",
+  };
+}
+
+export const getStaticProps = async ({ locale }: { locale: string }) => ({
+  props: {
+    ...(await serverSideTranslations(locale, ["collect", "footer"])),
+  },
+});

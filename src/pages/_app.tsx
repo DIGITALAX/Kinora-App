@@ -9,6 +9,8 @@ import {
   darkTheme,
   Theme,
 } from "@rainbow-me/rainbowkit";
+import "./../../i18n";
+import { appWithTranslation } from "next-i18next";
 import merge from "lodash.merge";
 import { configureChains, createConfig, WagmiConfig } from "wagmi";
 import { polygon } from "viem/chains";
@@ -56,7 +58,7 @@ const wagmiConfig = createConfig({
   publicClient,
 });
 
-export default function App({ Component, pageProps }: AppProps) {
+function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
   const [routerChangeLoading, setRouterChangeLoading] =
     useState<boolean>(false);
@@ -103,3 +105,5 @@ export default function App({ Component, pageProps }: AppProps) {
     </WagmiConfig>
   );
 }
+
+export default appWithTranslation(App);
