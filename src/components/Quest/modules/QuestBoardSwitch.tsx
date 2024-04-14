@@ -6,6 +6,7 @@ import MilestoneInfo from "./MilestoneInfo";
 const QuestBoardSwitch: FunctionComponent<QuestBoardSwitchProps> = ({
   questInfo,
   router,
+  locale,
   followProfile,
   unfollowProfile,
   setSocialType,
@@ -53,6 +54,7 @@ const QuestBoardSwitch: FunctionComponent<QuestBoardSwitchProps> = ({
     default:
       return (
         <MilestoneInfo
+          locale={locale}
           player={
             questInfo?.players?.find(
               (item) => item?.profile?.id == lensConnected?.id

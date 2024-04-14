@@ -30,7 +30,7 @@ import { useTranslation } from "../_app";
 
 export default function QuestId({ router }: { router: NextRouter }) {
   const { questId } = router.query;
-  const { t } = useTranslation();
+  const { t, locale } = useTranslation();
   const dispatch = useDispatch();
   const { address } = useAccount();
   const publicClient = createPublicClient({
@@ -189,6 +189,7 @@ export default function QuestId({ router }: { router: NextRouter }) {
     dispatch,
     address,
     publicClient,
+    t,
     suggestedQuests,
     (newItems: any) => setSuggestedQuests(newItems as Quest[])
   );
@@ -557,6 +558,7 @@ export default function QuestId({ router }: { router: NextRouter }) {
                 )}
                 <QuestBoardSwitch
                   t={t}
+                  locale={locale}
                   milestoneEligible={milestoneEligible}
                   handleCompleteMilestone={handleCompleteMilestone}
                   completeLoading={completeLoading}

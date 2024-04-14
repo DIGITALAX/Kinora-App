@@ -54,6 +54,7 @@ export default function Envoke({ router }: { router: NextRouter }) {
     dispatch,
     address,
     publicClient,
+    t,
     activityFeed,
     (newItems: any) =>
       dispatch(

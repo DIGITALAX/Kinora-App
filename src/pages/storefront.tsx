@@ -63,7 +63,14 @@ export default function Storefront() {
     approved,
     setCheckoutCurrency,
     setStoreItems,
-  } = useCheckout(lensConnected, publicClient, oracleData, address, dispatch);
+  } = useCheckout(
+    lensConnected,
+    publicClient,
+    oracleData,
+    address,
+    dispatch,
+    t
+  );
   const {
     mirror,
     like,
@@ -75,6 +82,7 @@ export default function Storefront() {
     dispatch,
     address,
     publicClient,
+    t,
     storeItems,
     setStoreItems
   );

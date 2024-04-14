@@ -105,7 +105,8 @@ const Modals: FunctionComponent<{ router: NextRouter }> = ({
     publicClient,
     address,
     availableCurrencies,
-    lensConnected
+    lensConnected,
+    t
   );
   const { followData, hasMore, showMore, dataLoading } = useFollowers(
     followBox,

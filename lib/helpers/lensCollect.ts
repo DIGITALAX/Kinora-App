@@ -114,7 +114,8 @@ const lensCollect = async (
       {
         forTxId: broadcastResult?.data?.broadcastOnchain.txId,
       },
-      dispatch
+      dispatch,
+      t
     );
   } else {
     const { request } = await publicClient.simulateContract({
@@ -138,7 +139,8 @@ const lensCollect = async (
       {
         forTxHash: tx.transactionHash,
       },
-      dispatch
+      dispatch,
+      t
     );
   }
 

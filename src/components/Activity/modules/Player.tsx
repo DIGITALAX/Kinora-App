@@ -80,7 +80,7 @@ const Player: FunctionComponent<PlayerProps> = ({
               <p className="pl-2 flex text-sm text-calcetine">{">"}</p>
             </div>
           </div>
-          <div className="relative w-full h-fit flex items-center justify-between font-bit text-xxs sm:text-xs break-words gap-3">
+          <div className="relative w-full h-fit flex items-center justify-between font-bit text-xxs break-words gap-3">
             <div className="relative flex flex-row gap-1.5 items-center justify-center">
               <div className="relative w-3 h-3 flex items-center justify-center flex">
                 <Image

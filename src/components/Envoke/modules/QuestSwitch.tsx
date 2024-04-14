@@ -42,6 +42,7 @@ const QuestSwitch: FunctionComponent<QuestSwitchProps> = ({
     case QuestStage.Details:
       return (
         <Details
+          t={t}
           coverLoading={coverLoading}
           setCoverLoading={setCoverLoading}
           questInfo={questInfo}
@@ -67,6 +68,7 @@ const QuestSwitch: FunctionComponent<QuestSwitchProps> = ({
               : 1}
           </div>
           <MilestoneSwitch
+            t={t}
             router={router}
             balanceLoading={balanceLoading}
             handleBalance={handleBalance}

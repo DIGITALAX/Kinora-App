@@ -26,6 +26,7 @@ const useInteractions = (
   dispatch: Dispatch,
   address: `0x${string}` | undefined,
   publicClient: PublicClient,
+  t: (key: string) => string,
   feed?: (Quest | Post | Collection)[],
   itemSetter?:
     | ((e: Quest[]) => void)
@@ -71,7 +72,7 @@ const useInteractions = (
     }
 
     try {
-      await lensBookmark(id, dispatch);
+      await lensBookmark(id, dispatch, t);
       updateInteractions(
         index!,
         {
@@ -92,7 +93,8 @@ const useInteractions = (
             "bookmarks",
             true
           ),
-        dispatch
+        dispatch,
+        t
       );
     }
   };
@@ -131,7 +133,8 @@ const useInteractions = (
         dispatch,
         address as `0x${string}`,
         clientWallet,
-        publicClient
+        publicClient,
+        t
       );
       updateInteractions(
         index!,
@@ -153,7 +156,8 @@ const useInteractions = (
             "mirrors",
             true
           ),
-        dispatch
+        dispatch,
+        t
       );
     }
 
@@ -217,7 +221,8 @@ const useInteractions = (
         dispatch,
         address as `0x${string}`,
         clientWallet,
-        publicClient
+        publicClient,
+        t
       );
       updateInteractions(
         index!,
@@ -247,7 +252,8 @@ const useInteractions = (
             "countOpenActions",
             true
           ),
-        dispatch
+        dispatch,
+        t
       );
     }
 
@@ -283,7 +289,7 @@ const useInteractions = (
     });
 
     try {
-      await lensLike(id, dispatch, hasReacted!);
+      await lensLike(id, dispatch, hasReacted!, t);
       updateInteractions(
         index!,
         {
@@ -304,7 +310,8 @@ const useInteractions = (
             "reactions",
             hasReacted ? false : true
           ),
-        dispatch
+        dispatch,
+        t
       );
     }
 
@@ -347,11 +354,12 @@ const useInteractions = (
         undefined,
         address as `0x${string}`,
         clientWallet,
-        publicClient
+        publicClient,
+        t
       );
       await refetchProfile(dispatch, lensConnected?.id, lensConnected?.id);
     } catch (err: any) {
-      errorChoice(err, () => {}, dispatch);
+      errorChoice(err, () => {}, dispatch, t);
     }
 
     if (main) {
@@ -399,11 +407,12 @@ const useInteractions = (
         dispatch,
         address as `0x${string}`,
         clientWallet,
-        publicClient
+        publicClient,
+        t
       );
       await refetchProfile(dispatch, lensConnected?.id, lensConnected?.id);
     } catch (err: any) {
-      errorChoice(err, () => {}, dispatch);
+      errorChoice(err, () => {}, dispatch, t);
     }
     if (main) {
       setMainInteractionsLoading((prev) => ({ ...prev, unfollow: false }));

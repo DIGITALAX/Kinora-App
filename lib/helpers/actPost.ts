@@ -16,7 +16,8 @@ const actPost = async (
   dispatch: Dispatch<Action>,
   address: `0x${string}`,
   clientWallet: WalletClient,
-  publicClient: PublicClient
+  publicClient: PublicClient,
+  t: (key: string) => string
 ): Promise<boolean | void> => {
   try {
     const { data } = await collectPost({
@@ -46,7 +47,8 @@ const actPost = async (
         {
           forTxId: broadcastResult?.data?.broadcastOnchain.txId,
         },
-        dispatch
+        dispatch,
+        t
       );
     } else {
       const { request } = await publicClient.simulateContract({
@@ -81,7 +83,8 @@ const actPost = async (
         {
           forTxHash: tx.transactionHash,
         },
-        dispatch
+        dispatch,
+        t
       );
     }
     return true;

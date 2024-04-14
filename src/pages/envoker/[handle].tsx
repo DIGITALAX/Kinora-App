@@ -83,6 +83,7 @@ export default function Handle({ router }: { router: NextRouter }) {
     dispatch,
     address,
     publicClient,
+    t,
     accountType == AccountType.Save ? allSaves : quests,
     (newItems: any) =>
       (accountType == AccountType.Save ? setAllSaves : setQuests)(
@@ -257,9 +258,9 @@ export default function Handle({ router }: { router: NextRouter }) {
                   mainInteractionsLoading?.unfollow ? (
                     <AiOutlineLoading color="white" size={12} />
                   ) : pageProfile?.operations?.isFollowedByMe?.value ? (
-                    "Unfollow"
+                    t("u")
                   ) : (
-                    "Follow"
+                    t("f")
                   )}
                 </div>
               </div>

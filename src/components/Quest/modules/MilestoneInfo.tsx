@@ -19,6 +19,7 @@ const MilestoneInfo: FunctionComponent<MilestoneInfoProps> = ({
   milestoneEligible,
   dispatch,
   t,
+  locale
 }): JSX.Element => {
   return (
     <div className="relative rounded-sm bg-black border border-cost w-full h-full flex flex-col gap-3 p-2 items-start justify-between">
@@ -222,7 +223,7 @@ const MilestoneInfo: FunctionComponent<MilestoneInfoProps> = ({
             />
           )}
         </div>
-        <div className="relative w-fit h-fit text-sm font-vcr text-gray-300">
+        <div className={`relative w-fit h-fit font-vcr text-gray-300 ${locale == "en" ? "text-sm": "text-xxs"}`}>
           {!questInfo?.status
             ? t("cloQ")
             : Number(

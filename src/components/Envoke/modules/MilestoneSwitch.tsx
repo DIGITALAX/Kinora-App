@@ -9,6 +9,7 @@ const MilestoneSwitch: FunctionComponent<MilestoneSwitchProps> = ({
   milestoneStage,
   questInfo,
   dispatch,
+  t,
   milestoneCoversLoading,
   setMilestoneCoversLoading,
   milestonesOpen,
@@ -41,6 +42,7 @@ const MilestoneSwitch: FunctionComponent<MilestoneSwitchProps> = ({
           setMilestoneCoversLoading={setMilestoneCoversLoading}
           milestoneCoversLoading={milestoneCoversLoading}
           questInfo={questInfo}
+          t={t}
           dispatch={dispatch}
           milestonesOpen={milestonesOpen}
         />
@@ -56,6 +58,7 @@ const MilestoneSwitch: FunctionComponent<MilestoneSwitchProps> = ({
           collectionsSearch={collectionsSearch}
           setCollectionsSearch={setCollectionsSearch}
           getMoreCollectionsSearch={getMoreCollectionsSearch}
+          t={t}
           getCollectionsSearch={getCollectionsSearch}
           collectionsInfo={collectionsInfo}
           getMoreCollectionsSample={getMoreCollectionsSample}
@@ -71,6 +74,7 @@ const MilestoneSwitch: FunctionComponent<MilestoneSwitchProps> = ({
           milestonesOpen={milestonesOpen}
           balanceLoading={balanceLoading}
           handleBalance={handleBalance}
+          t={t}
         />
       );
 
@@ -90,6 +94,7 @@ const MilestoneSwitch: FunctionComponent<MilestoneSwitchProps> = ({
           videos={videos}
           setVideoSearch={setVideoSearch}
           chromadinVideos={chromadinVideos}
+          t={t}
         />
       );
   }

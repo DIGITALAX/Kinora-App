@@ -21,7 +21,8 @@ const lensBookmark = async (
           {
             forTxId: data?.addPublicationBookmark?.txId,
           },
-          dispatch
+          dispatch,
+          t
         );
       } else {
         dispatch(

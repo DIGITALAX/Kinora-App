@@ -239,6 +239,7 @@ export type MilestoneSwitchProps = {
   getMoreVideosSample: () => Promise<void>;
   chromadinVideos: Post[];
   handleBalance: (milestoneIndex: number, rewardIndex: number) => Promise<void>;
+  t: (key: string) => string
   balanceLoading: boolean[];
   milestoneCoversLoading: boolean[];
   milestonesOpen: boolean[];

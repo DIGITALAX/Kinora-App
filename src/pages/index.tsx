@@ -52,6 +52,7 @@ export default function Home({ router }: { router: NextRouter }) {
     dispatch,
     address,
     publicClient,
+    t,
     questFeed,
     (newItems: any) => dispatch(setQuestFeed(newItems as Quest[]))
   );

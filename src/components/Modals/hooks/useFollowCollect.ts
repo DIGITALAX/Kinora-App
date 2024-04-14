@@ -28,7 +28,8 @@ const useFollowCollect = (
   publicClient: PublicClient,
   address: `0x${string}` | undefined,
   availableCurrencies: Erc20[],
-  lensConnected: Profile | undefined
+  lensConnected: Profile | undefined,
+  t: (key: string) => string
 ) => {
   const [transactionLoading, setTransactionLoading] = useState<boolean>(false);
   const [informationLoading, setInformationLoading] = useState<boolean>(false);
@@ -176,7 +177,8 @@ const useFollowCollect = (
         dispatch,
         address as `0x${string}`,
         clientWallet,
-        publicClient
+        publicClient,
+        t
       );
 
       dispatch(
@@ -229,7 +231,8 @@ const useFollowCollect = (
           : undefined,
         address as `0x${string}`,
         clientWallet,
-        publicClient
+        publicClient,
+        t
       );
       await refetchProfile(dispatch, lensConnected?.id, lensConnected?.id);
       if (

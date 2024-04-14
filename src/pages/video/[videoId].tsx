@@ -161,6 +161,7 @@ export default function VideoId({ router }: { router: NextRouter }) {
     dispatch,
     address,
     publicClient,
+    t,
     relatedQuests,
     (newItems: any) => setRelatedQuests(newItems as Quest[])
   );

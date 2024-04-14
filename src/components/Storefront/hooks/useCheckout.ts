@@ -21,7 +21,8 @@ const useCheckout = (
   publicClient: PublicClient,
   oracleData: OracleData[],
   address: `0x${string}` | undefined,
-  dispatch: Dispatch
+  dispatch: Dispatch,
+  t: (key: string) => string
 ) => {
   const [storeItems, setStoreItems] = useState<
     (Collection & {
@@ -64,10 +65,12 @@ const useCheckout = (
         lensConnected
       );
 
-      setStoreItems(allShopValues as (Collection & {
-        chosenSize: string;
-        chosenAmount: string;
-      })[]);
+      setStoreItems(
+        allShopValues as (Collection & {
+          chosenSize: string;
+          chosenAmount: string;
+        })[]
+      );
     } catch (err: any) {
       console.error(err.message);
     }
@@ -192,7 +195,8 @@ const useCheckout = (
         dispatch,
         address as `0x${string}`,
         clientWallet,
-        publicClient
+        publicClient,
+        t
       );
       setFulfillmentDetails({
         name: "",
