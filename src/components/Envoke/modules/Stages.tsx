@@ -27,6 +27,7 @@ const Stages: FunctionComponent<StagesProps> = ({
   milestoneStage,
   setMilestoneStage,
   storyboardStage,
+  t,
   setStoryboardStage,
   milestoneStoryboardStage,
   setMilestoneStoryboardStage,
@@ -399,7 +400,7 @@ const Stages: FunctionComponent<StagesProps> = ({
                 </div>
               </div>
               <div className={`flex items-center justify-center `}>
-                Go Back Now
+                {t("back")}
               </div>
             </div>
           )}
@@ -425,7 +426,7 @@ const Stages: FunctionComponent<StagesProps> = ({
                 {postLoading ? (
                   <AiOutlineLoading color="white" size={15} />
                 ) : (
-                  "Post Quest"
+                  t("postQ")
                 )}
               </div>
               <div className="relative w-fit h-fit flex items-center justify-center">
@@ -576,7 +577,7 @@ const Stages: FunctionComponent<StagesProps> = ({
                           })
                         );
                       }
-      
+
                       dispatch(
                         setQuestStage(
                           Object.values(QuestStage)[
@@ -590,7 +591,7 @@ const Stages: FunctionComponent<StagesProps> = ({
               }
             >
               <div className={`flex items-center justify-center `}>
-                Continue
+                {t("cont")}
               </div>
               <div className="relative w-fit h-fit flex items-center justify-center">
                 <div

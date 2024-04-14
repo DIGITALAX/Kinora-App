@@ -3,7 +3,11 @@ import bookmark from "../../graphql/lens/mutations/bookmark";
 import handleIndexCheck from "../../graphql/lens/queries/indexed";
 import { setIndexer } from "../../redux/reducers/indexerSlice";
 
-const lensBookmark = async (on: string, dispatch: Dispatch<Action>) => {
+const lensBookmark = async (
+  on: string,
+  dispatch: Dispatch<Action>,
+  t: (key: string) => string
+) => {
   try {
     const { data } = await bookmark({
       on,
@@ -23,7 +27,7 @@ const lensBookmark = async (on: string, dispatch: Dispatch<Action>) => {
         dispatch(
           setIndexer({
             actionOpen: true,
-            actionMessage: "Quest Saved",
+            actionMessage: t("sav"),
           })
         );
         setTimeout(() => {

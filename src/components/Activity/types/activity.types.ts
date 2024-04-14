@@ -43,11 +43,13 @@ export type ActivityProps = {
     main?: boolean | undefined
   ) => Promise<void>;
   disabled?: boolean;
+  t: (key: string) => string;
 };
 
 export type MetricsAddedProps = {
   width: string;
   height: string;
+  t: (key: string) => string
   router: NextRouter;
   quest: Quest & {
     type: string;
@@ -105,6 +107,7 @@ export type PlayerProps = {
   followProfile: (id: string, index: number, main?: boolean) => Promise<void>;
   unfollowProfile: (id: string, index: number) => Promise<void>;
   disabled?: boolean;
+  t: (key: string) => string
 };
 
 export type QuestCompletedProps = {
@@ -128,6 +131,7 @@ export type QuestCompletedProps = {
     unfollow: boolean;
     collect: boolean;
   }[];
+  t: (key: string) => string
   disabled?: boolean;
   followProfile: (id: string, index: number, main?: boolean) => Promise<void>;
   unfollowProfile: (id: string, index: number) => Promise<void>;

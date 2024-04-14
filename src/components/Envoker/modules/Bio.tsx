@@ -9,6 +9,7 @@ import { setFollowBox } from "../../../../redux/reducers/followBoxSlice";
 const Bio: FunctionComponent<BioProps> = ({
   profile,
   dispatch,
+  t,
 }): JSX.Element => {
   return (
     <div className="relative w-full h-fit flex flex-row items-start justify-start">
@@ -22,12 +23,12 @@ const Bio: FunctionComponent<BioProps> = ({
           <div className="relative w-full h-fit flex flex-row gap-10 justify-start items-center flex-wrap">
             {[
               {
-                title: "Followers",
+                title: t("fr"),
                 image: "Qmb6fQG6L2R7Npf1oS55YEB5RS9z7oCyTwxYnTf57DEEjV",
                 amount: profile?.stats?.followers || 0,
               },
               {
-                title: "Following",
+                title: t("fl"),
                 image: "QmP141cw2U9TNsU6AXRoo5X5VCPawUTPkWAUJburJayg7x",
                 amount: profile?.stats?.following || 0,
               },

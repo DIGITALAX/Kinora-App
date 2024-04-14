@@ -15,6 +15,7 @@ import { Collection } from "@/components/Envoke/types/envoke.types";
 
 const QuestBoxDetails: FunctionComponent<QuestBoxDetailsProps> = ({
   questInfo,
+  t,
   router,
   followProfile,
   unfollowProfile,
@@ -92,17 +93,15 @@ const QuestBoxDetails: FunctionComponent<QuestBoxDetailsProps> = ({
                 }`}
                 onClick={() =>
                   lensConnected?.id &&
-                  (questInfo?.publication?.by?.operations?.isFollowedByMe
-                    ?.value
+                  (questInfo?.publication?.by?.operations?.isFollowedByMe?.value
                     ? unfollowProfile(questInfo?.publication?.by?.id, 0)
                     : followProfile(questInfo?.publication?.by?.id),
                   0)
                 }
               >
-                {questInfo?.publication?.by?.operations?.isFollowedByMe
-                  ?.value
-                  ? "Unfollow"
-                  : "Follow"}
+                {questInfo?.publication?.by?.operations?.isFollowedByMe?.value
+                  ? t("u")
+                  : t("f")}
               </div>
             </div>
           </div>
@@ -112,13 +111,13 @@ const QuestBoxDetails: FunctionComponent<QuestBoxDetailsProps> = ({
               questInfo?.gate?.erc721Logic?.length > 0)) && (
             <div className="relative w-full h-fit flex flex-col items-start justify-start gap-2 font-vcr text-white text-xs">
               <div className="relative w-fit h-fit flex items-center justify-center text-xxs">
-                Ready player? Gather your tokens to accept this quest.
+                {t("rep")}
               </div>
               {questInfo?.gate?.erc20Logic &&
                 questInfo?.gate?.erc20Logic?.length > 0 && (
                   <div className="relative w-full h-fit flex flex-col items-start justify-center gap-2 break-words">
                     <div className="relative w-fit h-fit flex items-center justify-center text-xxs">
-                      ERC20
+                      {t("erc20")}
                     </div>
                     <div className="relative w-fit h-fit justify-start items-center gap-4 flex flex-row flex-wrap">
                       {questInfo?.gate?.erc20Logic?.map(
@@ -173,7 +172,7 @@ const QuestBoxDetails: FunctionComponent<QuestBoxDetailsProps> = ({
                 questInfo?.gate?.erc721Logic?.length > 0 && (
                   <div className="relative w-full h-fit flex flex-col items-start justify-center gap-2 break-words">
                     <div className="relative w-fit h-fit flex items-center justify-center text-xxs">
-                      ER721
+                      {t("erc721")}
                     </div>
                     <div className="relative w-full h-fit justify-start items-center flex overflow-x-scroll">
                       <div className="relative w-fit h-fit justify-start items-center gap-2 flex flex-row">
@@ -227,7 +226,7 @@ const QuestBoxDetails: FunctionComponent<QuestBoxDetailsProps> = ({
           <div className="relative w-full h-fit flex flex-col items-start justify-start gap-2 font-vcr text-white text-xxs">
             <div className="relative w-full h-fit flex flex-row items-center justify-start gap-1 break-words">
               <div className="relative w-fit h-fit flex items-center justify-center">
-                Milestone Count:
+                {t("conM")}
               </div>
               <div className="relative w-fit h-fit flex items-center justify-center text-girasol break-words">
                 {questInfo?.milestoneCount}
@@ -235,7 +234,7 @@ const QuestBoxDetails: FunctionComponent<QuestBoxDetailsProps> = ({
             </div>
             <div className="relative w-full h-fit flex flex-row items-center justify-start gap-1 break-words">
               <div className="relative w-fit h-fit flex items-center justify-center">
-                Video Count:
+                {t("vidC")}
               </div>
               <div className="relative w-fit h-fit flex items-center justify-center text-girasol break-words">
                 {questInfo?.milestones?.reduce(
@@ -257,7 +256,7 @@ const QuestBoxDetails: FunctionComponent<QuestBoxDetailsProps> = ({
             </div>
             <div className="relative w-full h-fit flex flex-row items-center justify-start gap-px break-words">
               <div className="relative w-fit h-fit flex items-center justify-center">
-                Reward Mix:
+                {t("mix")}
               </div>
               <div className="relative w-fit h-fit flex items-center justify-center text-girasol break-words">
                 {(questInfo?.milestones
@@ -304,7 +303,7 @@ const QuestBoxDetails: FunctionComponent<QuestBoxDetailsProps> = ({
                   {
                     image: "QmbRSySsuGtwTvxmNtpEm2poV8FbQ46vPWBNYTd2eewCdj",
                     amount: questInfo?.players?.length || 0,
-                    title: "Players",
+                    title: t("plas"),
                     reacted:
                       questInfo?.publication?.operations?.hasActed
                         ?.isFinalisedOnchain || false,
@@ -315,7 +314,7 @@ const QuestBoxDetails: FunctionComponent<QuestBoxDetailsProps> = ({
                   {
                     image: "QmT1aZypVcoAWc6ffvrudV3JQtgkL8XBMjYpJEfdFwkRMZ",
                     amount: questInfo?.publication?.stats?.reactions || 0,
-                    title: "Like",
+                    title: t("lis"),
                     reacted:
                       questInfo?.publication?.operations?.hasReacted || false,
                     function: () =>
@@ -333,7 +332,7 @@ const QuestBoxDetails: FunctionComponent<QuestBoxDetailsProps> = ({
                     amount:
                       (questInfo?.publication?.stats?.mirrors || 0) +
                       (questInfo?.publication?.stats?.quotes || 0),
-                    title: "Mirror",
+                    title: t("mir"),
                     reacted:
                       questInfo?.publication?.operations?.hasMirrored ||
                       questInfo?.publication?.operations?.hasQuoted ||
@@ -345,7 +344,7 @@ const QuestBoxDetails: FunctionComponent<QuestBoxDetailsProps> = ({
                   {
                     image: "QmXD3LnHiiLSqG2TzaNd1Pmhk2nVqDHDqn8k7RtwVspE6n",
                     amount: questInfo?.publication?.stats?.comments || 0,
-                    title: "Comment",
+                    title: t("como"),
                     reacted: false,
                     function: () => setSocialType(SocialType.Comments),
                     loader: false,
@@ -354,7 +353,7 @@ const QuestBoxDetails: FunctionComponent<QuestBoxDetailsProps> = ({
                   {
                     image: "QmVXkRB4HCd6gkXmj1cweEh4nVV6oBuKCAWfsKUEJae433",
                     amount: questInfo?.publication?.stats?.bookmarks || 0,
-                    title: "Bookmark",
+                    title: t("book"),
                     reacted:
                       questInfo?.publication?.operations?.hasBookmarked ||
                       false,
@@ -430,7 +429,7 @@ const QuestBoxDetails: FunctionComponent<QuestBoxDetailsProps> = ({
 
                                       true
                                     ),
-                                  title: "Mirror Quest",
+                                  title: t("mirQ"),
                                   reacted:
                                     questInfo?.publication?.operations
                                       ?.hasMirrored || false,
@@ -450,7 +449,7 @@ const QuestBoxDetails: FunctionComponent<QuestBoxDetailsProps> = ({
                                           questInfo?.publication,
                                       })
                                     ),
-                                  title: "Quote Quest",
+                                  title: t("quQ"),
                                   reacted:
                                     questInfo?.publication?.operations
                                       ?.hasQuoted || false,
@@ -561,14 +560,14 @@ const QuestBoxDetails: FunctionComponent<QuestBoxDetailsProps> = ({
                 {questInfo?.players
                   ?.find((item) => item?.profile?.id == lensConnected?.id)
                   ?.questsCompleted?.includes(questInfo?.questId)
-                  ? "Quest Completed"
+                  ? t("compQ")
                   : questInfo?.players?.some(
                       (item) => item?.profile?.id == lensConnected?.id
                     )
-                  ? "Quest Joined"
+                  ? t("quJ")
                   : !questInfo?.status
-                  ? "Quest Closed"
-                  : "Join Quest"}
+                  ? t("cloQ")
+                  : t("join")}
               </div>
             </div>
           </div>

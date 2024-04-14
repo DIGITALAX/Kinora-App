@@ -18,11 +18,12 @@ import MediaSwitch from "@/components/Common/modules/MediaSwitch";
 
 const Milestones: FunctionComponent<StoryboardMilestonesProps> = ({
   milestone,
+  t,
 }): JSX.Element => {
   return (
     <div className="relative w-full h-fit flex items-start justify-start flex-col font-bit text-white gap-10 h-fit sm:max-h-[40rem] overflow-y-scroll">
       <div className="relative w-fit h-fit items-start justify-start opacity-70">
-        Review your Quest storyboard before going live.
+        {t("story")}
       </div>
       <div className="relative w-full h-fit flex flex-col gap-6 items-center justify-center">
         <div
@@ -53,12 +54,12 @@ const Milestones: FunctionComponent<StoryboardMilestonesProps> = ({
       </div>
       <div className="relative w-full h-fit flex flex-col items-start justify-start gap-6">
         <div className="relative underline underline-offset-4 text-base items-start justify-start flex">
-          Gates
+          {t("gat")}
         </div>
         {milestone?.gated?.erc721TokenIds?.length > 0 && (
           <div className="relative w-full h-fit flex flex-col gap-2">
             <div className="relative text-sm items-start justify-start flex">
-              ERC721 Token Gates
+              {t("tokG")}
             </div>
             <div className="relative w-full h-fit items-start justify-start flex flex-wrap gap-5">
               {milestone?.gated?.erc721TokenIds?.map(
@@ -99,7 +100,7 @@ const Milestones: FunctionComponent<StoryboardMilestonesProps> = ({
         {milestone?.gated?.erc20Addresses?.length > 0 && (
           <div className="relative w-full h-fit flex flex-col gap-2">
             <div className="relative text-base items-start justify-start flex text-sm">
-              ERC20 Token Gates
+              {t("tokGE")}
             </div>
             <div className="relative w-full h-fit items-start justify-start flex flex-wrap gap-5">
               {milestone?.gated?.erc20Addresses?.map(
@@ -146,11 +147,11 @@ const Milestones: FunctionComponent<StoryboardMilestonesProps> = ({
       </div>
       <div className="relative w-full h-fit flex flex-col items-start justify-start gap-6">
         <div className="relative underline underline-offset-4 text-base items-start justify-start flex">
-          Rewards
+          {t("rews")}
         </div>
         <div className="relative w-full h-fit flex flex-col gap-2">
           <div className="relative text-sm items-start justify-start flex">
-            ERC20 Token Rewards
+            {t("rewsT")}
           </div>
           <div className="relative w-full h-fit items-start justify-start flex flex-wrap gap-5">
             {milestone?.rewards?.rewards20
@@ -197,7 +198,7 @@ const Milestones: FunctionComponent<StoryboardMilestonesProps> = ({
         </div>
         <div className="relative w-full h-fit flex flex-col gap-2">
           <div className="relative text-sm items-start justify-start flex">
-            ERC721 NFT Rewards
+            {t("rewsN")}
           </div>
           <div className="relative w-full h-fit items-start justify-start flex flex-wrap gap-5">
             {milestone?.rewards?.rewards721?.map(
@@ -250,7 +251,7 @@ const Milestones: FunctionComponent<StoryboardMilestonesProps> = ({
       </div>
       <div className="relative w-full h-fit flex flex-col items-start justify-start gap-3">
         <div className="relative text-base underline underline-offset-4 items-start justify-start flex">
-          Video Ops
+          {t("vids")}
         </div>
         <div className="relative w-fit h-fit flex flex-col gap-7  items-start justify-start">
           {milestone?.eligibility?.map((item: VideoEligible, index: number) => {
@@ -324,7 +325,7 @@ const Milestones: FunctionComponent<StoryboardMilestonesProps> = ({
                                       : "text-white"
                                   }`}
                                 >
-                                  yes
+                                  {t("yes")}
                                 </div>
                                 <div
                                   className={`relative w-12 h-fit flex p-2 items-center justify-center rounded-md ${
@@ -333,7 +334,7 @@ const Milestones: FunctionComponent<StoryboardMilestonesProps> = ({
                                       : "text-white"
                                   }`}
                                 >
-                                  no
+                                  {t("no")}
                                 </div>
                               </div>
                             )}

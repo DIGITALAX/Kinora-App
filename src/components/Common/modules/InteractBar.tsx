@@ -28,6 +28,7 @@ const InteractBar: FunctionComponent<InteractBarProps> = ({
   setCommentsOpen,
   main,
   border,
+  t,
 }): JSX.Element => {
   const pfp = createProfilePicture(publication?.by?.metadata?.picture);
   return (
@@ -47,7 +48,7 @@ const InteractBar: FunctionComponent<InteractBarProps> = ({
               ? {
                   icon: "QmVXkRB4HCd6gkXmj1cweEh4nVV6oBuKCAWfsKUEJae433",
                   function: () => bookmark!(publication?.id),
-                  title: "Save Quest",
+                  title: t("save"),
                   amount: publication?.stats?.bookmarks || 0,
                   reacted: publication?.operations?.hasBookmarked,
                   loader: false,
@@ -64,7 +65,7 @@ const InteractBar: FunctionComponent<InteractBarProps> = ({
                           current[index] = !current[index];
                           return current;
                         }),
-                  title: "Comment",
+                  title: t("como"),
                   amount: publication?.stats?.comments || 0,
                   reacted: false,
                   loader: false,
@@ -108,7 +109,7 @@ const InteractBar: FunctionComponent<InteractBarProps> = ({
             },
             mainFeed || router.asPath.includes("/envoker/")
               ? {
-                  title: "Players",
+                  title: t("plas"),
                   icon: "QmNomDrWUNrcy2SAVzsKoqd5dPMogeohB8PSuHCg57nyzF",
                   function: () => router.push(`/quest/${publication?.id}`),
                   amount: publication?.stats?.countOpenActions || 0,
@@ -119,7 +120,7 @@ const InteractBar: FunctionComponent<InteractBarProps> = ({
                   height: "0.9rem",
                 }
               : {
-                  title: "Collect",
+                  title: t("cols"),
                   icon: "QmNomDrWUNrcy2SAVzsKoqd5dPMogeohB8PSuHCg57nyzF",
                   function: () =>
                     publication?.openActionModules &&
@@ -156,10 +157,10 @@ const InteractBar: FunctionComponent<InteractBarProps> = ({
                       item?.reacted && "hue-rotate-60"
                     } ${
                       (!lensConnected?.id ||
-                        (item?.title === "Collect" &&
+                        (item?.title === t("cols") &&
                           (!publication?.openActionModules ||
                             publication?.openActionModules?.length == 0))) &&
-                      item?.title !== "Players"
+                      item?.title !== t("plas")
                         ? "opacity-50"
                         : "cursor-pointer active:scale-95"
                     }`}
@@ -234,7 +235,7 @@ const InteractBar: FunctionComponent<InteractBarProps> = ({
               {
                 icon: "QmPRRRX1S3kxpgJdLC4G425pa7pMS1AGNnyeSedngWmfK3",
                 function: () => mirror!(publication?.id, main)!,
-                title: "Mirror Quest",
+                title: t("mirQ"),
                 reacted: publication?.operations?.hasMirrored,
                 loader: interactionsLoading?.[index]?.mirror!,
                 width: "1rem",
@@ -249,7 +250,7 @@ const InteractBar: FunctionComponent<InteractBarProps> = ({
                       actionPublication: publication,
                     })
                   ),
-                title: "Quote Quest",
+                title: t("quQ"),
                 reacted: publication?.operations?.hasQuoted,
                 loader: false,
                 width: "0.8rem",
@@ -317,6 +318,7 @@ const InteractBar: FunctionComponent<InteractBarProps> = ({
           unfollowProfile={unfollowProfile!}
           profile={publication?.by}
           index={index}
+          t={t}
           followLoading={interactionsLoading?.[index]?.follow!}
           unfollowLoading={interactionsLoading?.[index]?.unfollow!}
           pfp={pfp}

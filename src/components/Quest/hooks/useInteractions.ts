@@ -47,6 +47,7 @@ const useInteractions = (
   setVideoPlaying:
     | ((e: SetStateAction<Video | undefined>) => void)
     | ((e: SetStateAction<VideoActivity | undefined>) => void),
+  t: (key: string) => string,
   setQuestInfo?: (e: SetStateAction<Quest | undefined>) => void
 ) => {
   const [makeComment, setMakeComment] = useState<MakePostComment[]>([]);
@@ -136,7 +137,7 @@ const useInteractions = (
     handleLoaders(true, true, index, "bookmark");
 
     try {
-      await lensBookmark(on, dispatch);
+      await lensBookmark(on, dispatch, t);
       updateInteractions(
         index,
         {
@@ -159,7 +160,8 @@ const useInteractions = (
             hasBookmarked ? false : true,
             true
           ),
-        dispatch
+        dispatch,
+        t
       );
     }
 
@@ -211,7 +213,8 @@ const useInteractions = (
         dispatch,
         address as `0x${string}`,
         clientWallet,
-        publicClient
+        publicClient,
+        t
       );
       updateInteractions(
         index!,
@@ -243,7 +246,8 @@ const useInteractions = (
             true,
             false
           ),
-        dispatch
+        dispatch,
+        t
       );
     }
 
@@ -327,7 +331,8 @@ const useInteractions = (
         address as `0x${string}`,
         clientWallet,
         publicClient,
-        () => clearComment(index, main, id)
+        () => clearComment(index, main, id),
+        t
       );
       updateInteractions(index!, {}, "comments", true, main);
       await showComments();
@@ -335,7 +340,8 @@ const useInteractions = (
       errorChoice(
         err,
         () => updateInteractions(index!, {}, "comments", true, main),
-        dispatch
+        dispatch,
+        t
       );
     }
 
@@ -457,7 +463,8 @@ const useInteractions = (
         dispatch,
         address as `0x${string}`,
         clientWallet,
-        publicClient
+        publicClient,
+        t
       );
       updateInteractions(
         index!,
@@ -481,7 +488,8 @@ const useInteractions = (
             true,
             main
           ),
-        dispatch
+        dispatch,
+        t
       );
     }
 
@@ -500,7 +508,7 @@ const useInteractions = (
     if (!main && index == -1) return;
     handleLoaders(false, main, index, "like");
     try {
-      await lensLike(id, dispatch, hasReacted);
+      await lensLike(id, dispatch, hasReacted, t);
       updateInteractions(
         index!,
         {
@@ -523,7 +531,8 @@ const useInteractions = (
             hasReacted ? false : true,
             main
           ),
-        dispatch
+        dispatch,
+        t
       );
     }
 
@@ -619,7 +628,8 @@ const useInteractions = (
         undefined,
         address as `0x${string}`,
         clientWallet,
-        publicClient
+        publicClient,
+        t
       );
       await refetchProfile(dispatch, lensConnected?.id, lensConnected?.id);
     } catch (err: any) {
@@ -634,7 +644,7 @@ const useInteractions = (
         dispatch(
           setIndexer({
             actionOpen: true,
-            actionMessage: "Successfully Indexed",
+            actionMessage: t("suc"),
           })
         );
 
@@ -669,7 +679,8 @@ const useInteractions = (
         dispatch,
         address as `0x${string}`,
         clientWallet,
-        publicClient
+        publicClient,
+        t
       );
       await refetchProfile(dispatch, lensConnected?.id, lensConnected?.id);
     } catch (err: any) {
@@ -684,7 +695,7 @@ const useInteractions = (
         dispatch(
           setIndexer({
             actionOpen: true,
-            actionMessage: "Successfully Indexed",
+            actionMessage: t("suc"),
           })
         );
 

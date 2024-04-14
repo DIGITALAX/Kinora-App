@@ -16,6 +16,7 @@ import GatedLogic from "./milestones/GatedLogic";
 const Details: FunctionComponent<DetailsProps> = ({
   questInfo,
   dispatch,
+  t,
   setCoverLoading,
   coverLoading,
   collections,
@@ -32,7 +33,7 @@ const Details: FunctionComponent<DetailsProps> = ({
       <div className="relative w-full h-fit flex items-start justify-start flex-col lg:flex-row gap-6">
         <div className="relative w-full h-fit flex items-start justify-start gap-2 flex-col">
           <div className="relative w-fit h-fit flex items-start justify-start">
-            Cover Image
+            {t("cover")}
           </div>
           <div className="relative w-fit h-fit flex items-center justify-center flex flex-row gap-2">
             <div
@@ -53,8 +54,8 @@ const Details: FunctionComponent<DetailsProps> = ({
                 <BsShuffle size={10} color={"white"} />
               </div>
             </div>
-            <div className="relative w-fit h-fit flex items-center justify-center text-xxs opacity-70">
-              Don&apos;t have a cover image? <br /> Shuffle here.
+            <div className="relative w-fit h-fit flex items-center justify-center text-xxs opacity-70 break-all whitespace-preline">
+              {t("shuff")}
             </div>
           </div>
           <label
@@ -111,12 +112,13 @@ const Details: FunctionComponent<DetailsProps> = ({
         <div className="relative w-full h-fit flex items-start justify-start flex-col gap-6 font-bit text-white lg:top-16">
           <div className="relative w-full h-fit flex items-start justify-start gap-2 flex-col">
             <div className="relative w-fit h-fit text-xs break-words flex items-start justify-start">
-              Title <p className="pl-2 flex text-sm text-calcetine">{">"}</p>
+              {t("tit")}
+              <p className="pl-2 flex text-sm text-calcetine">{">"}</p>
             </div>
             <div className="relative w-full h-fit flex p-px rounded-md">
               <input
                 className="h-10 w-full bg-black border border-acei rounded-md p-1 text-xs"
-                placeholder="Give your Quest a name."
+                placeholder={t("namQ")}
                 value={questInfo?.details?.title}
                 onChange={(e) =>
                   dispatch(
@@ -134,7 +136,7 @@ const Details: FunctionComponent<DetailsProps> = ({
           </div>
           <div className="flex flex-col items-start justify-start w-full h-fit gap-1 relative">
             <div className="relative w-fit h-fit text-xs break-words flex items-start justify-start">
-              Discovery Tags{" "}
+              {t("tags")}{" "}
               <p className="pl-2 flex text-sm text-calcetine">{">"}</p>
             </div>
             <div className="relative w-full h-fit flex p-px rounded-md">
@@ -151,7 +153,7 @@ const Details: FunctionComponent<DetailsProps> = ({
                     })
                   )
                 }
-                placeholder="Add search tags."
+                placeholder={t("tagA")}
                 className="relative bg-black border border-acei rounded-md p-1 text-xs h-10 w-full"
                 style={{
                   resize: "none",
@@ -217,7 +219,7 @@ const Details: FunctionComponent<DetailsProps> = ({
           </div>
           <div className="flex flex-col items-start justify-start w-full h-fit gap-1 relative">
             <div className="relative w-fit h-fit text-xs break-words flex items-start justify-start">
-              Max Player Count{" "}
+              {t("max")}{" "}
               <p className="pl-2 flex text-sm text-calcetine">{">"}</p>
             </div>
             <div className="relative w-full h-fit flex p-px rounded-md">
@@ -234,7 +236,7 @@ const Details: FunctionComponent<DetailsProps> = ({
                     })
                   )
                 }
-                placeholder="Add Max. Players to Join Quest."
+                placeholder={t("maxA")}
                 className="relative border border-acei rounded-md p-1 bg-black text-xs h-10 w-full"
                 style={{
                   resize: "none",
@@ -249,7 +251,7 @@ const Details: FunctionComponent<DetailsProps> = ({
 
       <div className="relative w-full h-fit flex items-start justify-start gap-2 flex-col">
         <div className="relative w-fit h-fit text-xs break-words flex items-start justify-start">
-          Description <p className="pl-2 flex text-sm text-calcetine">{">"}</p>
+          {t("des")} <p className="pl-2 flex text-sm text-calcetine">{">"}</p>
         </div>
         <div className="relative w-full h-fit flex p-px rounded-md">
           <textarea
@@ -257,7 +259,7 @@ const Details: FunctionComponent<DetailsProps> = ({
             style={{
               resize: "none",
             }}
-            placeholder="A short overview of your quest and what it involves."
+            placeholder={t("short")}
             value={questInfo?.details?.description}
             onChange={(e) =>
               dispatch(
@@ -275,12 +277,13 @@ const Details: FunctionComponent<DetailsProps> = ({
       </div>
       <div className="flex flex-col items-start justify-start w-full h-fit gap-1 relative">
         <div className="relative w-fit h-fit text-sm break-words">
-          Set Gates for who can join your Quest
+          {t("set")}
         </div>
         <GatedLogic
           questInfo={questInfo}
           dispatch={dispatch}
           join={true}
+          t={t}
           collections={collections}
           collectionsSearch={collectionsSearch}
           setCollectionsSearch={setCollectionsSearch}

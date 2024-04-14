@@ -13,14 +13,19 @@ export interface Details {
 }
 
 export type PrintProps = {
+  t: (key: string) => string;
   storeItems: (Collection & {
     chosenSize: string;
     chosenAmount: string;
   })[];
-  setStoreItems: (e: SetStateAction<(Collection & {
-    chosenSize: string;
-    chosenAmount: string;
-  })[]>) => void;
+  setStoreItems: (
+    e: SetStateAction<
+      (Collection & {
+        chosenSize: string;
+        chosenAmount: string;
+      })[]
+    >
+  ) => void;
   storeLoading: boolean;
   lensConnected: Profile | undefined;
   mirror: (id: string, main?: boolean) => Promise<void>;
@@ -49,6 +54,7 @@ export type CheckoutProps = {
   chosenCartItem: CartItem | undefined;
   setChosenCartItem: (e: SetStateAction<CartItem | undefined>) => void;
   approved: boolean;
+  t: (key: string) => string;
   walletConnected: boolean;
   handleApproveSpend: () => Promise<void>;
   openConnectModal: (() => void) | undefined;
@@ -68,6 +74,7 @@ export interface CartItem {
 export type ShippingInfoProps = {
   fulfillmentDetails: Details;
   setFulfillmentDetails: (e: SetStateAction<Details>) => void;
+  t: (key: string) => string;
 };
 
 export interface OracleData {

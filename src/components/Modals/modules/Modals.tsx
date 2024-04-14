@@ -23,6 +23,7 @@ import useFollowers from "../hooks/useFollowers";
 import useNewQuests from "../hooks/useNewQuests";
 import ClaimProfile from "./ClaimProfile";
 import MissingValues from "./MissingValues";
+import { useTranslation } from "@/pages/_app";
 
 const Modals: FunctionComponent<{ router: NextRouter }> = ({
   router,
@@ -31,6 +32,7 @@ const Modals: FunctionComponent<{ router: NextRouter }> = ({
   const { openConnectModal } = useConnectModal();
   const { openAccountModal } = useAccountModal();
   const { isConnected, address } = useAccount();
+  const { t } = useTranslation();
   const publicClient = createPublicClient({
     chain: polygon,
     transport: http(
@@ -130,11 +132,12 @@ const Modals: FunctionComponent<{ router: NextRouter }> = ({
     searchGifLoading,
     gifInfo,
     setGifInfo,
-  } = useQuote(postCollectGif, publicClient, address, dispatch, quote);
+  } = useQuote(postCollectGif, publicClient, address, dispatch, quote, t);
   const { newQuests } = useNewQuests();
   return (
     <>
       <Sidebar
+        t={t}
         newQuests={newQuests}
         router={router}
         openSidebar={openSidebar}
@@ -147,6 +150,7 @@ const Modals: FunctionComponent<{ router: NextRouter }> = ({
       {followCollect?.type && (
         <FollowCollect
           dispatch={dispatch}
+          t={t}
           type={followCollect?.type!}
           collect={followCollect?.collect}
           follower={followCollect?.follower}
@@ -171,6 +175,7 @@ const Modals: FunctionComponent<{ router: NextRouter }> = ({
       {quote?.open && (
         <QuoteBox
           lensConnected={lensConnected}
+          t={t}
           setCaretCoord={setCaretCoord}
           setMentionProfiles={setMentionProfiles}
           setProfilesOpen={setProfilesOpen}
@@ -197,7 +202,7 @@ const Modals: FunctionComponent<{ router: NextRouter }> = ({
         />
       )}
       {questGates?.gates && (
-        <QuestGates gates={questGates?.gates} dispatch={dispatch} />
+        <QuestGates t={t} gates={questGates?.gates} dispatch={dispatch} />
       )}
       {postCollectGif?.type && (
         <PostCollectGif
@@ -208,6 +213,7 @@ const Modals: FunctionComponent<{ router: NextRouter }> = ({
           setOpenMeasure={setOpenMeasure}
           availableCurrencies={availableCurrencies}
           collects={collects}
+          t={t}
           setCollects={setCollects}
           type={postCollectGif?.type}
           id={postCollectGif?.id!}
@@ -217,12 +223,12 @@ const Modals: FunctionComponent<{ router: NextRouter }> = ({
           searchGifLoading={searchGifLoading}
         />
       )}
-      {missingValues?.value && <MissingValues dispatch={dispatch} />}
+      {missingValues?.value && <MissingValues t={t} dispatch={dispatch} />}
       {claimProfile?.value && (
-        <ClaimProfile dispatch={dispatch} handleLogOut={handleLogOut} />
+        <ClaimProfile t={t} dispatch={dispatch} handleLogOut={handleLogOut} />
       )}
       {indexer?.open && <Index message={indexer?.message!} />}
-      {interactError?.value && <InteractError dispatch={dispatch} />}
+      {interactError?.value && <InteractError t={t} dispatch={dispatch} />}
       {success?.value?.open && (
         <Success
           image={success?.value?.image!}

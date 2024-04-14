@@ -23,7 +23,8 @@ const useQuote = (
   publicClient: PublicClient,
   address: `0x${string}` | undefined,
   dispatch: Dispatch,
-  quoteBox: QuoteState
+  quoteBox: QuoteState,
+  t: (key: string) => string
 ) => {
   const [mentionProfiles, setMentionProfiles] = useState<Profile[]>([]);
   const [profilesOpen, setProfilesOpen] = useState<boolean[]>([false]);
@@ -129,6 +130,7 @@ const useQuote = (
           address as `0x${string}`,
           clientWallet,
           publicClient,
+          t,
           () => clearBox()
         );
       } else {
@@ -148,6 +150,7 @@ const useQuote = (
           address as `0x${string}`,
           clientWallet,
           publicClient,
+          t,
           () => clearBox()
         );
       }
@@ -174,7 +177,7 @@ const useQuote = (
         dispatch(
           setIndexer({
             actionOpen: true,
-            actionMessage: "Successfully Indexed",
+            actionMessage: t("suc"),
           })
         );
 

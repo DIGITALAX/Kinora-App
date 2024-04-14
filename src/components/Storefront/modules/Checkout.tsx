@@ -15,6 +15,7 @@ const Checkout: FunctionComponent<CheckoutProps> = ({
   chosenCartItem,
   setChosenCartItem,
   dispatch,
+  t,
   checkoutCurrency,
   setCheckoutCurrency,
   oracleData,
@@ -27,17 +28,19 @@ const Checkout: FunctionComponent<CheckoutProps> = ({
   openConnectModal,
 }): JSX.Element => {
   return (
-    <div className={`relative w-full h-full flex md:max-w-[17rem] xl:max-w-[20rem] overflow-y-scroll`}>
+    <div
+      className={`relative w-full h-full flex md:max-w-[17rem] xl:max-w-[20rem] overflow-y-scroll`}
+    >
       <div className="relative w-full flex h-full flex-col justify-between bg-black border border-cost rounded-sm p-2">
         <div className="relative w-full h-full flex items-center flex-col gap-5">
           <div className="uppercase text-xl font-vcr text-gray-200 px-1 flex items-start whitespace-nowrap justify-center w-fit h-fit">
-            Cart Items
+            {t("items")}
           </div>
           <div className="relative w-full h-full flex overflow-y-scroll items-start justify-center">
             <div className="relative w-full h-fit flex flex-col gap-10 font-vcr items-center justify-center px-px xl:px-2">
               {!chosenCartItem ? (
                 <div className="relative w-fit h-fit flex items-center justify-center text-center font-vcr text-girasol break-words text-xs opacity-70">
-                  Add apparel to your cart.
+                  {t("add")}
                 </div>
               ) : (
                 <div className="flex flex-col justify-start h-fit items-center gap-3 w-full">
@@ -86,7 +89,7 @@ const Checkout: FunctionComponent<CheckoutProps> = ({
                                 open: true,
                                 image:
                                   "QmdYGNBgENYrXbWobgQwexXkF6F5nAfGAN7YHZ8PARdfBJ",
-                                text: "We know you're eager. You've reached this prints' collect limit.",
+                                text: t("eager"),
                               })
                             );
                             return;
@@ -138,11 +141,12 @@ const Checkout: FunctionComponent<CheckoutProps> = ({
                 </div>
               )}
               <ShippingInfo
+                t={t}
                 fulfillmentDetails={fulfillmentDetails}
                 setFulfillmentDetails={setFulfillmentDetails}
               />
               <div className="relative justify-center items-center w-3/4  h-fit flex flex-row font-vcr text-sm text-acei text-girasol gap-3">
-                <div className="relative w-fit h-fit">Total:</div>
+                <div className="relative w-fit h-fit">{t("tot")}</div>
                 <div className="relative w-fit h-fit">
                   {`${
                     ACCEPTED_TOKENS.find(
@@ -169,7 +173,7 @@ const Checkout: FunctionComponent<CheckoutProps> = ({
               </div>
               <div className="relative flex flex-col gap-1.5 items-center justify-center">
                 <div className="relative w-fit h-fit flex items-center justify-center font-vcr text-white text-xs">
-                  Choose Payment Currency
+                  {t("choose")}
                 </div>
                 <div className="relative w-3/4 justify-start items-center flex flex-row gap-2">
                   {ACCEPTED_TOKENS?.map((item: string[], index: number) => {
@@ -222,17 +226,17 @@ const Checkout: FunctionComponent<CheckoutProps> = ({
                     {checkoutLoading || loginLoading ? (
                       <AiOutlineLoading size={15} color={"white"} />
                     ) : !walletConnected ? (
-                      "CONNECT"
+                      t("conne")
                     ) : walletConnected && !lensConnected ? (
-                      "CONNECT LENS"
+                      t("conneL")
                     ) : chosenCartItem ? (
                       !approved ? (
-                        "APPROVE SPEND"
+                        t("ap")
                       ) : (
-                        "CHECKOUT"
+                        t("out")
                       )
                     ) : (
-                      "ADD TO CART"
+                      t("addC")
                     )}
                   </div>
                 </div>

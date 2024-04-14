@@ -2,11 +2,13 @@ import Head from "next/head";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { NextPage } from "next";
+import { useTranslation } from "./_app";
 
 const Custom404: NextPage = (): JSX.Element => {
   const openSidebar = useSelector(
     (state: RootState) => state.app.sideBarOpenReducer.value
   );
+  const { t } = useTranslation();
 
   return (
     <>
@@ -37,7 +39,7 @@ const Custom404: NextPage = (): JSX.Element => {
           id={!openSidebar ? "closeSide" : ""}
         >
           <div className="relative w-fit h-fit flex items-center justify-center font-bit text-white text-sm">
-            Lost?
+            {t("lost")}
           </div>
         </div>
       </div>

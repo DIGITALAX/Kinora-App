@@ -9,6 +9,7 @@ import { ImCross } from "react-icons/im";
 
 const GatedLogic: FunctionComponent<GatedLogicProps> = ({
   dispatch,
+  t,
   questInfo,
   milestonesOpen,
   collections,
@@ -25,7 +26,7 @@ const GatedLogic: FunctionComponent<GatedLogicProps> = ({
     <div className="relative w-full h-fit flex items-start justify-start flex-col font-bit text-white gap-10">
       {!join && (
         <div className="relative w-fit h-fit items-start justify-start opacity-70">
-          Set Gates for who can join each milestone.
+          {t("gatJ")}
         </div>
       )}
       <div className="relative w-fit h-fit items-start justify-start flex flex-col gap-1">
@@ -34,7 +35,7 @@ const GatedLogic: FunctionComponent<GatedLogicProps> = ({
             join ? "text-xxs" : "text-sm"
           }`}
         >
-          Player must hold all tokens or is just one enough?
+          {t("hold")}
         </div>
         <div className="relative w-fit h-fit flex items-center justify-center rounded-md border border-acei flex-row gap-1 text-xxs">
           <div
@@ -112,7 +113,7 @@ const GatedLogic: FunctionComponent<GatedLogicProps> = ({
               }
             }}
           >
-            just one
+            {t("one")}
           </div>
           <div
             className={`relative w-16 h-fit flex p-2 items-center justify-center rounded-md cursor-pointer ${
@@ -189,7 +190,7 @@ const GatedLogic: FunctionComponent<GatedLogicProps> = ({
               }
             }}
           >
-            all
+            {t("all")}
           </div>
         </div>
       </div>
@@ -198,7 +199,7 @@ const GatedLogic: FunctionComponent<GatedLogicProps> = ({
       >
         <div className="relative w-fit w-full sm:min-w-[20rem] h-fit flex flex-col items-start justify-start gap-4">
           <div className="relative w-fit h-fit flex items-center justify-center text-sm">
-            Token Conditions
+            {t("cons")}
           </div>
           <div className="relative flex flex-col w-full h-fit gap-4 items-start justify-start">
             {ACCEPTED_TOKENS.map((item: string[], index: number) => {
@@ -473,7 +474,7 @@ const GatedLogic: FunctionComponent<GatedLogicProps> = ({
                       }}
                       type="number"
                       className="h-10 w-full bg-black border border-acei flex rounded-md p-1 text-xs"
-                      placeholder="Enter min amount of token to hold."
+                      placeholder={t("min")}
                     />
                   </div>
                 </div>
@@ -483,7 +484,7 @@ const GatedLogic: FunctionComponent<GatedLogicProps> = ({
         </div>
         <div className="relative w-full h-fit flex flex-col items-start justify-start gap-4">
           <div className="relative w-fit h-fit flex items-center justify-center text-sm">
-            NFT Conditions
+            {t("consN")}
           </div>
           {(join
             ? questInfo?.details?.gated?.erc721TokenIds || []
@@ -621,7 +622,7 @@ const GatedLogic: FunctionComponent<GatedLogicProps> = ({
           )}
           <input
             className="h-10 w-full bg-black border border-acei rounded-md p-1 text-xs"
-            placeholder="Search tokens to use as gates."
+            placeholder={t("searG")}
             value={collectionsSearch || ""}
             onChange={(e) => {
               setCollectionsSearch(e.target.value);

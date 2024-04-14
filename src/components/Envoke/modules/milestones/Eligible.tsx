@@ -10,13 +10,14 @@ const Eligible: FunctionComponent<EligibleProps> = ({
   questInfo,
   dispatch,
   index,
+  t,
   milestonesOpen,
 }): JSX.Element => {
   const image = createMedia(item?.video?.metadata);
   return (
     <div className="relative w-full h-fit flex flex-col gap-5 items-start justify-start font-bit text-white">
       <div className="relative w-fit h-fit flex items-center justify-center text-sm">
-        Video Eligibility Criteria
+        {t("edge")}
       </div>
       <div
         className="relative w-full h-72 p-px rounded-md flex items-center justify-center"
@@ -90,7 +91,7 @@ const Eligible: FunctionComponent<EligibleProps> = ({
       <div className="relative w-full h-fit items-start justify-start flex flex-wrap gap-4">
         {[
           {
-            title: "Min. Average View Duration (secs)",
+            title: t("view"),
             value:
               questInfo?.milestones?.[
                 milestonesOpen.findIndex((item: boolean) => item == true) !== -1
@@ -141,7 +142,7 @@ const Eligible: FunctionComponent<EligibleProps> = ({
             },
           },
           {
-            title: "Min. Total Duration Watched (secs)",
+            title: t("dur"),
             value:
               questInfo?.milestones?.[
                 milestonesOpen.findIndex((item: boolean) => item == true) !== -1
@@ -192,7 +193,7 @@ const Eligible: FunctionComponent<EligibleProps> = ({
             },
           },
           {
-            title: "Min. Total Times Played",
+            title: t("total"),
             value:
               questInfo?.milestones?.[
                 milestonesOpen.findIndex((item: boolean) => item == true) !== -1
@@ -243,7 +244,7 @@ const Eligible: FunctionComponent<EligibleProps> = ({
             },
           },
           {
-            title: "Min. Quotes On Quote",
+            title: t("minQQ"),
             value:
               questInfo?.milestones?.[
                 milestonesOpen.findIndex((item: boolean) => item == true) !== -1
@@ -294,7 +295,7 @@ const Eligible: FunctionComponent<EligibleProps> = ({
             },
           },
           {
-            title: "Min. Comments On Quote",
+            title: t("minCQ"),
             value:
               questInfo?.milestones?.[
                 milestonesOpen.findIndex((item: boolean) => item == true) !== -1
@@ -345,7 +346,7 @@ const Eligible: FunctionComponent<EligibleProps> = ({
             },
           },
           {
-            title: "Min. Mirrors On Quote",
+            title: t("minMQ"),
             value:
               questInfo?.milestones?.[
                 milestonesOpen.findIndex((item: boolean) => item == true) !== -1
@@ -396,7 +397,7 @@ const Eligible: FunctionComponent<EligibleProps> = ({
             },
           },
           {
-            title: "Min. Reacts On Quote",
+            title: t("minLQ"),
             value:
               questInfo?.milestones?.[
                 milestonesOpen.findIndex((item: boolean) => item == true) !== -1
@@ -447,7 +448,7 @@ const Eligible: FunctionComponent<EligibleProps> = ({
             },
           },
           {
-            title: "Min. Collects On Quote",
+            title: t("minCOQ"),
             value:
               questInfo?.milestones?.[
                 milestonesOpen.findIndex((item: boolean) => item == true) !== -1
@@ -498,7 +499,7 @@ const Eligible: FunctionComponent<EligibleProps> = ({
             },
           },
           {
-            title: "Min. Quotes On Comment",
+            title: t("minQC"),
             value:
               questInfo?.milestones?.[
                 milestonesOpen.findIndex((item: boolean) => item == true) !== -1
@@ -549,7 +550,7 @@ const Eligible: FunctionComponent<EligibleProps> = ({
             },
           },
           {
-            title: "Min. Comments On Comment",
+            title: t("minCC"),
             value:
               questInfo?.milestones?.[
                 milestonesOpen.findIndex((item: boolean) => item == true) !== -1
@@ -600,7 +601,7 @@ const Eligible: FunctionComponent<EligibleProps> = ({
             },
           },
           {
-            title: "Min. Mirrors On Comment",
+            title: t("minMC"),
             value:
               questInfo?.milestones?.[
                 milestonesOpen.findIndex((item: boolean) => item == true) !== -1
@@ -651,7 +652,7 @@ const Eligible: FunctionComponent<EligibleProps> = ({
             },
           },
           {
-            title: "Min. Reacts On Comment",
+            title: t("minRC"),
             value:
               questInfo?.milestones?.[
                 milestonesOpen.findIndex((item: boolean) => item == true) !== -1
@@ -702,7 +703,7 @@ const Eligible: FunctionComponent<EligibleProps> = ({
             },
           },
           {
-            title: "Min. Collects On Comment",
+            title: t("minCOC"),
             value:
               questInfo?.milestones?.[
                 milestonesOpen.findIndex((item: boolean) => item == true) !== -1
@@ -753,7 +754,7 @@ const Eligible: FunctionComponent<EligibleProps> = ({
             },
           },
           {
-            title: "Needs to Quote?",
+            title: t("quote"),
             value:
               questInfo?.milestones?.[
                 milestonesOpen.findIndex((item: boolean) => item == true) !== -1
@@ -806,7 +807,7 @@ const Eligible: FunctionComponent<EligibleProps> = ({
             },
           },
           {
-            title: "Needs to Mirror?",
+            title: t("mirr"),
             value:
               questInfo?.milestones?.[
                 milestonesOpen.findIndex((item: boolean) => item == true) !== -1
@@ -860,7 +861,7 @@ const Eligible: FunctionComponent<EligibleProps> = ({
             },
           },
           {
-            title: "Needs to Like?",
+            title: t("liked"),
             value:
               questInfo?.milestones?.[
                 milestonesOpen.findIndex((item: boolean) => item == true) !== -1
@@ -913,7 +914,7 @@ const Eligible: FunctionComponent<EligibleProps> = ({
             },
           },
           {
-            title: "Needs to Bookmark?",
+            title: t("book"),
             value:
               questInfo?.milestones?.[
                 milestonesOpen.findIndex((item: boolean) => item == true) !== -1
@@ -966,7 +967,7 @@ const Eligible: FunctionComponent<EligibleProps> = ({
             },
           },
           {
-            title: "Needs to Comment?",
+            title: t("comm"),
             value:
               questInfo?.milestones?.[
                 milestonesOpen.findIndex((item: boolean) => item == true) !== -1
@@ -1055,7 +1056,7 @@ const Eligible: FunctionComponent<EligibleProps> = ({
                         }`}
                         onClick={() => (item.function as () => void)()}
                       >
-                        yes
+                        {t("yes")}
                       </div>
                       <div
                         className={`relative w-12 h-fit flex p-2 items-center justify-center rounded-md cursor-pointer ${
@@ -1063,7 +1064,7 @@ const Eligible: FunctionComponent<EligibleProps> = ({
                         }`}
                         onClick={() => (item.function as () => void)()}
                       >
-                        no
+                        {t("no")}
                       </div>
                     </div>
                   )}

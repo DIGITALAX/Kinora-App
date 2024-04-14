@@ -8,6 +8,10 @@ import toHexWithLeadingZero from "./../../../../lib/helpers/toHexWithLeadingZero
 import { useAccountModal, useConnectModal } from "@rainbow-me/rainbowkit";
 import useSignIn from "../hooks/useSignIn";
 import { useAccount } from "wagmi";
+import {
+  PiArrowFatLinesLeftFill,
+  PiArrowFatLinesRightFill,
+} from "react-icons/pi";
 import { NextRouter } from "next/router";
 import useSearch from "../hooks/useSearch";
 import { AiOutlineLoading } from "react-icons/ai";
@@ -18,11 +22,13 @@ import useActivity from "@/components/Activity/hooks/useActivity";
 import Activity from "@/components/Activity/modules/Activity";
 import { createPublicClient, http } from "viem";
 import { polygon } from "viem/chains";
+import { useTranslation } from "@/pages/_app";
 
 const Header: FunctionComponent<{ router: NextRouter }> = ({ router }) => {
   const { openConnectModal } = useConnectModal();
   const { openAccountModal } = useAccountModal();
   const { isConnected, address } = useAccount();
+  const { t, setLocale, locale } = useTranslation();
   const dispatch = useDispatch();
   const publicClient = createPublicClient({
     chain: polygon,
@@ -102,7 +108,7 @@ const Header: FunctionComponent<{ router: NextRouter }> = ({ router }) => {
             className={`relative w-full h-8 rounded-full px-2 py-1 text-white font-bit text-xs bg-nave border border-white/80 ${
               searchLoading && "opacity-50"
             }`}
-            placeholder="SEARCH"
+            placeholder={t("sea")}
             onChange={(e) => {
               setSearchTarget(e.target.value);
             }}
@@ -219,6 +225,59 @@ const Header: FunctionComponent<{ router: NextRouter }> = ({ router }) => {
           )}
         </div>
         <div className="relative flex items-center justify-center gap-5 w-fit h-fit">
+          <div className="relative w-fit h-fit flex items-center justify-center text-sol flex-col text-center font-bit uppercase">
+            <div className="relative w-fit h-fit flex items-center justify-center flex-row gap-2">
+              <div
+                className="relative flex items-center justify-center w-fit h-fit active:scale-95 cursor-pointer"
+                onClick={() => {
+                  if (locale == "en") {
+                    setLocale("es");
+                    router.push(router.asPath, undefined, {
+                      locale: "es",
+                    });
+                  } else {
+                    setLocale("en");
+                    router.push(router.asPath, undefined, {
+                      locale: "en",
+                    });
+                  }
+                }}
+              >
+                <PiArrowFatLinesLeftFill size={15} color={"#EEEEEE"} />
+              </div>
+              <div className="relative w-fit h-fit flex items-center justify-center">
+                <div className="relative w-6 h-8 flex items-center justify-center">
+                  <Image
+                    layout="fill"
+                    src={`${INFURA_GATEWAY}/ipfs/${
+                      locale == "es"
+                        ? "QmY43U5RovVkoGrkLiFyA2VPMnGxf5e3NgYZ95u9aNJdem"
+                        : "QmXdyvCYjZ7FkPjgFX5BPi98WTpPdJT5FHhzhtbyzkJuNs"
+                    }`}
+                    draggable={false}
+                  />
+                </div>
+              </div>
+              <div
+                className="relative flex items-center justify-center w-fit h-fit active:scale-95 cursor-pointer"
+                onClick={() => {
+                  if (locale == "en") {
+                    setLocale("es");
+                    router.push(router.asPath, undefined, {
+                      locale: "es",
+                    });
+                  } else {
+                    setLocale("en");
+                    router.push(router.asPath, undefined, {
+                      locale: "en",
+                    });
+                  }
+                }}
+              >
+                <PiArrowFatLinesRightFill size={15} color={"#EEEEEE"} />
+              </div>
+            </div>
+          </div>
           <div
             className="relative w-3 h-5 sm:w-4 sm:h-6 flex items-center justify-center cursor-pointer active:scale-95"
             onClick={() => setOpenActivitySample(!openActivitySample)}
@@ -300,7 +359,7 @@ const Header: FunctionComponent<{ router: NextRouter }> = ({ router }) => {
                 setAccountOpen(false);
               }}
             >
-              Logout
+              {t("log")}
             </div>
           </div>
         )}
@@ -320,6 +379,7 @@ const Header: FunctionComponent<{ router: NextRouter }> = ({ router }) => {
               </div>
             ) : (
               <Activity
+                t={t}
                 disabled
                 activityFeed={activityFeed}
                 getMoreActivityFeed={getMoreActivityFeed}

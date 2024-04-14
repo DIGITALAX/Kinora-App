@@ -26,15 +26,17 @@ import useSuggested from "@/components/Quest/hooks/useSuggested";
 import QuestFeed from "@/components/Common/modules/QuestFeed";
 import { apolloClient } from "../../../lib/lens/client";
 import Head from "next/head";
+import { useTranslation } from "../_app";
 
 export default function QuestId({ router }: { router: NextRouter }) {
   const { questId } = router.query;
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const { address } = useAccount();
   const publicClient = createPublicClient({
     chain: polygon,
     transport: http(
-     `https://polygon-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`
+      `https://polygon-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`
     ),
   });
   const kinoraDispatch = new KinoraDispatch({
@@ -83,7 +85,7 @@ export default function QuestId({ router }: { router: NextRouter }) {
     playerMetricsLive,
     currentMetricsLoading,
     chainMetrics,
-    milestoneEligible
+    milestoneEligible,
   } = useVideos(
     lensConnected,
     dispatch,
@@ -161,6 +163,7 @@ export default function QuestId({ router }: { router: NextRouter }) {
     showComments,
     videoPlaying,
     setVideoPlaying,
+    t,
     setQuestInfo
   );
   const {
@@ -274,15 +277,14 @@ export default function QuestId({ router }: { router: NextRouter }) {
         >
           <div
             className={`relative w-full flex flex-col lg:flex-row gap-10 items-start justify-start xl:h-full ${
-              videoPlaying
-                ? "lg:h-[40rem]"
-                : "h-[70rem] lg:h-[30rem]"
+              videoPlaying ? "lg:h-[40rem]" : "h-[70rem] lg:h-[30rem]"
             }`}
           >
             <div className="relative w-full lg:w-fit h-full flex items-start justify-start">
               <div className="relative h-full w-full lg:w-80 flex items-start justify-start flex-col gap-6 rounded-sm border border-cost bg-black p-3 max-h-[30rem] overflow-y-scroll lg:max-h-full">
                 {videoPlaying && (
                   <VideoInfo
+                    t={t}
                     router={router}
                     setSocialType={setSocialType}
                     dispatch={dispatch}
@@ -313,6 +315,7 @@ export default function QuestId({ router }: { router: NextRouter }) {
                   </div>
                 ) : (
                   <QuestSocial
+                    t={t}
                     videoPlaying={videoPlaying}
                     mirrorChoiceOpen={mirrorChoiceOpen}
                     profilesOpen={profilesOpen}
@@ -442,7 +445,7 @@ export default function QuestId({ router }: { router: NextRouter }) {
                 <div className="relative w-full h-fit flex items-start justify-start flex-col gap-3">
                   {mainViewer !== 0 && (
                     <div className="relative w-full h-fit flex items-start justify-start text-azul font-bit text-lg">
-                      {`Milestone ${mainViewer}`}
+                      {`${t("mil")} ${mainViewer}`}
                     </div>
                   )}
                   <div
@@ -451,7 +454,7 @@ export default function QuestId({ router }: { router: NextRouter }) {
                     }`}
                   >
                     {questInfoLoading
-                      ? "Quest Loading..."
+                      ? t("load")
                       : mainViewer == 0
                       ? questInfo?.questMetadata?.title
                       : questInfo?.milestones?.[mainViewer - 1]
@@ -516,12 +519,14 @@ export default function QuestId({ router }: { router: NextRouter }) {
                           src={`${INFURA_GATEWAY}/ipfs/QmcopbBnP4dJgRKCHJ7TN7nHFt5wpe6w8VBhztaBXGYvft`}
                         />
                       </div>
-                      <div className="relative w-fit h-fit flex items-center justify-center">{`Max Player Count: ${
+                      <div className="relative w-fit h-fit flex items-center justify-center">{`${t(
+                        "maxP"
+                      )} ${
                         questInfoLoading
                           ? "0"
                           : Number(questInfo?.maxPlayerCount) ==
                             Number(questInfo?.players?.length)
-                          ? "Limit Reached"
+                          ? t("limR")
                           : `${Number(questInfo?.players?.length)} / ${Number(
                               questInfo?.maxPlayerCount
                             )}`
@@ -532,7 +537,7 @@ export default function QuestId({ router }: { router: NextRouter }) {
                   <div className="relative w-full h-fit flex flex-col items-start justify-start gap-2 font-vcr text-white text-xs">
                     <div className="relative w-full h-fit flex flex-row items-center justify-start gap-1 break-words">
                       <div className="relative w-fit h-fit flex items-center justify-center">
-                        Video Count:
+                        {t("vidC")}
                       </div>
                       <div className="relative w-fit h-fit flex items-center justify-center text-girasol break-words">
                         {questInfo?.milestones?.[mainViewer - 1]?.videoLength}
@@ -551,6 +556,7 @@ export default function QuestId({ router }: { router: NextRouter }) {
                   </div>
                 )}
                 <QuestBoardSwitch
+                  t={t}
                   milestoneEligible={milestoneEligible}
                   handleCompleteMilestone={handleCompleteMilestone}
                   completeLoading={completeLoading}
@@ -578,7 +584,7 @@ export default function QuestId({ router }: { router: NextRouter }) {
                 <div className="relative w-full h-full flex flex-col gap-6 items-start justify-start overflow-y-scroll">
                   <div className="relative w-full h-fit gap-2 flex items-center justify-center flex-col">
                     <div className="relative w-full h-fit flex items-center justify-center text-gray-400 font-bit text-sm">
-                      Milestone Video Metrics
+                      {t("miVid")}
                     </div>
                     <div className="relative w-full h-px bg-gray-700"></div>
                   </div>
@@ -587,6 +593,7 @@ export default function QuestId({ router }: { router: NextRouter }) {
                     playerMetricsLive={playerMetricsLive}
                     milestoneMetrics={videoPlaying!}
                     playerMetricsOnChain={chainMetrics!}
+                    t={t}
                   />
                 </div>
                 <div
@@ -618,7 +625,7 @@ export default function QuestId({ router }: { router: NextRouter }) {
                     )}
                   </div>
                   <div className="relative w-fit h-fit text-xxs sm:text-sm font-vcr text-gray-300">
-                    {"Add Current Metrics"}
+                    {t("curM")}
                   </div>
                 </div>
               </div>
@@ -652,6 +659,7 @@ export default function QuestId({ router }: { router: NextRouter }) {
           </div>
         ) : (
           <QuestFeed
+            t={t}
             router={router}
             interactionsLoading={suggestedInteractionsLoading}
             questInfo={suggestedInfo}

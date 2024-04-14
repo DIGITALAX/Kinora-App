@@ -24,7 +24,8 @@ const useUpload = (
   publicClient: PublicClient,
   allUploaded: Asset[],
   lensConnected: Profile | undefined,
-  verifiedEnvoker: boolean
+  verifiedEnvoker: boolean,
+  t: (key: string) => string
 ) => {
   const [uploadLoading, setUploadLoading] = useState<boolean>(false);
   const [postDetails, setPostDetails] = useState<{
@@ -168,7 +169,8 @@ const useUpload = (
           ],
           address as `0x${string}`,
           clientWallet,
-          publicClient
+          publicClient,
+          t
         );
 
         setPostDetails({
@@ -212,7 +214,7 @@ const useUpload = (
         dispatch(
           setIndexer({
             actionOpen: true,
-            actionMessage: "Successfully Indexed",
+            actionMessage: t("suc"),
           })
         );
 

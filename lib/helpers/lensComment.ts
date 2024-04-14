@@ -21,7 +21,8 @@ const lensComment = async (
   address: `0x${string}`,
   clientWallet: WalletClient,
   publicClient: PublicClient,
-  clearComment: () => void
+  clearComment: () => void,
+  t: (key: string) => string
 ): Promise<void> => {
   if (
     openActionModules &&
@@ -32,7 +33,7 @@ const lensComment = async (
     openActionModules?.[0]?.collectOpenAction?.simpleCollectOpenAction
   ) {
     openActionModules = cleanCollect(openActionModules);
-  } else  {
+  } else {
     openActionModules = [
       {
         collectOpenAction: {
@@ -79,7 +80,8 @@ const lensComment = async (
       {
         forTxId: broadcastResult?.data?.broadcastOnchain.txId,
       },
-      dispatch
+      dispatch,
+      t
     );
   } else {
     const { request } = await publicClient.simulateContract({
@@ -109,7 +111,7 @@ const lensComment = async (
     dispatch(
       setIndexer({
         actionOpen: true,
-        actionMessage: "Indexing Interaction",
+        actionMessage: t("ind"),
       })
     );
     clearComment();
@@ -117,7 +119,8 @@ const lensComment = async (
       {
         forTxHash: tx.transactionHash,
       },
-      dispatch
+      dispatch,
+      t
     );
   }
   setTimeout(() => {

@@ -17,6 +17,7 @@ const Sidebar: FunctionComponent<SidebarProps> = ({
   handleLogIn,
   walletConnected,
   newQuests,
+  t,
 }) => {
   return (
     <div
@@ -55,12 +56,12 @@ const Sidebar: FunctionComponent<SidebarProps> = ({
           >
             {[
               {
-                title: "Feed",
+                title: t("fed"),
                 image: "QmRs3h5EmfHLKGNLUPKiUdhw5i25UKtFRYQ7frGiYmxE4K",
                 link: () => router.push(`/`),
               },
               {
-                title: "Account",
+                title: t("acc"),
                 image: "QmbRjUquntNwVuSn1GpUpVi7hMygvhShZrA7rHgmFYtzSf",
                 link:
                   !walletConnected && !lensConnected
@@ -81,17 +82,17 @@ const Sidebar: FunctionComponent<SidebarProps> = ({
                       },
               },
               {
-                title: "Envoke",
+                title: t("en"),
                 image: "QmSdwhzPmXp3GJCNKoNEwXPaVZVpyHSSCuDxNPDuxGP2yk",
                 link: () => router.push(`/envoke`),
               },
               {
-                title: "Upload",
+                title: t("upd"),
                 image: "QmbzfW75UVB7VQ9K7gFQecs8dzhbcXb6TdgfzsCtikkdUQ",
                 link: () => router.push(`/upload`),
               },
               {
-                title: "Saves",
+                title: t("sa"),
                 image: "QmS5LARM6UvSAhzGmGGSQiWYfvNguwsfeiXJ62s3KGZ6Z3",
                 link:
                   !walletConnected && !lensConnected
@@ -112,17 +113,17 @@ const Sidebar: FunctionComponent<SidebarProps> = ({
                       },
               },
               {
-                title: "Activity",
+                title: t("ac"),
                 image: "QmZ3mrF2YgwPkoeFpR54mpDKznTg9oFo5Mqk7uGFW8PgY2",
                 link: () => router.push("/activity"),
               },
               {
-                title: "Awards",
+                title: t("awa"),
                 image: "QmUcWZDv5pFbxkvM995yAQAcPQHpy1G1faTbAk7UvDbTyd",
                 link: () => router.push("/awards"),
               },
               {
-                title: "Dashboard",
+                title: t("dash"),
                 image: "QmZ1PSKctNt2REihxUmJBK9ZrcbU2pTACE1XSUY4YprK1x",
                 link:
                   !walletConnected && !lensConnected
@@ -192,7 +193,7 @@ const Sidebar: FunctionComponent<SidebarProps> = ({
             {openSidebar && (
               <>
                 <div className="relative font-bit text-white text-xs flex items-center justify-center w-fit h-fit">
-                  New Quests
+                  {t("news")}
                 </div>
                 <div className="relative w-full h-px flex items-center justify-center bg-white"></div>
                 <div
@@ -202,7 +203,9 @@ const Sidebar: FunctionComponent<SidebarProps> = ({
                     e.preventDefault();
                     router.push(`/`);
                   }}
-                >{`See More >`}</div>
+                >
+                  {t("more")}
+                </div>
               </>
             )}
             <div className="relative w-full h-fit flex flex-row gap-2 flex-wrap overflow-hidden">

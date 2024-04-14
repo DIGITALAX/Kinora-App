@@ -36,12 +36,13 @@ export type QuestFeedProps = {
     like: boolean;
     follow: boolean;
     unfollow: boolean;
-    collect: boolean
+    collect: boolean;
   }[];
   setMirrorChoiceOpen: (id: SetStateAction<boolean[]>) => void;
   profileHovers: boolean[];
   setProfileHovers: (id: SetStateAction<boolean[]>) => void;
   unfollowProfile: (id: string, index: number) => Promise<void>;
+  t: (key: string) => string
   followProfile: (id: string, index: number, main?: boolean) => Promise<void>;
 };
 
@@ -63,7 +64,7 @@ export type QuestPreviewProps = {
     like: boolean;
     follow: boolean;
     unfollow: boolean;
-    collect: boolean
+    collect: boolean;
   }[];
   setMirrorChoiceOpen: (id: SetStateAction<boolean[]>) => void;
   profileHovers: boolean[];
@@ -73,6 +74,7 @@ export type QuestPreviewProps = {
   mainFeed?: boolean;
   border?: boolean;
   disabled?: boolean;
+  t: (key: string) => string;
 };
 
 export type InteractBarProps = {
@@ -84,12 +86,13 @@ export type InteractBarProps = {
     like: boolean;
     follow: boolean;
     unfollow: boolean;
-    collect: boolean
+    collect: boolean;
   }[];
   publication: Post;
   mirror?: (id: string, main?: boolean) => Promise<void>;
   like?: (id: string, hasReacted: boolean, main?: boolean) => Promise<void>;
   border?: boolean;
+  t: (key: string) => string;
   mirrorChoiceOpen?: boolean[];
   bookmark?: (id: string) => Promise<void>;
   setMirrorChoiceOpen?: (id: SetStateAction<boolean[]>) => void;
@@ -109,6 +112,7 @@ export type ConnectFirstProps = {
   handleLogIn: () => Promise<void>;
   signLoading: boolean;
   walletConnected: boolean;
+  t: (key: string) => string;
 };
 
 export type WaveFormProps = {
@@ -155,6 +159,7 @@ export type ProfileHoverProps = {
   router: NextRouter;
   dispatch: Dispatch;
   main: boolean;
+  t: (key: string) => string;
 };
 
 export type PostCommentProps = {
@@ -177,6 +182,7 @@ export type PostCommentProps = {
   postCollectGif: PostCollectGifState;
   setMakePostComment: (e: SetStateAction<MakePostComment[]>) => void;
   main?: boolean | undefined;
+  t: (key: string) => string;
   commentPost:
     | ((id: string) => Promise<void>)
     | (() => Promise<void>)
@@ -207,6 +213,7 @@ export type PostQuoteProps = {
   dispatch: Dispatch<Action>;
   disabled: boolean | undefined;
   router: NextRouter;
+  t: (key: string) => string
   index: number;
   lensConnected?: Profile | undefined;
   interactionsLoading?: {
@@ -215,7 +222,7 @@ export type PostQuoteProps = {
     follow: boolean;
     unfollow: boolean;
     comment: boolean;
-    collect: boolean
+    collect: boolean;
   }[];
   main?: boolean;
   mirror?: (id: string, main?: boolean | undefined) => Promise<void>;

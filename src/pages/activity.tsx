@@ -11,8 +11,10 @@ import { Quest } from "@/components/Quest/types/quest.types";
 import { Profile } from "../../graphql/generated";
 import { setActivityFeed } from "../../redux/reducers/activityFeedSlice";
 import Head from "next/head";
+import { useTranslation } from "./_app";
 
 export default function Envoke({ router }: { router: NextRouter }) {
+  const { t } = useTranslation();
   const publicClient = createPublicClient({
     chain: polygon,
     transport: http(
@@ -157,6 +159,7 @@ export default function Envoke({ router }: { router: NextRouter }) {
           </div>
         ) : (
           <Activity
+            t={t}
             simpleCollect={simpleCollect}
             activityFeed={activityFeed}
             getMoreActivityFeed={getMoreActivityFeed}

@@ -20,6 +20,7 @@ const lensPost = async (
   address: `0x${string}`,
   clientWallet: WalletClient,
   publicClient: PublicClient,
+  t: (key: string) => string,
   closeBox?: () => void
 ): Promise<void> => {
   if (
@@ -76,7 +77,7 @@ const lensPost = async (
     dispatch(
       setIndexer({
         actionOpen: true,
-        actionMessage: "Indexing Interaction",
+        actionMessage: t("ind"),
       })
     );
     closeBox && closeBox();
@@ -84,7 +85,8 @@ const lensPost = async (
       {
         forTxId: broadcastResult?.data?.broadcastOnchain?.txId,
       },
-      dispatch
+      dispatch,
+      t
     );
   } else {
     const { request } = await publicClient.simulateContract({
@@ -108,7 +110,7 @@ const lensPost = async (
     dispatch(
       setIndexer({
         actionOpen: true,
-        actionMessage: "Indexing Interaction",
+        actionMessage: t("ind"),
       })
     );
     closeBox && closeBox();
@@ -117,7 +119,8 @@ const lensPost = async (
       {
         forTxHash: tx.transactionHash,
       },
-      dispatch
+      dispatch,
+      t
     );
   }
   setTimeout(() => {

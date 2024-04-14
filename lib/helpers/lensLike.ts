@@ -7,7 +7,8 @@ import { setIndexer } from "../../redux/reducers/indexerSlice";
 const lensLike = async (
   id: string,
   dispatch: Dispatch<Action>,
-  downvote: boolean
+  downvote: boolean,
+  t: (key: string) => string
 ): Promise<void> => {
   const data = await likePost({
     for: id,
@@ -25,13 +26,14 @@ const lensLike = async (
         {
           forTxId: data?.data?.addReaction?.txId,
         },
-        dispatch
+        dispatch,
+        t
       );
     } else {
       dispatch(
         setIndexer({
           actionOpen: true,
-          actionMessage: "Successfully Indexed",
+          actionMessage: t("suc"),
         })
       );
       setTimeout(() => {

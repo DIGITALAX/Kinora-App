@@ -16,7 +16,8 @@ const lensFollow = async (
   module: FollowModuleRedeemInput | undefined,
   address: `0x${string}`,
   clientWallet: WalletClient,
-  publicClient: PublicClient
+  publicClient: PublicClient,
+  t: (key: string) => string
 ): Promise<void> => {
   const { data } = await follow({
     follow: [
@@ -46,7 +47,7 @@ const lensFollow = async (
     dispatch(
       setIndexer({
         actionOpen: true,
-        actionMessage: "Indexing Interaction",
+        actionMessage: t("ind"),
       })
     );
 
@@ -54,7 +55,8 @@ const lensFollow = async (
       {
         forTxId: broadcastResult?.data?.broadcastOnchain?.txId,
       },
-      dispatch
+      dispatch,
+      t
     );
   } else {
     const { request } = await publicClient.simulateContract({
@@ -75,14 +77,15 @@ const lensFollow = async (
     dispatch(
       setIndexer({
         actionOpen: true,
-        actionMessage: "Indexing Interaction",
+        actionMessage: t("ind"),
       })
     );
     await handleIndexCheck(
       {
         forTxHash: tx.transactionHash,
       },
-      dispatch
+      dispatch,
+      t
     );
   }
 

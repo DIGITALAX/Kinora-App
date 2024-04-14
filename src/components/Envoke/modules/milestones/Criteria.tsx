@@ -24,6 +24,7 @@ const Criteria: FunctionComponent<CriteriaProps> = ({
   dispatch,
   questInfo,
   milestonesOpen,
+  t,
 }): JSX.Element => {
   return (
     <div className="relative w-full h-fit flex items-start justify-start flex-col font-bit text-white gap-10">
@@ -32,14 +33,13 @@ const Criteria: FunctionComponent<CriteriaProps> = ({
           <div className="relative w-fit h-fit flex items-center justify-center text-sm">
             <div className="relative w-fit h-fit items-start justify-start flex flex-col gap-1">
               <div className="relative w-fit h-fit items-start justify-start opacity-70">
-                Kinora & Chromadin Video Search.
+                {t("search")}
               </div>
               <div
-                className="relative w-fit h-fit flex items-center justify-center text-xs cursor-pointer hover:opacity-70"
+                className="relative w-fit h-fit flex items-center justify-center break-all whitespace-preline text-xs cursor-pointer hover:opacity-70"
                 onClick={() => router.push("/upload")}
               >
-                Cant find a vid that you&apos;re looking for? Upload & post your
-                own.
+                {t("find")}
               </div>
             </div>
           </div>
@@ -48,7 +48,7 @@ const Criteria: FunctionComponent<CriteriaProps> = ({
               className={`h-10 w-full bg-black border border-acei rounded-md p-1 text-xs ${
                 videoSearchLoading && "opacity-70"
               }`}
-              placeholder="Search video library."
+              placeholder={t("lib")}
               value={videoSearch || ""}
               onChange={(e) => {
                 setVideoSearch(e.target.value);
@@ -270,6 +270,7 @@ const Criteria: FunctionComponent<CriteriaProps> = ({
               const image = createMedia(item?.video?.metadata);
               return item?.open ? (
                 <Eligible
+                  t={t}
                   item={item}
                   index={index}
                   key={index}

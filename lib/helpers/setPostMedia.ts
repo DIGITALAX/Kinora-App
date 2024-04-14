@@ -13,11 +13,12 @@ const setPostMedia = async (
       }[]
     >
   ) => void,
-  index: number
+  index: number,
+  t: (key: string) => string
 ) => {
   if (!e.target.files) return;
 
-  if (type === "video") {
+  if (type === t("video")) {
     setContentLoading((prev) => {
       const arr = [...prev];
       arr[index] = {

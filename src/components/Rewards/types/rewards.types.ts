@@ -6,4 +6,5 @@ export type RewardProps = {
   reward: Reward;
   router: NextRouter;
   dispatch: Dispatch;
+  t: (key: string) => string;
 };

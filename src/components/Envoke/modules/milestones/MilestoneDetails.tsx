@@ -17,11 +17,12 @@ const MilestoneDetails: FunctionComponent<MilestoneDetailsProps> = ({
   milestoneCoversLoading,
   setMilestoneCoversLoading,
   milestonesOpen,
+  t,
 }): JSX.Element => {
   return (
     <div className="relative font-bit text-white w-full h-fit flex items-start justify-start gap-2 flex-col">
       <div className="relative w-fit h-fit flex items-start justify-start">
-        Milestone Cover Image
+        {t("milC")}
       </div>
       <div className="relative w-fit h-fit flex items-center justify-center flex flex-row gap-2">
         <div
@@ -61,8 +62,8 @@ const MilestoneDetails: FunctionComponent<MilestoneDetailsProps> = ({
             <BsShuffle size={10} color={"white"} />
           </div>
         </div>
-        <div className="relative w-fit h-fit flex items-center justify-center text-xxs opacity-70">
-          Don&apos;t have a cover image? <br /> Shuffle here.
+        <div className="relative w-fit h-fit flex items-center justify-center text-xxs opacity-70 break-all whitespace-preline">
+          {t("shuff")}
         </div>
       </div>
       <label
@@ -208,11 +209,11 @@ const MilestoneDetails: FunctionComponent<MilestoneDetailsProps> = ({
       </label>
       <div className="relative w-full h-fit flex items-start justify-start gap-2 flex-col pt-6">
         <div className="relative w-fit h-fit text-xs break-words flex items-start justify-start">
-          Title <p className="pl-2 flex text-sm text-calcetine">{">"}</p>
+          {t("tit")} <p className="pl-2 flex text-sm text-calcetine">{">"}</p>
         </div>
         <input
           className="h-10 w-full bg-black border border-acei rounded-md p-1 text-xs"
-          placeholder="Give your Milestone a title."
+          placeholder={t("milT")}
           value={
             questInfo?.milestones[
               milestonesOpen.findIndex((item: boolean) => item == true) !== -1
@@ -254,14 +255,14 @@ const MilestoneDetails: FunctionComponent<MilestoneDetailsProps> = ({
       </div>
       <div className="relative w-full h-fit flex items-start justify-start gap-2 flex-col pt-4">
         <div className="relative w-fit h-fit text-xs break-words flex items-start justify-start">
-          Description <p className="pl-2 flex text-sm text-calcetine">{">"}</p>
+          {t("des")} <p className="pl-2 flex text-sm text-calcetine">{">"}</p>
         </div>
         <textarea
           className="h-32 w-full bg-black border border-acei rounded-md p-2 text-xs"
           style={{
             resize: "none",
           }}
-          placeholder="A short overview of this milestone and what it involves."
+          placeholder={t("milD")}
           value={
             questInfo?.milestones[
               milestonesOpen.findIndex((item: boolean) => item == true) !== -1

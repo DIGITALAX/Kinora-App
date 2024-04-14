@@ -14,7 +14,8 @@ const lensUnfollow = async (
   dispatch: Dispatch<Action>,
   address: `0x${string}`,
   clientWallet: WalletClient,
-  publicClient: PublicClient
+  publicClient: PublicClient,
+  t: (key: string) => string
 ): Promise<void> => {
   const { data } = await unfollow({
     unfollow: [id],
@@ -39,7 +40,7 @@ const lensUnfollow = async (
     dispatch(
       setIndexer({
         actionOpen: true,
-        actionMessage: "Indexing Interaction",
+        actionMessage: t("ind"),
       })
     );
 
@@ -47,7 +48,8 @@ const lensUnfollow = async (
       {
         forTxId: broadcastResult?.data?.broadcastOnchain?.txId,
       },
-      dispatch
+      dispatch,
+      t
     );
   } else {
     const { request } = await publicClient.simulateContract({
@@ -68,7 +70,8 @@ const lensUnfollow = async (
       {
         forTxHash: tx.transactionHash,
       },
-      dispatch
+      dispatch,
+      t
     );
   }
 

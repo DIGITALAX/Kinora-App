@@ -9,10 +9,11 @@ const Reward: FunctionComponent<RewardProps> = ({
   reward,
   router,
   dispatch,
+  t,
 }): JSX.Element => {
   return (
     <div className="relative w-full h-fit sm:h-80 border border-cost rounded-sm p-2 flex">
-      <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center z-0" >
+      <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center z-0">
         <Image
           layout="fill"
           objectFit="cover"
@@ -31,7 +32,7 @@ const Reward: FunctionComponent<RewardProps> = ({
           </div>
           <div className="relative w-fit h-fit flex items-center justify-center gap-1.5 flex-row">
             <div className="relative w-fit h-fit flex items-center justify-center text-cost font-bit text-xs break-words">
-              {`Milestone ${reward.milestone}`}
+              {`${t("mil")} ${reward.milestone}`}
             </div>
             <div
               className="relative w-fit h-fit flex items-center justify-center cursor-pointer"
@@ -83,7 +84,7 @@ const Reward: FunctionComponent<RewardProps> = ({
           <div className="relative w-full h-fit flex items-end justify-start gap-2 flex-col font-vcr overflow-y-scroll">
             <div className="relative w-fit h-fit flex flex-col gap-1 items-end justify-end">
               <div className="relative text-xs text-girasol flex items-center justify-center w-fit h-fit">
-                Title
+                {t("tit")}
               </div>
               <div className="relative w-fit h-fit flex items-center justify-center w-fit h-fit text-xxs text-white">
                 {reward?.rewardMetadata?.title}
@@ -91,7 +92,7 @@ const Reward: FunctionComponent<RewardProps> = ({
             </div>
             <div className="relative w-fit h-fit flex flex-col gap-1 items-end justify-end">
               <div className="relative text-xs text-girasol flex items-center justify-center w-fit h-fit">
-                Description
+                {t("des")}
               </div>
               <div className="relative w-fit h-fit flex items-start justify-end text-right w-fit h-fit text-xxs text-white max-h-[10rem] overflow-y-scroll">
                 {reward?.rewardMetadata?.description}

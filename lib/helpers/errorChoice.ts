@@ -5,7 +5,8 @@ import { setInteractError } from "../../redux/reducers/interactErrorSlice";
 const errorChoice = async (
   err: any,
   runner: (() => Promise<void>) | (() => void),
-  dispatch: Dispatch<Action>
+  dispatch: Dispatch<Action>,
+  t: (key: string) => string
 ) => {
   if (err?.message?.includes("User rejected the request")) return;
   if (
@@ -18,7 +19,7 @@ const errorChoice = async (
     dispatch(
       setIndexer({
         actionOpen: true,
-        actionMessage: "Successfully Indexed",
+        actionMessage: t("suc"),
       })
     );
 

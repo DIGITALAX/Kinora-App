@@ -27,6 +27,7 @@ const Activity: FunctionComponent<ActivityProps> = ({
   interactionsLoading,
   simpleCollect,
   disabled,
+  t,
 }): JSX.Element => {
   return (
     <InfiniteScroll
@@ -61,6 +62,7 @@ const Activity: FunctionComponent<ActivityProps> = ({
               case "metrics":
                 return (
                   <MetricsAdded
+                    t={t}
                     key={index}
                     width="100%"
                     height="16rem"
@@ -91,6 +93,7 @@ const Activity: FunctionComponent<ActivityProps> = ({
                     key={index}
                     width="100%"
                     height="9rem"
+                    t={t}
                     dispatch={dispatch}
                     quest={item}
                     index={index}
@@ -106,6 +109,7 @@ const Activity: FunctionComponent<ActivityProps> = ({
               case "player":
                 return (
                   <Player
+                    t={t}
                     key={index}
                     width="100%"
                     height="16rem"
@@ -146,6 +150,7 @@ const Activity: FunctionComponent<ActivityProps> = ({
                     mainFeed={true}
                     border
                     disabled={disabled}
+                    t={t}
                   />
                 );
             }

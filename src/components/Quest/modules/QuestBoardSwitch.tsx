@@ -22,6 +22,7 @@ const QuestBoardSwitch: FunctionComponent<QuestBoardSwitchProps> = ({
   questInfoLoading,
   mainViewer,
   handleCompleteMilestone,
+  t,
   completeLoading,
   milestoneEligible,
 }): JSX.Element => {
@@ -29,6 +30,7 @@ const QuestBoardSwitch: FunctionComponent<QuestBoardSwitchProps> = ({
     case 0:
       return (
         <QuestBoxDetails
+          t={t}
           lensConnected={lensConnected}
           questInfo={questInfo}
           questInfoLoading={questInfoLoading}
@@ -62,6 +64,7 @@ const QuestBoardSwitch: FunctionComponent<QuestBoardSwitchProps> = ({
           completeLoading={completeLoading}
           milestone={questInfo?.milestones?.[mainViewer - 1]!}
           handleCompleteMilestone={handleCompleteMilestone}
+          t={t}
         />
       );
   }

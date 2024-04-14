@@ -14,9 +14,11 @@ import { NextRouter } from "next/router";
 import usePostLive from "@/components/Envoke/hooks/usePostLive";
 import { QuestStage } from "@/components/Envoke/types/envoke.types";
 import Head from "next/head";
+import { useTranslation } from "./_app";
 
 export default function Envoke({ router }: { router: NextRouter }) {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   const publicClient = createPublicClient({
     chain: polygon,
     transport: http(
@@ -112,7 +114,7 @@ export default function Envoke({ router }: { router: NextRouter }) {
   return (
     <>
       <Head>
-        <title>Envoke New Quest</title>
+        <title>{t("env")}</title>
         <meta name="og:url" content={`https://kinora.irrevocable.dev/envoke`} />
         <meta name="og:title" content={"Envoke New Quest"} />
         <meta name="og:description" content={"On-Chain Video Social Quests."} />
@@ -178,7 +180,7 @@ export default function Envoke({ router }: { router: NextRouter }) {
             id={!openSidebar ? "closeSide" : ""}
           >
             <div className="relative w-fit h-fit flex items-start justify-start text-2xl pb-10 font-bit text-white">
-              Envoke New Quest
+              {t("env")}
             </div>
             <div
               className={`relative w-full h-fit flex flex-col xl:flex-row gap-8 pb-2 items-start  ${
@@ -189,6 +191,7 @@ export default function Envoke({ router }: { router: NextRouter }) {
             >
               {questStage !== QuestStage.Post && (
                 <QuestSwitch
+                  t={t}
                   questStage={questStage}
                   dispatch={dispatch}
                   questInfo={questInfo}
@@ -223,6 +226,7 @@ export default function Envoke({ router }: { router: NextRouter }) {
                 />
               )}
               <Stages
+                t={t}
                 questInfo={questInfo}
                 questStage={questStage}
                 dispatch={dispatch}
@@ -244,6 +248,7 @@ export default function Envoke({ router }: { router: NextRouter }) {
         </div>
       ) : (
         <ConnectFirst
+          t={t}
           signLoading={signLoading}
           openConnectModal={openConnectModal}
           handleLogIn={handleLogIn}

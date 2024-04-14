@@ -18,6 +18,7 @@ const MetricsAdded: FunctionComponent<MetricsAddedProps> = ({
   like,
   profileHovers,
   setProfileHovers,
+  t,
   simpleCollect,
   index,
   interactionsLoading,
@@ -64,8 +65,8 @@ const MetricsAdded: FunctionComponent<MetricsAddedProps> = ({
               src={`${INFURA_GATEWAY}/ipfs/QmS6GgvqEKRjvXtYfiXWTQZMz7nt2ucuKFaWv8sTgUDGNq`}
             />
           </div>
-          <div className="text-gris relative flex items-center justify-center text-xxs break-words">
-            Video Metric <br /> Activity Updated
+          <div className="text-gris relative flex items-center justify-center text-xxs break-words whitespace-preline">
+            {t("metA")}
           </div>
         </div>
         <div className="relative w-fit h-fit flex items-center justify-end text-white text-right sm:text-sm text-xs break-words">
@@ -79,7 +80,7 @@ const MetricsAdded: FunctionComponent<MetricsAddedProps> = ({
       </div>
       <div className="relative w-full mr-0 h-fit flex items-center justify-end text-suave text-xxs font-bit flex-row gap-1">
         <div className="flex items-center justify-center top-px relative">
-          New Activity Detected
+          {t("new")}
         </div>
         <div className="relative w-3 h-3 flex items-center justify-center">
           <Image
@@ -91,6 +92,7 @@ const MetricsAdded: FunctionComponent<MetricsAddedProps> = ({
       </div>
       {!disabled && (
         <InteractBar
+          t={t}
           dispatch={dispatch}
           lensConnected={lensConnected}
           publication={quest?.publication!}

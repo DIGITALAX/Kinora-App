@@ -6,12 +6,14 @@ import useRewards from "@/components/Rewards/hooks/useRewards";
 import { Reward as RewardType } from "@/components/Quest/types/quest.types";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Reward from "@/components/Rewards/modules/Reward";
+import { useTranslation } from "./_app";
 
 export default function Awards({ router }: { router: NextRouter }) {
   const dispatch = useDispatch();
   const openSidebar = useSelector(
     (state: RootState) => state.app.sideBarOpenReducer.value
   );
+  const { t } = useTranslation();
   const {
     rewardsLoading,
     getMoreRewards,
@@ -29,10 +31,7 @@ export default function Awards({ router }: { router: NextRouter }) {
     >
       <Head>
         <title>Kinora Awards Feed</title>
-        <meta
-          name="og:url"
-          content={`https://kinora.irrevocable.dev/awards`}
-        />
+        <meta name="og:url" content={`https://kinora.irrevocable.dev/awards`} />
         <meta name="og:title" content={"Kinora Awards"} />
         <meta name="og:description" content={"On-Chain Video Social Quests."} />
         <link rel="icon" href="/favicon.ico" />
@@ -135,6 +134,7 @@ export default function Awards({ router }: { router: NextRouter }) {
                     reward={item}
                     router={router}
                     dispatch={dispatch}
+                    t={t}
                   />
                 );
               })}

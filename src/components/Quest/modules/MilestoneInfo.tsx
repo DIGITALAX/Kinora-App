@@ -18,13 +18,14 @@ const MilestoneInfo: FunctionComponent<MilestoneInfoProps> = ({
   questInfo,
   milestoneEligible,
   dispatch,
+  t,
 }): JSX.Element => {
   return (
     <div className="relative rounded-sm bg-black border border-cost w-full h-full flex flex-col gap-3 p-2 items-start justify-between">
       <div className="relative w-full h-fit flex flex-col gap-5 overflow-y-scroll">
         <div className="relative w-full h-fit flex flex-col items-start justify-start gap-2 font-vcr text-white text-xs">
           <div className="relative w-fit h-fit flex items-center justify-center text-gray-400 text-sm">
-            Milestone Rewards
+            {t("rewsM")}
           </div>
           {milestone?.rewards && milestone?.rewards?.length > 0 && (
             <Rewards rewards={milestone?.rewards} dispatch={dispatch} />
@@ -32,13 +33,13 @@ const MilestoneInfo: FunctionComponent<MilestoneInfoProps> = ({
         </div>
         <div className="relative w-full h-fit flex flex-col items-start justify-start gap-2 font-vcr text-white text-xs">
           <div className="relative w-fit h-fit flex items-center justify-center text-sm text-gray-400">
-            Milestone Gate
+            {t("gateM")}
           </div>
           {milestone?.gated?.erc20Logic &&
             milestone?.gated?.erc20Logic?.length > 0 && (
               <div className="relative w-full h-fit flex flex-col items-start justify-center gap-2 break-words">
                 <div className="relative w-fit h-fit flex items-center justify-center text-xxs">
-                  ERC20
+                  {t("erc20")}
                 </div>
                 <div className="relative w-fit h-fit justify-start items-center gap-4 flex flex-row flex-wrap">
                   {milestone?.gated?.erc20Logic?.map(
@@ -93,7 +94,7 @@ const MilestoneInfo: FunctionComponent<MilestoneInfoProps> = ({
             milestone?.gated?.erc721Logic?.length > 0 && (
               <div className="relative w-full h-fit flex flex-col items-start justify-center gap-2 break-words">
                 <div className="relative w-fit h-fit flex items-center justify-center text-xxs">
-                  ER721
+                  {t("erc721")}
                 </div>
                 <div className="relative w-full h-fit justify-start items-center flex overflow-x-scroll">
                   <div className="relative w-fit h-fit justify-start items-center gap-2 flex flex-row">
@@ -223,7 +224,7 @@ const MilestoneInfo: FunctionComponent<MilestoneInfoProps> = ({
         </div>
         <div className="relative w-fit h-fit text-sm font-vcr text-gray-300">
           {!questInfo?.status
-            ? "Quest Closed"
+            ? t("cloQ")
             : Number(
                 player?.milestonesCompleted?.[
                   player?.milestonesCompleted?.findIndex(
@@ -232,9 +233,9 @@ const MilestoneInfo: FunctionComponent<MilestoneInfoProps> = ({
                   )
                 ]?.milestonesCompleted
               ) >= Number(milestone?.milestoneId)
-            ? "Milestone Completed"
+            ? t("milM")
             : !milestoneEligible
-            ? "Not Eligible Yet"
+            ? t("edY")
             : player?.eligibile?.[
                 player?.milestonesCompleted?.findIndex(
                   (value) =>
@@ -271,9 +272,9 @@ const MilestoneInfo: FunctionComponent<MilestoneInfoProps> = ({
                     ]?.milestonesCompleted
                   )
                 ))
-              ? "Complete Quest"
-              : "Claim Reward"
-            : "Envoker To Verify"}
+              ? t("coQ")
+              : t("coR")
+            : t("enR")}
         </div>
       </div>
     </div>

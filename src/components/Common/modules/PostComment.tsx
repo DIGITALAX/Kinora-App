@@ -15,6 +15,7 @@ const PostComment: FunctionComponent<PostCommentProps> = ({
   commentPost,
   makePostComment,
   setMakePostComment,
+  t,
   commentPostLoading,
   id,
   height,
@@ -134,13 +135,10 @@ const PostComment: FunctionComponent<PostCommentProps> = ({
       <div className="relative w-full h-fit flex flex-col sm:flex-row items-between justify-center sm:items-center sm:justify-between sm:gap-1.5 gap-4">
         <div className="relative w-full sm:w-fit h-fit items-center justify-start flex flex-row gap-2">
           {[
-            ["QmetvVH6tdXP4ZfvB7ihH9J9oQ6KfVUVVktyHpbbaAzztX", "image"],
-            ["QmNd2Rj7tzTJiN7vMbWaFoYJuUARUfEnXRpjKRkQ4uEKoD", "video"],
-            ["QmVxaEvPaBfLdLfYX2bUV2Dze6NRDCtepHz7y4NJ6xojue", "gifs"],
-            [
-              "QmXA7NqjfnoLMWBoA2KsesRQb1SNGQBe2SBxkcT2jEtT4G",
-              "collect options",
-            ],
+            ["QmetvVH6tdXP4ZfvB7ihH9J9oQ6KfVUVVktyHpbbaAzztX", t("image")],
+            ["QmNd2Rj7tzTJiN7vMbWaFoYJuUARUfEnXRpjKRkQ4uEKoD", t("video")],
+            ["QmVxaEvPaBfLdLfYX2bUV2Dze6NRDCtepHz7y4NJ6xojue", t("gifs")],
+            ["QmXA7NqjfnoLMWBoA2KsesRQb1SNGQBe2SBxkcT2jEtT4G", t("collO")],
           ].map((image: string[], indexTwo: number) => {
             const loaders = [contentLoading?.image, contentLoading?.video];
             return loaders[indexTwo] ? (
@@ -186,7 +184,8 @@ const PostComment: FunctionComponent<PostCommentProps> = ({
                       image[1],
                       setMakePostComment,
                       setContentLoading,
-                      index
+                      index,
+                      t
                     )
                   }
                 />
@@ -243,7 +242,7 @@ const PostComment: FunctionComponent<PostCommentProps> = ({
               {commentPostLoading ? (
                 <AiOutlineLoading size={15} color="white" />
               ) : (
-                "Send It"
+                t("send")
               )}
             </div>
           </div>

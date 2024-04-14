@@ -20,7 +20,8 @@ const lensCollect = async (
   dispatch: Dispatch<Action>,
   address: `0x${string}`,
   clientWallet: WalletClient,
-  publicClient: PublicClient
+  publicClient: PublicClient,
+  t: (key: string) => string
 ): Promise<void> => {
   let broadcastResult: FetchResult<BroadcastOnchainMutation>,
     functionName: string,
@@ -129,7 +130,7 @@ const lensCollect = async (
     dispatch(
       setIndexer({
         actionOpen: true,
-        actionMessage: "Indexing Interaction",
+        actionMessage: t("ind"),
       })
     );
 

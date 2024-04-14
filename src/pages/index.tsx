@@ -10,14 +10,16 @@ import { polygon } from "viem/chains";
 import { setQuestFeed } from "../../redux/reducers/questFeedSlice";
 import { Quest } from "@/components/Quest/types/quest.types";
 import Head from "next/head";
+import { useTranslation } from "./_app";
 
 export default function Home({ router }: { router: NextRouter }) {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   const { address } = useAccount();
   const publicClient = createPublicClient({
     chain: polygon,
     transport: http(
-     `https://polygon-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`
+      `https://polygon-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`
     ),
   });
   const questFeed = useSelector(
@@ -144,6 +146,7 @@ export default function Home({ router }: { router: NextRouter }) {
           </div>
         ) : (
           <QuestFeed
+            t={t}
             questFeed={questFeed}
             getMoreQuestFeed={getMoreQuestFeed}
             questInfo={questInfo}

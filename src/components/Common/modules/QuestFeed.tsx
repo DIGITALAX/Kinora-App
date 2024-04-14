@@ -18,6 +18,7 @@ const QuestFeed: FunctionComponent<QuestFeedProps> = ({
   interactionsLoading,
   setMirrorChoiceOpen,
   followProfile,
+  t,
   unfollowProfile,
   setProfileHovers,
   profileHovers,
@@ -34,6 +35,7 @@ const QuestFeed: FunctionComponent<QuestFeedProps> = ({
               lensConnected={lensConnected}
               dispatch={dispatch}
               quest={item}
+              t={t}
               router={router}
               mirror={mirror}
               mirrorChoiceOpen={mirrorChoiceOpen}
@@ -84,6 +86,7 @@ const QuestFeed: FunctionComponent<QuestFeedProps> = ({
                   setProfileHovers={setProfileHovers}
                   profileHovers={profileHovers}
                   mainFeed={true}
+                  t={t}
                 />
               );
             })}

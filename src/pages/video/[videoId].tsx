@@ -22,11 +22,13 @@ import Metrics from "@/components/Quest/modules/Metrics";
 import { apolloClient } from "../../../lib/lens/client";
 import Head from "next/head";
 import { VideoMetadataV3 } from "../../../graphql/generated";
+import { useTranslation } from "../_app";
 
 export default function VideoId({ router }: { router: NextRouter }) {
   const { videoId } = router.query;
   const dispatch = useDispatch();
   const { address } = useAccount();
+  const { t } = useTranslation();
   const publicClient = createPublicClient({
     chain: polygon,
     transport: http(
@@ -140,7 +142,8 @@ export default function VideoId({ router }: { router: NextRouter }) {
       : undefined,
     showComments,
     videoData,
-    setVideoData
+    setVideoData,
+    t
   );
   const {
     mirror: suggestedMirror,
@@ -251,6 +254,7 @@ export default function VideoId({ router }: { router: NextRouter }) {
                 {videoData && (
                   <VideoInfo
                     router={router}
+                    t={t}
                     setSocialType={setSocialType}
                     dispatch={dispatch}
                     setMirrorChoiceOpen={setMirrorChoiceOpenMain}
@@ -280,6 +284,7 @@ export default function VideoId({ router }: { router: NextRouter }) {
                   </div>
                 ) : (
                   <QuestSocial
+                    t={t}
                     videoPlaying={videoData}
                     mirrorChoiceOpen={mirrorChoiceOpen}
                     profilesOpen={profilesOpen}
@@ -356,11 +361,12 @@ export default function VideoId({ router }: { router: NextRouter }) {
               <div className="relative w-full h-full flex flex-col gap-6 items-start justify-start overflow-y-scroll">
                 <div className="relative w-full h-fit gap-2 flex items-center justify-center flex-col">
                   <div className="relative w-full h-fit flex items-center justify-center text-gray-400 font-bit text-sm">
-                    Logged Video Metrics
+                    {t("logV")}
                   </div>
                   <div className="relative w-full h-px bg-gray-700"></div>
                 </div>
                 <Metrics
+                  t={t}
                   currentMetricsLoading={currentMetricsLoading}
                   playerMetricsLive={playerMetricsLive}
                   //   milestoneMetrics={videoData!}
@@ -396,7 +402,7 @@ export default function VideoId({ router }: { router: NextRouter }) {
                   )}
                 </div>
                 <div className="relative w-fit h-fit text-xxs sm:text-sm font-vcr text-gray-300">
-                  {"Add Current Metrics"}
+                  {t("curM")}
                 </div>
               </div>
             </div>
@@ -430,6 +436,7 @@ export default function VideoId({ router }: { router: NextRouter }) {
         ) : (
           <QuestFeed
             router={router}
+            t={t}
             interactionsLoading={suggestedInteractionsLoading}
             questInfo={videoInfo}
             questFeed={relatedQuests}

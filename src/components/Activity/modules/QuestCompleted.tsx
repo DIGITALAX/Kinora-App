@@ -17,6 +17,7 @@ const QuestCompleted: FunctionComponent<QuestCompletedProps> = ({
   unfollowProfile,
   setProfileHovers,
   profileHovers,
+  t,
   disabled,
 }): JSX.Element => {
   const pfp = createProfilePicture(quest?.profile?.metadata?.picture);
@@ -49,7 +50,13 @@ const QuestCompleted: FunctionComponent<QuestCompletedProps> = ({
           />
         </div>
       </div>
-      <div className={`relative w-full flex items-center sm:items-start justify-center sm:justify-start gap-6 ${disabled ? "h-fit flex-col" : "h-fit sm:h-[9.5rem] flex-col sm:flex-row"}`}>
+      <div
+        className={`relative w-full flex items-center sm:items-start justify-center sm:justify-start gap-6 ${
+          disabled
+            ? "h-fit flex-col"
+            : "h-fit sm:h-[9.5rem] flex-col sm:flex-row"
+        }`}
+      >
         <div className="relative flex items-start justify-between w-full h-full flex-col gap-1.5 border font-bit border-gris rounded-md p-2">
           <div className="absolute bottom-0 left-0 w-full h-full flex items-center justify-center rounded-md z-0">
             <Image
@@ -81,8 +88,8 @@ const QuestCompleted: FunctionComponent<QuestCompletedProps> = ({
           <div className="relative flex items-start justify-start rounded-md">
             <div className="relative w-fit font-bit h-fit text-xxs sm:text-xs break-words flex items-center justify-center text-white">
               {quest?.type == "milestone"
-                ? `Completed Milestone ${quest?.milestone}`
-                : `Quest Completed`}
+                ? `${t("compM")} ${quest?.milestone}`
+                : `${t("compQ")}`}
             </div>
           </div>
           <div className="relative flex flex-row gap-1.5 items-center justify-center">
@@ -94,13 +101,12 @@ const QuestCompleted: FunctionComponent<QuestCompletedProps> = ({
               />
             </div>
             <div className="text-olive relative flex items-center justify-center text-xs sm:text-sm break-words">
-              Rewards Ready For Claim
+              {t("ready")}
             </div>
           </div>
           <div className="relative w-full h-px bg-gray-700"></div>
           <div className="relative w-fit h-fit flex items-center justify-center text-gris text-xxs sm:text-xs break-words">
-            Continue until you complete them all, or find a new quest to join
-            now.
+            {t("now")}
           </div>
         </div>
         <div className="relative flex flex-col gap-1.5 sm:ml-auto items-center w-full sm:w-fit h-fit justify-center">
@@ -151,6 +157,7 @@ const QuestCompleted: FunctionComponent<QuestCompletedProps> = ({
                 dispatch={dispatch}
                 router={router}
                 main={false}
+                t={t}
               />
             )}
           </div>

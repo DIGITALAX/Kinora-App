@@ -16,8 +16,10 @@ import { AiOutlineLoading } from "react-icons/ai";
 import { createPublicClient, http } from "viem";
 import { polygon } from "viem/chains";
 import Head from "next/head";
+import { useTranslation } from "./_app";
 
 export default function Upload() {
+  const { t } = useTranslation();
   const publicClient = createPublicClient({
     chain: polygon,
     transport: http(
@@ -73,7 +75,8 @@ export default function Upload() {
     publicClient,
     allUploaded,
     lensConnected,
-    verifiedEnvoker
+    verifiedEnvoker,
+    t
   );
   return (
     <>
@@ -85,7 +88,7 @@ export default function Upload() {
           }}
         >
           <Head>
-            <title>Upload</title>
+            <title>{t("upd")}</title>
             <meta
               name="og:url"
               content={`https://kinora.irrevocable.dev/upload`}
@@ -147,7 +150,7 @@ export default function Upload() {
             id={!openSidebar ? "closeSide" : ""}
           >
             <div className="relative w-fit h-fit flex items-start justify-start text-2xl pb-10">
-              Upload A New Video
+              {t("up")}
             </div>
             <div className="relative w-full h-fit flex items-start justify-start flex-col md:flex-row text-xs gap-4">
               <div className="relative w-full h-fit flex items-start justify-start flex-col gap-5 order-2 md:order-1">
@@ -207,7 +210,7 @@ export default function Upload() {
                       {uploadLoading ? (
                         <AiOutlineLoading size={15} color={"white"} />
                       ) : (
-                        "post video"
+                        t("pos")
                       )}
                     </div>
                   </div>
@@ -216,7 +219,7 @@ export default function Upload() {
               <div className="relative w-full h-fit flex flex-col gap-8 items-center justify-center order-1 md:order-2">
                 <div className="relative w-full h-fit flex items-center justify-center gap-3 flex-row">
                   <div className="relative w-fit h-fit text-xs break-words flex items-center justify-center">
-                    Title{" "}
+                    {t("tit")}{" "}
                     <p className="pl-2 flex text-sm text-calcetine">{">"}</p>
                   </div>
                   <input
@@ -232,7 +235,7 @@ export default function Upload() {
                 </div>
                 <div className="flex flex-col items-start justify-start w-full h-fit gap-3 relative">
                   <div className="relative w-fit h-fit text-xs break-words flex items-center justify-center">
-                    Discovery Tags{" "}
+                    {t("tags")}{" "}
                     <p className="pl-2 flex text-sm text-calcetine">{">"}</p>
                   </div>
                   <input
@@ -302,7 +305,7 @@ export default function Upload() {
                 </div>
                 <div className="flex flex-col items-start justify-start w-full h-fit gap-3 relative">
                   <div className="relative w-fit h-fit text-xs break-words flex items-center justify-center">
-                    Description{" "}
+                    {t("des")}{" "}
                     <p className="pl-2 flex text-sm text-calcetine">{">"}</p>
                   </div>
                   <textarea
@@ -325,7 +328,7 @@ export default function Upload() {
             <div className="relative w-full h-fit flex flex-col gap-3 items-start justify-start py-7">
               <div className="flex flex-col items-start justify-start w-full h-fit gap-1 relative">
                 <div className="relative w-fit h-fit text-md break-words">
-                  Collect Options
+                  {t("coll")}
                 </div>
                 <CollectOptions
                   availableCurrencies={availableCurrencies}
@@ -334,6 +337,7 @@ export default function Upload() {
                   openMeasure={openMeasure}
                   setOpenMeasure={setOpenMeasure}
                   border
+                  t={t}
                 />
               </div>
             </div>
@@ -341,6 +345,7 @@ export default function Upload() {
         </div>
       ) : (
         <ConnectFirst
+          t={t}
           signLoading={signLoading}
           openConnectModal={openConnectModal}
           handleLogIn={handleLogIn}

@@ -23,8 +23,9 @@ const Home: FunctionComponent<HomeProps> = ({
   unfollowProfile,
   info,
   getMore,
+  t,
   quests,
-  globalLoading
+  globalLoading,
 }): JSX.Element => {
   return (
     <>
@@ -42,7 +43,7 @@ const Home: FunctionComponent<HomeProps> = ({
         </div>
       ) : quests?.length < 1 ? (
         <div className="relative text-white font-bit text-base text-center flex items-center justify-center w-full h-fit">
-          No Active Quest Data Yet.
+          {t("act")}
         </div>
       ) : (
         <div className="relative w-full h-fit flex items-start justify-start pb-10">
@@ -63,7 +64,7 @@ const Home: FunctionComponent<HomeProps> = ({
                     <div className="rounded-sm relative w-full flex flex-row h-fit">
                       <div
                         className="relative w-5 h-5 flex items-center justify-center mr-0"
-                        title={quest?.type}
+                        title={t(quest?.type)}
                       >
                         <Image
                           draggable={false}
@@ -80,6 +81,7 @@ const Home: FunctionComponent<HomeProps> = ({
                     </div>
                     <QuestPreview
                       quest={quest}
+                      t={t}
                       width="100%"
                       height="11rem"
                       lensConnected={lensConnected}

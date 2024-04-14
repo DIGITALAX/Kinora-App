@@ -21,6 +21,7 @@ const VideoInfo: FunctionComponent<VideoInfoProps> = ({
   mirrorChoiceOpen,
   setMirrorChoiceOpen,
   dispatch,
+  t,
   router,
 }): JSX.Element => {
   const pfp = createProfilePicture(
@@ -108,7 +109,7 @@ const VideoInfo: FunctionComponent<VideoInfoProps> = ({
           {
             image: "QmbRSySsuGtwTvxmNtpEm2poV8FbQ46vPWBNYTd2eewCdj",
             amount: videoPlaying?.publication?.stats?.countOpenActions || 0,
-            title: "Collect",
+            title: t("cols"),
             reacted:
               videoPlaying?.publication?.operations?.hasActed
                 ?.isFinalisedOnchain || false,
@@ -119,7 +120,7 @@ const VideoInfo: FunctionComponent<VideoInfoProps> = ({
           {
             image: "QmT1aZypVcoAWc6ffvrudV3JQtgkL8XBMjYpJEfdFwkRMZ",
             amount: videoPlaying?.publication?.stats?.reactions || 0,
-            title: "Like",
+            title: t("like"),
             reacted: videoPlaying?.publication?.operations?.hasReacted || false,
             function: () =>
               like(
@@ -135,7 +136,7 @@ const VideoInfo: FunctionComponent<VideoInfoProps> = ({
             amount:
               (videoPlaying?.publication?.stats?.mirrors || 0) +
               (videoPlaying?.publication?.stats?.quotes || 0),
-            title: "Mirror",
+            title: t("mir"),
             reacted:
               videoPlaying?.publication?.operations?.hasMirrored ||
               videoPlaying?.publication?.operations?.hasQuoted ||
@@ -147,7 +148,7 @@ const VideoInfo: FunctionComponent<VideoInfoProps> = ({
           {
             image: "QmXD3LnHiiLSqG2TzaNd1Pmhk2nVqDHDqn8k7RtwVspE6n",
             amount: videoPlaying?.publication?.stats?.comments || 0,
-            title: "Comment",
+            title: t("como"),
             reacted: false,
             function: () => setSocialType(SocialType.Comments),
             loader: false,
@@ -156,7 +157,7 @@ const VideoInfo: FunctionComponent<VideoInfoProps> = ({
           {
             image: "QmVXkRB4HCd6gkXmj1cweEh4nVV6oBuKCAWfsKUEJae433",
             amount: videoPlaying?.publication?.stats?.bookmarks || 0,
-            title: "Bookmark",
+            title: t("book"),
             reacted:
               videoPlaying?.publication?.operations?.hasBookmarked || false,
             function: () =>
@@ -228,7 +229,7 @@ const VideoInfo: FunctionComponent<VideoInfoProps> = ({
               {
                 icon: "QmPRRRX1S3kxpgJdLC4G425pa7pMS1AGNnyeSedngWmfK3",
                 function: () => mirror(videoPlaying?.publication?.id, true),
-                title: "Mirror Quest",
+                title: t("mirQ"),
                 reacted:
                   videoPlaying?.publication?.operations?.hasMirrored || false,
                 loader: mainInteractionsLoading?.[0]?.mirror || false,
@@ -244,7 +245,7 @@ const VideoInfo: FunctionComponent<VideoInfoProps> = ({
                       actionPublication: videoPlaying?.publication,
                     })
                   ),
-                title: "Quote Quest",
+                title: t("quQ"),
                 reacted:
                   videoPlaying?.publication?.operations?.hasQuoted || false,
                 loader: false,

@@ -10,8 +10,10 @@ import useCheckout from "@/components/Storefront/hooks/useCheckout";
 import Prints from "@/components/Storefront/modules/Prints";
 import Checkout from "@/components/Storefront/modules/Checkout";
 import useInteractions from "@/components/Common/hooks/useInteractions";
+import { useTranslation } from "./_app";
 
 export default function Storefront() {
+  const { t } = useTranslation();
   const publicClient = createPublicClient({
     chain: polygon,
     transport: http(
@@ -85,7 +87,7 @@ export default function Storefront() {
       }}
     >
       <Head>
-        <title>Storefront</title>
+        <title>{t("stor")}</title>
         <meta
           name="og:url"
           content={`https://kinora.irrevocable.dev/storefront`}
@@ -147,10 +149,11 @@ export default function Storefront() {
         id={!openSidebar ? "closeSide" : ""}
       >
         <div className="relative w-fit h-fit flex items-start justify-start text-2xl pb-10">
-          Kinora Shop
+          {t("shop")}
         </div>
         <div className="relative w-full h-full flex items-start justify-start flex-col md:flex-row text-xs gap-4 pb-3">
           <Prints
+            t={t}
             setStoreItems={setStoreItems}
             lensConnected={lensConnected}
             mirror={mirror}
@@ -165,6 +168,7 @@ export default function Storefront() {
             setChosenCartItem={setChosenCartItem}
           />
           <Checkout
+            t={t}
             dispatch={dispatch}
             chosenCartItem={chosenCartItem}
             setChosenCartItem={setChosenCartItem}

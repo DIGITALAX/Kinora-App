@@ -58,6 +58,7 @@ export type AccountSwitchProps = {
   savesLoading: boolean;
   dispatch: Dispatch;
   globalLoading: boolean;
+  t: (key: string) => string
   setMirrorChoiceOpen: (e: SetStateAction<boolean[]>) => void;
   mirrorChoiceOpen: boolean[];
   mirror: (id: string) => Promise<void>;
@@ -112,6 +113,7 @@ export type HomeProps = {
     envokedCursor: number;
   };
   getMore: () => Promise<void>;
+  t: (key: string) => string
 };
 
 export type SavesProps = {
@@ -127,6 +129,7 @@ export type SavesProps = {
   lensConnected: Profile | undefined;
   setMirrorChoiceOpen: (e: SetStateAction<boolean[]>) => void;
   mirrorChoiceOpen: boolean[];
+  t: (key: string) => string
   mirror: (id: string) => Promise<void>;
   bookmark: (id: string) => Promise<void>;
   like: (id: string, hasReacted: boolean) => Promise<void>;
@@ -147,11 +150,13 @@ export type SavesProps = {
 export type BioProps = {
   profile: Profile;
   dispatch: Dispatch<Action>;
+  t: (key: string) => string
 };
 
 export type DashboardProps = {
   allQuests: (Quest & { type: string })[];
   terminateQuest: (id: number, index: number) => Promise<void>;
+  t: (key: string) => string
   approvePlayerMilestone: (
     id: number,
     milestone: number,
@@ -210,6 +215,7 @@ export type PlayerMilestoneProps = {
     | undefined;
   router: NextRouter;
   player?: boolean;
+  t: (key: string) => string
 };
 
 export type RewardProps = {

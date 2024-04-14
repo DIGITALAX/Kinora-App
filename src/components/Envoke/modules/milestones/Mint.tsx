@@ -18,6 +18,7 @@ import { ImCross } from "react-icons/im";
 const Mint: FunctionComponent<MintProps> = ({
   item,
   dispatch,
+  t,
   questInfo,
   milestonesOpen,
   index,
@@ -519,7 +520,7 @@ const Mint: FunctionComponent<MintProps> = ({
       <div className="relative w-full h-full flex items-center justify-between gap-2 flex-col">
         <input
           className="h-10 w-full bg-black border border-acei rounded-md p-1 text-xs"
-          placeholder="Title."
+          placeholder={t("titi")}
           value={item?.title}
           onChange={(e) => {
             const milestones = [...questInfo?.milestones];
@@ -580,7 +581,7 @@ const Mint: FunctionComponent<MintProps> = ({
           style={{
             resize: "none",
           }}
-          placeholder="Description."
+          placeholder={t("desc")}
           value={item?.description}
           onChange={(e) => {
             const milestones = [...questInfo?.milestones];

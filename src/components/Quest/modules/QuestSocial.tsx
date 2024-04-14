@@ -58,14 +58,15 @@ const QuestSocial: FunctionComponent<QuestSocialProps> = ({
   contentLoadingMain,
   mainInteractionsLoading,
   videoPlaying,
+  t,
 }): JSX.Element => {
-
   switch (socialType) {
     case SocialType.Comments:
       return (
         <div className="relative flex items-start justify-start flex-col gap-5 h-full w-full overflow-y-scroll">
           <div className="relative w-full h-fit flex flex-col gap-2">
             <PostComment
+              t={t}
               setCaretCoord={setCaretCoordMain}
               caretCoord={caretCoordMain}
               profilesOpen={profilesOpenMain?.[0]}
@@ -94,7 +95,7 @@ const QuestSocial: FunctionComponent<QuestSocialProps> = ({
             />
           </div>
           <div className="relative text-white font-vcr text-lg">
-            {`Who Commented?`}
+            {t("whoC")}
           </div>
           <div className="relative w-full h-px bg-gray-700"></div>
           {reactors?.length > 0 ? (
@@ -109,6 +110,7 @@ const QuestSocial: FunctionComponent<QuestSocialProps> = ({
                 {reactors?.map((reactor: Comment, index: number) => {
                   return (
                     <PostQuote
+                      t={t}
                       router={router}
                       key={index}
                       dispatch={dispatch}
@@ -147,7 +149,7 @@ const QuestSocial: FunctionComponent<QuestSocialProps> = ({
             </div>
           ) : (
             <div className="realtive w-full text-center h-fit flex items-center justify-center font-bit text-gray-500 text-sm break-words">
-              No Comments yet. Be the first?
+              {t("noCom")}
             </div>
           )}
         </div>
@@ -186,7 +188,7 @@ const QuestSocial: FunctionComponent<QuestSocialProps> = ({
             quoters?.length > 0 ? (
               <>
                 <div className="relative text-white font-vcr text-lg">
-                  {`Who Quoted?`}
+                  {t("whoQ")}
                 </div>
                 <div className="relative w-full h-px bg-gray-700"></div>
                 <div className="relative w-full h-full flex flex-col overflow-y-scroll">
@@ -208,6 +210,7 @@ const QuestSocial: FunctionComponent<QuestSocialProps> = ({
                             dispatch={dispatch}
                             quote={(quote as Post)!}
                             disabled={false}
+                            t={t}
                             index={index}
                             mirror={mirror}
                             like={like}
@@ -243,13 +246,13 @@ const QuestSocial: FunctionComponent<QuestSocialProps> = ({
               </>
             ) : (
               <div className="realtive w-full text-center h-fit flex items-center justify-center font-bit text-gray-500 text-sm break-words">
-                No Quotes yet. Be the first?
+                {t("noQ")}
               </div>
             )
           ) : reactors?.length > 0 ? (
             <>
               <div className="relative text-white font-vcr text-lg">
-                {`Who Mirrored?`}
+                {t("whoM")}
               </div>
               <div className="relative w-full h-px bg-gray-700"></div>
               <div className="relative w-full h-full flex flex-col overflow-y-scroll">
@@ -314,7 +317,7 @@ const QuestSocial: FunctionComponent<QuestSocialProps> = ({
             </>
           ) : (
             <div className="realtive w-full text-center h-fit flex items-center justify-center font-bit text-gray-500 text-sm break-words">
-              No Mirrors yet. Be the first?
+              {t("noM")}
             </div>
           )}
         </div>
@@ -324,7 +327,7 @@ const QuestSocial: FunctionComponent<QuestSocialProps> = ({
       return (
         <div className="relative flex items-start justify-start flex-col gap-5 h-full w-full overflow-y-scroll">
           <div className="relative text-white font-vcr text-lg">
-            {`Who Reacted?`}
+            {t("whoR")}
           </div>
           <div className="relative w-full h-px bg-gray-700"></div>
           {reactors?.length > 0 ? (
@@ -389,7 +392,7 @@ const QuestSocial: FunctionComponent<QuestSocialProps> = ({
             </div>
           ) : (
             <div className="realtive w-full text-center h-fit flex items-center justify-center font-bit text-gray-500 text-sm break-words">
-              No Reacts yet. Be the first?
+              {t("noR")}
             </div>
           )}
         </div>
@@ -401,8 +404,8 @@ const QuestSocial: FunctionComponent<QuestSocialProps> = ({
           <div className="relative text-white font-vcr text-lg">
             {`${
               videoPlaying
-                ? "Who Collected?"
-                : `Who's playing? ( ${numeral(
+                ? t("whoCo")
+                : `${t("whoP")} ( ${numeral(
                     questInfo?.players?.length || 0
                   ).format("0a")} )`
             }`}
@@ -456,9 +459,7 @@ const QuestSocial: FunctionComponent<QuestSocialProps> = ({
             </div>
           ) : (
             <div className="realtive w-full text-center h-fit flex items-center justify-center font-bit text-gray-500 text-sm break-words">
-              {videoPlaying
-                ? "No Collects yet. Be the first?"
-                : "No Players yet. Be the first?"}
+              {videoPlaying ? t("noCols") : t("noPlays")}
             </div>
           )}
         </div>

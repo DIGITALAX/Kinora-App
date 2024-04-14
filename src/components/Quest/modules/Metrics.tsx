@@ -11,13 +11,14 @@ const Metrics: FunctionComponent<MetricsProps> = ({
   playerMetricsOnChain,
   playerMetricsLive,
   currentMetricsLoading,
+  t,
 }) => {
   return (
     <div className="relative w-full h-full flex items-start justify-start flex-wrap gap-5 overflow-y-scroll max-h-[32rem]">
       {milestoneMetrics && (
         <div className="relative w-full h-fit flex items-center justify-center flex-col gap-1.5">
           <div className="relative w-full h-fit flex items-center justify-center text-girasol font-bit text-xs">
-            Milestone Min. Thresholds
+            {t("thre")}
           </div>
           <div className="relative w-full h-px bg-gray-700"></div>
           <div className="relative w-full h-fit flex flex-wrap gap-4 items-start justify-start">
@@ -32,7 +33,7 @@ const Metrics: FunctionComponent<MetricsProps> = ({
                     "profileId",
                     "videoBytes",
                     "mostReplayedArea",
-                    "details"
+                    "details",
                   ]?.includes(key)
               )
               ?.filter(([_, value]) => value !== false && Number(value) !== 0)
@@ -185,17 +186,14 @@ const Metrics: FunctionComponent<MetricsProps> = ({
       )}
       <div className="relative w-full h-fit flex items-center justify-center flex-col gap-2">
         <div className="relative w-full h-fit flex items-center justify-center text-white font-bit text-xs">
-          Your On-Chain Video Metrics
+          {t("metsO")}
         </div>
         <div className="relative w-full h-px bg-gray-700"></div>
-        <PlayerValues
-          metrics={playerMetricsOnChain}
-          text={"Nothing Logged On Chain Yet for this Video. Start watching!"}
-        />
+        <PlayerValues metrics={playerMetricsOnChain} text={t("logged")} />
       </div>
       <div className="relative w-full h-fit flex items-center justify-center flex-col gap-2">
         <div className="relative w-full h-fit flex items-center justify-center text-white font-bit text-xs">
-          Current Session Metrics
+          {t("current")}
         </div>
         <div className="relative w-full h-px bg-gray-700"></div>
         {currentMetricsLoading ? (
@@ -206,10 +204,7 @@ const Metrics: FunctionComponent<MetricsProps> = ({
           </div>
         ) : (
           playerMetricsLive && (
-            <PlayerValues
-              metrics={playerMetricsLive!}
-              text={"No Session Active Yet for this Video. Start watching!"}
-            />
+            <PlayerValues metrics={playerMetricsLive!} text={t("active")} />
           )
         )}
       </div>

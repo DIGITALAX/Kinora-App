@@ -20,6 +20,7 @@ const Prints: FunctionComponent<PrintProps> = ({
   chosenCartItem,
   setChosenCartItem,
   setStoreItems,
+  t,
 }): JSX.Element => {
   return (
     <div
@@ -150,7 +151,7 @@ const Prints: FunctionComponent<PrintProps> = ({
                               "QmbRSySsuGtwTvxmNtpEm2poV8FbQ46vPWBNYTd2eewCdj",
                             amount:
                               item?.publication?.stats?.countOpenActions || 0,
-                            title: "Add to Cart",
+                            title: t("cart"),
                             reacted:
                               item?.publication?.operations?.hasActed
                                 ?.isFinalisedOnchain || false,
@@ -162,7 +163,7 @@ const Prints: FunctionComponent<PrintProps> = ({
                             image:
                               "QmT1aZypVcoAWc6ffvrudV3JQtgkL8XBMjYpJEfdFwkRMZ",
                             amount: item?.publication?.stats?.reactions || 0,
-                            title: "Like",
+                            title: t("like"),
                             reacted:
                               item?.publication?.operations?.hasReacted ||
                               false,
@@ -180,7 +181,7 @@ const Prints: FunctionComponent<PrintProps> = ({
                             amount:
                               (item?.publication?.stats?.mirrors || 0) +
                               (item?.publication?.stats?.quotes || 0),
-                            title: "Mirror",
+                            title: t("mir"),
                             reacted:
                               item?.publication?.operations?.hasMirrored ||
                               item?.publication?.operations?.hasQuoted ||
@@ -258,7 +259,7 @@ const Prints: FunctionComponent<PrintProps> = ({
                                 icon: "QmPRRRX1S3kxpgJdLC4G425pa7pMS1AGNnyeSedngWmfK3",
                                 function: () =>
                                   mirror(item?.publication?.id, false),
-                                title: "Mirror Quest",
+                                title: t("mirQ"),
                                 reacted:
                                   item?.publication?.operations?.hasMirrored ||
                                   false,
@@ -276,7 +277,7 @@ const Prints: FunctionComponent<PrintProps> = ({
                                       actionPublication: item?.publication,
                                     })
                                   ),
-                                title: "Quote Quest",
+                                title: t("quQ"),
                                 reacted:
                                   item?.publication?.operations?.hasQuoted ||
                                   false,

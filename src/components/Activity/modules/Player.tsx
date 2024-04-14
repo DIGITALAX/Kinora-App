@@ -17,6 +17,7 @@ const Player: FunctionComponent<PlayerProps> = ({
   unfollowProfile,
   setProfileHovers,
   profileHovers,
+  t,
   disabled,
 }): JSX.Element => {
   const pfp = createProfilePicture(quest?.profile?.metadata?.picture);
@@ -89,7 +90,7 @@ const Player: FunctionComponent<PlayerProps> = ({
                 />
               </div>
               <div className="text-gris relative flex items-center justify-center">
-                Player Joined Quest
+                {t("play")}
               </div>
             </div>
           </div>
@@ -131,6 +132,7 @@ const Player: FunctionComponent<PlayerProps> = ({
         </div>
         {profileHovers?.[index] && !disabled && (
           <ProfileHover
+            t={t}
             followProfile={followProfile!}
             unfollowProfile={unfollowProfile!}
             profile={quest?.profile!}

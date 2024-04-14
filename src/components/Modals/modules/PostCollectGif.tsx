@@ -9,16 +9,17 @@ import { PostCollectGifProps } from "../types/modals.types";
 const PostCollectGif: FunctionComponent<PostCollectGifProps> = ({
   dispatch,
   type,
+  t,
   openMeasure,
   setOpenMeasure,
   availableCurrencies,
   gifs,
   searchGifLoading,
-  handleGif, 
+  handleGif,
   collectTypes,
   id,
   gifInfo,
-  setGifInfo
+  setGifInfo,
 }): JSX.Element => {
   return (
     <div className="inset-0 justify-center fixed z-50 bg-opacity-50 backdrop-blur-sm overflow-y-hidden grid grid-flow-col auto-cols-auto w-full h-auto">
@@ -45,7 +46,7 @@ const PostCollectGif: FunctionComponent<PostCollectGifProps> = ({
               <div className="relative w-full h-fit flex flex-row items-center font-aust text-white justify-between text-xs rounded-md gap-2">
                 <input
                   className="relative w-full h-10 py-px px-1 border border-white rounded-md bg-black"
-                  placeholder="search for a gif"
+                  placeholder={t("gif")}
                   onChange={(e) =>
                     setGifInfo((prev) => ({
                       ...prev,
@@ -64,8 +65,7 @@ const PostCollectGif: FunctionComponent<PostCollectGifProps> = ({
                     !searchGifLoading && "cursor-pointer active:scale-95"
                   }`}
                   onClick={() =>
-                    gifInfo?.search?.trim() !== "" &&
-                    handleGif(gifInfo?.search)
+                    gifInfo?.search?.trim() !== "" && handleGif(gifInfo?.search)
                   }
                 >
                   <div
@@ -76,7 +76,7 @@ const PostCollectGif: FunctionComponent<PostCollectGifProps> = ({
                     {searchGifLoading ? (
                       <AiOutlineLoading size={10} color="white" />
                     ) : (
-                      "search"
+                      t("sea")?.toLowerCase()
                     )}
                   </div>
                 </div>
@@ -118,18 +118,19 @@ const PostCollectGif: FunctionComponent<PostCollectGifProps> = ({
             </div>
           ) : (
             <div className="relative w-full h-fit flex items-start justify-start overflow-x-scroll">
-            <CollectOptions
-              openMeasure={openMeasure}
-              setOpenMeasure={setOpenMeasure}
-              collectTypes={collectTypes}
-              id={id}
-              availableCurrencies={availableCurrencies}
-              dispatch={dispatch}
-              gifs={gifs}
-              type={type!}
-              collect
-            />
-             </div>
+              <CollectOptions
+                openMeasure={openMeasure}
+                setOpenMeasure={setOpenMeasure}
+                collectTypes={collectTypes}
+                id={id}
+                availableCurrencies={availableCurrencies}
+                dispatch={dispatch}
+                gifs={gifs}
+                type={type!}
+                collect
+                t={t}
+              />
+            </div>
           )}
         </div>
       </div>

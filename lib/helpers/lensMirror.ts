@@ -14,7 +14,8 @@ const lensMirror = async (
   dispatch: Dispatch<Action>,
   address: `0x${string}`,
   clientWallet: WalletClient,
-  publicClient: PublicClient
+  publicClient: PublicClient,
+  t: (key: string) => string
 ): Promise<void> => {
   const data = await mirrorPost({
     mirrorOn,
@@ -39,14 +40,15 @@ const lensMirror = async (
     dispatch(
       setIndexer({
         actionOpen: true,
-        actionMessage: "Indexing Interaction",
+        actionMessage: t("ind"),
       })
     );
     await handleIndexCheck(
       {
         forTxId: broadcastResult?.data?.broadcastOnchain?.txId,
       },
-      dispatch
+      dispatch,
+      t
     );
   } else {
     const { request } = await publicClient.simulateContract({
@@ -71,7 +73,7 @@ const lensMirror = async (
     dispatch(
       setIndexer({
         actionOpen: true,
-        actionMessage: "Indexing Interaction",
+        actionMessage: t("ind"),
       })
     );
     const tx = await publicClient.waitForTransactionReceipt({ hash: res });
@@ -79,7 +81,8 @@ const lensMirror = async (
       {
         forTxHash: tx.transactionHash,
       },
-      dispatch
+      dispatch,
+      t
     );
   }
   setTimeout(() => {

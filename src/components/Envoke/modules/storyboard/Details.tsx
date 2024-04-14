@@ -9,11 +9,12 @@ import {
 
 const Details: FunctionComponent<StoryboardDetailsProps> = ({
   details,
+  t
 }): JSX.Element => {
   return (
     <div className="relative w-full h-fit flex items-start justify-start flex-col font-bit text-white gap-10">
       <div className="relative w-fit h-fit items-start justify-start opacity-70">
-        Review your Quest storyboard before going live.
+        {t("story")}
       </div>
       <div className="relative w-full h-fit flex flex-col gap-3 items-center justify-center">
         <div
@@ -71,12 +72,12 @@ const Details: FunctionComponent<StoryboardDetailsProps> = ({
         </div>
         <div className="relative w-full h-fit flex flex-col items-start justify-start gap-6">
           <div className="relative underline underline-offset-4 text-base items-start justify-start flex">
-            Gates
+            {t("gat")}
           </div>
           {details?.gated?.erc721TokenIds?.length > 0 && (
             <div className="relative w-full h-fit flex flex-col gap-2">
               <div className="relative text-sm items-start justify-start flex">
-                ERC721 Token Gates
+                {t("tokG")}
               </div>
               <div className="relative w-full h-fit items-start justify-start flex flex-wrap gap-5">
                 {details?.gated?.erc721TokenIds?.map(
@@ -117,7 +118,7 @@ const Details: FunctionComponent<StoryboardDetailsProps> = ({
           {details?.gated?.erc20Addresses?.length > 0 && (
             <div className="relative w-full h-fit flex flex-col gap-2">
               <div className="relative text-base items-start justify-start flex text-sm">
-                ERC20 Token Gates
+                {t("tokGE")}
               </div>
               <div className="relative w-full h-fit items-start justify-start flex flex-wrap gap-5">
                 {details?.gated?.erc20Addresses?.map(

@@ -21,6 +21,7 @@ const lensQuote = async (
   address: `0x${string}`,
   clientWallet: WalletClient,
   publicClient: PublicClient,
+  t: (key: string) => string,
   closeBox?: () => void
 ): Promise<void> => {
   if (
@@ -32,7 +33,7 @@ const lensQuote = async (
     openActionModules?.[0]?.collectOpenAction?.simpleCollectOpenAction
   ) {
     openActionModules = cleanCollect(openActionModules);
-  } else  {
+  } else {
     openActionModules = [
       {
         collectOpenAction: {
@@ -77,7 +78,7 @@ const lensQuote = async (
     dispatch(
       setIndexer({
         actionOpen: true,
-        actionMessage: "Indexing Interaction",
+        actionMessage: t("ind"),
       })
     );
     closeBox && closeBox();
@@ -85,7 +86,8 @@ const lensQuote = async (
       {
         forTxId: broadcastResult?.data?.broadcastOnchain?.txId,
       },
-      dispatch
+      dispatch,
+      t
     );
   } else {
     const { request } = await publicClient.simulateContract({
@@ -114,7 +116,7 @@ const lensQuote = async (
     dispatch(
       setIndexer({
         actionOpen: true,
-        actionMessage: "Indexing Interaction",
+        actionMessage: t("ind"),
       })
     );
     closeBox && closeBox();
@@ -123,7 +125,8 @@ const lensQuote = async (
       {
         forTxHash: tx.transactionHash,
       },
-      dispatch
+      dispatch,
+      t
     );
   }
   setTimeout(() => {

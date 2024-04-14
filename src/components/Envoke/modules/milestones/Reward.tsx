@@ -12,16 +12,17 @@ const Reward: FunctionComponent<RewardProps> = ({
   milestonesOpen,
   balanceLoading,
   handleBalance,
+  t,
 }): JSX.Element => {
   return (
     <div className="relative w-full h-fit flex items-start justify-start flex-col font-bit text-white gap-10">
       <div className="relative w-fit h-fit items-start justify-start opacity-70">
-        Set Rewards for Milestone Completion.
+        {t("comp")}
       </div>
       <div className="relative w-full h-fit flex flex-col lg:flex-row gap-6 justify-start items-start">
         <div className="relative w-full h-fit flex flex-col items-start justify-start gap-4">
           <div className="relative w-fit h-fit flex items-center justify-center text-sm">
-            NFT Reward
+            {t("reN")}
           </div>
           <div className="relative w-full h-fit flex items-start justify-start gap-1 flex-col">
             <div
@@ -132,7 +133,7 @@ const Reward: FunctionComponent<RewardProps> = ({
                 />
               </div>
               <div className="relative text-white font-bit flex items-center justify-center top-px">
-                Add NFT Reward
+                {t("reNA")}
               </div>
             </div>
           </div>
@@ -144,6 +145,7 @@ const Reward: FunctionComponent<RewardProps> = ({
             ]?.rewards?.rewards721?.map((item: ERC721Reward, index: number) => {
               return (
                 <Mint
+                  t={t}
                   questInfo={questInfo}
                   dispatch={dispatch}
                   item={item?.details}
@@ -157,7 +159,7 @@ const Reward: FunctionComponent<RewardProps> = ({
         </div>
         <div className="relative w-full h-fit flex flex-col items-start justify-start gap-4">
           <div className="relative w-fit h-fit flex items-center justify-center text-sm">
-            ERC20 Reward
+            {t("re20")}
           </div>
           <div className="relative flex flex-col w-full h-fit gap-4 items-start justify-start">
             {ACCEPTED_TOKENS.map((item: string[], index: number) => {
@@ -316,8 +318,8 @@ const Reward: FunctionComponent<RewardProps> = ({
                               )
                             : 0
                         ]?.rewards?.rewards20?.[index]?.balance == false
-                          ? "Insufficient Balance"
-                          : "Sufficient Balance"}
+                          ? t("balI")
+                          : t("balS")}
                       </div>
                     )}
                     <input
@@ -392,7 +394,7 @@ const Reward: FunctionComponent<RewardProps> = ({
                       }}
                       type="number"
                       className="h-10 w-full bg-black border border-acei rounded-md p-1 text-xs"
-                      placeholder="Enter token reward amount."
+                      placeholder={t("amR")}
                     />
                     <div
                       className="absolute w-14 bg-black px-1.5 py-1 h-7 font-bit text-white hover:opacity-70 flex items-center justify-center right-2 cursor-pointer border border-acei text-xxs rounded-md active:scale-95 bottom-1.5"
@@ -417,7 +419,7 @@ const Reward: FunctionComponent<RewardProps> = ({
                         {balanceLoading?.[index] ? (
                           <AiOutlineLoading color={"white"} size={15} />
                         ) : (
-                          "verify"
+                          t("ver")
                         )}
                       </div>
                     </div>

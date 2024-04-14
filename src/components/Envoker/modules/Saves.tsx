@@ -9,6 +9,7 @@ const Saves: FunctionComponent<SavesProps> = ({
   savesInfo,
   savesLoading,
   getMoreSaves,
+  t,
   dispatch,
   lensConnected,
   router,
@@ -22,7 +23,7 @@ const Saves: FunctionComponent<SavesProps> = ({
   followProfile,
   profileHovers,
   setProfileHovers,
-  globalLoading
+  globalLoading,
 }): JSX.Element => {
   return (
     <>
@@ -62,6 +63,7 @@ const Saves: FunctionComponent<SavesProps> = ({
                     followProfile={followProfile}
                     setProfileHovers={setProfileHovers}
                     profileHovers={profileHovers}
+                    t={t}
                     quest={quest}
                     post
                     key={index}

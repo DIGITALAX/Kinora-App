@@ -17,9 +17,11 @@ import Bio from "@/components/Envoker/modules/Bio";
 import { AiOutlineLoading } from "react-icons/ai";
 import { useEffect, useState } from "react";
 import Head from "next/head";
+import { useTranslation } from "../_app";
 
 export default function Handle({ router }: { router: NextRouter }) {
   const { handle } = router.query;
+  const { t } = useTranslation();
   const { address } = useAccount();
   const [globalLoading, setGlobalLoading] = useState<boolean>(true);
   const publicClient = createPublicClient({
@@ -265,7 +267,7 @@ export default function Handle({ router }: { router: NextRouter }) {
           </div>
           {accountType !== AccountType.Dashboard &&
             accountType !== AccountType.Save && (
-              <Bio dispatch={dispatch} profile={pageProfile!} />
+              <Bio t={t} dispatch={dispatch} profile={pageProfile!} />
             )}
         </div>
         <div
@@ -273,6 +275,7 @@ export default function Handle({ router }: { router: NextRouter }) {
         -3 justify-start items-start"
         >
           <AccountSwitch
+            t={t}
             setOpenPlayerDetails={setOpenPlayerDetails}
             openPlayerDetails={openPlayerDetails}
             playerClaimMilestoneReward={playerClaimMilestoneReward}

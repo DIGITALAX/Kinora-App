@@ -182,6 +182,7 @@ export type QuestBoxDetailsProps = {
   questInfo: Quest | undefined;
   router: NextRouter;
   lensConnected: Profile | undefined;
+  t: (key: string) => string
   setSocialType: (e: SocialType) => void;
   followProfile: (
     id: string,
@@ -239,6 +240,7 @@ export type QuestSocialProps = {
   socialType: SocialType;
   questInfo?: Quest | undefined;
   router: NextRouter;
+  t: (key: string) => string
   videoPlaying: Video | VideoActivity | undefined;
   quoteMirrorSwitch: boolean;
   setQuoteMirrorSwitch: (e: boolean) => void;
@@ -393,6 +395,7 @@ export type QuestBoardSwitchProps = {
   handleCompleteMilestone: (questCompleted: boolean) => Promise<void>;
   completeLoading: boolean;
   milestoneEligible: boolean;
+  t: (key: string) => string
 };
 
 export type MilestoneInfoProps = {
@@ -403,6 +406,7 @@ export type MilestoneInfoProps = {
   questInfo: Quest;
   milestoneEligible: boolean;
   dispatch: Dispatch;
+  t: (key: string) => string
 };
 
 export type ChannelsProps = {
@@ -426,6 +430,7 @@ export type MetricsProps = {
   playerMetricsOnChain: VideoActivity;
   playerMetricsLive: VideoActivity | undefined;
   currentMetricsLoading: boolean;
+  t: (key: string) => string
 };
 
 export type VideoInfoProps = {
@@ -460,6 +465,7 @@ export type VideoInfoProps = {
   setMirrorChoiceOpen: (e: boolean) => void;
   dispatch: Dispatch<Action>;
   router: NextRouter;
+  t: (key: string) => string
 };
 
 export type PlayerValuesProps = {

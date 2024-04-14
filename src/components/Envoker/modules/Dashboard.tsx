@@ -13,6 +13,7 @@ import Rewards from "./Rewards";
 
 const Dashboard: FunctionComponent<DashboardProps> = ({
   allQuests,
+  t,
   terminateQuest,
   approvePlayerMilestone,
   approvalLoading,
@@ -34,7 +35,7 @@ const Dashboard: FunctionComponent<DashboardProps> = ({
     <div className="relative w-full h-fit flex flex-col items-start justify-center gap-10">
       <div className="relative w-full h-fit flex items-start justify-start gap-2 flex-col">
         <div className="relative w-fit h-fit flex w-fit h-fit text-left text-base font-bit text-white">
-          Dashboard
+          {t("dash")}
         </div>
         <div className="relative w-full h-px bg-gray-700"></div>
       </div>
@@ -42,7 +43,7 @@ const Dashboard: FunctionComponent<DashboardProps> = ({
         {allQuests?.filter((item) => item?.type == "envoked")?.length > 0 && (
           <div className="relative w-full h-fit flex flex-col gap-3">
             <div className="relative text-sm font-bit text-white flex items-start justify-start">
-              Envoked Quests
+              {t("envQ")}
             </div>
             <InfiniteScroll
               dataLength={
@@ -106,15 +107,15 @@ const Dashboard: FunctionComponent<DashboardProps> = ({
                               <div className="relative w-fit h-fit flex items-center justify-center flex flex-row gap-1.5">
                                 {[
                                   {
-                                    title: "Players",
+                                    title: t("plas"),
                                     value: item?.players?.length,
                                   },
                                   {
-                                    title: "Milestones",
+                                    title: t("mils"),
                                     value: Number(item?.milestoneCount),
                                   },
                                   {
-                                    title: "Videos",
+                                    title: t("videos"),
                                     value: item?.milestones?.reduce(
                                       (acumulador, valorActual) =>
                                         acumulador +
@@ -149,31 +150,31 @@ const Dashboard: FunctionComponent<DashboardProps> = ({
                               <div className="relative w-fit h-fit flex items-center justify-center flex flex-row gap-2.5 sm:flex-nowrap flex-wrap">
                                 {[
                                   {
-                                    title: "Likes",
+                                    title: t("lis"),
                                     value: item?.publication?.stats?.reactions,
                                     image:
                                       "QmT1aZypVcoAWc6ffvrudV3JQtgkL8XBMjYpJEfdFwkRMZ",
                                   },
                                   {
-                                    title: "Mirrors",
+                                    title: t("mis"),
                                     value: item?.publication?.stats?.mirrors,
                                     image:
                                       "QmPRRRX1S3kxpgJdLC4G425pa7pMS1AGNnyeSedngWmfK3",
                                   },
                                   {
-                                    title: "Quotes",
+                                    title: t("quos"),
                                     value: item?.publication?.stats?.quotes,
                                     image:
                                       "QmfDNH347Vph4b1tEuegydufjMU2QwKzYnMZCjygGvvUMM",
                                   },
                                   {
-                                    title: "Bookmarks",
+                                    title: t("books"),
                                     value: item?.publication?.stats?.bookmarks,
                                     image:
                                       "QmVXkRB4HCd6gkXmj1cweEh4nVV6oBuKCAWfsKUEJae433",
                                   },
                                   {
-                                    title: "Comments",
+                                    title: t("coms"),
                                     value: item?.publication?.stats?.comments,
                                     image:
                                       "QmXD3LnHiiLSqG2TzaNd1Pmhk2nVqDHDqn8k7RtwVspE6n",
@@ -232,7 +233,7 @@ const Dashboard: FunctionComponent<DashboardProps> = ({
                             <div className="relative w-full h-fit flex flex-col items-start justify-start px-2 py-1 gap-10">
                               <div className="relative w-full h-fit flex flex-col items-end ml-0 gap-2">
                                 <div className="flex items-end justify-end text-right break-words font-bit text-white text-xxs max-w-[14rem]">
-                                  Close Quest & Withdraw escrowed rewards?
+                                  {t("close")}
                                 </div>
                                 <div
                                   className={`relative w-20 h-7 flex items-center justify-center font-bit text-white text-xxs border border-white rounded-sm px-1.5 py-1 ${
@@ -259,16 +260,17 @@ const Dashboard: FunctionComponent<DashboardProps> = ({
                                         color="white"
                                       />
                                     ) : (
-                                      "Close Quest"
+                                      t("closeQ")
                                     )}
                                   </div>
                                 </div>
                               </div>
                               <div className="relative w-full h-fit flex flex-col gap-2">
                                 <div className="relative w-fit h-fit flex font-bit text-white text-xs">
-                                  Verify Player Milestone Claim
+                                  {t("claim")}
                                 </div>
                                 <PlayerMilestone
+                                  t={t}
                                   quest={item}
                                   router={router}
                                   approvePlayerMilestone={
@@ -283,7 +285,7 @@ const Dashboard: FunctionComponent<DashboardProps> = ({
                               </div>
                               <div className="relative w-full h-fit flex flex-col gap-2">
                                 <div className="relative w-fit h-fit flex font-bit text-white text-xs">
-                                  Players Completed Quest
+                                  {t("compl")}
                                 </div>
                                 <div className="relative w-full h-fit flex overflow-x-scroll">
                                   <div className="relative w-fit h-fit flex flex-row gap-2">
@@ -337,7 +339,7 @@ const Dashboard: FunctionComponent<DashboardProps> = ({
                                         )
                                     ) : (
                                       <div className="relative w-fit h-fit flex items-center justify-center text-left font-bit text-gray-600 text-xxs">
-                                        No players have completed the Quest yet.
+                                        {t("nop")}
                                       </div>
                                     )}
                                   </div>
@@ -357,7 +359,7 @@ const Dashboard: FunctionComponent<DashboardProps> = ({
         {allQuests?.filter((item) => item?.type != "envoked")?.length > 0 && (
           <div className="relative w-full h-fit flex flex-col gap-3">
             <div className="relative text-sm font-bit text-white flex items-start justify-start">
-              Player Activity
+              {t("plaA")}
             </div>
             <InfiniteScroll
               dataLength={
@@ -434,15 +436,15 @@ const Dashboard: FunctionComponent<DashboardProps> = ({
                               <div className="relative w-fit h-fit flex items-center justify-center flex flex-row gap-1.5">
                                 {[
                                   {
-                                    title: "Players",
+                                    title: t("plas"),
                                     value: item?.players?.length,
                                   },
                                   {
-                                    title: "Milestones",
+                                    title: t("mils"),
                                     value: Number(item?.milestoneCount),
                                   },
                                   {
-                                    title: "Videos",
+                                    title: t("videos"),
                                     value: item?.milestones?.reduce(
                                       (acumulador, valorActual) =>
                                         acumulador +
@@ -477,31 +479,31 @@ const Dashboard: FunctionComponent<DashboardProps> = ({
                               <div className="relative w-fit h-fit flex items-center justify-center flex flex-row gap-2.5 sm:flex-nowrap flex-wrap">
                                 {[
                                   {
-                                    title: "Likes",
+                                    title: t("lis"),
                                     value: item?.publication?.stats?.reactions,
                                     image:
                                       "QmT1aZypVcoAWc6ffvrudV3JQtgkL8XBMjYpJEfdFwkRMZ",
                                   },
                                   {
-                                    title: "Mirrors",
+                                    title: t("mis"),
                                     value: item?.publication?.stats?.mirrors,
                                     image:
                                       "QmPRRRX1S3kxpgJdLC4G425pa7pMS1AGNnyeSedngWmfK3",
                                   },
                                   {
-                                    title: "Quotes",
+                                    title: t("quos"),
                                     value: item?.publication?.stats?.quotes,
                                     image:
                                       "QmfDNH347Vph4b1tEuegydufjMU2QwKzYnMZCjygGvvUMM",
                                   },
                                   {
-                                    title: "Bookmarks",
+                                    title: t("books"),
                                     value: item?.publication?.stats?.bookmarks,
                                     image:
                                       "QmVXkRB4HCd6gkXmj1cweEh4nVV6oBuKCAWfsKUEJae433",
                                   },
                                   {
-                                    title: "Comments",
+                                    title: t("coms"),
                                     value: item?.publication?.stats?.comments,
                                     image:
                                       "QmXD3LnHiiLSqG2TzaNd1Pmhk2nVqDHDqn8k7RtwVspE6n",
@@ -560,7 +562,7 @@ const Dashboard: FunctionComponent<DashboardProps> = ({
                             <div className="relative w-full h-fit flex flex-col items-start justify-start px-2 pt-1 pb-3 gap-10">
                               <div className="relative w-full h-fit flex flex-col items-end ml-0 gap-2">
                                 <div className="flex items-end justify-end text-right break-words font-bit text-white text-xxs">
-                                  Quest Status
+                                  {t("stat")}
                                 </div>
                                 <div
                                   title="Verify Player for Rewards Claim"
@@ -702,9 +704,9 @@ const Dashboard: FunctionComponent<DashboardProps> = ({
                                             ]?.milestonesCompleted
                                           )
                                         )) ? (
-                                      "Complete Quest"
+                                      t("coQ")
                                     ) : (
-                                      "Claim Reward"
+                                      t("coR")
                                     )}
                                   </div>
                                 </div>
@@ -732,7 +734,7 @@ const Dashboard: FunctionComponent<DashboardProps> = ({
                               ) && (
                                 <div className="relative w-full h-fit flex flex-col items-start gap-2">
                                   <div className="flex items-end justify-end text-right break-words font-bit text-white text-xs">
-                                    Rewards Claimed
+                                    {t("clam")}
                                   </div>
                                   {openPlayerDetails?.milestonesCompleted &&
                                     openPlayerDetails?.milestonesCompleted
@@ -763,10 +765,11 @@ const Dashboard: FunctionComponent<DashboardProps> = ({
                               )}
                               <div className="relative w-full h-fit flex flex-col gap-2">
                                 <div className="relative w-fit h-fit flex font-bit text-white text-xs">
-                                  Milestone Activity
+                                  {t("milA")}
                                 </div>
                                 <PlayerMilestone
                                   player
+                                  t={t}
                                   quest={item}
                                   router={router}
                                   approvePlayerMilestone={

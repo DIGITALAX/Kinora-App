@@ -28,6 +28,7 @@ export type CollectOptionsProps = {
       time: string;
     }>
   ) => void;
+  t: (key: string) => string
   id?: string;
   collectTypes?:
     | {

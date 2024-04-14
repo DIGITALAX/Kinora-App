@@ -8,6 +8,7 @@ const ConnectFirst: FunctionComponent<ConnectFirstProps> = ({
   handleLogIn,
   signLoading,
   walletConnected,
+  t,
 }): JSX.Element => {
   return (
     <div
@@ -38,7 +39,7 @@ const ConnectFirst: FunctionComponent<ConnectFirstProps> = ({
         </div>
       </div>
       <div className="relative font-bit text-white w-fit h-fit flex items-center justify-center">
-        {!walletConnected ? "Connect" : "Lens Sign In"}
+        {!walletConnected ? t("conn") : t("lens")}
       </div>
     </div>
   );

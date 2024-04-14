@@ -12,14 +12,15 @@ import { setInteractError } from "../../../redux/reducers/interactErrorSlice";
 
 const handleIndexCheck = async (
   tx: LensTransactionStatusRequest,
-  dispatch: Dispatch<AnyAction>
+  dispatch: Dispatch<AnyAction>,
+  t: (key: string) => string
 ) => {
   const indexedStatus = await pollUntilIndexed(tx);
   if (indexedStatus) {
     dispatch(
       setIndexer({
         actionOpen: true,
-        actionMessage: "Successfully Indexed",
+        actionMessage: t("suc"),
       })
     );
   } else {

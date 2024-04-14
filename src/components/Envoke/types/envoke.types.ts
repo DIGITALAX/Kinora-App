@@ -37,7 +37,7 @@ export interface ItemDetails {
   title: string;
   media: string;
   description: string;
-  prompt: string
+  prompt: string;
   mediaCover: string;
   video: string;
   audio: string;
@@ -135,6 +135,7 @@ export type QuestSwitchProps = {
   videoSearchLoading: boolean;
   videoSearch: string;
   router: NextRouter;
+  t: (key: string) => string;
   getMoreVideosSample: () => Promise<void>;
   chromadinVideos: Post[];
   setCoverLoading: (e: SetStateAction<boolean>) => void;
@@ -166,6 +167,7 @@ export type DetailsProps = {
   questInfo: QuestInfoState;
   dispatch: Dispatch<Action>;
   coverLoading: boolean;
+  t: (key: string) => string;
   setCoverLoading: (e: SetStateAction<boolean>) => void;
   collections: Collection[];
   collectionsSearch: string;
@@ -189,6 +191,7 @@ export type StagesProps = {
   dispatch: Dispatch<Action>;
   questStage: QuestStage;
   questInfo: QuestInfoState;
+  t: (key: string) => string;
   postLoading: boolean;
   handlePostLive: () => Promise<void>;
   milestonesOpen: boolean[];
@@ -212,6 +215,7 @@ export type MilestoneDetailsProps = {
   dispatch: Dispatch<Action>;
   milestoneCoversLoading: boolean[];
   milestonesOpen: boolean[];
+  t: (key: string) => string;
   setMilestoneCoversLoading: (e: SetStateAction<boolean[]>) => void;
 };
 
@@ -262,6 +266,7 @@ export type GatedLogicProps = {
   questInfo: QuestInfoState;
   dispatch: Dispatch<Action>;
   collections: Collection[];
+  t: (key: string) => string;
   collectionsSearch: string;
   setCollectionsSearch: (e: SetStateAction<string>) => void;
   getMoreCollectionsSearch: () => Promise<void>;
@@ -291,21 +296,21 @@ export interface Collection {
     title: string;
     mediaCover: string;
     images: string[];
-    sizes: string[]
-  colors: string[]
-  mediaTypes: string[]
-  access: string[];
-  communities: string[]
-  tags: string[]
+    sizes: string[];
+    colors: string[];
+    mediaTypes: string[];
+    access: string[];
+    communities: string[];
+    tags: string[];
   };
-  
+
   publication: Post;
   amount: string;
   prices: string[];
   origin: string;
   uri: string;
   profileId: string;
-  pubId: string
+  pubId: string;
   profile: Profile;
 }
 
@@ -314,6 +319,7 @@ export type RewardProps = {
   questInfo: QuestInfoState;
   dispatch: Dispatch<Action>;
   handleBalance: (milestoneIndex: number, rewardIndex: number) => Promise<void>;
+  t: (key: string) => string;
   balanceLoading: boolean[];
 };
 
@@ -323,6 +329,7 @@ export type MintProps = {
   questInfo: QuestInfoState;
   milestonesOpen: boolean[];
   index: number;
+  t: (key: string) => string;
 };
 
 export type CriteriaProps = {
@@ -343,6 +350,7 @@ export type CriteriaProps = {
   chromadinVideos: Post[];
   milestonesOpen: boolean[];
   questInfo: QuestInfoState;
+  t: (key: string) => string;
   dispatch: Dispatch<Action>;
 };
 
@@ -352,15 +360,18 @@ export type EligibleProps = {
   dispatch: Dispatch;
   index: number;
   milestonesOpen: boolean[];
+  t: (key: string) => string;
 };
 
 export type StoryboardDetailsProps = {
   details: QuestDetails;
+  t: (key: string) => string;
 };
 
 export type StoryboardSwitchProps = {
   questInfo: QuestInfoState;
   storyboardStage: StoryboardStage;
+  t: (key: string) => string;
   milestoneStoryboardStage: number;
 };
 
@@ -371,6 +382,7 @@ export enum StoryboardStage {
 
 export type StoryboardMilestonesProps = {
   milestone: Milestone;
+  t: (key: string) => string;
 };
 
 export type PostLiveProps = {

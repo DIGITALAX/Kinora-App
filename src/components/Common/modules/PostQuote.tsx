@@ -11,6 +11,7 @@ import PostComment from "./PostComment";
 const PostQuote: FunctionComponent<PostQuoteProps> = ({
   quote,
   dispatch,
+  t,
   disabled,
   router,
   lensConnected,
@@ -109,6 +110,7 @@ const PostQuote: FunctionComponent<PostQuoteProps> = ({
             publication={quote as Post}
             lensConnected={lensConnected!}
             mirror={mirror!}
+            t={t}
             like={like!}
             setMirrorChoiceOpen={setMirrorChoiceOpen!}
             mirrorChoiceOpen={mirrorChoiceOpen!}
@@ -130,6 +132,7 @@ const PostQuote: FunctionComponent<PostQuoteProps> = ({
       {!disabled && commentsOpen?.[index] && (
         <div className="relative h-full w-full items-center justify-center flex">
           <PostComment
+            t={t}
             setCaretCoord={setCaretCoord!}
             caretCoord={caretCoord!}
             profilesOpen={profilesOpen?.[index]!}

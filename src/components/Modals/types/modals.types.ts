@@ -22,6 +22,7 @@ export type SidebarProps = {
   openConnectModal: (() => void) | undefined;
   handleLogIn: () => Promise<void>;
   newQuests: Quest[];
+  t: (key: string) => string;
 };
 
 export type IndexProps = {
@@ -30,6 +31,7 @@ export type IndexProps = {
 
 export type InteractErrorProps = {
   dispatch: Dispatch;
+  t: (key: string) => string;
 };
 
 export type SuccessProps = {
@@ -58,6 +60,7 @@ export type FollowCollectProps = {
   transactionLoading: boolean;
   informationLoading: boolean;
   approved: boolean;
+  t: (key: string) => string;
 };
 
 export type QuoteBoxProps = {
@@ -83,6 +86,7 @@ export type QuoteBoxProps = {
   setProfilesOpen: (e: SetStateAction<boolean[]>) => void;
   setMakeQuote: (e: SetStateAction<MakePostComment[]>) => void;
   quoteLoading: boolean[];
+  t: (key: string) => string;
   router: NextRouter;
   setContentLoading: (
     e: SetStateAction<
@@ -123,6 +127,7 @@ export type PostCollectGifProps = {
       search: string;
     }>
   ) => void;
+  t: (key: string) => string;
   openMeasure: {
     award: string;
     whoCollectsOpen: boolean;
@@ -169,6 +174,7 @@ export type QuestGatesProps = {
     erc721?: Collection[];
     oneOf?: boolean;
   };
+  t: (key: string) => string;
 };
 
 export type FollowersProps = {
@@ -183,8 +189,10 @@ export type FollowersProps = {
 export type ClaimProfileProps = {
   dispatch: Dispatch<Action>;
   handleLogOut: () => Promise<void>;
+  t: (key: string) => string;
 };
 
 export type MissingValuesProps = {
   dispatch: Dispatch<Action>;
+  t: (key: string) => string;
 };

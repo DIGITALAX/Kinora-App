@@ -11,6 +11,7 @@ const QuoteBox: FunctionComponent<QuoteBoxProps> = ({
   setMentionProfiles,
   setProfilesOpen,
   profilesOpen,
+  t,
   mentionProfiles,
   caretCoord,
   makeQuote,
@@ -47,10 +48,12 @@ const QuoteBox: FunctionComponent<QuoteBoxProps> = ({
             quote={quote!}
             disabled={true}
             index={0}
+            t={t}
           />
           <div className="relative w-full h-full flex items-center justify-center pb-3">
             <div className="relative h-full w-4/5 items-center justify-center flex">
               <PostComment
+                t={t}
                 setCaretCoord={setCaretCoord}
                 caretCoord={caretCoord}
                 profilesOpen={profilesOpen?.[0]}

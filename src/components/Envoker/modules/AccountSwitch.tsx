@@ -9,6 +9,7 @@ const AccountSwitch: FunctionComponent<AccountSwitchProps> = ({
   accountType,
   getMoreSaves,
   savesInfo,
+  t,
   savesLoading,
   lensConnected,
   dispatch,
@@ -46,6 +47,7 @@ const AccountSwitch: FunctionComponent<AccountSwitchProps> = ({
       case AccountType.Home:
         return (
           <Home
+            t={t}
             dispatch={dispatch}
             lensConnected={lensConnected}
             questsLoading={questsLoading}
@@ -70,6 +72,7 @@ const AccountSwitch: FunctionComponent<AccountSwitchProps> = ({
       case AccountType.Save:
         return (
           <Saves
+            t={t}
             followProfile={followProfile}
             unfollowProfile={unfollowProfile}
             setProfileHovers={setProfileHovers}
@@ -94,6 +97,7 @@ const AccountSwitch: FunctionComponent<AccountSwitchProps> = ({
       case AccountType.Dashboard:
         return (
           <Dashboard
+            t={t}
             dispatch={dispatch}
             router={router}
             lensConnected={lensConnected}
@@ -120,6 +124,7 @@ const AccountSwitch: FunctionComponent<AccountSwitchProps> = ({
         dispatch={dispatch}
         getMore={getMore}
         quests={quests}
+        t={t}
         info={info}
         lensConnected={lensConnected}
         questsLoading={questsLoading}

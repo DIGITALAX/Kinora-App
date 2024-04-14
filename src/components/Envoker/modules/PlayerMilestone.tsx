@@ -17,6 +17,7 @@ const PlayerMilestone: FunctionComponent<PlayerMilestoneProps> = ({
   approvalLoading,
   playerEligible,
   router,
+  t,
   player,
 }): JSX.Element => {
   return (
@@ -63,7 +64,7 @@ const PlayerMilestone: FunctionComponent<PlayerMilestoneProps> = ({
                 })
             ) : (
               <div className="relative w-full h-fit flex items-center justify-center text-center text-gray-500 font-bit text-xxs">
-                No Active Players Yet.
+                {t("actP")}
               </div>
             )}
           </div>
@@ -141,7 +142,7 @@ const PlayerMilestone: FunctionComponent<PlayerMilestoneProps> = ({
                         ? 1
                         : openPlayerDetails!?.milestonesCompleted?.findIndex(
                             (value) => value?.questId == quest?.questId
-                          ) ,
+                          ),
                       openPlayerDetails!?.profile?.id,
                       index
                     )
@@ -153,11 +154,11 @@ const PlayerMilestone: FunctionComponent<PlayerMilestoneProps> = ({
                     }`}
                   >
                     {!quest?.status ? (
-                      "Quest Closed"
+                      t("cloQ")
                     ) : approvalLoading[index] ? (
                       <AiOutlineLoading color="white" size={12} />
                     ) : (
-                      "Verify Milestone"
+                      t("veM")
                     )}
                   </div>
                 </div>
@@ -192,7 +193,7 @@ const PlayerMilestone: FunctionComponent<PlayerMilestoneProps> = ({
                       ? 1
                       : openPlayerDetails!?.milestonesCompleted?.findIndex(
                           (value) => value?.questId == quest?.questId
-                        ) 
+                        )
                   ]?.milestonesCompleted
                 ) - 1 || 0
               ]?.videos
@@ -233,7 +234,7 @@ const PlayerMilestone: FunctionComponent<PlayerMilestoneProps> = ({
               >
                 {player && showMilestone && (
                   <div className="relative w-full h-fit flex items-center justify-start text-center text-gray-500 font-bit text-xxs">
-                    Milestone {(video as any)?.milestone}
+                    {t("mil")} {(video as any)?.milestone}
                   </div>
                 )}
                 <div className="relative w-full h-fit flex flex-col sm:flex-row gap-4">
@@ -273,7 +274,7 @@ const PlayerMilestone: FunctionComponent<PlayerMilestoneProps> = ({
                           Number(vid?.profileId) == Number(video?.profileId)
                       )!
                     }
-                    text="No Metrics Logged for this video yet."
+                    text={t("mets")}
                   />
                 </div>
               </div>

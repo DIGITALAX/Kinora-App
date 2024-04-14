@@ -7,6 +7,7 @@ const StoryboardSwitch: FunctionComponent<StoryboardSwitchProps> = ({
   questInfo,
   storyboardStage,
   milestoneStoryboardStage,
+  t
 }): JSX.Element => {
   switch (storyboardStage) {
     case StoryboardStage.Details:
@@ -15,6 +16,7 @@ const StoryboardSwitch: FunctionComponent<StoryboardSwitchProps> = ({
     case StoryboardStage?.Milestones:
       return (
         <Milestones
+          t={t}
           milestone={questInfo?.milestones?.[milestoneStoryboardStage]}
         />
       );
