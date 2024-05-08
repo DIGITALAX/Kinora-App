@@ -626,7 +626,7 @@ export default function QuestId({ router }: { router: NextRouter }) {
                       />
                     )}
                   </div>
-                  <div className="relative w-fit h-fit text-xxs sm:text-sm font-vcr text-gray-300">
+                  <div className="relative w-fit h-fit text-xxs sm:text-xs font-vcr text-gray-300">
                     {t("curM")}
                   </div>
                 </div>
