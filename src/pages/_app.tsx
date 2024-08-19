@@ -26,6 +26,7 @@ import { KinoraProvider } from "kinora-sdk";
 import { createContext, useContext, useEffect, useState } from "react";
 import RouterChange from "@/components/Common/modules/RouterChange";
 import { apolloClient } from "../../lib/lens/client";
+import Head from "next/head";
 
 const walletTheme = merge(darkTheme(), {
   colors: {
@@ -128,16 +129,30 @@ function App({ Component, pageProps }: AppProps) {
             <KinoraProvider playerAuthedApolloClient={apolloClient}>
               <Provider store={store}>
                 <div className="relative w-full h-full flex bg-fuzz flex-col">
+                  <Head>
+                    <meta
+                      name="keywords"
+                      content="Web3, Web3 Fashion, Moda Web3, Open Source, CC0, Emma-Jane MacKinnon-Lee, Open Source LLMs, DIGITALAX, F3Manifesto, www.digitalax.xyz, www.f3manifesto.xyz, Women, Life, Freedom."
+                    />
+                    <meta name="robots" content="index, follow" />
+                    <script
+                      type="application/ld+json"
+                      dangerouslySetInnerHTML={{
+                        __html: JSON.stringify({
+                          "@context": "https://schema.org",
+                          "@type": "WebSite",
+                          name: "Kinora",
+                          description:
+                            "Web3, Web3 Fashion, Moda Web3, Open Source, CC0, Emma-Jane MacKinnon-Lee, Open Source LLMs, DIGITALAX, F3Manifesto, www.digitalax.xyz, www.f3manifesto.xyz, Women, Life, Freedom.",
+                          url: "https://www.kinora.irrevocable.dev/",
+                        }),
+                      }}
+                    ></script>
+                  </Head>
                   <Header router={router} />
                   <Component router={router} {...pageProps} />
                   <Modals router={router} />
                   <Footer router={router} />
-                  <div style={{ display: "none" }}>
-                    Web3, Web3 Fashion, Moda Web3, Open Source, CC0, Emma-Jane
-                    MacKinnon-Lee, Open Source LLMs, DIGITALAX, F3Manifesto,
-                    www.digitalax.xyz, www.f3manifesto.xyz, Women, Life,
-                    Freedom.
-                  </div>
                 </div>
               </Provider>
             </KinoraProvider>
