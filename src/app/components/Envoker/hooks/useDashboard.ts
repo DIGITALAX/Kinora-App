@@ -7,7 +7,7 @@ import {
   KINORA_QUEST_DATA,
   KINORA_ESCROW,
 } from "@/app/lib/constants";
-import { Dispatch, Envoker } from "../../../../../../kinorasdk_refactor/dist";
+import { Dispatch, Envoker } from "kinora-sdk";
 
 const useDashboard = (
   dict: any,

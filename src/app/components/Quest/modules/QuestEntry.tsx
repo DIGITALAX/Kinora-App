@@ -19,7 +19,7 @@ import useJoin from "../hooks/useJoin";
 import QuestBoardSwitch from "./QuestBoardSwitch";
 import Channels from "./Channels";
 import MilestoneBoards from "./MilestoneBoards";
-import { Dispatch } from "../../../../../../kinorasdk_refactor/dist";
+import { Dispatch } from "kinora-sdk";
 
 export default function QuestEntry({
   dict,

@@ -11,7 +11,7 @@ import { AccountType } from "../../Common/types/common.types";
 import Bio from "./Bio";
 import useHover from "../../Common/hooks/useHover";
 import AccountSwitch from "./AccountSwitch";
-import { Dispatch, Envoker } from "../../../../../../kinorasdk_refactor/dist";
+import { Dispatch, Envoker } from "kinora-sdk";
 
 export default function EnvokerEntry({
   dict,

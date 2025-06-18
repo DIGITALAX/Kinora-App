@@ -1,7 +1,7 @@
 import { Account, AccountStats } from "@lens-protocol/client";
 import { Player, Quest, VideoActivity } from "../../Common/types/common.types";
 import { SetStateAction } from "react";
-import { Dispatch, Envoker } from "../../../../../../kinorasdk_refactor/dist";
+import { Dispatch, Envoker } from "kinora-sdk";
 
 export type BioProps = {
   profile: Account;

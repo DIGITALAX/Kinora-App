@@ -1,7 +1,7 @@
 import { SetStateAction } from "react";
 import { Collection } from "../../Common/types/common.types";
 import { Post } from "@lens-protocol/client";
-import { Envoker } from "../../../../../../kinorasdk_refactor/dist";
+import { Envoker } from "kinora-sdk";
 
 export enum QuestStage {
   Details = "Set Details",

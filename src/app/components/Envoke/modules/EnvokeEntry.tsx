@@ -9,7 +9,7 @@ import QuestSwitch from "./QuestSwitch";
 import useCriteria from "../hooks/useCriteria";
 import useEnvoke from "../hooks/useEnvoke";
 import Stages from "./Stages";
-import { Envoker } from "../../../../../../kinorasdk_refactor/dist";
+import { Envoker } from "kinora-sdk";
 
 export default function EnvokeEntry({ dict }: { dict: any }) {
   const context = useContext(ModalContext);
