@@ -1,26 +1,272 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@font-face {
+  font-family: "Bitblox";
+  src: url("/fonts/Bitblox.otf");
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+@font-face {
+  font-family: "Vcr";
+  src: url("/fonts/Vcr.ttf");
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@theme {
+  --font-xxs: 0.6rem;
+
+  --font-bit: "Bitblox";
+  --font-vcr: "Vcr";
+
+  --color-ligera: #fed501;
+  --color-nave: #0b0e16;
+  --color-offBlack: #0f121a;
+  --color-verde: #7cdd00;
+  --color-rojo: #fe0000;
+  --color-azul: #0097fc;
+  --color-girasol: #fbd201;
+  --color-calcetine: #fbdb86;
+  --color-acei: #819463;
+  --color-suave: #c27aa0;
+  --color-cost: #847ff2;
+  --color-gris: #c2c0b5;
+  --color-olive: #dcebb3;
+
+  --breakpoint-tablet: 56.25rem;
+  --breakpoint-galaxy: 18.75rem;
+  --breakpoint-pre: 25rem;
+  --breakpoint-otro: 84.375rem;
+  --breakpoint-half: 91.25rem;
+}
+
+/* === CUSTOM UTILITIES === */
+@layer utilities {
+  .text-xxs {
+    font-size: var(--font-xxs);
+  }
+
+  .font-bit {
+    font-family: var(--font-bit);
+  }
+  .font-vcr {
+    font-family: var(--font-vcr);
+  }
+
+  .z-1 {
+    z-index: 1;
+  }
+
+  .bg-nave {
+    background-color: var(--color-nave);
+  }
+
+  .bg-offBlack {
+    background-color: var(--color-offBlack);
+  }
+
+  .bg-fuzz {
+    background-image: url("https://thedial.infura-ipfs.io/ipfs/QmcnyZRwBo2yRC8xPuyD2UVEfRGX6JNPX86dT43aPSsy5y");
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+html {
+  background-color: #0b0e16;
+  background-image: url("https://thedial.infura-ipfs.io/ipfs/QmcnyZRwBo2yRC8xPuyD2UVEfRGX6JNPX86dT43aPSsy5y");
+  background-repeat: repeat;
+}
+
+#rainbowDo {
+  background: conic-gradient(#fcfcfc, #fd8002);
+  box-shadow: inset 0 0 100px rgba(75, 24, 27, 0.5);
+  outline: 1px solid transparent;
+  outline-offset: -1px;
+  background-clip: padding-box;
+}
+
+#rainbow {
+  background: conic-gradient(
+    #7cdb01,
+    #0f121a,
+    #fb0000,
+    #fd8002,
+    #fbd201,
+    #c5d6e1,
+    #fcfcfc,
+    #0198fd,
+    #7cdb01
+  );
+}
+
+#closeSide {
+  transition: width 0.5s ease-in-out;
+}
+
+.infinite-scroll-component__outerdiv {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+#negro {
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 1) 100%
+  );
+}
+
+body::-webkit-scrollbar {
+  width: 0px;
+  opacity: 0; /* Initially hide the scrollbar */
+}
+
+body:hover::-webkit-scrollbar {
+  opacity: 0; /* Show the scrollbar on hover */
+}
+
+body::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: transparent;
+}
+
+div::-webkit-scrollbar {
+  width: 0px;
+  opacity: 0; /* Initially hide the scrollbar */
+}
+
+div:hover::-webkit-scrollbar {
+  opacity: 0; /* Show the scrollbar on hover */
+}
+
+div::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+div::-webkit-scrollbar-thumb {
+  background-color: transparent;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+#xScroll::-webkit-scrollbar {
+  height: 0px;
+  background-color: white;
+}
+
+#xScroll::-webkit-scrollbar-track {
+  background-color: white;
+}
+
+#xScroll::-webkit-scrollbar-thumb {
+  background-color: white;
+}
+
+#fadedQuote {
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    #151316 0%,
+    #0b0e16 70%,
+    transparent 95%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    to bottom,
+    #1f2937 0%,
+    #0b0e16 50%,
+    transparent 100%
+  );
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  background: white;
+  opacity: 80%;
+  height: 0.3rem;
+}
+
+/******** Firefox ********/
+input[type="range"]::-moz-range-track {
+  background: white;
+  opacity: 80%;
+  height: 0.3rem;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none; /* Override default look */
+  appearance: none;
+  margin-top: -4px; /* Centers thumb on the track */
+  background-color: #0198fd;
+  height: 1rem;
+  width: 1rem;
+  border-radius: 0.5rem;
+}
+
+/***** Thumb Styles *****/
+/***** Firefox *****/
+input[type="range"]::-moz-range-thumb {
+  border: none; /*Removes extra border that FF applies*/
+  border-radius: 0; /*Removes default border-radius that FF applies*/
+  background-color: #0198fd;
+  height: 1rem;
+  width: 1rem;
+  border-radius: 0.5rem;
+}
+
+#game {
+  box-shadow: inset 0 0 100px rgba(0, 0, 255, 0.5);
+}
+
+#fadeSide {
+  background: linear-gradient(
+    to left,
+    rgba(11, 14, 22, 0) 0%,
+    #0b0e16 50%,
+    #0b0e16 100%
+  );
+}
+
+#fadeOut {
+  background: linear-gradient(
+      to bottom,
+      rgba(11, 14, 22, 0) 0%,
+      #0b0e16 50%,
+      #0b0e16 100%
+    ),
+    linear-gradient(
+      to right,
+      #0b0e16 0%,
+      #0b0e16 30%,
+      rgba(11, 14, 22, 0) 50%,
+      #0b0e16 70%,
+      #0b0e16 100%
+    );
+}
+
+#northern {
+  background-image: radial-gradient(
+      18% 28% at 24% 50%,
+      #cefaffff 7%,
+      #073aff00 100%
+    ),
+    radial-gradient(18% 28% at 18% 71%, #ffffff59 6%, #073aff00 100%),
+    radial-gradient(70% 53% at 36% 76%, #73f2ffff 0%, #073aff00 100%),
+    radial-gradient(42% 53% at 15% 94%, #ffffffff 7%, #073aff00 100%),
+    radial-gradient(42% 53% at 34% 72%, #ffffffff 7%, #073aff00 100%),
+    radial-gradient(18% 28% at 35% 87%, #ffffffff 7%, #073aff00 100%),
+    radial-gradient(31% 43% at 7% 98%, #ffffffff 24%, #073aff00 100%),
+    radial-gradient(21% 37% at 72% 23%, #d3ff6d9c 24%, #073aff00 100%),
+    radial-gradient(35% 56% at 91% 74%, #8a4ffff5 9%, #073aff00 100%),
+    radial-gradient(74% 86% at 67% 38%, #6dffaef5 24%, #073aff00 100%),
+    linear-gradient(125deg, #4eb5ffff 1%, #4c00fcff 100%);
 }
