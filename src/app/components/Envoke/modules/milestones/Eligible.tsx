@@ -1,6 +1,6 @@
 import MediaSwitch from "@/app/components/Common/modules/MediaSwitch";
 import { ModalContext } from "@/app/providers";
-import { FunctionComponent, useContext } from "react";
+import { FunctionComponent, JSX, useContext } from "react";
 import { ImCross } from "react-icons/im";
 import { EligibleProps } from "../../types/envoke.types";
 import { handleMedia } from "@/app/lib/helpers/handleMedia";

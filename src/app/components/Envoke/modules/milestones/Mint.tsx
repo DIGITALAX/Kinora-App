@@ -7,7 +7,7 @@ import {
 import { Player } from "@livepeer/react";
 import { ImCross } from "react-icons/im";
 import { KinoraPlayerWrapper } from "kinora-sdk";
-import { FunctionComponent, useContext } from "react";
+import { FunctionComponent, JSX, useContext } from "react";
 import { ModalContext } from "@/app/providers";
 import { MintProps } from "../../types/envoke.types";
 import { INFURA_GATEWAY } from "@/app/lib/constants";

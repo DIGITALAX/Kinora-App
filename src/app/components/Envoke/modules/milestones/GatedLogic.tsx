@@ -1,4 +1,4 @@
-import { FunctionComponent, useContext } from "react";
+import { FunctionComponent, JSX, useContext } from "react";
 import { GatedLogicProps } from "../../types/envoke.types";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Image from "next/legacy/image";
