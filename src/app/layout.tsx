@@ -12,7 +12,7 @@ export const metadata: Metadata = {
       follow: true,
     },
   },
-  description: "DOn-Chain Video Social Quests.",
+  description: "On-Chain Video Social Quests.",
   keywords:
     "Web3, Web3 Fashion, Moda Web3, Open Source, CC0, Emma-Jane MacKinnon-Lee, Open Source LLMs, DIGITALAX, F3Manifesto, digitalax.xyz, f3manifesto.xyz, Women, Life, Freedom.",
   twitter: {
