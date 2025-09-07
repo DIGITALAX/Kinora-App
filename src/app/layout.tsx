@@ -28,9 +28,9 @@ export const metadata: Metadata = {
   creator: "Emma-Jane MacKinnon-Lee",
   publisher: "Emma-Jane MacKinnon-Lee",
   alternates: {
-    canonical: `https://f3manifesto.xyz`,
+    canonical: `https://kinora.irrevocable.dev`,
     languages: LOCALES.reduce((acc, item) => {
-      acc[item] = `https://f3manifesto.xyz/${item}/`;
+      acc[item] = `https://kinora.irrevocable.dev/${item}/`;
       return acc;
     }, {} as { [key: string]: string }),
   },
