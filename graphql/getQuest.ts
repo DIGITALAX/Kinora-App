@@ -1,12 +1,12 @@
 import { KINORA_QUEST_DATA } from "@/app/lib/constants";
-import { graphKinoraClient } from "@/app/lib/graph/client";
+import { graphKinoraClient, graphKinoraServer } from "@/app/lib/graph/client";
 import { FetchResult, gql } from "@apollo/client";
 
 export const getQuest = async (
   postId: string
 ): Promise<FetchResult | void> => {
   let timeoutId: NodeJS.Timeout | undefined;
-  const queryPromise = graphKinoraClient.query({
+  const queryPromise = (typeof window === "undefined" ? graphKinoraServer : graphKinoraClient).query({
     query: gql(`
     query($postId: String, $contractAddress: String) {
       questInstantiateds(where: {postId: $postId, contractAddress: $contractAddress}, first: 1, orderDirection: desc, orderBy: blockTimestamp) {
@@ -167,7 +167,7 @@ export const getQuestById = async (
   questId: string
 ): Promise<FetchResult | void> => {
   let timeoutId: NodeJS.Timeout | undefined;
-  const queryPromise = graphKinoraClient.query({
+  const queryPromise = (typeof window === "undefined" ? graphKinoraServer : graphKinoraClient).query({
     query: gql(`
     query($questId: String, $contractAddress: String) {
       questInstantiateds(where: {questId: $questId, contractAddress: $contractAddress}, first: 1, orderDirection: desc, orderBy: blockTimestamp) {

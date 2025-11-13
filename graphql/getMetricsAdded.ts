@@ -1,5 +1,5 @@
 import { KINORA_QUEST_DATA } from "@/app/lib/constants";
-import { graphKinoraClient } from "@/app/lib/graph/client";
+import { graphKinoraClient, graphKinoraServer } from "@/app/lib/graph/client";
 import { FetchResult, gql } from "@apollo/client";
 
 export const getMetricsAdded = async (
@@ -7,7 +7,7 @@ export const getMetricsAdded = async (
     skip: number
   ): Promise<FetchResult | void> => {
     let timeoutId: NodeJS.Timeout | undefined;
-    const queryPromise = graphKinoraClient.query({
+    const queryPromise = (typeof window === "undefined" ? graphKinoraServer : graphKinoraClient).query({
       query: gql(`
       query($first: Int, $skip: Int, $contractAddress: String) {
         playerMetricsUpdateds(first: $first, skip: $skip, orderBy: blockTimestamp, where: {contractAddress: $contractAddress}) {

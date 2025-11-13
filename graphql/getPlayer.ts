@@ -1,12 +1,12 @@
 import { KINORA_QUEST_DATA } from "@/app/lib/constants";
-import { graphKinoraClient } from "@/app/lib/graph/client";
+import { graphKinoraClient, graphKinoraServer } from "@/app/lib/graph/client";
 import { FetchResult, gql } from "@apollo/client";
 
 export const getPlayerData = async (
   playerProfile: string
 ): Promise<FetchResult | void> => {
   let timeoutId: NodeJS.Timeout | undefined;
-  const queryPromise = graphKinoraClient.query({
+  const queryPromise = (typeof window === "undefined" ? graphKinoraServer : graphKinoraClient).query({
     query: gql(`
     query($playerProfile: String, $contractAddress: String) {
         players(where: {playerProfile: $playerProfile, contractAddress: $contractAddress}, first: 1) {

@@ -1,4 +1,4 @@
-import { graphPrintClient } from "@/app/lib/graph/client";
+import { graphPrintClient, graphPrintServer } from "@/app/lib/graph/client";
 import { FetchResult, gql } from "@apollo/client";
 
 const ORDERS = `
@@ -15,7 +15,7 @@ export const getOrders = async (
   buyer: `0x${string}`
 ): Promise<FetchResult | void> => {
   let timeoutId: NodeJS.Timeout | undefined;
-  const queryPromise = graphPrintClient.query({
+  const queryPromise = (typeof window === "undefined" ? graphPrintServer : graphPrintClient).query({
     query: gql(ORDERS),
     variables: {
       buyer,

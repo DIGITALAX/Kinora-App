@@ -1,4 +1,4 @@
-import { graphPrintClient } from "@/app/lib/graph/client";
+import { graphPrintClient, graphPrintServer } from "@/app/lib/graph/client";
 import { FetchResult, gql } from "@apollo/client";
 
 export const getAllCollections = async (
@@ -7,7 +7,8 @@ export const getAllCollections = async (
   skip: number
 ): Promise<FetchResult | void> => {
   let timeoutId: NodeJS.Timeout | undefined;
-  const queryPromise = graphPrintClient.query({
+  
+  const queryPromise = (typeof window === "undefined" ? graphPrintServer : graphPrintClient).query({
     query: gql(`
     query($first: Int, $skip: Int, $title: String) {
       collectionCreateds(where: { or: [{metadata_: { title_contains_nocase: $title }}, {metadata_: { microbrand_contains_nocase: $title }}, {metadata_: { prompt_contains_nocase: $title }}, {metadata_: { tags_contains_nocase: $title }}, {dropMetadata_: { title_contains_nocase: $title }}]}, first: $first, skip: $skip, orderDirection: desc, orderBy: blockTimestamp) {
@@ -59,7 +60,7 @@ export const getCollectionSample = async (
   skip: number
 ): Promise<FetchResult | void> => {
   let timeoutId: NodeJS.Timeout | undefined;
-  const queryPromise = graphPrintClient.query({
+  const queryPromise = (typeof window === "undefined" ? graphPrintServer : graphPrintClient).query({
     query: gql(`
     query($first: Int, $skip: Int) {
       collectionCreateds(first: $first, skip: $skip, orderDirection: desc, orderBy: blockTimestamp) {
@@ -110,7 +111,7 @@ export const getCollectionURI = async (
   uri: string
 ): Promise<FetchResult | void> => {
   let timeoutId: NodeJS.Timeout | undefined;
-  const queryPromise = graphPrintClient.query({
+  const queryPromise = (typeof window === "undefined" ? graphPrintServer : graphPrintClient).query({
     query: gql(`
     query($uri: String) {
       collectionCreateds(first: 1, where: { uri_contains_nocase: $uri}, orderDirection: desc, orderBy: blockTimestamp) {
@@ -152,7 +153,7 @@ export const getCollectionId = async (
   collectionId: string
 ): Promise<FetchResult | void> => {
   let timeoutId: NodeJS.Timeout | undefined;
-  const queryPromise = graphPrintClient.query({
+  const queryPromise = (typeof window === "undefined" ? graphPrintServer : graphPrintClient).query({
     query: gql(`
     query($collectionId: String) {
       collectionCreateds(first: 1, where: { collectionId: $collectionId}, orderDirection: desc, orderBy: blockTimestamp) {

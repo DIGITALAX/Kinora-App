@@ -1,5 +1,5 @@
 import { KINORA_QUEST_DATA } from "@/app/lib/constants";
-import { graphKinoraClient } from "@/app/lib/graph/client";
+import { graphKinoraClient, graphKinoraServer } from "@/app/lib/graph/client";
 import { FetchResult, gql } from "@apollo/client";
 
 export const getVideoActivity = async (
@@ -7,7 +7,7 @@ export const getVideoActivity = async (
   postId: string
 ): Promise<FetchResult | void> => {
   let timeoutId: NodeJS.Timeout | undefined;
-  const queryPromise = graphKinoraClient.query({
+  const queryPromise = (typeof window === "undefined" ? graphKinoraServer : graphKinoraClient).query({
     query: gql(`
     query($playerProfile: String, $postId: String, $contractAddress: String) {
         videoActivities(where: { postId: $postId, playerProfile: $playerProfile, contractAddress: $contractAddress}, first: 1) {
