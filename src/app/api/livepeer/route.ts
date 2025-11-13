@@ -15,11 +15,9 @@ export async function POST(req: Request) {
       apiKey: process.env.LIVEPEER_STUDIO,
     });
 
-    console.log(`Fetching Livepeer assets page ${page || 1}`);
 
     const results = await livepeer.asset.getAll();
 
-    console.log("Livepeer response:", results);
 
     if (Array.isArray(results)) {
       return NextResponse.json(results);
