@@ -22,7 +22,7 @@
     "critters": "^0.0.23",
     "ethers": "^5.7.2",
     "formidable": "^3.5.1",
-    "kinora-sdk": "^2.0.0",
+    "kinora-sdk": "2.1.1",
     "livepeer": "3.0.1",
     "moment": "^2.30.1",
     "negotiator": "^1.0.0",
