@@ -1,68 +1,37 @@
 import { Livepeer } from "livepeer";
-import { IncomingForm } from "formidable";
-import { Readable } from "stream";
 import { NextResponse } from "next/server";
-
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
-
-const streamToNodeStream = (readableStream: ReadableStream) => {
-  const reader = readableStream.getReader();
-  return new Readable({
-    async read() {
-      const { done, value } = await reader.read();
-      if (done) {
-        this.push(null);
-      } else {
-        this.push(value);
-      }
-    },
-  });
-};
-
-const parseForm = (req: any): Promise<{ fields: any; files: any }> => {
-  return new Promise((resolve, reject) => {
-    const form = new IncomingForm();
-
-    form.parse(req, (err, fields, files) => {
-      if (err) {
-        reject(err);
-        return;
-      }
-      resolve({ fields, files });
-    });
-  });
-};
 
 export async function POST(req: Request) {
   try {
-    const nodeStream = streamToNodeStream(req.body as ReadableStream);
+    const formData = await req.formData();
+    const page = formData.get("page") as string;
 
-    const incomingReq = Object.assign(nodeStream, {
-      headers: Object.fromEntries(req.headers.entries()),
-      method: req.method,
-      url: req.url,
-    });
-
-    const { fields } = await parseForm(incomingReq);
+    if (!process.env.LIVEPEER_STUDIO) {
+      console.error("LIVEPEER_STUDIO API key is not configured");
+      return NextResponse.json([]);
+    }
 
     const livepeer = new Livepeer({
-      apiKey: process.env.LIVEPEER_STUDIO as string,
+      apiKey: process.env.LIVEPEER_STUDIO,
     });
 
-    const results = await livepeer.asset.getAll({
-      params: {
-        page: Number(fields.page?.[0] || 1),
-        limit: 1000,
-      },
-    });
+    console.log(`Fetching Livepeer assets page ${page || 1}`);
 
-    return NextResponse.json(results?.data);
+    const results = await livepeer.asset.getAll();
+
+    console.log("Livepeer response:", results);
+
+    if (Array.isArray(results)) {
+      return NextResponse.json(results);
+    }
+
+    if (results?.data && Array.isArray(results.data)) {
+      return NextResponse.json(results.data);
+    }
+
+    return NextResponse.json([]);
   } catch (err: any) {
-    console.error(err.message);
-    return NextResponse.json({ error: err.message }, { status: 500 });
+    console.error("Livepeer API error:", err);
+    return NextResponse.json([]);
   }
 }

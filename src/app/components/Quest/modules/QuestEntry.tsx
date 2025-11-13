@@ -139,7 +139,7 @@ export default function QuestEntry({
             </div>
             <div className="relative w-full h-full flex flex-col gap-4">
               {mainViewer !== 0 && (
-                <div className="relative w-full h-fit flex items-start justify-start">
+                <div className="relative w-full h-fit flex items-start justify-start" key={`milestone-${mainViewer}`}>
                   <div className="relative w-full h-10 sm:h-20 flex items-start justify-start gap-10">
                     <Channels
                       videos={questInfo?.milestones[mainViewer - 1]?.videos!}

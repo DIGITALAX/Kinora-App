@@ -256,10 +256,18 @@ const useLens = (
         });
 
         const res = await data.json();
-        allAssets = [...allAssets, ...(res || [])];
+
+        if (!Array.isArray(res)) {
+          console.error("Invalid response from Livepeer API:", res);
+          hasMore = false;
+          break;
+        }
+
+        allAssets = [...allAssets, ...res];
+
         if (
-          res?.length < 1000 ||
-          allAssets?.some((asset) => asset?.id == res?.[0]?.id)
+          res.length < 1000 ||
+          allAssets.some((asset) => asset?.id == res[0]?.id)
         ) {
           hasMore = false;
           break;
@@ -271,7 +279,8 @@ const useLens = (
       contexto?.setAllUploaded(allAssets || []);
       setAssetLoading(false);
     } catch (err: any) {
-      console.error(err.message);
+      console.error("Error fetching Livepeer assets:", err.message);
+      setAssetLoading(false);
     }
   };
 
