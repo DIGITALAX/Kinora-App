@@ -10,12 +10,18 @@ import useCriteria from "../hooks/useCriteria";
 import useEnvoke from "../hooks/useEnvoke";
 import Stages from "./Stages";
 import { Envoker } from "kinora-sdk";
+import { INFURA_GATEWAY } from "@/app/lib/constants";
 
 export default function EnvokeEntry({ dict }: { dict: any }) {
   const context = useContext(ModalContext);
   const { isConnected } = useAccount();
   const questEnvoker = new Envoker({
     authedApolloClient: context?.lensConectado?.apollo as any,
+    ipfsConfig: {
+      uploadEndpoint: `${window.location.origin}/api/ipfs`,
+      gateway: INFURA_GATEWAY,
+      headers: {},
+    },
   });
   const {
     coverLoading,

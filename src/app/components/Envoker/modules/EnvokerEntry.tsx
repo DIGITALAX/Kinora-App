@@ -12,6 +12,7 @@ import Bio from "./Bio";
 import useHover from "../../Common/hooks/useHover";
 import AccountSwitch from "./AccountSwitch";
 import { Dispatch, Envoker } from "kinora-sdk";
+import { INFURA_GATEWAY } from "@/app/lib/constants";
 
 export default function EnvokerEntry({
   dict,
@@ -23,6 +24,11 @@ export default function EnvokerEntry({
   const context = useContext(ModalContext);
   const questEnvoker = new Envoker({
     authedApolloClient: context?.lensConectado?.apollo as any,
+    ipfsConfig: {
+      uploadEndpoint: `${window.location.origin}/api/ipfs`,
+      gateway: INFURA_GATEWAY,
+      headers: {},
+    },
   });
   const kinoraDispatch = new Dispatch({
     playerAuthedApolloClient: context?.lensConectado?.apollo as any,

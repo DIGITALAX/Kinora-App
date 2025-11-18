@@ -1,6 +1,6 @@
 import { useContext, useEffect, useMemo, useState } from "react";
 import { Quest, Video, VideoActivity } from "../../Common/types/common.types";
-import { KINORA_METRICS, KINORA_QUEST_DATA } from "@/app/lib/constants";
+import { INFURA_GATEWAY, KINORA_METRICS, KINORA_QUEST_DATA } from "@/app/lib/constants";
 import { ModalContext } from "@/app/providers";
 import { getVideoActivity } from "../../../../../graphql/getVideoActivity";
 import { fetchPost, fetchPostReferences } from "@lens-protocol/client/actions";
@@ -29,7 +29,11 @@ const useVideos = (
   const [playerMetricsLive, setPlayerMetricsLive] = useState<
     VideoActivity | undefined
   >();
-  const kinora = Kinora.getInstance(context?.lensConectado?.apollo as any);
+  const kinora = Kinora.getInstance(context?.lensConectado?.apollo as any, {
+    uploadEndpoint: `${window.location.origin}/api/ipfs`,
+    gateway: INFURA_GATEWAY,
+    headers: {},
+  });
 
   const handleSendMetrics = async () => {
     setMetricsLoading(true);
