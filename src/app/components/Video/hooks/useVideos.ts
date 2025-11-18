@@ -30,7 +30,7 @@ const useVideos = (
     VideoActivity | undefined
   >();
   const kinora = Kinora.getInstance(context?.lensConectado?.apollo as any, {
-    uploadEndpoint: `${window.location.origin}/api/ipfs`,
+    uploadEndpoint: `${process.env.NEXT_PUBLIC_BASE_URL}/api/ipfs`,
     gateway: INFURA_GATEWAY,
     headers: {},
   });

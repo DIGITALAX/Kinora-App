@@ -25,7 +25,7 @@ export default function EnvokerEntry({
   const questEnvoker = new Envoker({
     authedApolloClient: context?.lensConectado?.apollo as any,
     ipfsConfig: {
-      uploadEndpoint: `${window.location.origin}/api/ipfs`,
+      uploadEndpoint: `${process.env.NEXT_PUBLIC_BASE_URL}/api/ipfs`,
       gateway: INFURA_GATEWAY,
       headers: {},
     },
