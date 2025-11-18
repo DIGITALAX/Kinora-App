@@ -70,6 +70,14 @@ export interface Quest {
   blockTimestamp: string;
 }
 
+export interface EncryptedData {
+  [address: string]: {
+    ephemPublicKey: string;
+    iv: string;
+    ciphertext: string;
+  };
+}
+
 export interface Milestone {
   gated: Gate;
   milestoneMetadata: {

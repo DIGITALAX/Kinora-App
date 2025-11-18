@@ -3,17 +3,10 @@ import { createPublicClient, createWalletClient, custom, http } from "viem";
 import { getAllStore } from "../../../../../graphql/getShop";
 import handleCollectionProfilesAndPublications from "@/app/lib/helpers/handleCollectionProfilesAndPublications";
 import { ModalContext } from "@/app/providers";
-import {
-  checkAndSignAuthMessage,
-  LitNodeClient,
-  uint8arrayFromString,
-} from "@lit-protocol/lit-node-client";
-import { LIT_NETWORK } from "@lit-protocol/constants";
-import { AccessControlConditions } from "@lit-protocol/types";
 import { useAccount } from "wagmi";
 import {
-  ACCEPTED_TOKENS,
   DIGITALAX_ADDRESS,
+  DIGITALAX_PUBLIC_KEY,
   KINORA_OPEN_ACTION_PRINT,
 } from "@/app/lib/constants";
 import { Collection, Indexar } from "../../Common/types/common.types";
@@ -27,6 +20,10 @@ import {
   fetchPostActionContracts,
 } from "@lens-protocol/client/actions";
 import pollResult from "@/app/lib/helpers/pollResult";
+import {
+  encryptForMultipleRecipients,
+  getPublicKeyFromSignature,
+} from "@/app/lib/helpers/encryption";
 
 const useCheckout = (dict: any) => {
   const context = useContext(ModalContext);
@@ -47,10 +44,6 @@ const useCheckout = (dict: any) => {
     city: "",
     state: "",
     country: "",
-  });
-  const client = new LitNodeClient({
-    litNetwork: LIT_NETWORK.Datil,
-    debug: false,
   });
 
   const getStore = async () => {
@@ -93,69 +86,46 @@ const useCheckout = (dict: any) => {
     )
       return;
     try {
-      let nonce = await client.getLatestBlockhash();
-      await checkAndSignAuthMessage({
-        chain: "polygon",
-        nonce: nonce!,
+      const clientWallet = createWalletClient({
+        chain: chains.mainnet,
+        transport: custom((window as any).ethereum),
       });
-      await client.connect();
 
-      const accessControlConditions = [
-        {
-          contractAddress: "",
-          standardContractType: "",
-          chain: "polygon",
-          method: "",
-          parameters: [":userAddress"],
-          returnValueTest: {
-            comparator: "=",
-            value: address.toLowerCase(),
-          },
-        },
-        {
-          operator: "or",
-        },
-        {
-          contractAddress: "",
-          standardContractType: "",
-          chain: "polygon",
-          method: "",
-          parameters: [":userAddress"],
-          returnValueTest: {
-            comparator: "=",
-            value: DIGITALAX_ADDRESS?.toLowerCase() as string,
-          },
-        },
-      ] as AccessControlConditions;
-
-      const { ciphertext, dataToEncryptHash } = await client.encrypt({
-        accessControlConditions,
-        dataToEncrypt: uint8arrayFromString(
-          JSON.stringify({
-            address: fulfillmentDetails?.address,
-            state: fulfillmentDetails?.state,
-            country: fulfillmentDetails?.country,
-            city: fulfillmentDetails?.city,
-            zip: fulfillmentDetails?.zip,
-            size: chosenCartItem?.chosenSize,
-            color: "",
-            origin: "4",
-            fulfillerAddress: [DIGITALAX_ADDRESS],
-          })
-        ),
+      const message = "Sign this message to encrypt your fulfillment details";
+      const signature = await clientWallet.signMessage({
+        account: address,
+        message,
       });
+
+      const buyerPublicKey = await getPublicKeyFromSignature(
+        message,
+        signature
+      );
+
+      const encryptedData = await encryptForMultipleRecipients(
+        {
+          address: fulfillmentDetails?.address,
+          state: fulfillmentDetails?.state,
+          country: fulfillmentDetails?.country,
+          city: fulfillmentDetails?.city,
+          zip: fulfillmentDetails?.zip,
+          size: chosenCartItem?.chosenSize,
+          color: "",
+          origin: "4",
+          fulfillerAddress: [DIGITALAX_ADDRESS],
+        },
+        [
+          { address, publicKey: buyerPublicKey },
+          { address: DIGITALAX_ADDRESS, publicKey: DIGITALAX_PUBLIC_KEY },
+        ]
+      );
 
       const ipfsRes = await fetch("/api/ipfs", {
         method: "POST",
         headers: {
-          contentType: "application/json",
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          ciphertext,
-          dataToEncryptHash,
-          accessControlConditions,
-          chain: "polygon",
-        }),
+        body: JSON.stringify(encryptedData),
       });
       const json = await ipfsRes.json();
 
@@ -332,7 +302,6 @@ const useCheckout = (dict: any) => {
     }
     setCheckoutLoading(false);
   };
-
 
   useEffect(() => {
     if (storeItems?.length < 1 && context?.clienteLens) {

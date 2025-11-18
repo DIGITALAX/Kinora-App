@@ -15,7 +15,6 @@
     "@lens-chain/storage-client": "^1.0.4",
     "@lens-protocol/client": "^0.0.0-canary-20250618120637",
     "@lens-protocol/metadata": "^2.0.0-next.7",
-    "@lit-protocol/lit-node-client": "^7.0.9",
     "@livepeer/react": "^3.1.9",
     "@tanstack/react-query": "^5.71.5",
     "connectkit": "^1.9.0",
