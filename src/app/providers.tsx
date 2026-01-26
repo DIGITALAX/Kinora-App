@@ -1,6 +1,7 @@
 "use client";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { WagmiProvider, createConfig, http } from "wagmi";
+import { injected } from "wagmi/connectors";
 import {
   createContext,
   SetStateAction,
@@ -43,15 +44,24 @@ import { getApolloLens } from "./lib/lens/client";
 import RouterChange from "./components/Common/modules/RouterChange";
 import { INFURA_GATEWAY } from "./lib/constants";
 
+const appMetadata = {
+  name: "Kinora",
+  description: "On-Chain Video Social Quests.",
+  url: "https://kinora.irrevocable.dev",
+  icon: "https://kinora.irrevocable.dev/favicon.ico",
+};
+
+const connectors = [injected({ target: "metaMask" })];
+
 export const config = createConfig(
   getDefaultConfig({
-    appName: "Kinora",
-    walletConnectProjectId: process.env
-      .NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID as string,
-    appUrl: "https://kinora.irrevocable.dev",
-    appIcon: "https://kinora.irrevocable.dev/favicon.ico",
+    appName: appMetadata.name,
+    appDescription: appMetadata.description,
+    appUrl: appMetadata.url,
+    appIcon: appMetadata.icon,
+    walletConnectProjectId: "",
     chains: [chains.mainnet],
-    connectors: [],
+    connectors,
     transports: {
       [chains.mainnet.id]: http("https://rpc.lens.xyz"),
     },
