@@ -1,9 +1,9 @@
 import { ItemType } from "../components/Common/types/common.types";
 
-export const INFURA_GATEWAY: string = "https://thedial.infura-ipfs.io";
+export const INFURA_GATEWAY: string = "https://cdn.digitalax.xyz";
 export const GROVE_GATEWAY: string = "https://api.grove.storage/";
 export const INFURA_GATEWAY_INTERNAL: string =
-  "https://irrevocable.dev/api/infura/";
+  "https://cdn.digitalax.xyz/ipfs/";
 export const KINORA_QUEST_DATA: `0x${string}` =
   "0x73a8d6c331033c3fb30db0583525e8f604472e55";
 export const KINORA_ESCROW: `0x${string}` =

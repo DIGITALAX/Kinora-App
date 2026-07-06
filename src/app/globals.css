@@ -63,13 +63,13 @@
   }
 
   .bg-fuzz {
-    background-image: url("https://thedial.infura-ipfs.io/ipfs/QmcnyZRwBo2yRC8xPuyD2UVEfRGX6JNPX86dT43aPSsy5y");
+    background-image: url("https://cdn.digitalax.xyz/ipfs/QmcnyZRwBo2yRC8xPuyD2UVEfRGX6JNPX86dT43aPSsy5y");
   }
 }
 
 html {
   background-color: #0b0e16;
-  background-image: url("https://thedial.infura-ipfs.io/ipfs/QmcnyZRwBo2yRC8xPuyD2UVEfRGX6JNPX86dT43aPSsy5y");
+  background-image: url("https://cdn.digitalax.xyz/ipfs/QmcnyZRwBo2yRC8xPuyD2UVEfRGX6JNPX86dT43aPSsy5y");
   background-repeat: repeat;
 }
 

@@ -14,12 +14,12 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "chromadin.infura-ipfs.io",
+        hostname: "cdn.digitalax.xyz",
         pathname: "/ipfs/**",
       },
       {
         protocol: "https",
-        hostname: "thedial.infura-ipfs.io",
+        hostname: "cdn.digitalax.xyz",
         pathname: "/ipfs/**",
       },
       {
@@ -34,8 +34,8 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
-        hostname: "irrevocable.dev",
-        pathname: "/api/infura/**",
+        hostname: "cdn.digitalax.xyz",
+        pathname: "/ipfs/**",
       },
     ],
     unoptimized: true,
@@ -45,8 +45,8 @@ const nextConfig: NextConfig = {
     let headersConfig: any = [];
 
     const allowedOrigins = [
-      "https://chromadin.infura-ipfs.io",
-      "https://thedial.infura-ipfs.io",
+      "https://cdn.digitalax.xyz",
+      "https://cdn.digitalax.xyz",
       "https://ik.imagekit.io",
       "https://irrevocable.dev",
       "https://gw.ipfs-lens.dev",
