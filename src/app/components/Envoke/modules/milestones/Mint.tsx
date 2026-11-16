@@ -4,8 +4,8 @@ import {
   IoVideocamOutline,
   IoImageOutline,
 } from "react-icons/io5";
-import { Player } from "@livepeer/react";
 import { ImCross } from "react-icons/im";
+import NativeVideo from "@/app/components/Common/modules/NativeVideo";
 import { KinoraPlayerWrapper } from "kinora-sdk";
 import { FunctionComponent, JSX, useContext } from "react";
 import { ModalContext } from "@/app/providers";
@@ -143,28 +143,16 @@ const Mint: FunctionComponent<MintProps> = ({
                       }}
                     >
                       {(setMediaElement: (node: HTMLVideoElement) => void) => (
-                        <Player
-                          mediaElementRef={setMediaElement}
-                          src={
-                            item?.video?.includes("ipfs://")
-                              ? `${INFURA_GATEWAY}/ipfs/${
-                                  item?.video?.split("ipfs://")?.[1]
-                                }`
-                              : item?.video?.includes("ar://")
-                              ? `https://arweave.net/${item?.video
-                                  ?.split("ar://")?.[1]
-                                  ?.replace(/"/g, "")
-                                  ?.trim()}`
-                              : item?.video
-                          }
+                        <NativeVideo
+                          setMediaElement={setMediaElement}
+                          src={item?.video}
                           muted
                           loop
                           autoPlay
-                          objectFit="cover"
-                          // autoUrlUpload={{
-                          //   fallback: true,
-                          //   ipfsGateway: INFURA_GATEWAY,
-                          // }}
+                          styles={{
+                            borderRadius: "0.125rem",
+                            objectFit: "cover",
+                          }}
                         />
                       )}
                     </KinoraPlayerWrapper>

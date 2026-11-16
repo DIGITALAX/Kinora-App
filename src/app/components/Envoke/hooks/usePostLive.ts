@@ -24,6 +24,7 @@ import convertToFile from "@/app/lib/helpers/convertToFile";
 import { VideoMetadata } from "@lens-protocol/client";
 import { createPublicClient, createWalletClient, http } from "viem";
 import getVideoCover from "@/app/lib/helpers/getVideoCover";
+import getVideoIdentifier from "@/app/lib/helpers/getVideoIdentifier";
 import handleQuestCheck from "@/app/lib/helpers/handleQuestCheck";
 import { fetchPosts } from "@lens-protocol/client/actions";
 import { Envoker } from "kinora-sdk";
@@ -433,48 +434,19 @@ const usePostLive = (
               internalCriteria: await Promise.all(
                 (item?.eligibility || [])?.map(
                   async (playbackCriteria: VideoEligible) => {
-                    let assetWithPlaybackId = context?.allUploaded?.find(
-                      (asset) =>
-                        asset?.storage?.ipfs?.cid?.toLowerCase() ===
-                          (
-                            playbackCriteria?.video?.metadata as VideoMetadata
-                          )?.video?.item
-                            ?.split("ipfs://")?.[1]
-                            ?.toLowerCase() ||
-                        (asset as any)?.source.url
-                          ?.split("ipfs://")?.[1]
-                          ?.toLowerCase() ===
-                          (
-                            playbackCriteria?.video?.metadata as VideoMetadata
-                          )?.video?.item
-                            ?.split("ipfs://")?.[1]
-                            ?.toLowerCase()
-                    )?.playbackId;
+                    const videoIdentifier = getVideoIdentifier(
+                      (playbackCriteria?.video?.metadata as VideoMetadata)
+                        ?.video?.item
+                    );
 
-                    if (!assetWithPlaybackId) {
-                      const formData = new FormData();
-                      formData.append(
-                        "name",
-                        ((playbackCriteria?.video?.metadata as VideoMetadata)
-                          ?.title ??
-                          (
-                            playbackCriteria?.video?.metadata as VideoMetadata
-                          )?.content?.split("\n\n")[0] ??
-                          "") as string
-                      );
-                      formData.append(
-                        "link",
-                        (playbackCriteria?.video?.metadata as VideoMetadata)
-                          ?.video?.item
-                      );
-
-                      const result = await fetch("/api/video", {
-                        method: "POST",
-                        body: formData,
-                      });
-
-                      assetWithPlaybackId = (await result.json())?.assetId;
-                    }
+                    const assetWithPlaybackId =
+                      context?.allUploaded?.find(
+                        (asset) =>
+                          videoIdentifier !== "" &&
+                          (asset?.storage?.ipfs?.cid === videoIdentifier ||
+                            getVideoIdentifier(asset?.source?.url) ===
+                              videoIdentifier)
+                      )?.playbackId || videoIdentifier;
 
                     const fields: (keyof MilestoneEligibilityCriteria)[] = [
                       "minPlayCount",

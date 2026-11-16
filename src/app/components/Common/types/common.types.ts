@@ -331,6 +331,28 @@ export type WaveFormProps = {
   };
 };
 
+export interface UploadedVideo {
+  id: string;
+  playbackId: string;
+  storage: {
+    ipfs: {
+      cid: string;
+    };
+  };
+  source: {
+    url: string;
+  };
+}
+
+export type NativeVideoProps = {
+  setMediaElement: (node: HTMLVideoElement) => void;
+  src: string | undefined;
+  muted?: boolean;
+  loop?: boolean;
+  autoPlay?: boolean;
+  styles?: React.CSSProperties;
+};
+
 export type MediaProps = {
   type: string;
   srcUrl: string;

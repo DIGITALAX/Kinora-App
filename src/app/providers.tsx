@@ -6,7 +6,6 @@ import {
   createContext,
   SetStateAction,
   useEffect,
-  useMemo,
   useState,
 } from "react";
 import { Context, Post, PublicClient, mainnet } from "@lens-protocol/client";
@@ -14,12 +13,6 @@ import { ConnectKitProvider, getDefaultConfig } from "connectkit";
 import { StorageClient } from "@lens-chain/storage-client";
 import { chains } from "@lens-chain/sdk/viem";
 import { usePathname } from "next/navigation";
-import { Asset } from "@livepeer/react";
-import {
-  createReactClient,
-  studioProvider,
-  LivepeerConfig,
-} from "@livepeer/react";
 import { KinoraProvider } from "kinora-sdk";
 import {
   AccountType,
@@ -29,6 +22,7 @@ import {
   OracleData,
   Quest,
   SimpleCollect,
+  UploadedVideo,
 } from "./components/Common/types/common.types";
 import {
   MediaImageMimeType,
@@ -71,18 +65,12 @@ export const config = createConfig(
 
 const queryClient = new QueryClient();
 
-const livepeerClient = createReactClient({
-  provider: studioProvider({
-    apiKey: process.env.NEXT_PUBLIC_LIVEPEER_STUDIO_KEY!,
-  }),
-});
-
 export const ModalContext = createContext<
   | {
       routerChangeLoading: boolean;
       setRouterChangeLoading: (e: SetStateAction<boolean>) => void;
-      allUploaded: Asset[];
-      setAllUploaded: (e: SetStateAction<Asset[]>) => void;
+      allUploaded: UploadedVideo[];
+      setAllUploaded: (e: SetStateAction<UploadedVideo[]>) => void;
       accountType: AccountType;
       setAccountType: (e: SetStateAction<AccountType>) => void;
       followBox:
@@ -352,7 +340,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   }>({
     open: false,
   });
-  const [allUploaded, setAllUploaded] = useState<Asset[]>([]);
+  const [allUploaded, setAllUploaded] = useState<UploadedVideo[]>([]);
   const [routerChangeLoading, setRouterChangeLoading] =
     useState<boolean>(false);
   const [postInfo, setPostInfo] = useState<{
@@ -378,10 +366,22 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
-  const apolloClient = useMemo(() => {
-    return getApolloLens(
-      lensConectado?.sessionClient?.getCredentials()!
-    ) as any;
+  const [apolloClient, setApolloClient] = useState<any>(() =>
+    getApolloLens(undefined)
+  );
+
+  useEffect(() => {
+    let activo = true;
+    const cargarApollo = async () => {
+      const creds = await lensConectado?.sessionClient?.getCredentials();
+      if (activo) {
+        setApolloClient(getApolloLens(creds));
+      }
+    };
+    cargarApollo();
+    return () => {
+      activo = false;
+    };
   }, [lensConectado?.sessionClient]);
 
   useEffect(() => {
@@ -402,81 +402,79 @@ export default function Providers({ children }: { children: React.ReactNode }) {
             "--ck-font-family": '"Manaspace", cursive',
           }}
         >
-          <LivepeerConfig client={livepeerClient}>
-            <KinoraProvider
-              playerAuthedApolloClient={apolloClient}
-              ipfsConfig={{
-                uploadEndpoint: `${process.env.NEXT_PUBLIC_BASE_URL}/api/ipfs`,
-                gateway: INFURA_GATEWAY,
-                headers: {},
+          <KinoraProvider
+            playerAuthedApolloClient={apolloClient}
+            ipfsConfig={{
+              uploadEndpoint: `${process.env.NEXT_PUBLIC_BASE_URL}/api/ipfs`,
+              gateway: INFURA_GATEWAY,
+              headers: {},
+            }}
+          >
+            <ModalContext.Provider
+              value={{
+                allUploaded,
+                setAllUploaded,
+                accountType,
+                setAccountType,
+                followBox,
+                setFollowBox,
+                questGates,
+                setQuestGates,
+                isPlayer,
+                setIsPlayer,
+                activityFeed,
+                setActivityFeed,
+                routerChangeLoading,
+                setRouterChangeLoading,
+                missingValues,
+                setMissingValues,
+                questInfo,
+                setQuestInfo,
+                questStage,
+                setQuestStage,
+                isEnvoker,
+                setIsEnvoker,
+                oracleData,
+                setOracleData,
+                success,
+                setSuccess,
+                gif,
+                setGif,
+                collectOptions,
+                setCollectOptions,
+                postInfo,
+                setPostInfo,
+                quote,
+                setQuote,
+                modalOpen,
+                setModalOpen,
+                questFeed,
+                setQuestFeed,
+                openSidebar,
+                setOpenSidebar,
+                imageViewer,
+                setImageViewer,
+                indexar,
+                setIndexar,
+                crearCuenta,
+                setCrearCuenta,
+                clienteLens,
+                clienteAlmacenamiento,
+                lensConectado,
+                setLensConectado,
+                signless,
+                setSignless,
               }}
             >
-              <ModalContext.Provider
-                value={{
-                  allUploaded,
-                  setAllUploaded,
-                  accountType,
-                  setAccountType,
-                  followBox,
-                  setFollowBox,
-                  questGates,
-                  setQuestGates,
-                  isPlayer,
-                  setIsPlayer,
-                  activityFeed,
-                  setActivityFeed,
-                  routerChangeLoading,
-                  setRouterChangeLoading,
-                  missingValues,
-                  setMissingValues,
-                  questInfo,
-                  setQuestInfo,
-                  questStage,
-                  setQuestStage,
-                  isEnvoker,
-                  setIsEnvoker,
-                  oracleData,
-                  setOracleData,
-                  success,
-                  setSuccess,
-                  gif,
-                  setGif,
-                  collectOptions,
-                  setCollectOptions,
-                  postInfo,
-                  setPostInfo,
-                  quote,
-                  setQuote,
-                  modalOpen,
-                  setModalOpen,
-                  questFeed,
-                  setQuestFeed,
-                  openSidebar,
-                  setOpenSidebar,
-                  imageViewer,
-                  setImageViewer,
-                  indexar,
-                  setIndexar,
-                  crearCuenta,
-                  setCrearCuenta,
-                  clienteLens,
-                  clienteAlmacenamiento,
-                  lensConectado,
-                  setLensConectado,
-                  signless,
-                  setSignless,
-                }}
+              <div
+                className={`relative w-full h-auto flex flex-col ${
+                  path?.includes("autograph") ? "bg-black" : "bg-offBlack"
+                }`}
               >
-                <div
-                  className={`relative w-full h-auto flex flex-col ${
-                    path?.includes("autograph") ? "bg-black" : "bg-offBlack"
-                  }`}
-                >
-                  {children}
-                </div>
-              </ModalContext.Provider>
-            </KinoraProvider>
-          </LivepeerConfig>
+                {children}
+              </div>
+            </ModalContext.Provider>
+          </KinoraProvider>
         </ConnectKitProvider>
       </QueryClientProvider>
     </WagmiProvider>

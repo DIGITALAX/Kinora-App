@@ -1,7 +1,16 @@
-import { Account, evmAddress } from "@lens-protocol/client";
+import {
+  Account,
+  evmAddress,
+  MainContentFocus,
+  PageSize,
+  Post,
+  PostType,
+  VideoMetadata,
+} from "@lens-protocol/client";
 import {
   fetchAccount,
   fetchAccountsAvailable,
+  fetchPosts,
   revokeAuthentication,
 } from "@lens-protocol/client/actions";
 import { useContext, useEffect, useState } from "react";
@@ -12,8 +21,9 @@ import { usePathname, useRouter } from "next/navigation";
 import { getOracleData } from "../../../../../graphql/getOracleData";
 import { KINORA_ACCESS_CONTROL } from "@/app/lib/constants";
 import { getPlayerData } from "../../../../../graphql/getPlayer";
-import { Asset } from "@livepeer/react";
 import { getApolloLens } from "@/app/lib/lens/client";
+import { UploadedVideo } from "../types/common.types";
+import getVideoIdentifier from "@/app/lib/helpers/getVideoIdentifier";
 
 const useLens = (
   isConnected: boolean,
@@ -49,7 +59,7 @@ const useLens = (
       const resumed = await contexto?.clienteLens?.resumeSession();
 
       if (resumed?.isOk()) {
-        const auth = resumed.value.getAuthenticatedUser();
+        const auth = await resumed.value.getAuthenticatedUser();
 
         if (auth.isOk()) {
           const accounts = await fetchAccount(resumed.value, {
@@ -63,7 +73,7 @@ const useLens = (
           contexto?.setLensConectado?.({
             profile: accounts?.value as Account,
             sessionClient: resumed?.value,
-            apollo: getApolloLens(resumed.value?.getCredentials()),
+            apollo: getApolloLens(await resumed.value?.getCredentials()),
           });
         }
       }
@@ -119,7 +129,7 @@ const useLens = (
         contexto?.setLensConectado?.({
           sessionClient,
           profile: accounts.value.items?.[0]?.account,
-          apollo: getApolloLens(authenticated.value?.getCredentials()),
+          apollo: getApolloLens(await authenticated.value?.getCredentials()),
         });
       } else {
         const authenticatedOnboarding = await contexto?.clienteLens.login({
@@ -142,7 +152,7 @@ const useLens = (
         contexto?.setLensConectado?.({
           sessionClient,
           apollo: getApolloLens(
-            authenticatedOnboarding.value?.getCredentials()
+            await authenticatedOnboarding.value?.getCredentials()
           ),
         });
 
@@ -159,7 +169,7 @@ const useLens = (
     setLensCargando(true);
     try {
       const auth =
-        contexto?.lensConectado?.sessionClient?.getAuthenticatedUser();
+        await contexto?.lensConectado?.sessionClient?.getAuthenticatedUser();
 
       if (auth?.isOk()) {
         await revokeAuthentication(contexto?.lensConectado?.sessionClient!, {
@@ -240,35 +250,66 @@ const useLens = (
   };
 
   const handleUploadAssets = async () => {
-    if (assetLoading) return;
+    const author = contexto?.lensConectado?.profile?.address;
+    if (assetLoading || !author || !contexto?.clienteLens) return;
     setAssetLoading(true);
     try {
       let hasMore = true;
-      let page: number = 1;
-      let allAssets: Asset[] = [];
+      let page: number = 0;
+      let cursor: string | undefined = undefined;
+      let allAssets: UploadedVideo[] = [];
 
-      while (hasMore) {
-        const formData = new FormData();
-        formData.append("page", page.toString());
-        const data = await fetch("/api/livepeer", {
-          method: "POST",
-          body: formData,
-        });
+      while (hasMore && page < 20) {
+        const res: Awaited<ReturnType<typeof fetchPosts>> = await fetchPosts(
+          contexto?.lensConectado?.sessionClient ?? contexto?.clienteLens,
+          {
+            cursor,
+            filter: {
+              authors: [author],
+              postTypes: [PostType.Root],
+              metadata: {
+                mainContentFocus: [MainContentFocus.Video],
+              },
+            },
+            pageSize: PageSize.Fifty,
+          }
+        );
 
-        const res = await data.json();
-
-        if (!Array.isArray(res)) {
-          console.error("Invalid response from Livepeer API:", res);
+        if (res.isErr()) {
+          console.error("Error fetching uploaded videos:", res.error);
           hasMore = false;
           break;
         }
 
-        allAssets = [...allAssets, ...res];
+        const videos: UploadedVideo[] = (res.value.items as Post[])
+          .map((post) => {
+            const url: string =
+              (post?.metadata as VideoMetadata)?.video?.item ?? "";
+            const cid = getVideoIdentifier(url);
 
-        if (
-          res.length < 1000 ||
-          allAssets.some((asset) => asset?.id == res[0]?.id)
-        ) {
+            return {
+              id: post?.id,
+              playbackId: cid,
+              storage: {
+                ipfs: {
+                  cid,
+                },
+              },
+              source: {
+                url,
+              },
+            };
+          })
+          .filter(
+            (video) =>
+              video.playbackId &&
+              !allAssets.some((asset) => asset.id == video.id)
+          );
+
+        allAssets = [...allAssets, ...videos];
+        cursor = (res.value.pageInfo?.next ?? undefined) as string | undefined;
+
+        if (res.value.items.length < 50 || !cursor) {
           hasMore = false;
           break;
         } else {
@@ -276,10 +317,10 @@ const useLens = (
         }
       }
 
-      contexto?.setAllUploaded(allAssets || []);
+      contexto?.setAllUploaded(allAssets);
       setAssetLoading(false);
     } catch (err: any) {
-      console.error("Error fetching Livepeer assets:", err.message);
+      console.error("Error fetching uploaded videos:", err.message);
       setAssetLoading(false);
     }
   };
@@ -313,10 +354,12 @@ const useLens = (
   }, [address]);
 
   useEffect(() => {
-    if (Number(contexto?.allUploaded?.length) < 1) {
+    if (contexto?.lensConectado?.profile?.address && contexto?.clienteLens) {
       handleUploadAssets();
+    } else if (Number(contexto?.allUploaded?.length) > 0) {
+      contexto?.setAllUploaded([]);
     }
-  }, []);
+  }, [contexto?.lensConectado?.profile?.address, contexto?.clienteLens]);
 
   return {
     lensCargando,

@@ -311,16 +311,6 @@ export default function QuestEntry({
                       <div className="relative w-fit h-fit flex items-center justify-center text-girasol break-words">
                         {questInfo?.milestones?.[mainViewer - 1]?.videoLength}
                       </div>
-                      <div
-                        className="relative w-3.5 h-3.5 flex items-center justify-center cursor-pointer active:scale-95"
-                        onClick={() => window.open("https://livepeer.studio/")}
-                      >
-                        <Image
-                          draggable={false}
-                          layout="fill"
-                          src={`${INFURA_GATEWAY}/ipfs/QmVa8AWMYyAfcQAEpbqdUoRSxSkntpH1DEMpdyajZWz4AR`}
-                        />
-                      </div>
                     </div>
                   </div>
                 )}

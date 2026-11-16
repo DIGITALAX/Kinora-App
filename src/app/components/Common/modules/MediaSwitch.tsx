@@ -3,7 +3,8 @@ import { FunctionComponent, JSX, useState } from "react";
 import { MediaProps } from "../types/common.types";
 import Waveform from "./Waveform";
 import { KinoraPlayerWrapper } from "kinora-sdk";
-import { Player } from "@livepeer/react";
+import NativeVideo from "./NativeVideo";
+import getVideoSrc from "@/app/lib/helpers/getVideoSrc";
 
 const MediaSwitch: FunctionComponent<MediaProps> = ({
   type,
@@ -34,7 +35,7 @@ const MediaSwitch: FunctionComponent<MediaProps> = ({
       const keyValueVideo = srcUrl;
       return hidden ? (
         <video muted autoPlay loop style={classNameVideo}>
-          <source src={srcUrl} />
+          <source src={getVideoSrc(srcUrl)} />
         </video>
       ) : (
         <>
@@ -69,20 +70,13 @@ const MediaSwitch: FunctionComponent<MediaProps> = ({
               }}
             >
               {(setMediaElement: (node: HTMLVideoElement) => void) => (
-                <Player
-                  mediaElementRef={setMediaElement}
+                <NativeVideo
+                  setMediaElement={setMediaElement}
                   src={srcUrl}
-                  playbackId={srcUrl}
-                  // poster={srcCover? srcCover : undefined}
-                  // objectFit="cover"
-                  // autoUrlUpload={{
-                  //   fallback: true,
-                  //   ipfsGateway: INFURA_GATEWAY,
-                  // }}
-                  showLoadingSpinner={false}
                   loop={hidden}
                   autoPlay={autoPlay}
                   muted={true}
+                  styles={classNameVideo}
                 />
               )}
             </KinoraPlayerWrapper>

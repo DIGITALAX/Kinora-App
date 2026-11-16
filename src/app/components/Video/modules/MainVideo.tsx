@@ -1,7 +1,7 @@
 import { FunctionComponent, JSX, SetStateAction } from "react";
 import { KinoraPlayerWrapper } from "kinora-sdk";
-import { Player } from "@livepeer/react";
 import Image from "next/legacy/image";
+import NativeVideo from "../../Common/modules/NativeVideo";
 import { INFURA_GATEWAY } from "@/app/lib/constants";
 import formatDuration from "@/app/lib/helpers/formatDuration";
 import useVideoControls from "../hooks/useVideoControls";
@@ -61,7 +61,6 @@ const MainVideo: FunctionComponent<MainVideoProps> = ({
             position: "relative",
             justifyContent: "center",
             alignItems: "center",
-            // display: "flex",
           }}
           onEnded={() => {
             setPlaying(false);
@@ -80,23 +79,14 @@ const MainVideo: FunctionComponent<MainVideoProps> = ({
           }}
         >
           {(setMediaElement: (node: HTMLVideoElement) => void) => (
-            <Player
-              mediaElementRef={setMediaElement}
-              playbackId={videoPlaying?.playerId}
-              src={
-                // videoPlaying?.playerId == "7e04dq739p9pp8mz"
-                //   ?
-                //    ENSHIT_LINK
-                // :
-                (videoPlaying?.post?.metadata as VideoMetadata)?.video?.item ||
-                (videoPlaying?.post?.metadata as VideoMetadata)?.video?.item
-              }
-              showLoadingSpinner={false}
-              objectFit="cover"
-              // autoUrlUpload={{
-              //   fallback: true,
-              //   ipfsGateway: INFURA_GATEWAY,
-              // }}
+            <NativeVideo
+              setMediaElement={setMediaElement}
+              src={(videoPlaying?.post?.metadata as VideoMetadata)?.video?.item}
+              styles={{
+                borderRadius: "0.375rem",
+                objectFit: "cover",
+                aspectRatio: "16 / 9",
+              }}
             />
           )}
         </KinoraPlayerWrapper>
