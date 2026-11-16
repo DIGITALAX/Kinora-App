@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { ApolloClient, InMemoryCache, HttpLink, gql } from "@apollo/client";
+import { ApolloClient, InMemoryCache, HttpLink } from "@apollo/client";
+import guardApiRequest from "@/app/lib/helpers/guardApiRequest";
+import validateGraphQuery from "@/app/lib/helpers/validateGraphQuery";
 
 const serverKinoraClient = new ApolloClient({
   link: new HttpLink({
@@ -10,6 +12,9 @@ const serverKinoraClient = new ApolloClient({
 
 export async function POST(request: NextRequest) {
   try {
+    const blocked = guardApiRequest(request, "graphql-kinora");
+    if (blocked) return blocked;
+
     const { query, variables } = await request.json();
 
     if (!query) {
@@ -19,8 +24,14 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const document = validateGraphQuery(query);
+
+    if (!document) {
+      return NextResponse.json({ error: "Invalid query" }, { status: 400 });
+    }
+
     const result = await serverKinoraClient.query({
-      query: gql(query),
+      query: document,
       variables: variables || {},
       fetchPolicy: "no-cache",
       errorPolicy: "all",

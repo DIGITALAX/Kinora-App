@@ -5,6 +5,7 @@ import numeral from "numeral";
 import { INFURA_GATEWAY } from "@/app/lib/constants";
 import { BioProps } from "../types/envoker.types";
 import { ModalContext } from "@/app/providers";
+import getSafeHttpUrl from "@/app/lib/helpers/getSafeHttpUrl";
 
 const Bio: FunctionComponent<BioProps> = ({
   profile,
@@ -12,6 +13,10 @@ const Bio: FunctionComponent<BioProps> = ({
   accountStats,
 }): JSX.Element => {
   const context = useContext(ModalContext);
+  const website = profile?.metadata?.attributes?.find(
+    (item) => item?.key === "website"
+  )?.value;
+  const websiteUrl = getSafeHttpUrl(website);
   return (
     <div className="relative w-full h-fit flex flex-row items-start justify-start">
       <div className="w-full h-fit items-start flex gap-3 flex-col sm:flex-row relative">
@@ -96,9 +101,7 @@ const Bio: FunctionComponent<BioProps> = ({
                 </div>
               </div>
             )}
-            {profile?.metadata?.attributes?.find(
-              (item) => item?.key === "website"
-            )?.value && (
+            {website && (
               <div className="font-vcr text-white text-xs w-fit max-w-full h-fit relative items-start justify-center flex flex-col gap-2  break-words">
                 <div className="relative w-4 h-4 items-center justify-center flex">
                   <Image
@@ -107,29 +110,20 @@ const Bio: FunctionComponent<BioProps> = ({
                     src={`${INFURA_GATEWAY}/ipfs/QmPVS9QAg4HYCsAFgMnLA8ghd6j1WF6nMb2kbiReVcjRPn`}
                   />
                 </div>
-                <Link
-                  target="blank"
-                  rel="noreferrer"
-                  href={
-                    (profile?.metadata?.attributes
-                      ?.find((item) => item?.key === "website")
-                      ?.value?.includes("https://")
-                      ? profile?.metadata?.attributes?.find(
-                          (item) => item?.key === "website"
-                        )?.value
-                      : "https://" +
-                        profile?.metadata?.attributes?.find(
-                          (item) => item?.key === "website"
-                        )?.value) || ""
-                  }
-                  className="relative break-all max-w-full w-fit h-fit flex cursor-pointer"
-                >
-                  {
-                    profile?.metadata?.attributes?.find(
-                      (item) => item?.key === "website"
-                    )?.value
-                  }
-                </Link>
+                {websiteUrl ? (
+                  <Link
+                    target="blank"
+                    rel="noopener noreferrer"
+                    href={websiteUrl}
+                    className="relative break-all max-w-full w-fit h-fit flex cursor-pointer"
+                  >
+                    {website}
+                  </Link>
+                ) : (
+                  <div className="relative break-all max-w-full w-fit h-fit flex">
+                    {website}
+                  </div>
+                )}
               </div>
             )}
           </div>

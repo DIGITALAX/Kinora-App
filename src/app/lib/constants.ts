@@ -22,6 +22,12 @@ export const KINORA_METRICS: `0x${string}` =
 export const CHROMADIN: `0x${string}` =
   "0x16a362A10C1f6Bc0565C8fFAd298f1c2761630C5";
 export const BASE_URL: string = "https://api.lens.xyz/graphql";
+export const MAX_UPLOAD_BYTES: number = 500 * 1024 * 1024;
+export const RATE_LIMIT_MAX_REQUESTS: number = 1200;
+export const RATE_LIMIT_WINDOW_MS: number = 60 * 1000;
+export const RATE_LIMIT_MAX_KEYS: number = 5000;
+export const MAX_GRAPH_QUERY_LENGTH: number = 10000;
+export const MAX_GIF_QUERY_LENGTH: number = 200;
 
 export const LOCALES: string[] = ["en", "es"];
 

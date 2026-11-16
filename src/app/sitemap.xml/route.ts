@@ -35,21 +35,22 @@ export async function GET() {
     .map((quest: any) => {
       const rawTitle = quest?.questMetadata?.title ?? "";
       const title = escapeXml(rawTitle.replace(/-/g, " "));
-      const image = quest?.questMetadata?.cover?.split("ipfs://")?.[1];
+      const image = escapeXml(
+        String(quest?.questMetadata?.cover?.split("ipfs://")?.[1])
+      );
+      const postId = escapeXml(String(quest?.postId));
 
       return `
       <url>
-        <loc>${baseUrl}/quest/${quest?.postId}/</loc>
+        <loc>${baseUrl}/quest/${postId}/</loc>
         ${locales
           .map(
             (altLocale) => `
-          <xhtml:link rel="alternate" hreflang="${altLocale}" href="${baseUrl}/${altLocale}/quest/${quest?.postId}/" />
+          <xhtml:link rel="alternate" hreflang="${altLocale}" href="${baseUrl}/${altLocale}/quest/${postId}/" />
           `
           )
           .join("")}
-        <xhtml:link rel="alternate" hreflang="x-default" href="${baseUrl}/quest/${
-        quest?.postId
-      }/" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="${baseUrl}/quest/${postId}/" />
         <image:image>
           <image:loc>${INFURA_GATEWAY_INTERNAL}${image}</image:loc>
           <image:title><![CDATA[${title} | Kinora Quest | DIGITALAX]]></image:title>
