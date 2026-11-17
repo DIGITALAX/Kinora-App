@@ -104,7 +104,6 @@ const PostComment: FunctionComponent<PostCommentProps> = ({
           {[
             ["QmetvVH6tdXP4ZfvB7ihH9J9oQ6KfVUVVktyHpbbaAzztX", dict?.image],
             ["QmNd2Rj7tzTJiN7vMbWaFoYJuUARUfEnXRpjKRkQ4uEKoD", dict?.video],
-            ["QmVxaEvPaBfLdLfYX2bUV2Dze6NRDCtepHz7y4NJ6xojue", dict?.gifs],
             ["QmXA7NqjfnoLMWBoA2KsesRQb1SNGQBe2SBxkcT2jEtT4G", dict?.collO],
           ].map((image: string[], indexTwo: number) => {
             const loaders = [contentLoading?.image, contentLoading?.video];
@@ -122,7 +121,7 @@ const PostComment: FunctionComponent<PostCommentProps> = ({
               >
                 <AiOutlineLoading size={15} color={"white"} />
               </div>
-            ) : indexTwo !== 2 && indexTwo !== 3 ? (
+            ) : indexTwo !== 2 ? (
               <label
                 key={indexTwo}
                 className={`relative flex items-center justify-center cursor-pointer active:scale-95`}
@@ -204,12 +203,10 @@ const PostComment: FunctionComponent<PostCommentProps> = ({
                   width: imageWidth,
                 }}
                 onClick={() =>
-                  indexTwo === 2
-                    ? context?.setGif({ open: true, id })
-                    : context?.setCollectOptions({
-                        open: true,
-                        id,
-                      })
+                  context?.setCollectOptions({
+                    open: true,
+                    id,
+                  })
                 }
               >
                 <Image

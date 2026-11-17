@@ -9,7 +9,6 @@ import ImageLarge from "./ImageLarge";
 import QuoteBox from "./QuoteBox";
 import Success from "./Success";
 import ModalOpen from "./ModalOpen";
-import Gifs from "./Gifs";
 import CollectConfig from "./CollectConfig";
 import MissingValues from "./MissingValues";
 import QuestGates from "./QuestGates";
@@ -27,7 +26,6 @@ export default function ModalsEntry({ dict }: { dict: any }) {
       {context?.imageViewer && <ImageLarge />}
       {context?.missingValues && <MissingValues dict={dict} />}
       {context?.questGates && <QuestGates dict={dict} />}
-      {context?.gif?.open && <Gifs dict={dict} />}
       {context?.collectOptions?.open && <CollectConfig dict={dict} />}
       {context?.followBox && <Followers />}
       {context?.crearCuenta && <CrearCuenta dict={dict} />}

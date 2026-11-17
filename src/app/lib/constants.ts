@@ -27,7 +27,6 @@ export const RATE_LIMIT_MAX_REQUESTS: number = 1200;
 export const RATE_LIMIT_WINDOW_MS: number = 60 * 1000;
 export const RATE_LIMIT_MAX_KEYS: number = 5000;
 export const MAX_GRAPH_QUERY_LENGTH: number = 10000;
-export const MAX_GIF_QUERY_LENGTH: number = 200;
 
 export const LOCALES: string[] = ["en", "es"];
 
